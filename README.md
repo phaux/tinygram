@@ -1,4 +1,4 @@
-# tgbot-api
+# Tg Bot Client
 
 Tiny Telegram bot API client library ([100 LOC](./dist/index.js)) with TypeScript types.
 Automatically generated from [telegram-bot-api-spec](https://github.com/PaulSonOfLars/telegram-bot-api-spec).
