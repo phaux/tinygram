@@ -14,8 +14,9 @@
   "type": "module",
   "sideEffects": false,
   "files": [
-    "./dist"
+    "dist"
   ],
+  "main": "./dist/index.js",
   "exports": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "scripts": {
