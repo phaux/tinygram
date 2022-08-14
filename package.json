@@ -9,6 +9,7 @@
     "client",
     "types"
   ],
+  "repository": "https://github.com/phaux/tg-bot-client.git",
   "author": "Nikita",
   "license": "ISC",
   "type": "module",
