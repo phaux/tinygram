@@ -70,7 +70,7 @@ while (true) {
 }
 ```
 
-To download a file from the Telegram server you can use a special `download` method.
+To download a file from the Telegram server you can use a special `downloadFile` method.
 
 ```js
 import { writeFile } from "fs/promises";
