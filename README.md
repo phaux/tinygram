@@ -170,4 +170,6 @@ Run `npm run generate` to fetch current JSON API spec from [telegram-bot-api-spe
 
 Then run `npm run prepare` to build the sources and output JS module and typings to `dist/`.
 
-Run `npm test` to typecheck the generator script.
+After updating, commit with message "feat: update to Bot API x.y".
+
+Finally, run `npx standard-version` to bump version and generate changelog.
