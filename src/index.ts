@@ -241,16 +241,6 @@ export interface TgBot {
      */
     sendLocation(params: TgSendLocationParams): Promise<TgMessage>;
     /**
-     * Use this method to edit live location messages. A location can be edited until its live_period expires or editing is explicitly disabled by a call to stopMessageLiveLocation. On success, if the edited message is not an inline message, the edited Message is returned, otherwise True is returned.
-     * @see https://core.telegram.org/bots/api#editmessagelivelocation
-     */
-    editMessageLiveLocation(params: TgEditMessageLiveLocationParams): Promise<TgMessage | boolean>;
-    /**
-     * Use this method to stop updating a live location message before live_period expires. On success, if the message is not an inline message, the edited Message is returned, otherwise True is returned.
-     * @see https://core.telegram.org/bots/api#stopmessagelivelocation
-     */
-    stopMessageLiveLocation(params: TgStopMessageLiveLocationParams): Promise<TgMessage | boolean>;
-    /**
      * Use this method to send information about a venue. On success, the sent Message is returned.
      * @see https://core.telegram.org/bots/api#sendvenue
      */
@@ -413,7 +403,7 @@ export interface TgBot {
      */
     getChatMemberCount(params: TgGetChatMemberCountParams): Promise<number>;
     /**
-     * Use this method to get information about a member of a chat. Returns a ChatMember object on success.
+     * Use this method to get information about a member of a chat. The method is only guaranteed to work for other users if the bot is an administrator in the chat. Returns a ChatMember object on success.
      * @see https://core.telegram.org/bots/api#getchatmember
      */
     getChatMember(params: TgGetChatMemberParams): Promise<TgChatMember>;
@@ -428,12 +418,72 @@ export interface TgBot {
      */
     deleteChatStickerSet(params: TgDeleteChatStickerSetParams): Promise<boolean>;
     /**
+     * Use this method to get custom emoji stickers, which can be used as a forum topic icon by any user. Requires no parameters. Returns an Array of Sticker objects.
+     * @see https://core.telegram.org/bots/api#getforumtopiciconstickers
+     */
+    getForumTopicIconStickers(): Promise<TgSticker[]>;
+    /**
+     * Use this method to create a topic in a forum supergroup chat. The bot must be an administrator in the chat for this to work and must have the can_manage_topics administrator rights. Returns information about the created topic as a ForumTopic object.
+     * @see https://core.telegram.org/bots/api#createforumtopic
+     */
+    createForumTopic(params: TgCreateForumTopicParams): Promise<TgForumTopic>;
+    /**
+     * Use this method to edit name and icon of a topic in a forum supergroup chat. The bot must be an administrator in the chat for this to work and must have can_manage_topics administrator rights, unless it is the creator of the topic. Returns True on success.
+     * @see https://core.telegram.org/bots/api#editforumtopic
+     */
+    editForumTopic(params: TgEditForumTopicParams): Promise<boolean>;
+    /**
+     * Use this method to close an open topic in a forum supergroup chat. The bot must be an administrator in the chat for this to work and must have the can_manage_topics administrator rights, unless it is the creator of the topic. Returns True on success.
+     * @see https://core.telegram.org/bots/api#closeforumtopic
+     */
+    closeForumTopic(params: TgCloseForumTopicParams): Promise<boolean>;
+    /**
+     * Use this method to reopen a closed topic in a forum supergroup chat. The bot must be an administrator in the chat for this to work and must have the can_manage_topics administrator rights, unless it is the creator of the topic. Returns True on success.
+     * @see https://core.telegram.org/bots/api#reopenforumtopic
+     */
+    reopenForumTopic(params: TgReopenForumTopicParams): Promise<boolean>;
+    /**
+     * Use this method to delete a forum topic along with all its messages in a forum supergroup chat. The bot must be an administrator in the chat for this to work and must have the can_delete_messages administrator rights. Returns True on success.
+     * @see https://core.telegram.org/bots/api#deleteforumtopic
+     */
+    deleteForumTopic(params: TgDeleteForumTopicParams): Promise<boolean>;
+    /**
+     * Use this method to clear the list of pinned messages in a forum topic. The bot must be an administrator in the chat for this to work and must have the can_pin_messages administrator right in the supergroup. Returns True on success.
+     * @see https://core.telegram.org/bots/api#unpinallforumtopicmessages
+     */
+    unpinAllForumTopicMessages(params: TgUnpinAllForumTopicMessagesParams): Promise<boolean>;
+    /**
+     * Use this method to edit the name of the 'General' topic in a forum supergroup chat. The bot must be an administrator in the chat for this to work and must have can_manage_topics administrator rights. Returns True on success.
+     * @see https://core.telegram.org/bots/api#editgeneralforumtopic
+     */
+    editGeneralForumTopic(params: TgEditGeneralForumTopicParams): Promise<boolean>;
+    /**
+     * Use this method to close an open 'General' topic in a forum supergroup chat. The bot must be an administrator in the chat for this to work and must have the can_manage_topics administrator rights. Returns True on success.
+     * @see https://core.telegram.org/bots/api#closegeneralforumtopic
+     */
+    closeGeneralForumTopic(params: TgCloseGeneralForumTopicParams): Promise<boolean>;
+    /**
+     * Use this method to reopen a closed 'General' topic in a forum supergroup chat. The bot must be an administrator in the chat for this to work and must have the can_manage_topics administrator rights. The topic will be automatically unhidden if it was hidden. Returns True on success.
+     * @see https://core.telegram.org/bots/api#reopengeneralforumtopic
+     */
+    reopenGeneralForumTopic(params: TgReopenGeneralForumTopicParams): Promise<boolean>;
+    /**
+     * Use this method to hide the 'General' topic in a forum supergroup chat. The bot must be an administrator in the chat for this to work and must have the can_manage_topics administrator rights. The topic will be automatically closed if it was open. Returns True on success.
+     * @see https://core.telegram.org/bots/api#hidegeneralforumtopic
+     */
+    hideGeneralForumTopic(params: TgHideGeneralForumTopicParams): Promise<boolean>;
+    /**
+     * Use this method to unhide the 'General' topic in a forum supergroup chat. The bot must be an administrator in the chat for this to work and must have the can_manage_topics administrator rights. Returns True on success.
+     * @see https://core.telegram.org/bots/api#unhidegeneralforumtopic
+     */
+    unhideGeneralForumTopic(params: TgUnhideGeneralForumTopicParams): Promise<boolean>;
+    /**
      * Use this method to send answers to callback queries sent from inline keyboards. The answer will be displayed to the user as a notification at the top of the chat screen or as an alert. On success, True is returned.
      * @see https://core.telegram.org/bots/api#answercallbackquery
      */
     answerCallbackQuery(params: TgAnswerCallbackQueryParams): Promise<boolean>;
     /**
-     * Use this method to change the list of the bot's commands. See https://core.telegram.org/bots#commands for more details about bot commands. Returns True on success.
+     * Use this method to change the list of the bot's commands. See this manual for more details about bot commands. Returns True on success.
      * @see https://core.telegram.org/bots/api#setmycommands
      */
     setMyCommands(params: TgSetMyCommandsParams): Promise<boolean>;
@@ -448,6 +498,36 @@ export interface TgBot {
      */
     getMyCommands(params: TgGetMyCommandsParams): Promise<TgBotCommand[]>;
     /**
+     * Use this method to change the bot's name. Returns True on success.
+     * @see https://core.telegram.org/bots/api#setmyname
+     */
+    setMyName(params: TgSetMyNameParams): Promise<boolean>;
+    /**
+     * Use this method to get the current bot name for the given user language. Returns BotName on success.
+     * @see https://core.telegram.org/bots/api#getmyname
+     */
+    getMyName(params: TgGetMyNameParams): Promise<TgBotName>;
+    /**
+     * Use this method to change the bot's description, which is shown in the chat with the bot if the chat is empty. Returns True on success.
+     * @see https://core.telegram.org/bots/api#setmydescription
+     */
+    setMyDescription(params: TgSetMyDescriptionParams): Promise<boolean>;
+    /**
+     * Use this method to get the current bot description for the given user language. Returns BotDescription on success.
+     * @see https://core.telegram.org/bots/api#getmydescription
+     */
+    getMyDescription(params: TgGetMyDescriptionParams): Promise<TgBotDescription>;
+    /**
+     * Use this method to change the bot's short description, which is shown on the bot's profile page and is sent together with the link when users share the bot. Returns True on success.
+     * @see https://core.telegram.org/bots/api#setmyshortdescription
+     */
+    setMyShortDescription(params: TgSetMyShortDescriptionParams): Promise<boolean>;
+    /**
+     * Use this method to get the current bot short description for the given user language. Returns BotShortDescription on success.
+     * @see https://core.telegram.org/bots/api#getmyshortdescription
+     */
+    getMyShortDescription(params: TgGetMyShortDescriptionParams): Promise<TgBotShortDescription>;
+    /**
      * Use this method to change the bot's menu button in a private chat, or the default menu button. Returns True on success.
      * @see https://core.telegram.org/bots/api#setchatmenubutton
      */
@@ -458,7 +538,7 @@ export interface TgBot {
      */
     getChatMenuButton(params: TgGetChatMenuButtonParams): Promise<TgMenuButton>;
     /**
-     * Use this method to change the default administrator rights requested by the bot when it's added as an administrator to groups or channels. These rights will be suggested to users, but they are are free to modify the list before adding the bot. Returns True on success.
+     * Use this method to change the default administrator rights requested by the bot when it's added as an administrator to groups or channels. These rights will be suggested to users, but they are free to modify the list before adding the bot. Returns True on success.
      * @see https://core.telegram.org/bots/api#setmydefaultadministratorrights
      */
     setMyDefaultAdministratorRights(params: TgSetMyDefaultAdministratorRightsParams): Promise<boolean>;
@@ -483,6 +563,16 @@ export interface TgBot {
      */
     editMessageMedia(params: TgEditMessageMediaParams): Promise<TgMessage | boolean>;
     /**
+     * Use this method to edit live location messages. A location can be edited until its live_period expires or editing is explicitly disabled by a call to stopMessageLiveLocation. On success, if the edited message is not an inline message, the edited Message is returned, otherwise True is returned.
+     * @see https://core.telegram.org/bots/api#editmessagelivelocation
+     */
+    editMessageLiveLocation(params: TgEditMessageLiveLocationParams): Promise<TgMessage | boolean>;
+    /**
+     * Use this method to stop updating a live location message before live_period expires. On success, if the message is not an inline message, the edited Message is returned, otherwise True is returned.
+     * @see https://core.telegram.org/bots/api#stopmessagelivelocation
+     */
+    stopMessageLiveLocation(params: TgStopMessageLiveLocationParams): Promise<TgMessage | boolean>;
+    /**
      * Use this method to edit only the reply markup of messages. On success, if the edited message is not an inline message, the edited Message is returned, otherwise True is returned.
      * @see https://core.telegram.org/bots/api#editmessagereplymarkup
      */
@@ -495,6 +585,7 @@ export interface TgBot {
     /**
      * Use this method to delete a message, including service messages, with the following limitations:
      * - A message can only be deleted if it was sent less than 48 hours ago.
+     * - Service messages about a supergroup, channel, or forum topic creation can't be deleted.
      * - A dice message in a private chat can only be deleted if it was sent more than 24 hours ago.
      * - Bots can delete outgoing messages in private chats, groups, and supergroups.
      * - Bots can delete incoming messages in private chats.
@@ -521,17 +612,17 @@ export interface TgBot {
      */
     getCustomEmojiStickers(params: TgGetCustomEmojiStickersParams): Promise<TgSticker[]>;
     /**
-     * Use this method to upload a .PNG file with a sticker for later use in createNewStickerSet and addStickerToSet methods (can be used multiple times). Returns the uploaded File on success.
+     * Use this method to upload a file with a sticker for later use in the createNewStickerSet and addStickerToSet methods (the file can be used multiple times). Returns the uploaded File on success.
      * @see https://core.telegram.org/bots/api#uploadstickerfile
      */
     uploadStickerFile(params: TgUploadStickerFileParams): Promise<TgFile>;
     /**
-     * Use this method to create a new sticker set owned by a user. The bot will be able to edit the sticker set thus created. You must use exactly one of the fields png_sticker, tgs_sticker, or webm_sticker. Returns True on success.
+     * Use this method to create a new sticker set owned by a user. The bot will be able to edit the sticker set thus created. Returns True on success.
      * @see https://core.telegram.org/bots/api#createnewstickerset
      */
     createNewStickerSet(params: TgCreateNewStickerSetParams): Promise<boolean>;
     /**
-     * Use this method to add a new sticker to a set created by the bot. You must use exactly one of the fields png_sticker, tgs_sticker, or webm_sticker. Animated stickers can be added to animated sticker sets and only to them. Animated sticker sets can have up to 50 stickers. Static sticker sets can have up to 120 stickers. Returns True on success.
+     * Use this method to add a new sticker to a set created by the bot. The format of the added sticker must match the format of the other stickers in the set. Emoji sticker sets can have up to 200 stickers. Animated and video sticker sets can have up to 50 stickers. Static sticker sets can have up to 120 stickers. Returns True on success.
      * @see https://core.telegram.org/bots/api#addstickertoset
      */
     addStickerToSet(params: TgAddStickerToSetParams): Promise<boolean>;
@@ -546,10 +637,40 @@ export interface TgBot {
      */
     deleteStickerFromSet(params: TgDeleteStickerFromSetParams): Promise<boolean>;
     /**
-     * Use this method to set the thumbnail of a sticker set. Animated thumbnails can be set for animated sticker sets only. Video thumbnails can be set only for video sticker sets only. Returns True on success.
-     * @see https://core.telegram.org/bots/api#setstickersetthumb
+     * Use this method to change the list of emoji assigned to a regular or custom emoji sticker. The sticker must belong to a sticker set created by the bot. Returns True on success.
+     * @see https://core.telegram.org/bots/api#setstickeremojilist
      */
-    setStickerSetThumb(params: TgSetStickerSetThumbParams): Promise<boolean>;
+    setStickerEmojiList(params: TgSetStickerEmojiListParams): Promise<boolean>;
+    /**
+     * Use this method to change search keywords assigned to a regular or custom emoji sticker. The sticker must belong to a sticker set created by the bot. Returns True on success.
+     * @see https://core.telegram.org/bots/api#setstickerkeywords
+     */
+    setStickerKeywords(params: TgSetStickerKeywordsParams): Promise<boolean>;
+    /**
+     * Use this method to change the mask position of a mask sticker. The sticker must belong to a sticker set that was created by the bot. Returns True on success.
+     * @see https://core.telegram.org/bots/api#setstickermaskposition
+     */
+    setStickerMaskPosition(params: TgSetStickerMaskPositionParams): Promise<boolean>;
+    /**
+     * Use this method to set the title of a created sticker set. Returns True on success.
+     * @see https://core.telegram.org/bots/api#setstickersettitle
+     */
+    setStickerSetTitle(params: TgSetStickerSetTitleParams): Promise<boolean>;
+    /**
+     * Use this method to set the thumbnail of a regular or mask sticker set. The format of the thumbnail file must match the format of the stickers in the set. Returns True on success.
+     * @see https://core.telegram.org/bots/api#setstickersetthumbnail
+     */
+    setStickerSetThumbnail(params: TgSetStickerSetThumbnailParams): Promise<boolean>;
+    /**
+     * Use this method to set the thumbnail of a custom emoji sticker set. Returns True on success.
+     * @see https://core.telegram.org/bots/api#setcustomemojistickersetthumbnail
+     */
+    setCustomEmojiStickerSetThumbnail(params: TgSetCustomEmojiStickerSetThumbnailParams): Promise<boolean>;
+    /**
+     * Use this method to delete a sticker set that was created by the bot. Returns True on success.
+     * @see https://core.telegram.org/bots/api#deletestickerset
+     */
+    deleteStickerSet(params: TgDeleteStickerSetParams): Promise<boolean>;
     /**
      * Use this method to send answers to an inline query. On success, True is returned.
      * No more than 50 results per query are allowed.
@@ -609,7 +730,7 @@ export interface TgBot {
  */
 export type TgGetUpdatesParams = {
     /**
-     * Identifier of the first update to be returned. Must be greater by one than the highest among the identifiers of previously received updates. By default, updates starting with the earliest unconfirmed update are returned. An update is considered confirmed as soon as getUpdates is called with an offset higher than its update_id. The negative offset can be specified to retrieve updates starting from -offset update from the end of the updates queue. All previous updates will forgotten.
+     * Identifier of the first update to be returned. Must be greater by one than the highest among the identifiers of previously received updates. By default, updates starting with the earliest unconfirmed update are returned. An update is considered confirmed as soon as getUpdates is called with an offset higher than its update_id. The negative offset can be specified to retrieve updates starting from -offset update from the end of the updates queue. All previous updates will be forgotten.
      *  */
     offset?: number;
     /**
@@ -679,6 +800,10 @@ export type TgSendMessageParams = {
      *  */
     chat_id: number | string;
     /**
+     * Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
+     *  */
+    message_thread_id?: number;
+    /**
      * Text of the message to be sent, 1-4096 characters after entities parsing
      *  */
     text: string;
@@ -725,6 +850,10 @@ export type TgForwardMessageParams = {
      *  */
     chat_id: number | string;
     /**
+     * Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
+     *  */
+    message_thread_id?: number;
+    /**
      * Unique identifier for the chat where the original message was sent (or channel username in the format @channelusername)
      *  */
     from_chat_id: number | string;
@@ -750,6 +879,10 @@ export type TgCopyMessageParams = {
      * Unique identifier for the target chat or username of the target channel (in the format @channelusername)
      *  */
     chat_id: number | string;
+    /**
+     * Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
+     *  */
+    message_thread_id?: number;
     /**
      * Unique identifier for the chat where the original message was sent (or channel username in the format @channelusername)
      *  */
@@ -801,6 +934,10 @@ export type TgSendPhotoParams = {
      *  */
     chat_id: number | string;
     /**
+     * Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
+     *  */
+    message_thread_id?: number;
+    /**
      * Photo to send. Pass a file_id as String to send a photo that exists on the Telegram servers (recommended), pass an HTTP URL as a String for Telegram to get a photo from the Internet, or upload a new photo using multipart/form-data. The photo must be at most 10 MB in size. The photo's width and height must not exceed 10000 in total. Width and height ratio must be at most 20. More information on Sending Files: https://core.telegram.org/bots/api#sending-files
      *  */
     photo: TgInputFile | string;
@@ -816,6 +953,10 @@ export type TgSendPhotoParams = {
      * A JSON-serialized list of special entities that appear in the caption, which can be specified instead of parse_mode
      *  */
     caption_entities?: TgMessageEntity[];
+    /**
+     * Pass True if the photo needs to be covered with a spoiler animation
+     *  */
+    has_spoiler?: boolean;
     /**
      * Sends the message silently. Users will receive a notification with no sound.
      *  */
@@ -847,6 +988,10 @@ export type TgSendAudioParams = {
      *  */
     chat_id: number | string;
     /**
+     * Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
+     *  */
+    message_thread_id?: number;
+    /**
      * Audio file to send. Pass a file_id as String to send an audio file that exists on the Telegram servers (recommended), pass an HTTP URL as a String for Telegram to get an audio file from the Internet, or upload a new one using multipart/form-data. More information on Sending Files: https://core.telegram.org/bots/api#sending-files
      *  */
     audio: TgInputFile | string;
@@ -877,7 +1022,7 @@ export type TgSendAudioParams = {
     /**
      * Thumbnail of the file sent; can be ignored if thumbnail generation for the file is supported server-side. The thumbnail should be in JPEG format and less than 200 kB in size. A thumbnail's width and height should not exceed 320. Ignored if the file is not uploaded using multipart/form-data. Thumbnails can't be reused and can be only uploaded as a new file, so you can pass "attach://<file_attach_name>" if the thumbnail was uploaded using multipart/form-data under <file_attach_name>. More information on Sending Files: https://core.telegram.org/bots/api#sending-files
      *  */
-    thumb?: TgInputFile | string;
+    thumbnail?: TgInputFile | string;
     /**
      * Sends the message silently. Users will receive a notification with no sound.
      *  */
@@ -909,13 +1054,17 @@ export type TgSendDocumentParams = {
      *  */
     chat_id: number | string;
     /**
+     * Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
+     *  */
+    message_thread_id?: number;
+    /**
      * File to send. Pass a file_id as String to send a file that exists on the Telegram servers (recommended), pass an HTTP URL as a String for Telegram to get a file from the Internet, or upload a new one using multipart/form-data. More information on Sending Files: https://core.telegram.org/bots/api#sending-files
      *  */
     document: TgInputFile | string;
     /**
      * Thumbnail of the file sent; can be ignored if thumbnail generation for the file is supported server-side. The thumbnail should be in JPEG format and less than 200 kB in size. A thumbnail's width and height should not exceed 320. Ignored if the file is not uploaded using multipart/form-data. Thumbnails can't be reused and can be only uploaded as a new file, so you can pass "attach://<file_attach_name>" if the thumbnail was uploaded using multipart/form-data under <file_attach_name>. More information on Sending Files: https://core.telegram.org/bots/api#sending-files
      *  */
-    thumb?: TgInputFile | string;
+    thumbnail?: TgInputFile | string;
     /**
      * Document caption (may also be used when resending documents by file_id), 0-1024 characters after entities parsing
      *  */
@@ -963,6 +1112,10 @@ export type TgSendVideoParams = {
      *  */
     chat_id: number | string;
     /**
+     * Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
+     *  */
+    message_thread_id?: number;
+    /**
      * Video to send. Pass a file_id as String to send a video that exists on the Telegram servers (recommended), pass an HTTP URL as a String for Telegram to get a video from the Internet, or upload a new video using multipart/form-data. More information on Sending Files: https://core.telegram.org/bots/api#sending-files
      *  */
     video: TgInputFile | string;
@@ -981,7 +1134,7 @@ export type TgSendVideoParams = {
     /**
      * Thumbnail of the file sent; can be ignored if thumbnail generation for the file is supported server-side. The thumbnail should be in JPEG format and less than 200 kB in size. A thumbnail's width and height should not exceed 320. Ignored if the file is not uploaded using multipart/form-data. Thumbnails can't be reused and can be only uploaded as a new file, so you can pass "attach://<file_attach_name>" if the thumbnail was uploaded using multipart/form-data under <file_attach_name>. More information on Sending Files: https://core.telegram.org/bots/api#sending-files
      *  */
-    thumb?: TgInputFile | string;
+    thumbnail?: TgInputFile | string;
     /**
      * Video caption (may also be used when resending videos by file_id), 0-1024 characters after entities parsing
      *  */
@@ -994,6 +1147,10 @@ export type TgSendVideoParams = {
      * A JSON-serialized list of special entities that appear in the caption, which can be specified instead of parse_mode
      *  */
     caption_entities?: TgMessageEntity[];
+    /**
+     * Pass True if the video needs to be covered with a spoiler animation
+     *  */
+    has_spoiler?: boolean;
     /**
      * Pass True if the uploaded video is suitable for streaming
      *  */
@@ -1029,6 +1186,10 @@ export type TgSendAnimationParams = {
      *  */
     chat_id: number | string;
     /**
+     * Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
+     *  */
+    message_thread_id?: number;
+    /**
      * Animation to send. Pass a file_id as String to send an animation that exists on the Telegram servers (recommended), pass an HTTP URL as a String for Telegram to get an animation from the Internet, or upload a new animation using multipart/form-data. More information on Sending Files: https://core.telegram.org/bots/api#sending-files
      *  */
     animation: TgInputFile | string;
@@ -1047,7 +1208,7 @@ export type TgSendAnimationParams = {
     /**
      * Thumbnail of the file sent; can be ignored if thumbnail generation for the file is supported server-side. The thumbnail should be in JPEG format and less than 200 kB in size. A thumbnail's width and height should not exceed 320. Ignored if the file is not uploaded using multipart/form-data. Thumbnails can't be reused and can be only uploaded as a new file, so you can pass "attach://<file_attach_name>" if the thumbnail was uploaded using multipart/form-data under <file_attach_name>. More information on Sending Files: https://core.telegram.org/bots/api#sending-files
      *  */
-    thumb?: TgInputFile | string;
+    thumbnail?: TgInputFile | string;
     /**
      * Animation caption (may also be used when resending animation by file_id), 0-1024 characters after entities parsing
      *  */
@@ -1060,6 +1221,10 @@ export type TgSendAnimationParams = {
      * A JSON-serialized list of special entities that appear in the caption, which can be specified instead of parse_mode
      *  */
     caption_entities?: TgMessageEntity[];
+    /**
+     * Pass True if the animation needs to be covered with a spoiler animation
+     *  */
+    has_spoiler?: boolean;
     /**
      * Sends the message silently. Users will receive a notification with no sound.
      *  */
@@ -1090,6 +1255,10 @@ export type TgSendVoiceParams = {
      * Unique identifier for the target chat or username of the target channel (in the format @channelusername)
      *  */
     chat_id: number | string;
+    /**
+     * Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
+     *  */
+    message_thread_id?: number;
     /**
      * Audio file to send. Pass a file_id as String to send a file that exists on the Telegram servers (recommended), pass an HTTP URL as a String for Telegram to get a file from the Internet, or upload a new one using multipart/form-data. More information on Sending Files: https://core.telegram.org/bots/api#sending-files
      *  */
@@ -1141,6 +1310,10 @@ export type TgSendVideoNoteParams = {
      *  */
     chat_id: number | string;
     /**
+     * Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
+     *  */
+    message_thread_id?: number;
+    /**
      * Video note to send. Pass a file_id as String to send a video note that exists on the Telegram servers (recommended) or upload a new video using multipart/form-data. More information on Sending Files: https://core.telegram.org/bots/api#sending-files. Sending video notes by a URL is currently unsupported
      *  */
     video_note: TgInputFile | string;
@@ -1155,7 +1328,7 @@ export type TgSendVideoNoteParams = {
     /**
      * Thumbnail of the file sent; can be ignored if thumbnail generation for the file is supported server-side. The thumbnail should be in JPEG format and less than 200 kB in size. A thumbnail's width and height should not exceed 320. Ignored if the file is not uploaded using multipart/form-data. Thumbnails can't be reused and can be only uploaded as a new file, so you can pass "attach://<file_attach_name>" if the thumbnail was uploaded using multipart/form-data under <file_attach_name>. More information on Sending Files: https://core.telegram.org/bots/api#sending-files
      *  */
-    thumb?: TgInputFile | string;
+    thumbnail?: TgInputFile | string;
     /**
      * Sends the message silently. Users will receive a notification with no sound.
      *  */
@@ -1187,6 +1360,10 @@ export type TgSendMediaGroupParams = {
      *  */
     chat_id: number | string;
     /**
+     * Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
+     *  */
+    message_thread_id?: number;
+    /**
      * A JSON-serialized array describing messages to be sent, must include 2-10 items
      *  */
     media: TgInputMediaAudio[] | TgInputMediaDocument[] | TgInputMediaPhoto[] | TgInputMediaVideo[];
@@ -1216,6 +1393,10 @@ export type TgSendLocationParams = {
      * Unique identifier for the target chat or username of the target channel (in the format @channelusername)
      *  */
     chat_id: number | string;
+    /**
+     * Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
+     *  */
+    message_thread_id?: number;
     /**
      * Latitude of the location
      *  */
@@ -1262,70 +1443,6 @@ export type TgSendLocationParams = {
     reply_markup?: TgInlineKeyboardMarkup | TgReplyKeyboardMarkup | TgReplyKeyboardRemove | TgForceReply;
 };
 /**
- * Parameters of {@link TgBot.editMessageLiveLocation} method.
- * @see https://core.telegram.org/bots/api#editmessagelivelocation
- */
-export type TgEditMessageLiveLocationParams = {
-    /**
-     * Required if inline_message_id is not specified. Unique identifier for the target chat or username of the target channel (in the format @channelusername)
-     *  */
-    chat_id?: number | string;
-    /**
-     * Required if inline_message_id is not specified. Identifier of the message to edit
-     *  */
-    message_id?: number;
-    /**
-     * Required if chat_id and message_id are not specified. Identifier of the inline message
-     *  */
-    inline_message_id?: string;
-    /**
-     * Latitude of new location
-     *  */
-    latitude: number;
-    /**
-     * Longitude of new location
-     *  */
-    longitude: number;
-    /**
-     * The radius of uncertainty for the location, measured in meters; 0-1500
-     *  */
-    horizontal_accuracy?: number;
-    /**
-     * Direction in which the user is moving, in degrees. Must be between 1 and 360 if specified.
-     *  */
-    heading?: number;
-    /**
-     * The maximum distance for proximity alerts about approaching another chat member, in meters. Must be between 1 and 100000 if specified.
-     *  */
-    proximity_alert_radius?: number;
-    /**
-     * A JSON-serialized object for a new inline keyboard.
-     *  */
-    reply_markup?: TgInlineKeyboardMarkup;
-};
-/**
- * Parameters of {@link TgBot.stopMessageLiveLocation} method.
- * @see https://core.telegram.org/bots/api#stopmessagelivelocation
- */
-export type TgStopMessageLiveLocationParams = {
-    /**
-     * Required if inline_message_id is not specified. Unique identifier for the target chat or username of the target channel (in the format @channelusername)
-     *  */
-    chat_id?: number | string;
-    /**
-     * Required if inline_message_id is not specified. Identifier of the message with live location to stop
-     *  */
-    message_id?: number;
-    /**
-     * Required if chat_id and message_id are not specified. Identifier of the inline message
-     *  */
-    inline_message_id?: string;
-    /**
-     * A JSON-serialized object for a new inline keyboard.
-     *  */
-    reply_markup?: TgInlineKeyboardMarkup;
-};
-/**
  * Parameters of {@link TgBot.sendVenue} method.
  * @see https://core.telegram.org/bots/api#sendvenue
  */
@@ -1334,6 +1451,10 @@ export type TgSendVenueParams = {
      * Unique identifier for the target chat or username of the target channel (in the format @channelusername)
      *  */
     chat_id: number | string;
+    /**
+     * Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
+     *  */
+    message_thread_id?: number;
     /**
      * Latitude of the venue
      *  */
@@ -1397,6 +1518,10 @@ export type TgSendContactParams = {
      *  */
     chat_id: number | string;
     /**
+     * Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
+     *  */
+    message_thread_id?: number;
+    /**
      * Contact's phone number
      *  */
     phone_number: string;
@@ -1429,7 +1554,7 @@ export type TgSendContactParams = {
      *  */
     allow_sending_without_reply?: boolean;
     /**
-     * Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove keyboard or to force a reply from the user.
+     * Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove reply keyboard or to force a reply from the user.
      *  */
     reply_markup?: TgInlineKeyboardMarkup | TgReplyKeyboardMarkup | TgReplyKeyboardRemove | TgForceReply;
 };
@@ -1442,6 +1567,10 @@ export type TgSendPollParams = {
      * Unique identifier for the target chat or username of the target channel (in the format @channelusername)
      *  */
     chat_id: number | string;
+    /**
+     * Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
+     *  */
+    message_thread_id?: number;
     /**
      * Poll question, 1-300 characters
      *  */
@@ -1521,6 +1650,10 @@ export type TgSendDiceParams = {
      *  */
     chat_id: number | string;
     /**
+     * Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
+     *  */
+    message_thread_id?: number;
+    /**
      * Emoji on which the dice throw animation is based. Currently, must be one of "🎲", "🎯", "🏀", "⚽", "🎳", or "🎰". Dice can have values 1-6 for "🎲", "🎯" and "🎳", values 1-5 for "🏀" and "⚽", and values 1-64 for "🎰". Defaults to "🎲"
      *  */
     emoji?: "\uD83C\uDFB2" | "\uD83C\uDFAF" | "\uD83C\uDFC0" | "\u26BD" | "\uD83C\uDFB3" | "\uD83C\uDFB0";
@@ -1554,6 +1687,10 @@ export type TgSendChatActionParams = {
      * Unique identifier for the target chat or username of the target channel (in the format @channelusername)
      *  */
     chat_id: number | string;
+    /**
+     * Unique identifier for the target message thread; supergroups only
+     *  */
+    message_thread_id?: number;
     /**
      * Type of action to broadcast. Choose one, depending on what the user is about to receive: typing for text messages, upload_photo for photos, record_video or upload_video for videos, record_voice or upload_voice for voice notes, upload_document for general files, choose_sticker for stickers, find_location for location data, record_video_note or upload_video_note for video notes.
      *  */
@@ -1645,6 +1782,10 @@ export type TgRestrictChatMemberParams = {
      *  */
     permissions: TgChatPermissions;
     /**
+     * Pass True if chat permissions are set independently. Otherwise, the can_send_other_messages and can_add_web_page_previews permissions will imply the can_send_messages, can_send_audios, can_send_documents, can_send_photos, can_send_videos, can_send_video_notes, and can_send_voice_notes permissions; the can_send_polls permission will imply the can_send_messages permission.
+     *  */
+    use_independent_chat_permissions?: boolean;
+    /**
      * Date when restrictions will be lifted for the user, unix time. If user is restricted for more than 366 days or less than 30 seconds from the current time, they are considered to be restricted forever
      *  */
     until_date?: number;
@@ -1691,7 +1832,7 @@ export type TgPromoteChatMemberParams = {
      *  */
     can_restrict_members?: boolean;
     /**
-     * Pass True if the administrator can add new administrators with a subset of their own privileges or demote administrators that he has promoted, directly or indirectly (promoted by administrators that were appointed by him)
+     * Pass True if the administrator can add new administrators with a subset of their own privileges or demote administrators that they have promoted, directly or indirectly (promoted by administrators that were appointed by him)
      *  */
     can_promote_members?: boolean;
     /**
@@ -1706,6 +1847,10 @@ export type TgPromoteChatMemberParams = {
      * Pass True if the administrator can pin messages, supergroups only
      *  */
     can_pin_messages?: boolean;
+    /**
+     * Pass True if the user is allowed to create, rename, close, and reopen forum topics, supergroups only
+     *  */
+    can_manage_topics?: boolean;
 };
 /**
  * Parameters of {@link TgBot.setChatAdministratorCustomTitle} method.
@@ -1766,6 +1911,10 @@ export type TgSetChatPermissionsParams = {
      * A JSON-serialized object for new default chat permissions
      *  */
     permissions: TgChatPermissions;
+    /**
+     * Pass True if chat permissions are set independently. Otherwise, the can_send_other_messages and can_add_web_page_previews permissions will imply the can_send_messages, can_send_audios, can_send_documents, can_send_photos, can_send_videos, can_send_video_notes, and can_send_voice_notes permissions; the can_send_polls permission will imply the can_send_messages permission.
+     *  */
+    use_independent_chat_permissions?: boolean;
 };
 /**
  * Parameters of {@link TgBot.exportChatInviteLink} method.
@@ -1909,7 +2058,7 @@ export type TgSetChatTitleParams = {
      *  */
     chat_id: number | string;
     /**
-     * New chat title, 1-255 characters
+     * New chat title, 1-128 characters
      *  */
     title: string;
 };
@@ -2048,6 +2197,160 @@ export type TgDeleteChatStickerSetParams = {
     chat_id: number | string;
 };
 /**
+ * Parameters of {@link TgBot.createForumTopic} method.
+ * @see https://core.telegram.org/bots/api#createforumtopic
+ */
+export type TgCreateForumTopicParams = {
+    /**
+     * Unique identifier for the target chat or username of the target supergroup (in the format @supergroupusername)
+     *  */
+    chat_id: number | string;
+    /**
+     * Topic name, 1-128 characters
+     *  */
+    name: string;
+    /**
+     * Color of the topic icon in RGB format. Currently, must be one of 7322096 (0x6FB9F0), 16766590 (0xFFD67E), 13338331 (0xCB86DB), 9367192 (0x8EEE98), 16749490 (0xFF93B2), or 16478047 (0xFB6F5F)
+     *  */
+    icon_color?: number;
+    /**
+     * Unique identifier of the custom emoji shown as the topic icon. Use getForumTopicIconStickers to get all allowed custom emoji identifiers.
+     *  */
+    icon_custom_emoji_id?: string;
+};
+/**
+ * Parameters of {@link TgBot.editForumTopic} method.
+ * @see https://core.telegram.org/bots/api#editforumtopic
+ */
+export type TgEditForumTopicParams = {
+    /**
+     * Unique identifier for the target chat or username of the target supergroup (in the format @supergroupusername)
+     *  */
+    chat_id: number | string;
+    /**
+     * Unique identifier for the target message thread of the forum topic
+     *  */
+    message_thread_id: number;
+    /**
+     * New topic name, 0-128 characters. If not specified or empty, the current name of the topic will be kept
+     *  */
+    name?: string;
+    /**
+     * New unique identifier of the custom emoji shown as the topic icon. Use getForumTopicIconStickers to get all allowed custom emoji identifiers. Pass an empty string to remove the icon. If not specified, the current icon will be kept
+     *  */
+    icon_custom_emoji_id?: string;
+};
+/**
+ * Parameters of {@link TgBot.closeForumTopic} method.
+ * @see https://core.telegram.org/bots/api#closeforumtopic
+ */
+export type TgCloseForumTopicParams = {
+    /**
+     * Unique identifier for the target chat or username of the target supergroup (in the format @supergroupusername)
+     *  */
+    chat_id: number | string;
+    /**
+     * Unique identifier for the target message thread of the forum topic
+     *  */
+    message_thread_id: number;
+};
+/**
+ * Parameters of {@link TgBot.reopenForumTopic} method.
+ * @see https://core.telegram.org/bots/api#reopenforumtopic
+ */
+export type TgReopenForumTopicParams = {
+    /**
+     * Unique identifier for the target chat or username of the target supergroup (in the format @supergroupusername)
+     *  */
+    chat_id: number | string;
+    /**
+     * Unique identifier for the target message thread of the forum topic
+     *  */
+    message_thread_id: number;
+};
+/**
+ * Parameters of {@link TgBot.deleteForumTopic} method.
+ * @see https://core.telegram.org/bots/api#deleteforumtopic
+ */
+export type TgDeleteForumTopicParams = {
+    /**
+     * Unique identifier for the target chat or username of the target supergroup (in the format @supergroupusername)
+     *  */
+    chat_id: number | string;
+    /**
+     * Unique identifier for the target message thread of the forum topic
+     *  */
+    message_thread_id: number;
+};
+/**
+ * Parameters of {@link TgBot.unpinAllForumTopicMessages} method.
+ * @see https://core.telegram.org/bots/api#unpinallforumtopicmessages
+ */
+export type TgUnpinAllForumTopicMessagesParams = {
+    /**
+     * Unique identifier for the target chat or username of the target supergroup (in the format @supergroupusername)
+     *  */
+    chat_id: number | string;
+    /**
+     * Unique identifier for the target message thread of the forum topic
+     *  */
+    message_thread_id: number;
+};
+/**
+ * Parameters of {@link TgBot.editGeneralForumTopic} method.
+ * @see https://core.telegram.org/bots/api#editgeneralforumtopic
+ */
+export type TgEditGeneralForumTopicParams = {
+    /**
+     * Unique identifier for the target chat or username of the target supergroup (in the format @supergroupusername)
+     *  */
+    chat_id: number | string;
+    /**
+     * New topic name, 1-128 characters
+     *  */
+    name: string;
+};
+/**
+ * Parameters of {@link TgBot.closeGeneralForumTopic} method.
+ * @see https://core.telegram.org/bots/api#closegeneralforumtopic
+ */
+export type TgCloseGeneralForumTopicParams = {
+    /**
+     * Unique identifier for the target chat or username of the target supergroup (in the format @supergroupusername)
+     *  */
+    chat_id: number | string;
+};
+/**
+ * Parameters of {@link TgBot.reopenGeneralForumTopic} method.
+ * @see https://core.telegram.org/bots/api#reopengeneralforumtopic
+ */
+export type TgReopenGeneralForumTopicParams = {
+    /**
+     * Unique identifier for the target chat or username of the target supergroup (in the format @supergroupusername)
+     *  */
+    chat_id: number | string;
+};
+/**
+ * Parameters of {@link TgBot.hideGeneralForumTopic} method.
+ * @see https://core.telegram.org/bots/api#hidegeneralforumtopic
+ */
+export type TgHideGeneralForumTopicParams = {
+    /**
+     * Unique identifier for the target chat or username of the target supergroup (in the format @supergroupusername)
+     *  */
+    chat_id: number | string;
+};
+/**
+ * Parameters of {@link TgBot.unhideGeneralForumTopic} method.
+ * @see https://core.telegram.org/bots/api#unhidegeneralforumtopic
+ */
+export type TgUnhideGeneralForumTopicParams = {
+    /**
+     * Unique identifier for the target chat or username of the target supergroup (in the format @supergroupusername)
+     *  */
+    chat_id: number | string;
+};
+/**
  * Parameters of {@link TgBot.answerCallbackQuery} method.
  * @see https://core.telegram.org/bots/api#answercallbackquery
  */
@@ -2114,6 +2417,78 @@ export type TgGetMyCommandsParams = {
      * A JSON-serialized object, describing scope of users. Defaults to BotCommandScopeDefault.
      *  */
     scope?: TgBotCommandScope;
+    /**
+     * A two-letter ISO 639-1 language code or an empty string
+     *  */
+    language_code?: string;
+};
+/**
+ * Parameters of {@link TgBot.setMyName} method.
+ * @see https://core.telegram.org/bots/api#setmyname
+ */
+export type TgSetMyNameParams = {
+    /**
+     * New bot name; 0-64 characters. Pass an empty string to remove the dedicated name for the given language.
+     *  */
+    name?: string;
+    /**
+     * A two-letter ISO 639-1 language code. If empty, the name will be shown to all users for whose language there is no dedicated name.
+     *  */
+    language_code?: string;
+};
+/**
+ * Parameters of {@link TgBot.getMyName} method.
+ * @see https://core.telegram.org/bots/api#getmyname
+ */
+export type TgGetMyNameParams = {
+    /**
+     * A two-letter ISO 639-1 language code or an empty string
+     *  */
+    language_code?: string;
+};
+/**
+ * Parameters of {@link TgBot.setMyDescription} method.
+ * @see https://core.telegram.org/bots/api#setmydescription
+ */
+export type TgSetMyDescriptionParams = {
+    /**
+     * New bot description; 0-512 characters. Pass an empty string to remove the dedicated description for the given language.
+     *  */
+    description?: string;
+    /**
+     * A two-letter ISO 639-1 language code. If empty, the description will be applied to all users for whose language there is no dedicated description.
+     *  */
+    language_code?: string;
+};
+/**
+ * Parameters of {@link TgBot.getMyDescription} method.
+ * @see https://core.telegram.org/bots/api#getmydescription
+ */
+export type TgGetMyDescriptionParams = {
+    /**
+     * A two-letter ISO 639-1 language code or an empty string
+     *  */
+    language_code?: string;
+};
+/**
+ * Parameters of {@link TgBot.setMyShortDescription} method.
+ * @see https://core.telegram.org/bots/api#setmyshortdescription
+ */
+export type TgSetMyShortDescriptionParams = {
+    /**
+     * New short description for the bot; 0-120 characters. Pass an empty string to remove the dedicated short description for the given language.
+     *  */
+    short_description?: string;
+    /**
+     * A two-letter ISO 639-1 language code. If empty, the short description will be applied to all users for whose language there is no dedicated short description.
+     *  */
+    language_code?: string;
+};
+/**
+ * Parameters of {@link TgBot.getMyShortDescription} method.
+ * @see https://core.telegram.org/bots/api#getmyshortdescription
+ */
+export type TgGetMyShortDescriptionParams = {
     /**
      * A two-letter ISO 639-1 language code or an empty string
      *  */
@@ -2266,6 +2641,70 @@ export type TgEditMessageMediaParams = {
     reply_markup?: TgInlineKeyboardMarkup;
 };
 /**
+ * Parameters of {@link TgBot.editMessageLiveLocation} method.
+ * @see https://core.telegram.org/bots/api#editmessagelivelocation
+ */
+export type TgEditMessageLiveLocationParams = {
+    /**
+     * Required if inline_message_id is not specified. Unique identifier for the target chat or username of the target channel (in the format @channelusername)
+     *  */
+    chat_id?: number | string;
+    /**
+     * Required if inline_message_id is not specified. Identifier of the message to edit
+     *  */
+    message_id?: number;
+    /**
+     * Required if chat_id and message_id are not specified. Identifier of the inline message
+     *  */
+    inline_message_id?: string;
+    /**
+     * Latitude of new location
+     *  */
+    latitude: number;
+    /**
+     * Longitude of new location
+     *  */
+    longitude: number;
+    /**
+     * The radius of uncertainty for the location, measured in meters; 0-1500
+     *  */
+    horizontal_accuracy?: number;
+    /**
+     * Direction in which the user is moving, in degrees. Must be between 1 and 360 if specified.
+     *  */
+    heading?: number;
+    /**
+     * The maximum distance for proximity alerts about approaching another chat member, in meters. Must be between 1 and 100000 if specified.
+     *  */
+    proximity_alert_radius?: number;
+    /**
+     * A JSON-serialized object for a new inline keyboard.
+     *  */
+    reply_markup?: TgInlineKeyboardMarkup;
+};
+/**
+ * Parameters of {@link TgBot.stopMessageLiveLocation} method.
+ * @see https://core.telegram.org/bots/api#stopmessagelivelocation
+ */
+export type TgStopMessageLiveLocationParams = {
+    /**
+     * Required if inline_message_id is not specified. Unique identifier for the target chat or username of the target channel (in the format @channelusername)
+     *  */
+    chat_id?: number | string;
+    /**
+     * Required if inline_message_id is not specified. Identifier of the message with live location to stop
+     *  */
+    message_id?: number;
+    /**
+     * Required if chat_id and message_id are not specified. Identifier of the inline message
+     *  */
+    inline_message_id?: string;
+    /**
+     * A JSON-serialized object for a new inline keyboard.
+     *  */
+    reply_markup?: TgInlineKeyboardMarkup;
+};
+/**
  * Parameters of {@link TgBot.editMessageReplyMarkup} method.
  * @see https://core.telegram.org/bots/api#editmessagereplymarkup
  */
@@ -2329,9 +2768,17 @@ export type TgSendStickerParams = {
      *  */
     chat_id: number | string;
     /**
-     * Sticker to send. Pass a file_id as String to send a file that exists on the Telegram servers (recommended), pass an HTTP URL as a String for Telegram to get a .WEBP file from the Internet, or upload a new one using multipart/form-data. More information on Sending Files: https://core.telegram.org/bots/api#sending-files
+     * Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
+     *  */
+    message_thread_id?: number;
+    /**
+     * Sticker to send. Pass a file_id as String to send a file that exists on the Telegram servers (recommended), pass an HTTP URL as a String for Telegram to get a .WEBP sticker from the Internet, or upload a new .WEBP or .TGS sticker using multipart/form-data. More information on Sending Files: https://core.telegram.org/bots/api#sending-files. Video stickers can only be sent by a file_id. Animated stickers can't be sent via an HTTP URL.
      *  */
     sticker: TgInputFile | string;
+    /**
+     * Emoji associated with the sticker; only for just uploaded stickers
+     *  */
+    emoji?: string;
     /**
      * Sends the message silently. Users will receive a notification with no sound.
      *  */
@@ -2383,9 +2830,13 @@ export type TgUploadStickerFileParams = {
      *  */
     user_id: number;
     /**
-     * PNG image with the sticker, must be up to 512 kilobytes in size, dimensions must not exceed 512px, and either width or height must be exactly 512px. More information on Sending Files: https://core.telegram.org/bots/api#sending-files
+     * A file with the sticker in .WEBP, .PNG, .TGS, or .WEBM format. See https://core.telegram.org/stickers for technical requirements. More information on Sending Files: https://core.telegram.org/bots/api#sending-files
      *  */
-    png_sticker: TgInputFile;
+    sticker: TgInputFile;
+    /**
+     * Format of the sticker, must be one of "static", "animated", "video"
+     *  */
+    sticker_format: "static" | "animated" | "video";
 };
 /**
  * Parameters of {@link TgBot.createNewStickerSet} method.
@@ -2405,29 +2856,21 @@ export type TgCreateNewStickerSetParams = {
      *  */
     title: string;
     /**
-     * PNG image with the sticker, must be up to 512 kilobytes in size, dimensions must not exceed 512px, and either width or height must be exactly 512px. Pass a file_id as a String to send a file that already exists on the Telegram servers, pass an HTTP URL as a String for Telegram to get a file from the Internet, or upload a new one using multipart/form-data. More information on Sending Files: https://core.telegram.org/bots/api#sending-files
+     * A JSON-serialized list of 1-50 initial stickers to be added to the sticker set
      *  */
-    png_sticker?: TgInputFile | string;
+    stickers: TgInputSticker[];
     /**
-     * TGS animation with the sticker, uploaded using multipart/form-data. See https://core.telegram.org/stickers#animated-sticker-requirements for technical requirements
+     * Format of stickers in the set, must be one of "static", "animated", "video"
      *  */
-    tgs_sticker?: TgInputFile;
+    sticker_format: "static" | "animated" | "video";
     /**
-     * WEBM video with the sticker, uploaded using multipart/form-data. See https://core.telegram.org/stickers#video-sticker-requirements for technical requirements
-     *  */
-    webm_sticker?: TgInputFile;
-    /**
-     * Type of stickers in the set, pass "regular" or "mask". Custom emoji sticker sets can't be created via the Bot API at the moment. By default, a regular sticker set is created.
+     * Type of stickers in the set, pass "regular", "mask", or "custom_emoji". By default, a regular sticker set is created.
      *  */
     sticker_type?: string;
     /**
-     * One or more emoji corresponding to the sticker
+     * Pass True if stickers in the sticker set must be repainted to the color of text when used in messages, the accent color if used as emoji status, white on chat photos, or another appropriate color based on context; for custom emoji sticker sets only
      *  */
-    emojis: string;
-    /**
-     * A JSON-serialized object for position where the mask should be placed on faces
-     *  */
-    mask_position?: TgMaskPosition;
+    needs_repainting?: boolean;
 };
 /**
  * Parameters of {@link TgBot.addStickerToSet} method.
@@ -2443,25 +2886,9 @@ export type TgAddStickerToSetParams = {
      *  */
     name: string;
     /**
-     * PNG image with the sticker, must be up to 512 kilobytes in size, dimensions must not exceed 512px, and either width or height must be exactly 512px. Pass a file_id as a String to send a file that already exists on the Telegram servers, pass an HTTP URL as a String for Telegram to get a file from the Internet, or upload a new one using multipart/form-data. More information on Sending Files: https://core.telegram.org/bots/api#sending-files
+     * A JSON-serialized object with information about the added sticker. If exactly the same sticker had already been added to the set, then the set isn't changed.
      *  */
-    png_sticker?: TgInputFile | string;
-    /**
-     * TGS animation with the sticker, uploaded using multipart/form-data. See https://core.telegram.org/stickers#animated-sticker-requirements for technical requirements
-     *  */
-    tgs_sticker?: TgInputFile;
-    /**
-     * WEBM video with the sticker, uploaded using multipart/form-data. See https://core.telegram.org/stickers#video-sticker-requirements for technical requirements
-     *  */
-    webm_sticker?: TgInputFile;
-    /**
-     * One or more emoji corresponding to the sticker
-     *  */
-    emojis: string;
-    /**
-     * A JSON-serialized object for position where the mask should be placed on faces
-     *  */
-    mask_position?: TgMaskPosition;
+    sticker: TgInputSticker;
 };
 /**
  * Parameters of {@link TgBot.setStickerPositionInSet} method.
@@ -2488,10 +2915,66 @@ export type TgDeleteStickerFromSetParams = {
     sticker: string;
 };
 /**
- * Parameters of {@link TgBot.setStickerSetThumb} method.
- * @see https://core.telegram.org/bots/api#setstickersetthumb
+ * Parameters of {@link TgBot.setStickerEmojiList} method.
+ * @see https://core.telegram.org/bots/api#setstickeremojilist
  */
-export type TgSetStickerSetThumbParams = {
+export type TgSetStickerEmojiListParams = {
+    /**
+     * File identifier of the sticker
+     *  */
+    sticker: string;
+    /**
+     * A JSON-serialized list of 1-20 emoji associated with the sticker
+     *  */
+    emoji_list: string[];
+};
+/**
+ * Parameters of {@link TgBot.setStickerKeywords} method.
+ * @see https://core.telegram.org/bots/api#setstickerkeywords
+ */
+export type TgSetStickerKeywordsParams = {
+    /**
+     * File identifier of the sticker
+     *  */
+    sticker: string;
+    /**
+     * A JSON-serialized list of 0-20 search keywords for the sticker with total length of up to 64 characters
+     *  */
+    keywords?: string[];
+};
+/**
+ * Parameters of {@link TgBot.setStickerMaskPosition} method.
+ * @see https://core.telegram.org/bots/api#setstickermaskposition
+ */
+export type TgSetStickerMaskPositionParams = {
+    /**
+     * File identifier of the sticker
+     *  */
+    sticker: string;
+    /**
+     * A JSON-serialized object with the position where the mask should be placed on faces. Omit the parameter to remove the mask position.
+     *  */
+    mask_position?: TgMaskPosition;
+};
+/**
+ * Parameters of {@link TgBot.setStickerSetTitle} method.
+ * @see https://core.telegram.org/bots/api#setstickersettitle
+ */
+export type TgSetStickerSetTitleParams = {
+    /**
+     * Sticker set name
+     *  */
+    name: string;
+    /**
+     * Sticker set title, 1-64 characters
+     *  */
+    title: string;
+};
+/**
+ * Parameters of {@link TgBot.setStickerSetThumbnail} method.
+ * @see https://core.telegram.org/bots/api#setstickersetthumbnail
+ */
+export type TgSetStickerSetThumbnailParams = {
     /**
      * Sticker set name
      *  */
@@ -2501,9 +2984,33 @@ export type TgSetStickerSetThumbParams = {
      *  */
     user_id: number;
     /**
-     * A PNG image with the thumbnail, must be up to 128 kilobytes in size and have width and height exactly 100px, or a TGS animation with the thumbnail up to 32 kilobytes in size; see https://core.telegram.org/stickers#animated-sticker-requirements for animated sticker technical requirements, or a WEBM video with the thumbnail up to 32 kilobytes in size; see https://core.telegram.org/stickers#video-sticker-requirements for video sticker technical requirements. Pass a file_id as a String to send a file that already exists on the Telegram servers, pass an HTTP URL as a String for Telegram to get a file from the Internet, or upload a new one using multipart/form-data. More information on Sending Files: https://core.telegram.org/bots/api#sending-files. Animated sticker set thumbnails can't be uploaded via HTTP URL.
+     * A .WEBP or .PNG image with the thumbnail, must be up to 128 kilobytes in size and have a width and height of exactly 100px, or a .TGS animation with a thumbnail up to 32 kilobytes in size (see https://core.telegram.org/stickers#animated-sticker-requirements for animated sticker technical requirements), or a WEBM video with the thumbnail up to 32 kilobytes in size; see https://core.telegram.org/stickers#video-sticker-requirements for video sticker technical requirements. Pass a file_id as a String to send a file that already exists on the Telegram servers, pass an HTTP URL as a String for Telegram to get a file from the Internet, or upload a new one using multipart/form-data. More information on Sending Files: https://core.telegram.org/bots/api#sending-files. Animated and video sticker set thumbnails can't be uploaded via HTTP URL. If omitted, then the thumbnail is dropped and the first sticker is used as the thumbnail.
      *  */
-    thumb?: TgInputFile | string;
+    thumbnail?: TgInputFile | string;
+};
+/**
+ * Parameters of {@link TgBot.setCustomEmojiStickerSetThumbnail} method.
+ * @see https://core.telegram.org/bots/api#setcustomemojistickersetthumbnail
+ */
+export type TgSetCustomEmojiStickerSetThumbnailParams = {
+    /**
+     * Sticker set name
+     *  */
+    name: string;
+    /**
+     * Custom emoji identifier of a sticker from the sticker set; pass an empty string to drop the thumbnail and use the first sticker as the thumbnail.
+     *  */
+    custom_emoji_id?: string;
+};
+/**
+ * Parameters of {@link TgBot.deleteStickerSet} method.
+ * @see https://core.telegram.org/bots/api#deletestickerset
+ */
+export type TgDeleteStickerSetParams = {
+    /**
+     * Sticker set name
+     *  */
+    name: string;
 };
 /**
  * Parameters of {@link TgBot.answerInlineQuery} method.
@@ -2523,7 +3030,7 @@ export type TgAnswerInlineQueryParams = {
      *  */
     cache_time?: number;
     /**
-     * Pass True if results may be cached on the server side only for the user that sent the query. By default, results may be returned to any user who sends the same query
+     * Pass True if results may be cached on the server side only for the user that sent the query. By default, results may be returned to any user who sends the same query.
      *  */
     is_personal?: boolean;
     /**
@@ -2531,13 +3038,9 @@ export type TgAnswerInlineQueryParams = {
      *  */
     next_offset?: string;
     /**
-     * If passed, clients will display a button with specified text that switches the user to a private chat with the bot and sends the bot a start message with the parameter switch_pm_parameter
+     * A JSON-serialized object describing a button to be shown above inline query results
      *  */
-    switch_pm_text?: string;
-    /**
-     * Deep-linking parameter for the /start message sent to the bot when user presses the switch button. 1-64 characters, only A-Z, a-z, 0-9, _ and - are allowed. Example: An inline bot that sends YouTube videos can ask the user to connect the bot to their YouTube account to adapt search results accordingly. To do this, it displays a 'Connect your YouTube account' button above the results, or even before showing any. The user presses the button, switches to a private chat with the bot and, in doing so, passes a start parameter that instructs the bot to return an OAuth link. Once done, the bot can offer a switch_inline button so that the user can easily return to the chat where they wanted to use the bot's inline capabilities.
-     *  */
-    switch_pm_parameter?: string;
+    button?: TgInlineQueryResultsButton;
 };
 /**
  * Parameters of {@link TgBot.answerWebAppQuery} method.
@@ -2562,6 +3065,10 @@ export type TgSendInvoiceParams = {
      * Unique identifier for the target chat or username of the target channel (in the format @channelusername)
      *  */
     chat_id: number | string;
+    /**
+     * Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
+     *  */
+    message_thread_id?: number;
     /**
      * Product name, 1-32 characters
      *  */
@@ -2816,6 +3323,10 @@ export type TgSendGameParams = {
      * Unique identifier for the target chat
      *  */
     chat_id: number;
+    /**
+     * Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
+     *  */
+    message_thread_id?: number;
     /**
      * Short name of the game, serves as the unique identifier for the game. Set up your games via @BotFather.
      *  */
@@ -3086,9 +3597,21 @@ export type TgChat = {
      *  */
     last_name?: string;
     /**
+     * Optional. True, if the supergroup chat is a forum (has topics enabled)
+     *  */
+    is_forum?: boolean;
+    /**
      * Optional. Chat photo. Returned only in getChat.
      *  */
     photo?: TgChatPhoto;
+    /**
+     * Optional. If non-empty, the list of all active chat usernames; for private chats, supergroups and channels. Returned only in getChat.
+     *  */
+    active_usernames?: string[];
+    /**
+     * Optional. Custom emoji identifier of emoji status of the other party in a private chat. Returned only in getChat.
+     *  */
+    emoji_status_custom_emoji_id?: string;
     /**
      * Optional. Bio of the other party in a private chat. Returned only in getChat.
      *  */
@@ -3134,6 +3657,14 @@ export type TgChat = {
      *  */
     message_auto_delete_time?: number;
     /**
+     * Optional. True, if aggressive anti-spam checks are enabled in the supergroup. The field is only available to chat administrators. Returned only in getChat.
+     *  */
+    has_aggressive_anti_spam_enabled?: boolean;
+    /**
+     * Optional. True, if non-administrators can only get the list of bots and administrators in the chat. Returned only in getChat.
+     *  */
+    has_hidden_members?: boolean;
+    /**
      * Optional. True, if messages from the chat can't be forwarded to other chats. Returned only in getChat.
      *  */
     has_protected_content?: boolean;
@@ -3163,6 +3694,10 @@ export type TgMessage = {
      * Unique message identifier inside this chat
      *  */
     message_id: number;
+    /**
+     * Optional. Unique identifier of a message thread to which the message belongs; for supergroups only
+     *  */
+    message_thread_id?: number;
     /**
      * Optional. Sender of the message; empty for messages sent to channels. For backward compatibility, the field contains a fake sender user in non-channel chats, if the message was sent on behalf of a chat.
      *  */
@@ -3203,6 +3738,10 @@ export type TgMessage = {
      * Optional. For forwarded messages, date the original message was sent in Unix time
      *  */
     forward_date?: number;
+    /**
+     * Optional. True, if the message is sent to a forum topic
+     *  */
+    is_topic_message?: boolean;
     /**
      * Optional. True, if the message is a channel post that was automatically forwarded to the connected discussion group
      *  */
@@ -3279,6 +3818,10 @@ export type TgMessage = {
      * Optional. For messages with a caption, special entities like usernames, URLs, bot commands, etc. that appear in the caption
      *  */
     caption_entities?: TgMessageEntity[];
+    /**
+     * Optional. True, if the message media is covered by a spoiler animation
+     *  */
+    has_media_spoiler?: boolean;
     /**
      * Optional. Message is a shared contact, information about the contact
      *  */
@@ -3360,9 +3903,21 @@ export type TgMessage = {
      *  */
     successful_payment?: TgSuccessfulPayment;
     /**
+     * Optional. Service message: a user was shared with the bot
+     *  */
+    user_shared?: TgUserShared;
+    /**
+     * Optional. Service message: a chat was shared with the bot
+     *  */
+    chat_shared?: TgChatShared;
+    /**
      * Optional. The domain name of the website on which the user has logged in. More about Telegram Login: https://core.telegram.org/widgets/login
      *  */
     connected_website?: string;
+    /**
+     * Optional. Service message: the user allowed the bot added to the attachment menu to write messages
+     *  */
+    write_access_allowed?: TgWriteAccessAllowed;
     /**
      * Optional. Telegram Passport data
      *  */
@@ -3371,6 +3926,30 @@ export type TgMessage = {
      * Optional. Service message. A user in the chat triggered another user's proximity alert while sharing Live Location.
      *  */
     proximity_alert_triggered?: TgProximityAlertTriggered;
+    /**
+     * Optional. Service message: forum topic created
+     *  */
+    forum_topic_created?: TgForumTopicCreated;
+    /**
+     * Optional. Service message: forum topic edited
+     *  */
+    forum_topic_edited?: TgForumTopicEdited;
+    /**
+     * Optional. Service message: forum topic closed
+     *  */
+    forum_topic_closed?: TgForumTopicClosed;
+    /**
+     * Optional. Service message: forum topic reopened
+     *  */
+    forum_topic_reopened?: TgForumTopicReopened;
+    /**
+     * Optional. Service message: the 'General' forum topic hidden
+     *  */
+    general_forum_topic_hidden?: TgGeneralForumTopicHidden;
+    /**
+     * Optional. Service message: the 'General' forum topic unhidden
+     *  */
+    general_forum_topic_unhidden?: TgGeneralForumTopicUnhidden;
     /**
      * Optional. Service message: video chat scheduled
      *  */
@@ -3494,7 +4073,7 @@ export type TgAnimation = {
     /**
      * Optional. Animation thumbnail as defined by sender
      *  */
-    thumb?: TgPhotoSize;
+    thumbnail?: TgPhotoSize;
     /**
      * Optional. Original animation filename as defined by sender
      *  */
@@ -3548,7 +4127,7 @@ export type TgAudio = {
     /**
      * Optional. Thumbnail of the album cover to which the music file belongs
      *  */
-    thumb?: TgPhotoSize;
+    thumbnail?: TgPhotoSize;
 };
 /**
  * This object represents a general file (as opposed to photos, voice messages and audio files).
@@ -3566,7 +4145,7 @@ export type TgDocument = {
     /**
      * Optional. Document thumbnail as defined by sender
      *  */
-    thumb?: TgPhotoSize;
+    thumbnail?: TgPhotoSize;
     /**
      * Optional. Original filename as defined by sender
      *  */
@@ -3608,7 +4187,7 @@ export type TgVideo = {
     /**
      * Optional. Video thumbnail
      *  */
-    thumb?: TgPhotoSize;
+    thumbnail?: TgPhotoSize;
     /**
      * Optional. Original filename as defined by sender
      *  */
@@ -3646,7 +4225,7 @@ export type TgVideoNote = {
     /**
      * Optional. Video thumbnail
      *  */
-    thumb?: TgPhotoSize;
+    thumbnail?: TgPhotoSize;
     /**
      * Optional. File size in bytes
      *  */
@@ -3915,6 +4494,96 @@ export type TgMessageAutoDeleteTimerChanged = {
     message_auto_delete_time: number;
 };
 /**
+ * This object represents a service message about a new forum topic created in the chat.
+ * @see https://core.telegram.org/bots/api#forumtopiccreated
+ */
+export type TgForumTopicCreated = {
+    /**
+     * Name of the topic
+     *  */
+    name: string;
+    /**
+     * Color of the topic icon in RGB format
+     *  */
+    icon_color: number;
+    /**
+     * Optional. Unique identifier of the custom emoji shown as the topic icon
+     *  */
+    icon_custom_emoji_id?: string;
+};
+/**
+ * This object represents a service message about a forum topic closed in the chat. Currently holds no information.
+ * @see https://core.telegram.org/bots/api#forumtopicclosed
+ */
+export type TgForumTopicClosed = {};
+/**
+ * This object represents a service message about an edited forum topic.
+ * @see https://core.telegram.org/bots/api#forumtopicedited
+ */
+export type TgForumTopicEdited = {
+    /**
+     * Optional. New name of the topic, if it was edited
+     *  */
+    name?: string;
+    /**
+     * Optional. New identifier of the custom emoji shown as the topic icon, if it was edited; an empty string if the icon was removed
+     *  */
+    icon_custom_emoji_id?: string;
+};
+/**
+ * This object represents a service message about a forum topic reopened in the chat. Currently holds no information.
+ * @see https://core.telegram.org/bots/api#forumtopicreopened
+ */
+export type TgForumTopicReopened = {};
+/**
+ * This object represents a service message about General forum topic hidden in the chat. Currently holds no information.
+ * @see https://core.telegram.org/bots/api#generalforumtopichidden
+ */
+export type TgGeneralForumTopicHidden = {};
+/**
+ * This object represents a service message about General forum topic unhidden in the chat. Currently holds no information.
+ * @see https://core.telegram.org/bots/api#generalforumtopicunhidden
+ */
+export type TgGeneralForumTopicUnhidden = {};
+/**
+ * This object contains information about the user whose identifier was shared with the bot using a KeyboardButtonRequestUser button.
+ * @see https://core.telegram.org/bots/api#usershared
+ */
+export type TgUserShared = {
+    /**
+     * Identifier of the request
+     *  */
+    request_id: number;
+    /**
+     * Identifier of the shared user. This number may have more than 32 significant bits and some programming languages may have difficulty/silent defects in interpreting it. But it has at most 52 significant bits, so a 64-bit integer or double-precision float type are safe for storing this identifier. The bot may not have access to the user and could be unable to use this identifier, unless the user is already known to the bot by some other means.
+     *  */
+    user_id: number;
+};
+/**
+ * This object contains information about the chat whose identifier was shared with the bot using a KeyboardButtonRequestChat button.
+ * @see https://core.telegram.org/bots/api#chatshared
+ */
+export type TgChatShared = {
+    /**
+     * Identifier of the request
+     *  */
+    request_id: number;
+    /**
+     * Identifier of the shared chat. This number may have more than 32 significant bits and some programming languages may have difficulty/silent defects in interpreting it. But it has at most 52 significant bits, so a 64-bit integer or double-precision float type are safe for storing this identifier. The bot may not have access to the chat and could be unable to use this identifier, unless the chat is already known to the bot by some other means.
+     *  */
+    chat_id: number;
+};
+/**
+ * This object represents a service message about a user allowing a bot to write messages after adding the bot to the attachment menu or launching a Web App from a link.
+ * @see https://core.telegram.org/bots/api#writeaccessallowed
+ */
+export type TgWriteAccessAllowed = {
+    /**
+     * Optional. Name of the Web App which was launched from a link
+     *  */
+    web_app_name?: string;
+};
+/**
  * This object represents a service message about a video chat scheduled in the chat.
  * @see https://core.telegram.org/bots/api#videochatscheduled
  */
@@ -4005,6 +4674,10 @@ export type TgReplyKeyboardMarkup = {
      *  */
     keyboard: TgKeyboardButton[][];
     /**
+     * Optional. Requests clients to always show the keyboard when the regular keyboard is hidden. Defaults to false, in which case the custom keyboard can be hidden and opened with a keyboard icon.
+     *  */
+    is_persistent?: boolean;
+    /**
      * Optional. Requests clients to resize the keyboard vertically for optimal fit (e.g., make the keyboard smaller if there are just two rows of buttons). Defaults to false, in which case the custom keyboard is always of the same height as the app's standard keyboard.
      *  */
     resize_keyboard?: boolean;
@@ -4022,10 +4695,11 @@ export type TgReplyKeyboardMarkup = {
     selective?: boolean;
 };
 /**
- * This object represents one button of the reply keyboard. For simple text buttons String can be used instead of this object to specify text of the button. Optional fields web_app, request_contact, request_location, and request_poll are mutually exclusive.
+ * This object represents one button of the reply keyboard. For simple text buttons, String can be used instead of this object to specify the button text. The optional fields web_app, request_user, request_chat, request_contact, request_location, and request_poll are mutually exclusive.
  * Note: request_contact and request_location options will only work in Telegram versions released after 9 April, 2016. Older clients will display unsupported message.
  * Note: request_poll option will only work in Telegram versions released after 23 January, 2020. Older clients will display unsupported message.
  * Note: web_app option will only work in Telegram versions released after 16 April, 2022. Older clients will display unsupported message.
+ * Note: request_user and request_chat options will only work in Telegram versions released after 3 February, 2023. Older clients will display unsupported message.
  * @see https://core.telegram.org/bots/api#keyboardbutton
  */
 export type TgKeyboardButton = {
@@ -4033,6 +4707,14 @@ export type TgKeyboardButton = {
      * Text of the button. If none of the optional fields are used, it will be sent as a message when the button is pressed
      *  */
     text: string;
+    /**
+     * Optional. If specified, pressing the button will open a list of suitable users. Tapping on any user will send their identifier to the bot in a "user_shared" service message. Available in private chats only.
+     *  */
+    request_user?: TgKeyboardButtonRequestUser;
+    /**
+     * Optional. If specified, pressing the button will open a list of suitable chats. Tapping on a chat will send its identifier to the bot in a "chat_shared" service message. Available in private chats only.
+     *  */
+    request_chat?: TgKeyboardButtonRequestChat;
     /**
      * Optional. If True, the user's phone number will be sent as a contact when the button is pressed. Available in private chats only.
      *  */
@@ -4049,6 +4731,62 @@ export type TgKeyboardButton = {
      * Optional. If specified, the described Web App will be launched when the button is pressed. The Web App will be able to send a "web_app_data" service message. Available in private chats only.
      *  */
     web_app?: TgWebAppInfo;
+};
+/**
+ * This object defines the criteria used to request a suitable user. The identifier of the selected user will be shared with the bot when the corresponding button is pressed. More about requesting users: https://core.telegram.org/bots/features#chat-and-user-selection
+ * @see https://core.telegram.org/bots/api#keyboardbuttonrequestuser
+ */
+export type TgKeyboardButtonRequestUser = {
+    /**
+     * Signed 32-bit identifier of the request, which will be received back in the UserShared object. Must be unique within the message
+     *  */
+    request_id: number;
+    /**
+     * Optional. Pass True to request a bot, pass False to request a regular user. If not specified, no additional restrictions are applied.
+     *  */
+    user_is_bot?: boolean;
+    /**
+     * Optional. Pass True to request a premium user, pass False to request a non-premium user. If not specified, no additional restrictions are applied.
+     *  */
+    user_is_premium?: boolean;
+};
+/**
+ * This object defines the criteria used to request a suitable chat. The identifier of the selected chat will be shared with the bot when the corresponding button is pressed. More about requesting chats: https://core.telegram.org/bots/features#chat-and-user-selection
+ * @see https://core.telegram.org/bots/api#keyboardbuttonrequestchat
+ */
+export type TgKeyboardButtonRequestChat = {
+    /**
+     * Signed 32-bit identifier of the request, which will be received back in the ChatShared object. Must be unique within the message
+     *  */
+    request_id: number;
+    /**
+     * Pass True to request a channel chat, pass False to request a group or a supergroup chat.
+     *  */
+    chat_is_channel: boolean;
+    /**
+     * Optional. Pass True to request a forum supergroup, pass False to request a non-forum chat. If not specified, no additional restrictions are applied.
+     *  */
+    chat_is_forum?: boolean;
+    /**
+     * Optional. Pass True to request a supergroup or a channel with a username, pass False to request a chat without a username. If not specified, no additional restrictions are applied.
+     *  */
+    chat_has_username?: boolean;
+    /**
+     * Optional. Pass True to request a chat owned by the user. Otherwise, no additional restrictions are applied.
+     *  */
+    chat_is_created?: boolean;
+    /**
+     * Optional. A JSON-serialized object listing the required administrator rights of the user in the chat. The rights must be a superset of bot_administrator_rights. If not specified, no additional restrictions are applied.
+     *  */
+    user_administrator_rights?: TgChatAdministratorRights;
+    /**
+     * Optional. A JSON-serialized object listing the required administrator rights of the bot in the chat. The rights must be a subset of user_administrator_rights. If not specified, no additional restrictions are applied.
+     *  */
+    bot_administrator_rights?: TgChatAdministratorRights;
+    /**
+     * Optional. Pass True to request a chat with the bot as a member. Otherwise, no additional restrictions are applied.
+     *  */
+    bot_is_member?: boolean;
 };
 /**
  * This object represents type of a poll, which is allowed to be created and sent when the corresponding button is pressed.
@@ -4111,13 +4849,17 @@ export type TgInlineKeyboardButton = {
      *  */
     login_url?: TgLoginUrl;
     /**
-     * Optional. If set, pressing the button will prompt the user to select one of their chats, open that chat and insert the bot's username and the specified inline query in the input field. May be empty, in which case just the bot's username will be inserted. Note: This offers an easy way for users to start using your bot in inline mode when they are currently in a private chat with it. Especially useful when combined with switch_pm... actions - in this case the user will be automatically returned to the chat they switched from, skipping the chat selection screen.
+     * Optional. If set, pressing the button will prompt the user to select one of their chats, open that chat and insert the bot's username and the specified inline query in the input field. May be empty, in which case just the bot's username will be inserted.
      *  */
     switch_inline_query?: string;
     /**
      * Optional. If set, pressing the button will insert the bot's username and the specified inline query in the current chat's input field. May be empty, in which case only the bot's username will be inserted. This offers a quick way for the user to open your bot in inline mode in the same chat - good for selecting something from multiple options.
      *  */
     switch_inline_query_current_chat?: string;
+    /**
+     * Optional. If set, pressing the button will prompt the user to select one of their chats of the specified type, open that chat and insert the bot's username and the specified inline query in the input field
+     *  */
+    switch_inline_query_chosen_chat?: TgSwitchInlineQueryChosenChat;
     /**
      * Optional. Description of the game that will be launched when the user presses the button. NOTE: This type of button must always be the first button in the first row.
      *  */
@@ -4149,6 +4891,32 @@ export type TgLoginUrl = {
      * Optional. Pass True to request the permission for your bot to send messages to the user.
      *  */
     request_write_access?: boolean;
+};
+/**
+ * This object represents an inline button that switches the current user to inline mode in a chosen chat, with an optional default inline query.
+ * @see https://core.telegram.org/bots/api#switchinlinequerychosenchat
+ */
+export type TgSwitchInlineQueryChosenChat = {
+    /**
+     * Optional. The default inline query to be inserted in the input field. If left empty, only the bot's username will be inserted
+     *  */
+    query?: string;
+    /**
+     * Optional. True, if private chats with users can be chosen
+     *  */
+    allow_user_chats?: boolean;
+    /**
+     * Optional. True, if private chats with bots can be chosen
+     *  */
+    allow_bot_chats?: boolean;
+    /**
+     * Optional. True, if group and supergroup chats can be chosen
+     *  */
+    allow_group_chats?: boolean;
+    /**
+     * Optional. True, if channel chats can be chosen
+     *  */
+    allow_channel_chats?: boolean;
 };
 /**
  * This object represents an incoming callback query from a callback button in an inline keyboard. If the button that originated the query was attached to a message sent by the bot, the field message will be present. If the button was attached to a message sent via the bot (in inline mode), the field inline_message_id will be present. Exactly one of the fields data or game_short_name will be present.
@@ -4292,7 +5060,7 @@ export type TgChatAdministratorRights = {
      *  */
     can_restrict_members: boolean;
     /**
-     * True, if the administrator can add new administrators with a subset of their own privileges or demote administrators that he has promoted, directly or indirectly (promoted by administrators that were appointed by the user)
+     * True, if the administrator can add new administrators with a subset of their own privileges or demote administrators that they have promoted, directly or indirectly (promoted by administrators that were appointed by the user)
      *  */
     can_promote_members: boolean;
     /**
@@ -4315,6 +5083,10 @@ export type TgChatAdministratorRights = {
      * Optional. True, if the user is allowed to pin messages; groups and supergroups only
      *  */
     can_pin_messages?: boolean;
+    /**
+     * Optional. True, if the user is allowed to create, rename, close, and reopen forum topics; supergroups only
+     *  */
+    can_manage_topics?: boolean;
 };
 /**
  * This object contains information about one member of a chat. Currently, the following 6 types of chat members are supported:
@@ -4387,7 +5159,7 @@ export type TgChatMemberAdministrator = {
      *  */
     can_restrict_members: boolean;
     /**
-     * True, if the administrator can add new administrators with a subset of their own privileges or demote administrators that he has promoted, directly or indirectly (promoted by administrators that were appointed by the user)
+     * True, if the administrator can add new administrators with a subset of their own privileges or demote administrators that they have promoted, directly or indirectly (promoted by administrators that were appointed by the user)
      *  */
     can_promote_members: boolean;
     /**
@@ -4410,6 +5182,10 @@ export type TgChatMemberAdministrator = {
      * Optional. True, if the user is allowed to pin messages; groups and supergroups only
      *  */
     can_pin_messages?: boolean;
+    /**
+     * Optional. True, if the user is allowed to create, rename, close, and reopen forum topics; supergroups only
+     *  */
+    can_manage_topics?: boolean;
     /**
      * Optional. Custom title for this user
      *  */
@@ -4447,25 +5223,33 @@ export type TgChatMemberRestricted = {
      *  */
     is_member: boolean;
     /**
-     * True, if the user is allowed to change the chat title, photo and other settings
-     *  */
-    can_change_info: boolean;
-    /**
-     * True, if the user is allowed to invite new users to the chat
-     *  */
-    can_invite_users: boolean;
-    /**
-     * True, if the user is allowed to pin messages
-     *  */
-    can_pin_messages: boolean;
-    /**
-     * True, if the user is allowed to send text messages, contacts, locations and venues
+     * True, if the user is allowed to send text messages, contacts, invoices, locations and venues
      *  */
     can_send_messages: boolean;
     /**
-     * True, if the user is allowed to send audios, documents, photos, videos, video notes and voice notes
+     * True, if the user is allowed to send audios
      *  */
-    can_send_media_messages: boolean;
+    can_send_audios: boolean;
+    /**
+     * True, if the user is allowed to send documents
+     *  */
+    can_send_documents: boolean;
+    /**
+     * True, if the user is allowed to send photos
+     *  */
+    can_send_photos: boolean;
+    /**
+     * True, if the user is allowed to send videos
+     *  */
+    can_send_videos: boolean;
+    /**
+     * True, if the user is allowed to send video notes
+     *  */
+    can_send_video_notes: boolean;
+    /**
+     * True, if the user is allowed to send voice notes
+     *  */
+    can_send_voice_notes: boolean;
     /**
      * True, if the user is allowed to send polls
      *  */
@@ -4478,6 +5262,22 @@ export type TgChatMemberRestricted = {
      * True, if the user is allowed to add web page previews to their messages
      *  */
     can_add_web_page_previews: boolean;
+    /**
+     * True, if the user is allowed to change the chat title, photo and other settings
+     *  */
+    can_change_info: boolean;
+    /**
+     * True, if the user is allowed to invite new users to the chat
+     *  */
+    can_invite_users: boolean;
+    /**
+     * True, if the user is allowed to pin messages
+     *  */
+    can_pin_messages: boolean;
+    /**
+     * True, if the user is allowed to create forum topics
+     *  */
+    can_manage_topics: boolean;
     /**
      * Date when restrictions will be lifted for this user; unix time. If 0, then the user is restricted forever
      *  */
@@ -4544,6 +5344,10 @@ export type TgChatMemberUpdated = {
      * Optional. Chat invite link, which was used by the user to join the chat; for joining by invite link events only.
      *  */
     invite_link?: TgChatInviteLink;
+    /**
+     * Optional. True, if the user joined the chat via a chat folder invite link
+     *  */
+    via_chat_folder_invite_link?: boolean;
 };
 /**
  * Represents a join request sent to a chat.
@@ -4558,6 +5362,10 @@ export type TgChatJoinRequest = {
      * User that sent the join request
      *  */
     from: TgUser;
+    /**
+     * Identifier of a private chat with the user who sent the join request. This number may have more than 32 significant bits and some programming languages may have difficulty/silent defects in interpreting it. But it has at most 52 significant bits, so a 64-bit integer or double-precision float type are safe for storing this identifier. The bot can use this identifier for 24 hours to send messages until the join request is processed, assuming no other administrator contacted the user.
+     *  */
+    user_chat_id: number;
     /**
      * Date the request was sent in Unix time
      *  */
@@ -4577,23 +5385,43 @@ export type TgChatJoinRequest = {
  */
 export type TgChatPermissions = {
     /**
-     * Optional. True, if the user is allowed to send text messages, contacts, locations and venues
+     * Optional. True, if the user is allowed to send text messages, contacts, invoices, locations and venues
      *  */
     can_send_messages?: boolean;
     /**
-     * Optional. True, if the user is allowed to send audios, documents, photos, videos, video notes and voice notes, implies can_send_messages
+     * Optional. True, if the user is allowed to send audios
      *  */
-    can_send_media_messages?: boolean;
+    can_send_audios?: boolean;
     /**
-     * Optional. True, if the user is allowed to send polls, implies can_send_messages
+     * Optional. True, if the user is allowed to send documents
+     *  */
+    can_send_documents?: boolean;
+    /**
+     * Optional. True, if the user is allowed to send photos
+     *  */
+    can_send_photos?: boolean;
+    /**
+     * Optional. True, if the user is allowed to send videos
+     *  */
+    can_send_videos?: boolean;
+    /**
+     * Optional. True, if the user is allowed to send video notes
+     *  */
+    can_send_video_notes?: boolean;
+    /**
+     * Optional. True, if the user is allowed to send voice notes
+     *  */
+    can_send_voice_notes?: boolean;
+    /**
+     * Optional. True, if the user is allowed to send polls
      *  */
     can_send_polls?: boolean;
     /**
-     * Optional. True, if the user is allowed to send animations, games, stickers and use inline bots, implies can_send_media_messages
+     * Optional. True, if the user is allowed to send animations, games, stickers and use inline bots
      *  */
     can_send_other_messages?: boolean;
     /**
-     * Optional. True, if the user is allowed to add web page previews to their messages, implies can_send_media_messages
+     * Optional. True, if the user is allowed to add web page previews to their messages
      *  */
     can_add_web_page_previews?: boolean;
     /**
@@ -4608,6 +5436,10 @@ export type TgChatPermissions = {
      * Optional. True, if the user is allowed to pin messages. Ignored in public supergroups
      *  */
     can_pin_messages?: boolean;
+    /**
+     * Optional. True, if the user is allowed to create forum topics. If omitted defaults to the value of can_pin_messages
+     *  */
+    can_manage_topics?: boolean;
 };
 /**
  * Represents a location to which a chat is connected.
@@ -4622,6 +5454,28 @@ export type TgChatLocation = {
      * Location address; 1-64 characters, as defined by the chat owner
      *  */
     address: string;
+};
+/**
+ * This object represents a forum topic.
+ * @see https://core.telegram.org/bots/api#forumtopic
+ */
+export type TgForumTopic = {
+    /**
+     * Unique identifier of the forum topic
+     *  */
+    message_thread_id: number;
+    /**
+     * Name of the topic
+     *  */
+    name: string;
+    /**
+     * Color of the topic icon in RGB format
+     *  */
+    icon_color: number;
+    /**
+     * Optional. Unique identifier of the custom emoji shown as the topic icon
+     *  */
+    icon_custom_emoji_id?: string;
 };
 /**
  * This object represents a bot command.
@@ -4736,6 +5590,36 @@ export type TgBotCommandScopeChatMember = {
     user_id: number;
 };
 /**
+ * This object represents the bot's name.
+ * @see https://core.telegram.org/bots/api#botname
+ */
+export type TgBotName = {
+    /**
+     * The bot's name
+     *  */
+    name: string;
+};
+/**
+ * This object represents the bot's description.
+ * @see https://core.telegram.org/bots/api#botdescription
+ */
+export type TgBotDescription = {
+    /**
+     * The bot's description
+     *  */
+    description: string;
+};
+/**
+ * This object represents the bot's short description.
+ * @see https://core.telegram.org/bots/api#botshortdescription
+ */
+export type TgBotShortDescription = {
+    /**
+     * The bot's short description
+     *  */
+    short_description: string;
+};
+/**
  * This object describes the bot's menu button in a private chat. It should be one of
  * - MenuButtonCommands
  * - MenuButtonWebApp
@@ -4831,6 +5715,10 @@ export type TgInputMediaPhoto = {
      * Optional. List of special entities that appear in the caption, which can be specified instead of parse_mode
      *  */
     caption_entities?: TgMessageEntity[];
+    /**
+     * Optional. Pass True if the photo needs to be covered with a spoiler animation
+     *  */
+    has_spoiler?: boolean;
 };
 /**
  * Represents a video to be sent.
@@ -4848,7 +5736,7 @@ export type TgInputMediaVideo = {
     /**
      * Optional. Thumbnail of the file sent; can be ignored if thumbnail generation for the file is supported server-side. The thumbnail should be in JPEG format and less than 200 kB in size. A thumbnail's width and height should not exceed 320. Ignored if the file is not uploaded using multipart/form-data. Thumbnails can't be reused and can be only uploaded as a new file, so you can pass "attach://<file_attach_name>" if the thumbnail was uploaded using multipart/form-data under <file_attach_name>. More information on Sending Files: https://core.telegram.org/bots/api#sending-files
      *  */
-    thumb?: TgInputFile | string;
+    thumbnail?: TgInputFile | string;
     /**
      * Optional. Caption of the video to be sent, 0-1024 characters after entities parsing
      *  */
@@ -4877,6 +5765,10 @@ export type TgInputMediaVideo = {
      * Optional. Pass True if the uploaded video is suitable for streaming
      *  */
     supports_streaming?: boolean;
+    /**
+     * Optional. Pass True if the video needs to be covered with a spoiler animation
+     *  */
+    has_spoiler?: boolean;
 };
 /**
  * Represents an animation file (GIF or H.264/MPEG-4 AVC video without sound) to be sent.
@@ -4894,7 +5786,7 @@ export type TgInputMediaAnimation = {
     /**
      * Optional. Thumbnail of the file sent; can be ignored if thumbnail generation for the file is supported server-side. The thumbnail should be in JPEG format and less than 200 kB in size. A thumbnail's width and height should not exceed 320. Ignored if the file is not uploaded using multipart/form-data. Thumbnails can't be reused and can be only uploaded as a new file, so you can pass "attach://<file_attach_name>" if the thumbnail was uploaded using multipart/form-data under <file_attach_name>. More information on Sending Files: https://core.telegram.org/bots/api#sending-files
      *  */
-    thumb?: TgInputFile | string;
+    thumbnail?: TgInputFile | string;
     /**
      * Optional. Caption of the animation to be sent, 0-1024 characters after entities parsing
      *  */
@@ -4919,6 +5811,10 @@ export type TgInputMediaAnimation = {
      * Optional. Animation duration in seconds
      *  */
     duration?: number;
+    /**
+     * Optional. Pass True if the animation needs to be covered with a spoiler animation
+     *  */
+    has_spoiler?: boolean;
 };
 /**
  * Represents an audio file to be treated as music to be sent.
@@ -4936,7 +5832,7 @@ export type TgInputMediaAudio = {
     /**
      * Optional. Thumbnail of the file sent; can be ignored if thumbnail generation for the file is supported server-side. The thumbnail should be in JPEG format and less than 200 kB in size. A thumbnail's width and height should not exceed 320. Ignored if the file is not uploaded using multipart/form-data. Thumbnails can't be reused and can be only uploaded as a new file, so you can pass "attach://<file_attach_name>" if the thumbnail was uploaded using multipart/form-data under <file_attach_name>. More information on Sending Files: https://core.telegram.org/bots/api#sending-files
      *  */
-    thumb?: TgInputFile | string;
+    thumbnail?: TgInputFile | string;
     /**
      * Optional. Caption of the audio to be sent, 0-1024 characters after entities parsing
      *  */
@@ -4978,7 +5874,7 @@ export type TgInputMediaDocument = {
     /**
      * Optional. Thumbnail of the file sent; can be ignored if thumbnail generation for the file is supported server-side. The thumbnail should be in JPEG format and less than 200 kB in size. A thumbnail's width and height should not exceed 320. Ignored if the file is not uploaded using multipart/form-data. Thumbnails can't be reused and can be only uploaded as a new file, so you can pass "attach://<file_attach_name>" if the thumbnail was uploaded using multipart/form-data under <file_attach_name>. More information on Sending Files: https://core.telegram.org/bots/api#sending-files
      *  */
-    thumb?: TgInputFile | string;
+    thumbnail?: TgInputFile | string;
     /**
      * Optional. Caption of the document to be sent, 0-1024 characters after entities parsing
      *  */
@@ -5037,7 +5933,7 @@ export type TgSticker = {
     /**
      * Optional. Sticker thumbnail in the .WEBP or .JPG format
      *  */
-    thumb?: TgPhotoSize;
+    thumbnail?: TgPhotoSize;
     /**
      * Optional. Emoji associated with the sticker
      *  */
@@ -5058,6 +5954,10 @@ export type TgSticker = {
      * Optional. For custom emoji stickers, unique identifier of the custom emoji
      *  */
     custom_emoji_id?: string;
+    /**
+     * Optional. True, if the sticker must be repainted to a text color in messages, the color of the Telegram Premium badge in emoji status, white color on chat photos, or another appropriate color in other places
+     *  */
+    needs_repainting?: boolean;
     /**
      * Optional. File size in bytes
      *  */
@@ -5095,7 +5995,7 @@ export type TgStickerSet = {
     /**
      * Optional. Sticker set thumbnail in the .WEBP, .TGS, or .WEBM format
      *  */
-    thumb?: TgPhotoSize;
+    thumbnail?: TgPhotoSize;
 };
 /**
  * This object describes the position on faces where a mask should be placed by default.
@@ -5118,6 +6018,28 @@ export type TgMaskPosition = {
      * Mask scaling coefficient. For example, 2.0 means double size.
      *  */
     scale: number;
+};
+/**
+ * This object describes a sticker to be added to a sticker set.
+ * @see https://core.telegram.org/bots/api#inputsticker
+ */
+export type TgInputSticker = {
+    /**
+     * The added sticker. Pass a file_id as a String to send a file that already exists on the Telegram servers, pass an HTTP URL as a String for Telegram to get a file from the Internet, upload a new one using multipart/form-data, or pass "attach://<file_attach_name>" to upload a new one using multipart/form-data under <file_attach_name> name. Animated and video stickers can't be uploaded via HTTP URL. More information on Sending Files: https://core.telegram.org/bots/api#sending-files
+     *  */
+    sticker: TgInputFile | string;
+    /**
+     * List of 1-20 emoji associated with the sticker
+     *  */
+    emoji_list: string[];
+    /**
+     * Optional. Position where the mask should be placed on faces. For "mask" stickers only.
+     *  */
+    mask_position?: TgMaskPosition;
+    /**
+     * Optional. List of 0-20 search keywords for the sticker with total length of up to 64 characters. For "regular" and "custom_emoji" stickers only.
+     *  */
+    keywords?: string[];
 };
 /**
  * This object represents an incoming inline query. When the user sends an empty query, your bot could return some default or trending results.
@@ -5148,6 +6070,24 @@ export type TgInlineQuery = {
      * Optional. Sender location, only for bots that request user location
      *  */
     location?: TgLocation;
+};
+/**
+ * This object represents a button to be shown above inline query results. You must use exactly one of the optional fields.
+ * @see https://core.telegram.org/bots/api#inlinequeryresultsbutton
+ */
+export type TgInlineQueryResultsButton = {
+    /**
+     * Label text on the button
+     *  */
+    text: string;
+    /**
+     * Optional. Description of the Web App that will be launched when the user presses the button. The Web App will be able to switch back to the inline mode using the method switchInlineQuery inside the Web App.
+     *  */
+    web_app?: TgWebAppInfo;
+    /**
+     * Optional. Deep-linking parameter for the /start message sent to the bot when a user presses the button. 1-64 characters, only A-Z, a-z, 0-9, _ and - are allowed. Example: An inline bot that sends YouTube videos can ask the user to connect the bot to their YouTube account to adapt search results accordingly. To do this, it displays a 'Connect your YouTube account' button above the results, or even before showing any. The user presses the button, switches to a private chat with the bot and, in doing so, passes a start parameter that instructs the bot to return an OAuth link. Once done, the bot can offer a switch_inline button so that the user can easily return to the chat where they wanted to use the bot's inline capabilities.
+     *  */
+    start_parameter?: string;
 };
 /**
  * This object represents one result of an inline query. Telegram clients currently support results of the following 20 types:
@@ -5215,15 +6155,15 @@ export type TgInlineQueryResultArticle = {
     /**
      * Optional. Url of the thumbnail for the result
      *  */
-    thumb_url?: string;
+    thumbnail_url?: string;
     /**
      * Optional. Thumbnail width
      *  */
-    thumb_width?: number;
+    thumbnail_width?: number;
     /**
      * Optional. Thumbnail height
      *  */
-    thumb_height?: number;
+    thumbnail_height?: number;
 };
 /**
  * Represents a link to a photo. By default, this photo will be sent by the user with optional caption. Alternatively, you can use input_message_content to send a message with the specified content instead of the photo.
@@ -5245,7 +6185,7 @@ export type TgInlineQueryResultPhoto = {
     /**
      * URL of the thumbnail for the photo
      *  */
-    thumb_url: string;
+    thumbnail_url: string;
     /**
      * Optional. Width of the photo
      *  */
@@ -5315,11 +6255,11 @@ export type TgInlineQueryResultGif = {
     /**
      * URL of the static (JPEG or GIF) or animated (MPEG4) thumbnail for the result
      *  */
-    thumb_url: string;
+    thumbnail_url: string;
     /**
      * Optional. MIME type of the thumbnail, must be one of "image/jpeg", "image/gif", or "video/mp4". Defaults to "image/jpeg"
      *  */
-    thumb_mime_type?: "image/jpeg" | "image/gif" | "video/mp4";
+    thumbnail_mime_type?: "image/jpeg" | "image/gif" | "video/mp4";
     /**
      * Optional. Title for the result
      *  */
@@ -5377,11 +6317,11 @@ export type TgInlineQueryResultMpeg4Gif = {
     /**
      * URL of the static (JPEG or GIF) or animated (MPEG4) thumbnail for the result
      *  */
-    thumb_url: string;
+    thumbnail_url: string;
     /**
      * Optional. MIME type of the thumbnail, must be one of "image/jpeg", "image/gif", or "video/mp4". Defaults to "image/jpeg"
      *  */
-    thumb_mime_type?: "image/jpeg" | "image/gif" | "video/mp4";
+    thumbnail_mime_type?: "image/jpeg" | "image/gif" | "video/mp4";
     /**
      * Optional. Title for the result
      *  */
@@ -5431,7 +6371,7 @@ export type TgInlineQueryResultVideo = {
     /**
      * URL of the thumbnail (JPEG only) for the video
      *  */
-    thumb_url: string;
+    thumbnail_url: string;
     /**
      * Title for the result
      *  */
@@ -5624,15 +6564,15 @@ export type TgInlineQueryResultDocument = {
     /**
      * Optional. URL of the thumbnail (JPEG only) for the file
      *  */
-    thumb_url?: string;
+    thumbnail_url?: string;
     /**
      * Optional. Thumbnail width
      *  */
-    thumb_width?: number;
+    thumbnail_width?: number;
     /**
      * Optional. Thumbnail height
      *  */
-    thumb_height?: number;
+    thumbnail_height?: number;
 };
 /**
  * Represents a location on a map. By default, the location will be sent by the user. Alternatively, you can use input_message_content to send a message with the specified content instead of the location.
@@ -5687,15 +6627,15 @@ export type TgInlineQueryResultLocation = {
     /**
      * Optional. Url of the thumbnail for the result
      *  */
-    thumb_url?: string;
+    thumbnail_url?: string;
     /**
      * Optional. Thumbnail width
      *  */
-    thumb_width?: number;
+    thumbnail_width?: number;
     /**
      * Optional. Thumbnail height
      *  */
-    thumb_height?: number;
+    thumbnail_height?: number;
 };
 /**
  * Represents a venue. By default, the venue will be sent by the user. Alternatively, you can use input_message_content to send a message with the specified content instead of the venue.
@@ -5754,15 +6694,15 @@ export type TgInlineQueryResultVenue = {
     /**
      * Optional. Url of the thumbnail for the result
      *  */
-    thumb_url?: string;
+    thumbnail_url?: string;
     /**
      * Optional. Thumbnail width
      *  */
-    thumb_width?: number;
+    thumbnail_width?: number;
     /**
      * Optional. Thumbnail height
      *  */
-    thumb_height?: number;
+    thumbnail_height?: number;
 };
 /**
  * Represents a contact with a phone number. By default, this contact will be sent by the user. Alternatively, you can use input_message_content to send a message with the specified content instead of the contact.
@@ -5805,15 +6745,15 @@ export type TgInlineQueryResultContact = {
     /**
      * Optional. Url of the thumbnail for the result
      *  */
-    thumb_url?: string;
+    thumbnail_url?: string;
     /**
      * Optional. Thumbnail width
      *  */
-    thumb_width?: number;
+    thumbnail_width?: number;
     /**
      * Optional. Thumbnail height
      *  */
-    thumb_height?: number;
+    thumbnail_height?: number;
 };
 /**
  * Represents a Game.
