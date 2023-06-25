@@ -3,6 +3,8 @@
 Tiny Telegram bot API client library ([100 LOC](https://bundlephobia.com/package/tg-bot-client)) with TypeScript types.
 Automatically generated from [telegram-bot-api-spec](https://github.com/PaulSonOfLars/telegram-bot-api-spec).
 
+[Changelog](./CHANGELOG.md)
+
 ## Usage
 
 Initialize bot instance with `initTgBot` function and call the [bot methods](https://core.telegram.org/bots/api#available-methods) like regular methods.
