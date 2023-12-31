@@ -166,7 +166,7 @@ This library requires [Proxy](https://developer.mozilla.org/en-US/docs/Web/JavaS
 
 ## Developing
 
-Run `npm run generate` to fetch current JSON API spec from [telegram-bot-api-spec](https://github.com/PaulSonOfLars/telegram-bot-api-spec) and generate TypeScript sources in `src/`.
+Run `npm run codegen` to fetch current JSON API spec from [telegram-bot-api-spec](https://github.com/PaulSonOfLars/telegram-bot-api-spec) and generate TypeScript sources in `src/`.
 
 Then run `npm run prepare` to build the sources and output JS module and typings to `dist/`.
 

@@ -21,7 +21,7 @@
   "exports": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "scripts": {
-    "generate": "node script/index.js src/",
+    "codegen": "node script/index.js src/",
     "test": "tsc -p script/tsconfig.json --noEmit && tsc -p src/tsconfig.json --noEmit",
     "prepare": "tsc -p src/tsconfig.json"
   },
