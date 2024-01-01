@@ -142,6 +142,7 @@ async function botFileDownload(options: TgBotOptions, filePath: string) {
     const blob = await response.blob();
     return blob;
 }
+export const tgApiVersion = "Bot API 7.0" as const;
 export interface TgBot {
     /**
      * Use this method to receive incoming updates using long polling (wiki). Returns an Array of Update objects.
@@ -185,15 +186,25 @@ export interface TgBot {
      */
     sendMessage(params: TgSendMessageParams): Promise<TgMessage>;
     /**
-     * Use this method to forward messages of any kind. Service messages can't be forwarded. On success, the sent Message is returned.
+     * Use this method to forward messages of any kind. Service messages and messages with protected content can't be forwarded. On success, the sent Message is returned.
      * @see https://core.telegram.org/bots/api#forwardmessage
      */
     forwardMessage(params: TgForwardMessageParams): Promise<TgMessage>;
     /**
-     * Use this method to copy messages of any kind. Service messages and invoice messages can't be copied. A quiz poll can be copied only if the value of the field correct_option_id is known to the bot. The method is analogous to the method forwardMessage, but the copied message doesn't have a link to the original message. Returns the MessageId of the sent message on success.
+     * Use this method to forward multiple messages of any kind. If some of the specified messages can't be found or forwarded, they are skipped. Service messages and messages with protected content can't be forwarded. Album grouping is kept for forwarded messages. On success, an array of MessageId of the sent messages is returned.
+     * @see https://core.telegram.org/bots/api#forwardmessages
+     */
+    forwardMessages(params: TgForwardMessagesParams): Promise<TgMessageId[]>;
+    /**
+     * Use this method to copy messages of any kind. Service messages, giveaway messages, giveaway winners messages, and invoice messages can't be copied. A quiz poll can be copied only if the value of the field correct_option_id is known to the bot. The method is analogous to the method forwardMessage, but the copied message doesn't have a link to the original message. Returns the MessageId of the sent message on success.
      * @see https://core.telegram.org/bots/api#copymessage
      */
     copyMessage(params: TgCopyMessageParams): Promise<TgMessageId>;
+    /**
+     * Use this method to copy messages of any kind. If some of the specified messages can't be found or copied, they are skipped. Service messages, giveaway messages, giveaway winners messages, and invoice messages can't be copied. A quiz poll can be copied only if the value of the field correct_option_id is known to the bot. The method is analogous to the method forwardMessages, but the copied messages don't have a link to the original message. Album grouping is kept for copied messages. On success, an array of MessageId of the sent messages is returned.
+     * @see https://core.telegram.org/bots/api#copymessages
+     */
+    copyMessages(params: TgCopyMessagesParams): Promise<TgMessageId[]>;
     /**
      * Use this method to send photos. On success, the sent Message is returned.
      * @see https://core.telegram.org/bots/api#sendphoto
@@ -266,6 +277,11 @@ export interface TgBot {
      * @see https://core.telegram.org/bots/api#sendchataction
      */
     sendChatAction(params: TgSendChatActionParams): Promise<boolean>;
+    /**
+     * Use this method to change the chosen reactions on a message. Service messages can't be reacted to. Automatically forwarded messages from a channel to its discussion group have the same available reactions as messages in the channel. Returns True on success.
+     * @see https://core.telegram.org/bots/api#setmessagereaction
+     */
+    setMessageReaction(params: TgSetMessageReactionParams): Promise<boolean>;
     /**
      * Use this method to get a list of profile pictures for a user. Returns a UserProfilePhotos object.
      * @see https://core.telegram.org/bots/api#getuserprofilephotos
@@ -388,7 +404,7 @@ export interface TgBot {
      */
     leaveChat(params: TgLeaveChatParams): Promise<boolean>;
     /**
-     * Use this method to get up to date information about the chat (current name of the user for one-on-one conversations, current username of a user, group or channel, etc.). Returns a Chat object on success.
+     * Use this method to get up to date information about the chat. Returns a Chat object on success.
      * @see https://core.telegram.org/bots/api#getchat
      */
     getChat(params: TgGetChatParams): Promise<TgChat>;
@@ -478,10 +494,20 @@ export interface TgBot {
      */
     unhideGeneralForumTopic(params: TgUnhideGeneralForumTopicParams): Promise<boolean>;
     /**
+     * Use this method to clear the list of pinned messages in a General forum topic. The bot must be an administrator in the chat for this to work and must have the can_pin_messages administrator right in the supergroup. Returns True on success.
+     * @see https://core.telegram.org/bots/api#unpinallgeneralforumtopicmessages
+     */
+    unpinAllGeneralForumTopicMessages(params: TgUnpinAllGeneralForumTopicMessagesParams): Promise<boolean>;
+    /**
      * Use this method to send answers to callback queries sent from inline keyboards. The answer will be displayed to the user as a notification at the top of the chat screen or as an alert. On success, True is returned.
      * @see https://core.telegram.org/bots/api#answercallbackquery
      */
     answerCallbackQuery(params: TgAnswerCallbackQueryParams): Promise<boolean>;
+    /**
+     * Use this method to get the list of boosts added to a chat by a user. Requires administrator rights in the chat. Returns a UserChatBoosts object.
+     * @see https://core.telegram.org/bots/api#getuserchatboosts
+     */
+    getUserChatBoosts(params: TgGetUserChatBoostsParams): Promise<TgUserChatBoosts>;
     /**
      * Use this method to change the list of the bot's commands. See this manual for more details about bot commands. Returns True on success.
      * @see https://core.telegram.org/bots/api#setmycommands
@@ -596,6 +622,11 @@ export interface TgBot {
      * @see https://core.telegram.org/bots/api#deletemessage
      */
     deleteMessage(params: TgDeleteMessageParams): Promise<boolean>;
+    /**
+     * Use this method to delete multiple messages simultaneously. If some of the specified messages can't be found, they are skipped. Returns True on success.
+     * @see https://core.telegram.org/bots/api#deletemessages
+     */
+    deleteMessages(params: TgDeleteMessagesParams): Promise<boolean>;
     /**
      * Use this method to send static .WEBP, animated .TGS, or video .WEBM stickers. On success, the sent Message is returned.
      * @see https://core.telegram.org/bots/api#sendsticker
@@ -742,7 +773,7 @@ export type TgGetUpdatesParams = {
      *  */
     timeout?: number;
     /**
-     * A JSON-serialized list of the update types you want your bot to receive. For example, specify ["message", "edited_channel_post", "callback_query"] to only receive updates of these types. See Update for a complete list of available update types. Specify an empty list to receive all update types except chat_member (default). If not specified, the previous setting will be used. Please note that this parameter doesn't affect updates created before the call to the getUpdates, so unwanted updates may be received for a short period of time.
+     * A JSON-serialized list of the update types you want your bot to receive. For example, specify ["message", "edited_channel_post", "callback_query"] to only receive updates of these types. See Update for a complete list of available update types. Specify an empty list to receive all update types except chat_member, message_reaction, and message_reaction_count (default). If not specified, the previous setting will be used. Please note that this parameter doesn't affect updates created before the call to the getUpdates, so unwanted updates may be received for a short period of time.
      *  */
     allowed_updates?: string[];
 };
@@ -768,7 +799,7 @@ export type TgSetWebhookParams = {
      *  */
     max_connections?: number;
     /**
-     * A JSON-serialized list of the update types you want your bot to receive. For example, specify ["message", "edited_channel_post", "callback_query"] to only receive updates of these types. See Update for a complete list of available update types. Specify an empty list to receive all update types except chat_member (default). If not specified, the previous setting will be used. Please note that this parameter doesn't affect updates created before the call to the setWebhook, so unwanted updates may be received for a short period of time.
+     * A JSON-serialized list of the update types you want your bot to receive. For example, specify ["message", "edited_channel_post", "callback_query"] to only receive updates of these types. See Update for a complete list of available update types. Specify an empty list to receive all update types except chat_member, message_reaction, and message_reaction_count (default). If not specified, the previous setting will be used. Please note that this parameter doesn't affect updates created before the call to the setWebhook, so unwanted updates may be received for a short period of time.
      *  */
     allowed_updates?: string[];
     /**
@@ -816,9 +847,9 @@ export type TgSendMessageParams = {
      *  */
     entities?: TgMessageEntity[];
     /**
-     * Disables link previews for links in this message
+     * Link preview generation options for the message
      *  */
-    disable_web_page_preview?: boolean;
+    link_preview_options?: TgLinkPreviewOptions;
     /**
      * Sends the message silently. Users will receive a notification with no sound.
      *  */
@@ -828,13 +859,9 @@ export type TgSendMessageParams = {
      *  */
     protect_content?: boolean;
     /**
-     * If the message is a reply, ID of the original message
+     * Description of the message to reply to
      *  */
-    reply_to_message_id?: number;
-    /**
-     * Pass True if the message should be sent even if the specified replied-to message is not found
-     *  */
-    allow_sending_without_reply?: boolean;
+    reply_parameters?: TgReplyParameters;
     /**
      * Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove reply keyboard or to force a reply from the user.
      *  */
@@ -869,6 +896,36 @@ export type TgForwardMessageParams = {
      * Message identifier in the chat specified in from_chat_id
      *  */
     message_id: number;
+};
+/**
+ * Parameters of {@link TgBot.forwardMessages} method.
+ * @see https://core.telegram.org/bots/api#forwardmessages
+ */
+export type TgForwardMessagesParams = {
+    /**
+     * Unique identifier for the target chat or username of the target channel (in the format @channelusername)
+     *  */
+    chat_id: number | string;
+    /**
+     * Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
+     *  */
+    message_thread_id?: number;
+    /**
+     * Unique identifier for the chat where the original messages were sent (or channel username in the format @channelusername)
+     *  */
+    from_chat_id: number | string;
+    /**
+     * Identifiers of 1-100 messages in the chat from_chat_id to forward. The identifiers must be specified in a strictly increasing order.
+     *  */
+    message_ids: number[];
+    /**
+     * Sends the messages silently. Users will receive a notification with no sound.
+     *  */
+    disable_notification?: boolean;
+    /**
+     * Protects the contents of the forwarded messages from forwarding and saving
+     *  */
+    protect_content?: boolean;
 };
 /**
  * Parameters of {@link TgBot.copyMessage} method.
@@ -912,17 +969,47 @@ export type TgCopyMessageParams = {
      *  */
     protect_content?: boolean;
     /**
-     * If the message is a reply, ID of the original message
+     * Description of the message to reply to
      *  */
-    reply_to_message_id?: number;
-    /**
-     * Pass True if the message should be sent even if the specified replied-to message is not found
-     *  */
-    allow_sending_without_reply?: boolean;
+    reply_parameters?: TgReplyParameters;
     /**
      * Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove reply keyboard or to force a reply from the user.
      *  */
     reply_markup?: TgInlineKeyboardMarkup | TgReplyKeyboardMarkup | TgReplyKeyboardRemove | TgForceReply;
+};
+/**
+ * Parameters of {@link TgBot.copyMessages} method.
+ * @see https://core.telegram.org/bots/api#copymessages
+ */
+export type TgCopyMessagesParams = {
+    /**
+     * Unique identifier for the target chat or username of the target channel (in the format @channelusername)
+     *  */
+    chat_id: number | string;
+    /**
+     * Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
+     *  */
+    message_thread_id?: number;
+    /**
+     * Unique identifier for the chat where the original messages were sent (or channel username in the format @channelusername)
+     *  */
+    from_chat_id: number | string;
+    /**
+     * Identifiers of 1-100 messages in the chat from_chat_id to copy. The identifiers must be specified in a strictly increasing order.
+     *  */
+    message_ids: number[];
+    /**
+     * Sends the messages silently. Users will receive a notification with no sound.
+     *  */
+    disable_notification?: boolean;
+    /**
+     * Protects the contents of the sent messages from forwarding and saving
+     *  */
+    protect_content?: boolean;
+    /**
+     * Pass True to copy the messages without their captions
+     *  */
+    remove_caption?: boolean;
 };
 /**
  * Parameters of {@link TgBot.sendPhoto} method.
@@ -966,13 +1053,9 @@ export type TgSendPhotoParams = {
      *  */
     protect_content?: boolean;
     /**
-     * If the message is a reply, ID of the original message
+     * Description of the message to reply to
      *  */
-    reply_to_message_id?: number;
-    /**
-     * Pass True if the message should be sent even if the specified replied-to message is not found
-     *  */
-    allow_sending_without_reply?: boolean;
+    reply_parameters?: TgReplyParameters;
     /**
      * Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove reply keyboard or to force a reply from the user.
      *  */
@@ -1032,13 +1115,9 @@ export type TgSendAudioParams = {
      *  */
     protect_content?: boolean;
     /**
-     * If the message is a reply, ID of the original message
+     * Description of the message to reply to
      *  */
-    reply_to_message_id?: number;
-    /**
-     * Pass True if the message should be sent even if the specified replied-to message is not found
-     *  */
-    allow_sending_without_reply?: boolean;
+    reply_parameters?: TgReplyParameters;
     /**
      * Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove reply keyboard or to force a reply from the user.
      *  */
@@ -1090,13 +1169,9 @@ export type TgSendDocumentParams = {
      *  */
     protect_content?: boolean;
     /**
-     * If the message is a reply, ID of the original message
+     * Description of the message to reply to
      *  */
-    reply_to_message_id?: number;
-    /**
-     * Pass True if the message should be sent even if the specified replied-to message is not found
-     *  */
-    allow_sending_without_reply?: boolean;
+    reply_parameters?: TgReplyParameters;
     /**
      * Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove reply keyboard or to force a reply from the user.
      *  */
@@ -1164,13 +1239,9 @@ export type TgSendVideoParams = {
      *  */
     protect_content?: boolean;
     /**
-     * If the message is a reply, ID of the original message
+     * Description of the message to reply to
      *  */
-    reply_to_message_id?: number;
-    /**
-     * Pass True if the message should be sent even if the specified replied-to message is not found
-     *  */
-    allow_sending_without_reply?: boolean;
+    reply_parameters?: TgReplyParameters;
     /**
      * Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove reply keyboard or to force a reply from the user.
      *  */
@@ -1234,13 +1305,9 @@ export type TgSendAnimationParams = {
      *  */
     protect_content?: boolean;
     /**
-     * If the message is a reply, ID of the original message
+     * Description of the message to reply to
      *  */
-    reply_to_message_id?: number;
-    /**
-     * Pass True if the message should be sent even if the specified replied-to message is not found
-     *  */
-    allow_sending_without_reply?: boolean;
+    reply_parameters?: TgReplyParameters;
     /**
      * Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove reply keyboard or to force a reply from the user.
      *  */
@@ -1288,13 +1355,9 @@ export type TgSendVoiceParams = {
      *  */
     protect_content?: boolean;
     /**
-     * If the message is a reply, ID of the original message
+     * Description of the message to reply to
      *  */
-    reply_to_message_id?: number;
-    /**
-     * Pass True if the message should be sent even if the specified replied-to message is not found
-     *  */
-    allow_sending_without_reply?: boolean;
+    reply_parameters?: TgReplyParameters;
     /**
      * Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove reply keyboard or to force a reply from the user.
      *  */
@@ -1338,13 +1401,9 @@ export type TgSendVideoNoteParams = {
      *  */
     protect_content?: boolean;
     /**
-     * If the message is a reply, ID of the original message
+     * Description of the message to reply to
      *  */
-    reply_to_message_id?: number;
-    /**
-     * Pass True if the message should be sent even if the specified replied-to message is not found
-     *  */
-    allow_sending_without_reply?: boolean;
+    reply_parameters?: TgReplyParameters;
     /**
      * Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove reply keyboard or to force a reply from the user.
      *  */
@@ -1376,13 +1435,9 @@ export type TgSendMediaGroupParams = {
      *  */
     protect_content?: boolean;
     /**
-     * If the messages are a reply, ID of the original message
+     * Description of the message to reply to
      *  */
-    reply_to_message_id?: number;
-    /**
-     * Pass True if the message should be sent even if the specified replied-to message is not found
-     *  */
-    allow_sending_without_reply?: boolean;
+    reply_parameters?: TgReplyParameters;
 };
 /**
  * Parameters of {@link TgBot.sendLocation} method.
@@ -1430,13 +1485,9 @@ export type TgSendLocationParams = {
      *  */
     protect_content?: boolean;
     /**
-     * If the message is a reply, ID of the original message
+     * Description of the message to reply to
      *  */
-    reply_to_message_id?: number;
-    /**
-     * Pass True if the message should be sent even if the specified replied-to message is not found
-     *  */
-    allow_sending_without_reply?: boolean;
+    reply_parameters?: TgReplyParameters;
     /**
      * Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove reply keyboard or to force a reply from the user.
      *  */
@@ -1496,13 +1547,9 @@ export type TgSendVenueParams = {
      *  */
     protect_content?: boolean;
     /**
-     * If the message is a reply, ID of the original message
+     * Description of the message to reply to
      *  */
-    reply_to_message_id?: number;
-    /**
-     * Pass True if the message should be sent even if the specified replied-to message is not found
-     *  */
-    allow_sending_without_reply?: boolean;
+    reply_parameters?: TgReplyParameters;
     /**
      * Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove reply keyboard or to force a reply from the user.
      *  */
@@ -1546,13 +1593,9 @@ export type TgSendContactParams = {
      *  */
     protect_content?: boolean;
     /**
-     * If the message is a reply, ID of the original message
+     * Description of the message to reply to
      *  */
-    reply_to_message_id?: number;
-    /**
-     * Pass True if the message should be sent even if the specified replied-to message is not found
-     *  */
-    allow_sending_without_reply?: boolean;
+    reply_parameters?: TgReplyParameters;
     /**
      * Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove reply keyboard or to force a reply from the user.
      *  */
@@ -1628,13 +1671,9 @@ export type TgSendPollParams = {
      *  */
     protect_content?: boolean;
     /**
-     * If the message is a reply, ID of the original message
+     * Description of the message to reply to
      *  */
-    reply_to_message_id?: number;
-    /**
-     * Pass True if the message should be sent even if the specified replied-to message is not found
-     *  */
-    allow_sending_without_reply?: boolean;
+    reply_parameters?: TgReplyParameters;
     /**
      * Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove reply keyboard or to force a reply from the user.
      *  */
@@ -1666,13 +1705,9 @@ export type TgSendDiceParams = {
      *  */
     protect_content?: boolean;
     /**
-     * If the message is a reply, ID of the original message
+     * Description of the message to reply to
      *  */
-    reply_to_message_id?: number;
-    /**
-     * Pass True if the message should be sent even if the specified replied-to message is not found
-     *  */
-    allow_sending_without_reply?: boolean;
+    reply_parameters?: TgReplyParameters;
     /**
      * Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove reply keyboard or to force a reply from the user.
      *  */
@@ -1695,6 +1730,28 @@ export type TgSendChatActionParams = {
      * Type of action to broadcast. Choose one, depending on what the user is about to receive: typing for text messages, upload_photo for photos, record_video or upload_video for videos, record_voice or upload_voice for voice notes, upload_document for general files, choose_sticker for stickers, find_location for location data, record_video_note or upload_video_note for video notes.
      *  */
     action: string;
+};
+/**
+ * Parameters of {@link TgBot.setMessageReaction} method.
+ * @see https://core.telegram.org/bots/api#setmessagereaction
+ */
+export type TgSetMessageReactionParams = {
+    /**
+     * Unique identifier for the target chat or username of the target channel (in the format @channelusername)
+     *  */
+    chat_id: number | string;
+    /**
+     * Identifier of the target message. If the message belongs to a media group, the reaction is set to the first non-deleted message in the group instead.
+     *  */
+    message_id: number;
+    /**
+     * New list of reaction types to set on the message. Currently, as non-premium users, bots can set up to one reaction per message. A custom emoji reaction can be used if it is either already present on the message or explicitly allowed by chat administrators.
+     *  */
+    reaction?: TgReactionType[];
+    /**
+     * Pass True to set the reaction with a big animation
+     *  */
+    is_big?: boolean;
 };
 /**
  * Parameters of {@link TgBot.getUserProfilePhotos} method.
@@ -1738,7 +1795,7 @@ export type TgBanChatMemberParams = {
      *  */
     user_id: number;
     /**
-     * Date when the user will be unbanned, unix time. If user is banned for more than 366 days or less than 30 seconds from the current time they are considered to be banned forever. Applied for supergroups and channels only.
+     * Date when the user will be unbanned; Unix time. If user is banned for more than 366 days or less than 30 seconds from the current time they are considered to be banned forever. Applied for supergroups and channels only.
      *  */
     until_date?: number;
     /**
@@ -1786,7 +1843,7 @@ export type TgRestrictChatMemberParams = {
      *  */
     use_independent_chat_permissions?: boolean;
     /**
-     * Date when restrictions will be lifted for the user, unix time. If user is restricted for more than 366 days or less than 30 seconds from the current time, they are considered to be restricted forever
+     * Date when restrictions will be lifted for the user; Unix time. If user is restricted for more than 366 days or less than 30 seconds from the current time, they are considered to be restricted forever
      *  */
     until_date?: number;
 };
@@ -1808,17 +1865,9 @@ export type TgPromoteChatMemberParams = {
      *  */
     is_anonymous?: boolean;
     /**
-     * Pass True if the administrator can access the chat event log, chat statistics, message statistics in channels, see channel members, see anonymous administrators in supergroups and ignore slow mode. Implied by any other administrator privilege
+     * Pass True if the administrator can access the chat event log, boost list in channels, see channel members, report spam messages, see anonymous administrators in supergroups and ignore slow mode. Implied by any other administrator privilege
      *  */
     can_manage_chat?: boolean;
-    /**
-     * Pass True if the administrator can create channel posts, channels only
-     *  */
-    can_post_messages?: boolean;
-    /**
-     * Pass True if the administrator can edit messages of other users and can pin messages, channels only
-     *  */
-    can_edit_messages?: boolean;
     /**
      * Pass True if the administrator can delete messages of other users
      *  */
@@ -1828,7 +1877,7 @@ export type TgPromoteChatMemberParams = {
      *  */
     can_manage_video_chats?: boolean;
     /**
-     * Pass True if the administrator can restrict, ban or unban chat members
+     * Pass True if the administrator can restrict, ban or unban chat members, or access supergroup statistics
      *  */
     can_restrict_members?: boolean;
     /**
@@ -1844,9 +1893,29 @@ export type TgPromoteChatMemberParams = {
      *  */
     can_invite_users?: boolean;
     /**
+     * Pass True if the administrator can post messages in the channel, or access channel statistics; channels only
+     *  */
+    can_post_messages?: boolean;
+    /**
+     * Pass True if the administrator can edit messages of other users and can pin messages; channels only
+     *  */
+    can_edit_messages?: boolean;
+    /**
      * Pass True if the administrator can pin messages, supergroups only
      *  */
     can_pin_messages?: boolean;
+    /**
+     * Pass True if the administrator can post stories in the channel; channels only
+     *  */
+    can_post_stories?: boolean;
+    /**
+     * Pass True if the administrator can edit stories posted by other users; channels only
+     *  */
+    can_edit_stories?: boolean;
+    /**
+     * Pass True if the administrator can delete stories posted by other users; channels only
+     *  */
+    can_delete_stories?: boolean;
     /**
      * Pass True if the user is allowed to create, rename, close, and reopen forum topics, supergroups only
      *  */
@@ -2351,6 +2420,16 @@ export type TgUnhideGeneralForumTopicParams = {
     chat_id: number | string;
 };
 /**
+ * Parameters of {@link TgBot.unpinAllGeneralForumTopicMessages} method.
+ * @see https://core.telegram.org/bots/api#unpinallgeneralforumtopicmessages
+ */
+export type TgUnpinAllGeneralForumTopicMessagesParams = {
+    /**
+     * Unique identifier for the target chat or username of the target supergroup (in the format @supergroupusername)
+     *  */
+    chat_id: number | string;
+};
+/**
  * Parameters of {@link TgBot.answerCallbackQuery} method.
  * @see https://core.telegram.org/bots/api#answercallbackquery
  */
@@ -2375,6 +2454,20 @@ export type TgAnswerCallbackQueryParams = {
      * The maximum amount of time in seconds that the result of the callback query may be cached client-side. Telegram apps will support caching starting in version 3.14. Defaults to 0.
      *  */
     cache_time?: number;
+};
+/**
+ * Parameters of {@link TgBot.getUserChatBoosts} method.
+ * @see https://core.telegram.org/bots/api#getuserchatboosts
+ */
+export type TgGetUserChatBoostsParams = {
+    /**
+     * Unique identifier for the chat or username of the channel (in the format @channelusername)
+     *  */
+    chat_id: number | string;
+    /**
+     * Unique identifier of the target user
+     *  */
+    user_id: number;
 };
 /**
  * Parameters of {@link TgBot.setMyCommands} method.
@@ -2572,9 +2665,9 @@ export type TgEditMessageTextParams = {
      *  */
     entities?: TgMessageEntity[];
     /**
-     * Disables link previews for links in this message
+     * Link preview generation options for the message
      *  */
-    disable_web_page_preview?: boolean;
+    link_preview_options?: TgLinkPreviewOptions;
     /**
      * A JSON-serialized object for an inline keyboard.
      *  */
@@ -2759,6 +2852,20 @@ export type TgDeleteMessageParams = {
     message_id: number;
 };
 /**
+ * Parameters of {@link TgBot.deleteMessages} method.
+ * @see https://core.telegram.org/bots/api#deletemessages
+ */
+export type TgDeleteMessagesParams = {
+    /**
+     * Unique identifier for the target chat or username of the target channel (in the format @channelusername)
+     *  */
+    chat_id: number | string;
+    /**
+     * Identifiers of 1-100 messages to delete. See deleteMessage for limitations on which messages can be deleted
+     *  */
+    message_ids: number[];
+};
+/**
  * Parameters of {@link TgBot.sendSticker} method.
  * @see https://core.telegram.org/bots/api#sendsticker
  */
@@ -2788,13 +2895,9 @@ export type TgSendStickerParams = {
      *  */
     protect_content?: boolean;
     /**
-     * If the message is a reply, ID of the original message
+     * Description of the message to reply to
      *  */
-    reply_to_message_id?: number;
-    /**
-     * Pass True if the message should be sent even if the specified replied-to message is not found
-     *  */
-    allow_sending_without_reply?: boolean;
+    reply_parameters?: TgReplyParameters;
     /**
      * Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove reply keyboard or to force a reply from the user.
      *  */
@@ -3162,13 +3265,9 @@ export type TgSendInvoiceParams = {
      *  */
     protect_content?: boolean;
     /**
-     * If the message is a reply, ID of the original message
+     * Description of the message to reply to
      *  */
-    reply_to_message_id?: number;
-    /**
-     * Pass True if the message should be sent even if the specified replied-to message is not found
-     *  */
-    allow_sending_without_reply?: boolean;
+    reply_parameters?: TgReplyParameters;
     /**
      * A JSON-serialized object for an inline keyboard. If empty, one 'Pay total price' button will be shown. If not empty, the first button must be a Pay button.
      *  */
@@ -3340,13 +3439,9 @@ export type TgSendGameParams = {
      *  */
     protect_content?: boolean;
     /**
-     * If the message is a reply, ID of the original message
+     * Description of the message to reply to
      *  */
-    reply_to_message_id?: number;
-    /**
-     * Pass True if the message should be sent even if the specified replied-to message is not found
-     *  */
-    allow_sending_without_reply?: boolean;
+    reply_parameters?: TgReplyParameters;
     /**
      * A JSON-serialized object for an inline keyboard. If empty, one 'Play game_title' button will be shown. If not empty, the first button must launch the game.
      *  */
@@ -3435,6 +3530,14 @@ export type TgUpdate = {
      *  */
     edited_channel_post?: TgMessage;
     /**
+     * Optional. A reaction to a message was changed by a user. The bot must be an administrator in the chat and must explicitly specify "message_reaction" in the list of allowed_updates to receive these updates. The update isn't received for reactions set by bots.
+     *  */
+    message_reaction?: TgMessageReactionUpdated;
+    /**
+     * Optional. Reactions to a message with anonymous reactions were changed. The bot must be an administrator in the chat and must explicitly specify "message_reaction_count" in the list of allowed_updates to receive these updates.
+     *  */
+    message_reaction_count?: TgMessageReactionCountUpdated;
+    /**
      * Optional. New incoming inline query
      *  */
     inline_query?: TgInlineQuery;
@@ -3474,6 +3577,14 @@ export type TgUpdate = {
      * Optional. A request to join the chat has been sent. The bot must have the can_invite_users administrator right in the chat to receive these updates.
      *  */
     chat_join_request?: TgChatJoinRequest;
+    /**
+     * Optional. A chat boost was added or changed. The bot must be an administrator in the chat to receive these updates.
+     *  */
+    chat_boost?: TgChatBoostUpdated;
+    /**
+     * Optional. A boost was removed from a chat. The bot must be an administrator in the chat to receive these updates.
+     *  */
+    removed_chat_boost?: TgChatBoostRemoved;
 };
 /**
  * Describes the current status of a webhook.
@@ -3609,9 +3720,33 @@ export type TgChat = {
      *  */
     active_usernames?: string[];
     /**
-     * Optional. Custom emoji identifier of emoji status of the other party in a private chat. Returned only in getChat.
+     * Optional. List of available reactions allowed in the chat. If omitted, then all emoji reactions are allowed. Returned only in getChat.
+     *  */
+    available_reactions?: TgReactionType[];
+    /**
+     * Optional. Identifier of the accent color for the chat name and backgrounds of the chat photo, reply header, and link preview. See accent colors for more details. Returned only in getChat. Always returned in getChat.
+     *  */
+    accent_color_id?: number;
+    /**
+     * Optional. Custom emoji identifier of emoji chosen by the chat for the reply header and link preview background. Returned only in getChat.
+     *  */
+    background_custom_emoji_id?: string;
+    /**
+     * Optional. Identifier of the accent color for the chat's profile background. See profile accent colors for more details. Returned only in getChat.
+     *  */
+    profile_accent_color_id?: number;
+    /**
+     * Optional. Custom emoji identifier of the emoji chosen by the chat for its profile background. Returned only in getChat.
+     *  */
+    profile_background_custom_emoji_id?: string;
+    /**
+     * Optional. Custom emoji identifier of the emoji status of the chat or the other party in a private chat. Returned only in getChat.
      *  */
     emoji_status_custom_emoji_id?: string;
+    /**
+     * Optional. Expiration date of the emoji status of the chat or the other party in a private chat, in Unix time, if any. Returned only in getChat.
+     *  */
+    emoji_status_expiration_date?: number;
     /**
      * Optional. Bio of the other party in a private chat. Returned only in getChat.
      *  */
@@ -3669,6 +3804,10 @@ export type TgChat = {
      *  */
     has_protected_content?: boolean;
     /**
+     * Optional. True, if new chat members will have access to old messages; available only to chat administrators. Returned only in getChat.
+     *  */
+    has_visible_history?: boolean;
+    /**
      * Optional. For supergroups, name of group sticker set. Returned only in getChat.
      *  */
     sticker_set_name?: string;
@@ -3707,37 +3846,17 @@ export type TgMessage = {
      *  */
     sender_chat?: TgChat;
     /**
-     * Date the message was sent in Unix time
+     * Date the message was sent in Unix time. It is always a positive number, representing a valid date.
      *  */
     date: number;
     /**
-     * Conversation the message belongs to
+     * Chat the message belongs to
      *  */
     chat: TgChat;
     /**
-     * Optional. For forwarded messages, sender of the original message
+     * Optional. Information about the original message for forwarded messages
      *  */
-    forward_from?: TgUser;
-    /**
-     * Optional. For messages forwarded from channels or from anonymous administrators, information about the original sender chat
-     *  */
-    forward_from_chat?: TgChat;
-    /**
-     * Optional. For messages forwarded from channels, identifier of the original message in the channel
-     *  */
-    forward_from_message_id?: number;
-    /**
-     * Optional. For forwarded messages that were originally sent in channels or by an anonymous chat administrator, signature of the message sender if present
-     *  */
-    forward_signature?: string;
-    /**
-     * Optional. Sender's name for messages forwarded from users who disallow adding a link to their account in forwarded messages
-     *  */
-    forward_sender_name?: string;
-    /**
-     * Optional. For forwarded messages, date the original message was sent in Unix time
-     *  */
-    forward_date?: number;
+    forward_origin?: TgMessageOrigin;
     /**
      * Optional. True, if the message is sent to a forum topic
      *  */
@@ -3747,9 +3866,17 @@ export type TgMessage = {
      *  */
     is_automatic_forward?: boolean;
     /**
-     * Optional. For replies, the original message. Note that the Message object in this field will not contain further reply_to_message fields even if it itself is a reply.
+     * Optional. For replies in the same chat and message thread, the original message. Note that the Message object in this field will not contain further reply_to_message fields even if it itself is a reply.
      *  */
     reply_to_message?: TgMessage;
+    /**
+     * Optional. Information about the message that is being replied to, which may come from another chat or forum topic
+     *  */
+    external_reply?: TgExternalReplyInfo;
+    /**
+     * Optional. For replies that quote part of the original message, the quoted part of the message
+     *  */
+    quote?: TgTextQuote;
     /**
      * Optional. Bot through which the message was sent
      *  */
@@ -3779,6 +3906,10 @@ export type TgMessage = {
      *  */
     entities?: TgMessageEntity[];
     /**
+     * Optional. Options used for link preview generation for the message, if it is a text message and link preview options were changed
+     *  */
+    link_preview_options?: TgLinkPreviewOptions;
+    /**
      * Optional. Message is an animation, information about the animation. For backward compatibility, when this field is set, the document field will also be set
      *  */
     animation?: TgAnimation;
@@ -3798,6 +3929,10 @@ export type TgMessage = {
      * Optional. Message is a sticker, information about the sticker
      *  */
     sticker?: TgSticker;
+    /**
+     * Optional. Message is a forwarded story
+     *  */
+    story?: TgStory;
     /**
      * Optional. Message is a video, information about the video
      *  */
@@ -3891,9 +4026,9 @@ export type TgMessage = {
      *  */
     migrate_from_chat_id?: number;
     /**
-     * Optional. Specified message was pinned. Note that the Message object in this field will not contain further reply_to_message fields even if it is itself a reply.
+     * Optional. Specified message was pinned. Note that the Message object in this field will not contain further reply_to_message fields even if it itself is a reply.
      *  */
-    pinned_message?: TgMessage;
+    pinned_message?: TgMaybeInaccessibleMessage;
     /**
      * Optional. Message is an invoice for a payment, information about the invoice. More about payments: https://core.telegram.org/bots/api#payments
      *  */
@@ -3903,9 +4038,9 @@ export type TgMessage = {
      *  */
     successful_payment?: TgSuccessfulPayment;
     /**
-     * Optional. Service message: a user was shared with the bot
+     * Optional. Service message: users were shared with the bot
      *  */
-    user_shared?: TgUserShared;
+    users_shared?: TgUsersShared;
     /**
      * Optional. Service message: a chat was shared with the bot
      *  */
@@ -3915,7 +4050,7 @@ export type TgMessage = {
      *  */
     connected_website?: string;
     /**
-     * Optional. Service message: the user allowed the bot added to the attachment menu to write messages
+     * Optional. Service message: the user allowed the bot to write messages after adding it to the attachment or side menu, launching a Web App from a link, or accepting an explicit request from a Web App sent by the method requestWriteAccess
      *  */
     write_access_allowed?: TgWriteAccessAllowed;
     /**
@@ -3950,6 +4085,22 @@ export type TgMessage = {
      * Optional. Service message: the 'General' forum topic unhidden
      *  */
     general_forum_topic_unhidden?: TgGeneralForumTopicUnhidden;
+    /**
+     * Optional. Service message: a scheduled giveaway was created
+     *  */
+    giveaway_created?: TgGiveawayCreated;
+    /**
+     * Optional. The message is a scheduled giveaway message
+     *  */
+    giveaway?: TgGiveaway;
+    /**
+     * Optional. A giveaway with public winners was completed
+     *  */
+    giveaway_winners?: TgGiveawayWinners;
+    /**
+     * Optional. Service message: a giveaway without public winners was completed
+     *  */
+    giveaway_completed?: TgGiveawayCompleted;
     /**
      * Optional. Service message: video chat scheduled
      *  */
@@ -3986,14 +4137,39 @@ export type TgMessageId = {
     message_id: number;
 };
 /**
+ * This object describes a message that was deleted or is otherwise inaccessible to the bot.
+ * @see https://core.telegram.org/bots/api#inaccessiblemessage
+ */
+export type TgInaccessibleMessage = {
+    /**
+     * Chat the message belonged to
+     *  */
+    chat: TgChat;
+    /**
+     * Unique message identifier inside the chat
+     *  */
+    message_id: number;
+    /**
+     * Always 0. The field can be used to differentiate regular and inaccessible messages.
+     *  */
+    date: number;
+};
+/**
+ * This object describes a message that can be inaccessible to the bot. It can be one of
+ * - Message
+ * - InaccessibleMessage
+ * @see https://core.telegram.org/bots/api#maybeinaccessiblemessage
+ */
+export type TgMaybeInaccessibleMessage = TgMessage | TgInaccessibleMessage;
+/**
  * This object represents one special entity in a text message. For example, hashtags, usernames, URLs, etc.
  * @see https://core.telegram.org/bots/api#messageentity
  */
 export type TgMessageEntity = {
     /**
-     * Type of the entity. Currently, can be "mention" (@username), "hashtag" (#hashtag), "cashtag" ($USD), "bot_command" (/start@jobs_bot), "url" (https://telegram.org), "email" (do-not-reply@telegram.org), "phone_number" (+1-212-555-0123), "bold" (bold text), "italic" (italic text), "underline" (underlined text), "strikethrough" (strikethrough text), "spoiler" (spoiler message), "code" (monowidth string), "pre" (monowidth block), "text_link" (for clickable text URLs), "text_mention" (for users without usernames), "custom_emoji" (for inline custom emoji stickers)
+     * Type of the entity. Currently, can be "mention" (@username), "hashtag" (#hashtag), "cashtag" ($USD), "bot_command" (/start@jobs_bot), "url" (https://telegram.org), "email" (do-not-reply@telegram.org), "phone_number" (+1-212-555-0123), "bold" (bold text), "italic" (italic text), "underline" (underlined text), "strikethrough" (strikethrough text), "spoiler" (spoiler message), "blockquote" (block quotation), "code" (monowidth string), "pre" (monowidth block), "text_link" (for clickable text URLs), "text_mention" (for users without usernames), "custom_emoji" (for inline custom emoji stickers)
      *  */
-    type: "mention" | "hashtag" | "cashtag" | "bot_command" | "url" | "email" | "phone_number" | "bold" | "italic" | "underline" | "strikethrough" | "spoiler" | "code" | "pre" | "text_link" | "text_mention" | "custom_emoji";
+    type: "mention" | "hashtag" | "cashtag" | "bot_command" | "url" | "email" | "phone_number" | "bold" | "italic" | "underline" | "strikethrough" | "spoiler" | "blockquote" | "code" | "pre" | "text_link" | "text_mention" | "custom_emoji";
     /**
      * Offset in UTF-16 code units to the start of the entity
      *  */
@@ -4018,6 +4194,253 @@ export type TgMessageEntity = {
      * Optional. For "custom_emoji" only, unique identifier of the custom emoji. Use getCustomEmojiStickers to get full information about the sticker
      *  */
     custom_emoji_id?: string;
+};
+/**
+ * This object contains information about the quoted part of a message that is replied to by the given message.
+ * @see https://core.telegram.org/bots/api#textquote
+ */
+export type TgTextQuote = {
+    /**
+     * Text of the quoted part of a message that is replied to by the given message
+     *  */
+    text: string;
+    /**
+     * Optional. Special entities that appear in the quote. Currently, only bold, italic, underline, strikethrough, spoiler, and custom_emoji entities are kept in quotes.
+     *  */
+    entities?: TgMessageEntity[];
+    /**
+     * Approximate quote position in the original message in UTF-16 code units as specified by the sender
+     *  */
+    position: number;
+    /**
+     * Optional. True, if the quote was chosen manually by the message sender. Otherwise, the quote was added automatically by the server.
+     *  */
+    is_manual?: boolean;
+};
+/**
+ * This object contains information about a message that is being replied to, which may come from another chat or forum topic.
+ * @see https://core.telegram.org/bots/api#externalreplyinfo
+ */
+export type TgExternalReplyInfo = {
+    /**
+     * Origin of the message replied to by the given message
+     *  */
+    origin: TgMessageOrigin;
+    /**
+     * Optional. Chat the original message belongs to. Available only if the chat is a supergroup or a channel.
+     *  */
+    chat?: TgChat;
+    /**
+     * Optional. Unique message identifier inside the original chat. Available only if the original chat is a supergroup or a channel.
+     *  */
+    message_id?: number;
+    /**
+     * Optional. Options used for link preview generation for the original message, if it is a text message
+     *  */
+    link_preview_options?: TgLinkPreviewOptions;
+    /**
+     * Optional. Message is an animation, information about the animation
+     *  */
+    animation?: TgAnimation;
+    /**
+     * Optional. Message is an audio file, information about the file
+     *  */
+    audio?: TgAudio;
+    /**
+     * Optional. Message is a general file, information about the file
+     *  */
+    document?: TgDocument;
+    /**
+     * Optional. Message is a photo, available sizes of the photo
+     *  */
+    photo?: TgPhotoSize[];
+    /**
+     * Optional. Message is a sticker, information about the sticker
+     *  */
+    sticker?: TgSticker;
+    /**
+     * Optional. Message is a forwarded story
+     *  */
+    story?: TgStory;
+    /**
+     * Optional. Message is a video, information about the video
+     *  */
+    video?: TgVideo;
+    /**
+     * Optional. Message is a video note, information about the video message
+     *  */
+    video_note?: TgVideoNote;
+    /**
+     * Optional. Message is a voice message, information about the file
+     *  */
+    voice?: TgVoice;
+    /**
+     * Optional. True, if the message media is covered by a spoiler animation
+     *  */
+    has_media_spoiler?: boolean;
+    /**
+     * Optional. Message is a shared contact, information about the contact
+     *  */
+    contact?: TgContact;
+    /**
+     * Optional. Message is a dice with random value
+     *  */
+    dice?: TgDice;
+    /**
+     * Optional. Message is a game, information about the game. More about games: https://core.telegram.org/bots/api#games
+     *  */
+    game?: TgGame;
+    /**
+     * Optional. Message is a scheduled giveaway, information about the giveaway
+     *  */
+    giveaway?: TgGiveaway;
+    /**
+     * Optional. A giveaway with public winners was completed
+     *  */
+    giveaway_winners?: TgGiveawayWinners;
+    /**
+     * Optional. Message is an invoice for a payment, information about the invoice. More about payments: https://core.telegram.org/bots/api#payments
+     *  */
+    invoice?: TgInvoice;
+    /**
+     * Optional. Message is a shared location, information about the location
+     *  */
+    location?: TgLocation;
+    /**
+     * Optional. Message is a native poll, information about the poll
+     *  */
+    poll?: TgPoll;
+    /**
+     * Optional. Message is a venue, information about the venue
+     *  */
+    venue?: TgVenue;
+};
+/**
+ * Describes reply parameters for the message that is being sent.
+ * @see https://core.telegram.org/bots/api#replyparameters
+ */
+export type TgReplyParameters = {
+    /**
+     * Identifier of the message that will be replied to in the current chat, or in the chat chat_id if it is specified
+     *  */
+    message_id: number;
+    /**
+     * Optional. If the message to be replied to is from a different chat, unique identifier for the chat or username of the channel (in the format @channelusername)
+     *  */
+    chat_id?: number | string;
+    /**
+     * Optional. Pass True if the message should be sent even if the specified message to be replied to is not found; can be used only for replies in the same chat and forum topic.
+     *  */
+    allow_sending_without_reply?: boolean;
+    /**
+     * Optional. Quoted part of the message to be replied to; 0-1024 characters after entities parsing. The quote must be an exact substring of the message to be replied to, including bold, italic, underline, strikethrough, spoiler, and custom_emoji entities. The message will fail to send if the quote isn't found in the original message.
+     *  */
+    quote?: string;
+    /**
+     * Optional. Mode for parsing entities in the quote. See formatting options for more details.
+     *  */
+    quote_parse_mode?: string;
+    /**
+     * Optional. A JSON-serialized list of special entities that appear in the quote. It can be specified instead of quote_parse_mode.
+     *  */
+    quote_entities?: TgMessageEntity[];
+    /**
+     * Optional. Position of the quote in the original message in UTF-16 code units
+     *  */
+    quote_position?: number;
+};
+/**
+ * This object describes the origin of a message. It can be one of
+ * - MessageOriginUser
+ * - MessageOriginHiddenUser
+ * - MessageOriginChat
+ * - MessageOriginChannel
+ * @see https://core.telegram.org/bots/api#messageorigin
+ */
+export type TgMessageOrigin = TgMessageOriginUser | TgMessageOriginHiddenUser | TgMessageOriginChat | TgMessageOriginChannel;
+/**
+ * The message was originally sent by a known user.
+ * @see https://core.telegram.org/bots/api#messageoriginuser
+ */
+export type TgMessageOriginUser = {
+    /**
+     * Type of the message origin, always "user"
+     *  */
+    type: "user";
+    /**
+     * Date the message was sent originally in Unix time
+     *  */
+    date: number;
+    /**
+     * User that sent the message originally
+     *  */
+    sender_user: TgUser;
+};
+/**
+ * The message was originally sent by an unknown user.
+ * @see https://core.telegram.org/bots/api#messageoriginhiddenuser
+ */
+export type TgMessageOriginHiddenUser = {
+    /**
+     * Type of the message origin, always "hidden_user"
+     *  */
+    type: "hidden_user";
+    /**
+     * Date the message was sent originally in Unix time
+     *  */
+    date: number;
+    /**
+     * Name of the user that sent the message originally
+     *  */
+    sender_user_name: string;
+};
+/**
+ * The message was originally sent on behalf of a chat to a group chat.
+ * @see https://core.telegram.org/bots/api#messageoriginchat
+ */
+export type TgMessageOriginChat = {
+    /**
+     * Type of the message origin, always "chat"
+     *  */
+    type: "chat";
+    /**
+     * Date the message was sent originally in Unix time
+     *  */
+    date: number;
+    /**
+     * Chat that sent the message originally
+     *  */
+    sender_chat: TgChat;
+    /**
+     * Optional. For messages originally sent by an anonymous chat administrator, original message author signature
+     *  */
+    author_signature?: string;
+};
+/**
+ * The message was originally sent to a channel chat.
+ * @see https://core.telegram.org/bots/api#messageoriginchannel
+ */
+export type TgMessageOriginChannel = {
+    /**
+     * Type of the message origin, always "channel"
+     *  */
+    type: "channel";
+    /**
+     * Date the message was sent originally in Unix time
+     *  */
+    date: number;
+    /**
+     * Channel chat to which the message was originally sent
+     *  */
+    chat: TgChat;
+    /**
+     * Unique message identifier inside the chat
+     *  */
+    message_id: number;
+    /**
+     * Optional. Signature of the original post author
+     *  */
+    author_signature?: string;
 };
 /**
  * This object represents one size of a photo or a file / sticker thumbnail.
@@ -4159,6 +4582,11 @@ export type TgDocument = {
      *  */
     file_size?: number;
 };
+/**
+ * This object represents a message about a forwarded story in the chat. Currently holds no information.
+ * @see https://core.telegram.org/bots/api#story
+ */
+export type TgStory = {};
 /**
  * This object represents a video file.
  * @see https://core.telegram.org/bots/api#video
@@ -4321,11 +4749,15 @@ export type TgPollAnswer = {
      *  */
     poll_id: string;
     /**
-     * The user, who changed the answer to the poll
+     * Optional. The chat that changed the answer to the poll, if the voter is anonymous
      *  */
-    user: TgUser;
+    voter_chat?: TgChat;
     /**
-     * 0-based identifiers of answer options, chosen by the user. May be empty if the user retracted their vote.
+     * Optional. The user that changed the answer to the poll, if the voter isn't anonymous
+     *  */
+    user?: TgUser;
+    /**
+     * 0-based identifiers of chosen answer options. May be empty if the vote was retracted.
      *  */
     option_ids: number[];
 };
@@ -4546,18 +4978,18 @@ export type TgGeneralForumTopicHidden = {};
  */
 export type TgGeneralForumTopicUnhidden = {};
 /**
- * This object contains information about the user whose identifier was shared with the bot using a KeyboardButtonRequestUser button.
- * @see https://core.telegram.org/bots/api#usershared
+ * This object contains information about the users whose identifiers were shared with the bot using a KeyboardButtonRequestUsers button.
+ * @see https://core.telegram.org/bots/api#usersshared
  */
-export type TgUserShared = {
+export type TgUsersShared = {
     /**
      * Identifier of the request
      *  */
     request_id: number;
     /**
-     * Identifier of the shared user. This number may have more than 32 significant bits and some programming languages may have difficulty/silent defects in interpreting it. But it has at most 52 significant bits, so a 64-bit integer or double-precision float type are safe for storing this identifier. The bot may not have access to the user and could be unable to use this identifier, unless the user is already known to the bot by some other means.
+     * Identifiers of the shared users. These numbers may have more than 32 significant bits and some programming languages may have difficulty/silent defects in interpreting them. But they have at most 52 significant bits, so 64-bit integers or double-precision float types are safe for storing these identifiers. The bot may not have access to the users and could be unable to use these identifiers, unless the users are already known to the bot by some other means.
      *  */
-    user_id: number;
+    user_ids: number[];
 };
 /**
  * This object contains information about the chat whose identifier was shared with the bot using a KeyboardButtonRequestChat button.
@@ -4574,14 +5006,22 @@ export type TgChatShared = {
     chat_id: number;
 };
 /**
- * This object represents a service message about a user allowing a bot to write messages after adding the bot to the attachment menu or launching a Web App from a link.
+ * This object represents a service message about a user allowing a bot to write messages after adding it to the attachment menu, launching a Web App from a link, or accepting an explicit request from a Web App sent by the method requestWriteAccess.
  * @see https://core.telegram.org/bots/api#writeaccessallowed
  */
 export type TgWriteAccessAllowed = {
     /**
-     * Optional. Name of the Web App which was launched from a link
+     * Optional. True, if the access was granted after the user accepted an explicit request from a Web App sent by the method requestWriteAccess
+     *  */
+    from_request?: boolean;
+    /**
+     * Optional. Name of the Web App, if the access was granted when the Web App was launched from a link
      *  */
     web_app_name?: string;
+    /**
+     * Optional. True, if the access was granted when the bot was added to the attachment or side menu
+     *  */
+    from_attachment_menu?: boolean;
 };
 /**
  * This object represents a service message about a video chat scheduled in the chat.
@@ -4617,6 +5057,143 @@ export type TgVideoChatParticipantsInvited = {
      * New members that were invited to the video chat
      *  */
     users: TgUser[];
+};
+/**
+ * This object represents a service message about the creation of a scheduled giveaway. Currently holds no information.
+ * @see https://core.telegram.org/bots/api#giveawaycreated
+ */
+export type TgGiveawayCreated = {};
+/**
+ * This object represents a message about a scheduled giveaway.
+ * @see https://core.telegram.org/bots/api#giveaway
+ */
+export type TgGiveaway = {
+    /**
+     * The list of chats which the user must join to participate in the giveaway
+     *  */
+    chats: TgChat[];
+    /**
+     * Point in time (Unix timestamp) when winners of the giveaway will be selected
+     *  */
+    winners_selection_date: number;
+    /**
+     * The number of users which are supposed to be selected as winners of the giveaway
+     *  */
+    winner_count: number;
+    /**
+     * Optional. True, if only users who join the chats after the giveaway started should be eligible to win
+     *  */
+    only_new_members?: boolean;
+    /**
+     * Optional. True, if the list of giveaway winners will be visible to everyone
+     *  */
+    has_public_winners?: boolean;
+    /**
+     * Optional. Description of additional giveaway prize
+     *  */
+    prize_description?: string;
+    /**
+     * Optional. A list of two-letter ISO 3166-1 alpha-2 country codes indicating the countries from which eligible users for the giveaway must come. If empty, then all users can participate in the giveaway. Users with a phone number that was bought on Fragment can always participate in giveaways.
+     *  */
+    country_codes?: string[];
+    /**
+     * Optional. The number of months the Telegram Premium subscription won from the giveaway will be active for
+     *  */
+    premium_subscription_month_count?: number;
+};
+/**
+ * This object represents a message about the completion of a giveaway with public winners.
+ * @see https://core.telegram.org/bots/api#giveawaywinners
+ */
+export type TgGiveawayWinners = {
+    /**
+     * The chat that created the giveaway
+     *  */
+    chat: TgChat;
+    /**
+     * Identifier of the messsage with the giveaway in the chat
+     *  */
+    giveaway_message_id: number;
+    /**
+     * Point in time (Unix timestamp) when winners of the giveaway were selected
+     *  */
+    winners_selection_date: number;
+    /**
+     * Total number of winners in the giveaway
+     *  */
+    winner_count: number;
+    /**
+     * List of up to 100 winners of the giveaway
+     *  */
+    winners: TgUser[];
+    /**
+     * Optional. The number of other chats the user had to join in order to be eligible for the giveaway
+     *  */
+    additional_chat_count?: number;
+    /**
+     * Optional. The number of months the Telegram Premium subscription won from the giveaway will be active for
+     *  */
+    premium_subscription_month_count?: number;
+    /**
+     * Optional. Number of undistributed prizes
+     *  */
+    unclaimed_prize_count?: number;
+    /**
+     * Optional. True, if only users who had joined the chats after the giveaway started were eligible to win
+     *  */
+    only_new_members?: boolean;
+    /**
+     * Optional. True, if the giveaway was canceled because the payment for it was refunded
+     *  */
+    was_refunded?: boolean;
+    /**
+     * Optional. Description of additional giveaway prize
+     *  */
+    prize_description?: string;
+};
+/**
+ * This object represents a service message about the completion of a giveaway without public winners.
+ * @see https://core.telegram.org/bots/api#giveawaycompleted
+ */
+export type TgGiveawayCompleted = {
+    /**
+     * Number of winners in the giveaway
+     *  */
+    winner_count: number;
+    /**
+     * Optional. Number of undistributed prizes
+     *  */
+    unclaimed_prize_count?: number;
+    /**
+     * Optional. Message with the giveaway that was completed, if it wasn't deleted
+     *  */
+    giveaway_message?: TgMessage;
+};
+/**
+ * Describes the options used for link preview generation.
+ * @see https://core.telegram.org/bots/api#linkpreviewoptions
+ */
+export type TgLinkPreviewOptions = {
+    /**
+     * Optional. True, if the link preview is disabled
+     *  */
+    is_disabled?: boolean;
+    /**
+     * Optional. URL to use for the link preview. If empty, then the first URL found in the message text will be used
+     *  */
+    url?: string;
+    /**
+     * Optional. True, if the media in the link preview is suppposed to be shrunk; ignored if the URL isn't explicitly specified or media size change isn't supported for the preview
+     *  */
+    prefer_small_media?: boolean;
+    /**
+     * Optional. True, if the media in the link preview is suppposed to be enlarged; ignored if the URL isn't explicitly specified or media size change isn't supported for the preview
+     *  */
+    prefer_large_media?: boolean;
+    /**
+     * Optional. True, if the link preview must be shown above the message text; otherwise, the link preview will be shown below the message text
+     *  */
+    show_above_text?: boolean;
 };
 /**
  * This object represent a user's profile pictures.
@@ -4695,11 +5272,11 @@ export type TgReplyKeyboardMarkup = {
     selective?: boolean;
 };
 /**
- * This object represents one button of the reply keyboard. For simple text buttons, String can be used instead of this object to specify the button text. The optional fields web_app, request_user, request_chat, request_contact, request_location, and request_poll are mutually exclusive.
+ * This object represents one button of the reply keyboard. For simple text buttons, String can be used instead of this object to specify the button text. The optional fields web_app, request_users, request_chat, request_contact, request_location, and request_poll are mutually exclusive.
  * Note: request_contact and request_location options will only work in Telegram versions released after 9 April, 2016. Older clients will display unsupported message.
  * Note: request_poll option will only work in Telegram versions released after 23 January, 2020. Older clients will display unsupported message.
  * Note: web_app option will only work in Telegram versions released after 16 April, 2022. Older clients will display unsupported message.
- * Note: request_user and request_chat options will only work in Telegram versions released after 3 February, 2023. Older clients will display unsupported message.
+ * Note: request_users and request_chat options will only work in Telegram versions released after 3 February, 2023. Older clients will display unsupported message.
  * @see https://core.telegram.org/bots/api#keyboardbutton
  */
 export type TgKeyboardButton = {
@@ -4708,9 +5285,9 @@ export type TgKeyboardButton = {
      *  */
     text: string;
     /**
-     * Optional. If specified, pressing the button will open a list of suitable users. Tapping on any user will send their identifier to the bot in a "user_shared" service message. Available in private chats only.
+     * Optional. If specified, pressing the button will open a list of suitable users. Identifiers of selected users will be sent to the bot in a "users_shared" service message. Available in private chats only.
      *  */
-    request_user?: TgKeyboardButtonRequestUser;
+    request_users?: TgKeyboardButtonRequestUsers;
     /**
      * Optional. If specified, pressing the button will open a list of suitable chats. Tapping on a chat will send its identifier to the bot in a "chat_shared" service message. Available in private chats only.
      *  */
@@ -4733,22 +5310,26 @@ export type TgKeyboardButton = {
     web_app?: TgWebAppInfo;
 };
 /**
- * This object defines the criteria used to request a suitable user. The identifier of the selected user will be shared with the bot when the corresponding button is pressed. More about requesting users: https://core.telegram.org/bots/features#chat-and-user-selection
- * @see https://core.telegram.org/bots/api#keyboardbuttonrequestuser
+ * This object defines the criteria used to request suitable users. The identifiers of the selected users will be shared with the bot when the corresponding button is pressed. More about requesting users: https://core.telegram.org/bots/features#chat-and-user-selection
+ * @see https://core.telegram.org/bots/api#keyboardbuttonrequestusers
  */
-export type TgKeyboardButtonRequestUser = {
+export type TgKeyboardButtonRequestUsers = {
     /**
-     * Signed 32-bit identifier of the request, which will be received back in the UserShared object. Must be unique within the message
+     * Signed 32-bit identifier of the request that will be received back in the UsersShared object. Must be unique within the message
      *  */
     request_id: number;
     /**
-     * Optional. Pass True to request a bot, pass False to request a regular user. If not specified, no additional restrictions are applied.
+     * Optional. Pass True to request bots, pass False to request regular users. If not specified, no additional restrictions are applied.
      *  */
     user_is_bot?: boolean;
     /**
-     * Optional. Pass True to request a premium user, pass False to request a non-premium user. If not specified, no additional restrictions are applied.
+     * Optional. Pass True to request premium users, pass False to request non-premium users. If not specified, no additional restrictions are applied.
      *  */
     user_is_premium?: boolean;
+    /**
+     * Optional. The maximum number of users to be selected; 1-10. Defaults to 1.
+     *  */
+    max_quantity?: number;
 };
 /**
  * This object defines the criteria used to request a suitable chat. The identifier of the selected chat will be shared with the bot when the corresponding button is pressed. More about requesting chats: https://core.telegram.org/bots/features#chat-and-user-selection
@@ -4932,9 +5513,9 @@ export type TgCallbackQuery = {
      *  */
     from: TgUser;
     /**
-     * Optional. Message with the callback button that originated the query. Note that message content and message date will not be available if the message is too old
+     * Optional. Message sent by the bot with the callback button that originated the query
      *  */
-    message?: TgMessage;
+    message?: TgMaybeInaccessibleMessage;
     /**
      * Optional. Identifier of the message sent via the bot in inline mode, that originated the query.
      *  */
@@ -5044,7 +5625,7 @@ export type TgChatAdministratorRights = {
      *  */
     is_anonymous: boolean;
     /**
-     * True, if the administrator can access the chat event log, chat statistics, message statistics in channels, see channel members, see anonymous administrators in supergroups and ignore slow mode. Implied by any other administrator privilege
+     * True, if the administrator can access the chat event log, boost list in channels, see channel members, report spam messages, see anonymous administrators in supergroups and ignore slow mode. Implied by any other administrator privilege
      *  */
     can_manage_chat: boolean;
     /**
@@ -5056,7 +5637,7 @@ export type TgChatAdministratorRights = {
      *  */
     can_manage_video_chats: boolean;
     /**
-     * True, if the administrator can restrict, ban or unban chat members
+     * True, if the administrator can restrict, ban or unban chat members, or access supergroup statistics
      *  */
     can_restrict_members: boolean;
     /**
@@ -5072,7 +5653,7 @@ export type TgChatAdministratorRights = {
      *  */
     can_invite_users: boolean;
     /**
-     * Optional. True, if the administrator can post in the channel; channels only
+     * Optional. True, if the administrator can post messages in the channel, or access channel statistics; channels only
      *  */
     can_post_messages?: boolean;
     /**
@@ -5084,9 +5665,55 @@ export type TgChatAdministratorRights = {
      *  */
     can_pin_messages?: boolean;
     /**
+     * Optional. True, if the administrator can post stories in the channel; channels only
+     *  */
+    can_post_stories?: boolean;
+    /**
+     * Optional. True, if the administrator can edit stories posted by other users; channels only
+     *  */
+    can_edit_stories?: boolean;
+    /**
+     * Optional. True, if the administrator can delete stories posted by other users; channels only
+     *  */
+    can_delete_stories?: boolean;
+    /**
      * Optional. True, if the user is allowed to create, rename, close, and reopen forum topics; supergroups only
      *  */
     can_manage_topics?: boolean;
+};
+/**
+ * This object represents changes in the status of a chat member.
+ * @see https://core.telegram.org/bots/api#chatmemberupdated
+ */
+export type TgChatMemberUpdated = {
+    /**
+     * Chat the user belongs to
+     *  */
+    chat: TgChat;
+    /**
+     * Performer of the action, which resulted in the change
+     *  */
+    from: TgUser;
+    /**
+     * Date the change was done in Unix time
+     *  */
+    date: number;
+    /**
+     * Previous information about the chat member
+     *  */
+    old_chat_member: TgChatMember;
+    /**
+     * New information about the chat member
+     *  */
+    new_chat_member: TgChatMember;
+    /**
+     * Optional. Chat invite link, which was used by the user to join the chat; for joining by invite link events only.
+     *  */
+    invite_link?: TgChatInviteLink;
+    /**
+     * Optional. True, if the user joined the chat via a chat folder invite link
+     *  */
+    via_chat_folder_invite_link?: boolean;
 };
 /**
  * This object contains information about one member of a chat. Currently, the following 6 types of chat members are supported:
@@ -5143,7 +5770,7 @@ export type TgChatMemberAdministrator = {
      *  */
     is_anonymous: boolean;
     /**
-     * True, if the administrator can access the chat event log, chat statistics, message statistics in channels, see channel members, see anonymous administrators in supergroups and ignore slow mode. Implied by any other administrator privilege
+     * True, if the administrator can access the chat event log, boost list in channels, see channel members, report spam messages, see anonymous administrators in supergroups and ignore slow mode. Implied by any other administrator privilege
      *  */
     can_manage_chat: boolean;
     /**
@@ -5155,7 +5782,7 @@ export type TgChatMemberAdministrator = {
      *  */
     can_manage_video_chats: boolean;
     /**
-     * True, if the administrator can restrict, ban or unban chat members
+     * True, if the administrator can restrict, ban or unban chat members, or access supergroup statistics
      *  */
     can_restrict_members: boolean;
     /**
@@ -5171,7 +5798,7 @@ export type TgChatMemberAdministrator = {
      *  */
     can_invite_users: boolean;
     /**
-     * Optional. True, if the administrator can post in the channel; channels only
+     * Optional. True, if the administrator can post messages in the channel, or access channel statistics; channels only
      *  */
     can_post_messages?: boolean;
     /**
@@ -5182,6 +5809,18 @@ export type TgChatMemberAdministrator = {
      * Optional. True, if the user is allowed to pin messages; groups and supergroups only
      *  */
     can_pin_messages?: boolean;
+    /**
+     * Optional. True, if the administrator can post stories in the channel; channels only
+     *  */
+    can_post_stories?: boolean;
+    /**
+     * Optional. True, if the administrator can edit stories posted by other users; channels only
+     *  */
+    can_edit_stories?: boolean;
+    /**
+     * Optional. True, if the administrator can delete stories posted by other users; channels only
+     *  */
+    can_delete_stories?: boolean;
     /**
      * Optional. True, if the user is allowed to create, rename, close, and reopen forum topics; supergroups only
      *  */
@@ -5223,7 +5862,7 @@ export type TgChatMemberRestricted = {
      *  */
     is_member: boolean;
     /**
-     * True, if the user is allowed to send text messages, contacts, invoices, locations and venues
+     * True, if the user is allowed to send text messages, contacts, giveaways, giveaway winners, invoices, locations and venues
      *  */
     can_send_messages: boolean;
     /**
@@ -5279,7 +5918,7 @@ export type TgChatMemberRestricted = {
      *  */
     can_manage_topics: boolean;
     /**
-     * Date when restrictions will be lifted for this user; unix time. If 0, then the user is restricted forever
+     * Date when restrictions will be lifted for this user; Unix time. If 0, then the user is restricted forever
      *  */
     until_date: number;
 };
@@ -5311,43 +5950,9 @@ export type TgChatMemberBanned = {
      *  */
     user: TgUser;
     /**
-     * Date when restrictions will be lifted for this user; unix time. If 0, then the user is banned forever
+     * Date when restrictions will be lifted for this user; Unix time. If 0, then the user is banned forever
      *  */
     until_date: number;
-};
-/**
- * This object represents changes in the status of a chat member.
- * @see https://core.telegram.org/bots/api#chatmemberupdated
- */
-export type TgChatMemberUpdated = {
-    /**
-     * Chat the user belongs to
-     *  */
-    chat: TgChat;
-    /**
-     * Performer of the action, which resulted in the change
-     *  */
-    from: TgUser;
-    /**
-     * Date the change was done in Unix time
-     *  */
-    date: number;
-    /**
-     * Previous information about the chat member
-     *  */
-    old_chat_member: TgChatMember;
-    /**
-     * New information about the chat member
-     *  */
-    new_chat_member: TgChatMember;
-    /**
-     * Optional. Chat invite link, which was used by the user to join the chat; for joining by invite link events only.
-     *  */
-    invite_link?: TgChatInviteLink;
-    /**
-     * Optional. True, if the user joined the chat via a chat folder invite link
-     *  */
-    via_chat_folder_invite_link?: boolean;
 };
 /**
  * Represents a join request sent to a chat.
@@ -5363,7 +5968,7 @@ export type TgChatJoinRequest = {
      *  */
     from: TgUser;
     /**
-     * Identifier of a private chat with the user who sent the join request. This number may have more than 32 significant bits and some programming languages may have difficulty/silent defects in interpreting it. But it has at most 52 significant bits, so a 64-bit integer or double-precision float type are safe for storing this identifier. The bot can use this identifier for 24 hours to send messages until the join request is processed, assuming no other administrator contacted the user.
+     * Identifier of a private chat with the user who sent the join request. This number may have more than 32 significant bits and some programming languages may have difficulty/silent defects in interpreting it. But it has at most 52 significant bits, so a 64-bit integer or double-precision float type are safe for storing this identifier. The bot can use this identifier for 5 minutes to send messages until the join request is processed, assuming no other administrator contacted the user.
      *  */
     user_chat_id: number;
     /**
@@ -5385,7 +5990,7 @@ export type TgChatJoinRequest = {
  */
 export type TgChatPermissions = {
     /**
-     * Optional. True, if the user is allowed to send text messages, contacts, invoices, locations and venues
+     * Optional. True, if the user is allowed to send text messages, contacts, giveaways, giveaway winners, invoices, locations and venues
      *  */
     can_send_messages?: boolean;
     /**
@@ -5454,6 +6059,111 @@ export type TgChatLocation = {
      * Location address; 1-64 characters, as defined by the chat owner
      *  */
     address: string;
+};
+/**
+ * This object describes the type of a reaction. Currently, it can be one of
+ * - ReactionTypeEmoji
+ * - ReactionTypeCustomEmoji
+ * @see https://core.telegram.org/bots/api#reactiontype
+ */
+export type TgReactionType = TgReactionTypeEmoji | TgReactionTypeCustomEmoji;
+/**
+ * The reaction is based on an emoji.
+ * @see https://core.telegram.org/bots/api#reactiontypeemoji
+ */
+export type TgReactionTypeEmoji = {
+    /**
+     * Type of the reaction, always "emoji"
+     *  */
+    type: "emoji";
+    /**
+     * Reaction emoji. Currently, it can be one of "👍", "👎", "❤", "🔥", "🥰", "👏", "😁", "🤔", "🤯", "😱", "🤬", "😢", "🎉", "🤩", "🤮", "💩", "🙏", "👌", "🕊", "🤡", "🥱", "🥴", "😍", "🐳", "❤‍🔥", "🌚", "🌭", "💯", "🤣", "⚡", "🍌", "🏆", "💔", "🤨", "😐", "🍓", "🍾", "💋", "🖕", "😈", "😴", "😭", "🤓", "👻", "👨‍💻", "👀", "🎃", "🙈", "😇", "😨", "🤝", "✍", "🤗", "🫡", "🎅", "🎄", "☃", "💅", "🤪", "🗿", "🆒", "💘", "🙉", "🦄", "😘", "💊", "🙊", "😎", "👾", "🤷‍♂", "🤷", "🤷‍♀", "😡"
+     *  */
+    emoji: "\uD83D\uDC4D" | "\uD83D\uDC4E" | "\u2764" | "\uD83D\uDD25" | "\uD83E\uDD70" | "\uD83D\uDC4F" | "\uD83D\uDE01" | "\uD83E\uDD14" | "\uD83E\uDD2F" | "\uD83D\uDE31" | "\uD83E\uDD2C" | "\uD83D\uDE22" | "\uD83C\uDF89" | "\uD83E\uDD29" | "\uD83E\uDD2E" | "\uD83D\uDCA9" | "\uD83D\uDE4F" | "\uD83D\uDC4C" | "\uD83D\uDD4A" | "\uD83E\uDD21" | "\uD83E\uDD71" | "\uD83E\uDD74" | "\uD83D\uDE0D" | "\uD83D\uDC33" | "\u2764\u200D\uD83D\uDD25" | "\uD83C\uDF1A" | "\uD83C\uDF2D" | "\uD83D\uDCAF" | "\uD83E\uDD23" | "\u26A1" | "\uD83C\uDF4C" | "\uD83C\uDFC6" | "\uD83D\uDC94" | "\uD83E\uDD28" | "\uD83D\uDE10" | "\uD83C\uDF53" | "\uD83C\uDF7E" | "\uD83D\uDC8B" | "\uD83D\uDD95" | "\uD83D\uDE08" | "\uD83D\uDE34" | "\uD83D\uDE2D" | "\uD83E\uDD13" | "\uD83D\uDC7B" | "\uD83D\uDC68\u200D\uD83D\uDCBB" | "\uD83D\uDC40" | "\uD83C\uDF83" | "\uD83D\uDE48" | "\uD83D\uDE07" | "\uD83D\uDE28" | "\uD83E\uDD1D" | "\u270D" | "\uD83E\uDD17" | "\uD83E\uDEE1" | "\uD83C\uDF85" | "\uD83C\uDF84" | "\u2603" | "\uD83D\uDC85" | "\uD83E\uDD2A" | "\uD83D\uDDFF" | "\uD83C\uDD92" | "\uD83D\uDC98" | "\uD83D\uDE49" | "\uD83E\uDD84" | "\uD83D\uDE18" | "\uD83D\uDC8A" | "\uD83D\uDE4A" | "\uD83D\uDE0E" | "\uD83D\uDC7E" | "\uD83E\uDD37\u200D\u2642" | "\uD83E\uDD37" | "\uD83E\uDD37\u200D\u2640" | "\uD83D\uDE21";
+};
+/**
+ * The reaction is based on a custom emoji.
+ * @see https://core.telegram.org/bots/api#reactiontypecustomemoji
+ */
+export type TgReactionTypeCustomEmoji = {
+    /**
+     * Type of the reaction, always "custom_emoji"
+     *  */
+    type: "custom_emoji";
+    /**
+     * Custom emoji identifier
+     *  */
+    custom_emoji_id: string;
+};
+/**
+ * Represents a reaction added to a message along with the number of times it was added.
+ * @see https://core.telegram.org/bots/api#reactioncount
+ */
+export type TgReactionCount = {
+    /**
+     * Type of the reaction
+     *  */
+    type: TgReactionType;
+    /**
+     * Number of times the reaction was added
+     *  */
+    total_count: number;
+};
+/**
+ * This object represents a change of a reaction on a message performed by a user.
+ * @see https://core.telegram.org/bots/api#messagereactionupdated
+ */
+export type TgMessageReactionUpdated = {
+    /**
+     * The chat containing the message the user reacted to
+     *  */
+    chat: TgChat;
+    /**
+     * Unique identifier of the message inside the chat
+     *  */
+    message_id: number;
+    /**
+     * Optional. The user that changed the reaction, if the user isn't anonymous
+     *  */
+    user?: TgUser;
+    /**
+     * Optional. The chat on behalf of which the reaction was changed, if the user is anonymous
+     *  */
+    actor_chat?: TgChat;
+    /**
+     * Date of the change in Unix time
+     *  */
+    date: number;
+    /**
+     * Previous list of reaction types that were set by the user
+     *  */
+    old_reaction: TgReactionType[];
+    /**
+     * New list of reaction types that have been set by the user
+     *  */
+    new_reaction: TgReactionType[];
+};
+/**
+ * This object represents reaction changes on a message with anonymous reactions.
+ * @see https://core.telegram.org/bots/api#messagereactioncountupdated
+ */
+export type TgMessageReactionCountUpdated = {
+    /**
+     * The chat containing the message
+     *  */
+    chat: TgChat;
+    /**
+     * Unique message identifier inside the chat
+     *  */
+    message_id: number;
+    /**
+     * Date of the change in Unix time
+     *  */
+    date: number;
+    /**
+     * List of reactions that are present on the message
+     *  */
+    reactions: TgReactionCount[];
 };
 /**
  * This object represents a forum topic.
@@ -5665,6 +6375,132 @@ export type TgMenuButtonDefault = {
      * Type of the button, must be default
      *  */
     type: "default";
+};
+/**
+ * This object describes the source of a chat boost. It can be one of
+ * - ChatBoostSourcePremium
+ * - ChatBoostSourceGiftCode
+ * - ChatBoostSourceGiveaway
+ * @see https://core.telegram.org/bots/api#chatboostsource
+ */
+export type TgChatBoostSource = TgChatBoostSourcePremium | TgChatBoostSourceGiftCode | TgChatBoostSourceGiveaway;
+/**
+ * The boost was obtained by subscribing to Telegram Premium or by gifting a Telegram Premium subscription to another user.
+ * @see https://core.telegram.org/bots/api#chatboostsourcepremium
+ */
+export type TgChatBoostSourcePremium = {
+    /**
+     * Source of the boost, always "premium"
+     *  */
+    source: "premium";
+    /**
+     * User that boosted the chat
+     *  */
+    user: TgUser;
+};
+/**
+ * The boost was obtained by the creation of Telegram Premium gift codes to boost a chat. Each such code boosts the chat 4 times for the duration of the corresponding Telegram Premium subscription.
+ * @see https://core.telegram.org/bots/api#chatboostsourcegiftcode
+ */
+export type TgChatBoostSourceGiftCode = {
+    /**
+     * Source of the boost, always "gift_code"
+     *  */
+    source: "gift_code";
+    /**
+     * User for which the gift code was created
+     *  */
+    user: TgUser;
+};
+/**
+ * The boost was obtained by the creation of a Telegram Premium giveaway. This boosts the chat 4 times for the duration of the corresponding Telegram Premium subscription.
+ * @see https://core.telegram.org/bots/api#chatboostsourcegiveaway
+ */
+export type TgChatBoostSourceGiveaway = {
+    /**
+     * Source of the boost, always "giveaway"
+     *  */
+    source: "giveaway";
+    /**
+     * Identifier of a message in the chat with the giveaway; the message could have been deleted already. May be 0 if the message isn't sent yet.
+     *  */
+    giveaway_message_id: number;
+    /**
+     * Optional. User that won the prize in the giveaway if any
+     *  */
+    user?: TgUser;
+    /**
+     * Optional. True, if the giveaway was completed, but there was no user to win the prize
+     *  */
+    is_unclaimed?: boolean;
+};
+/**
+ * This object contains information about a chat boost.
+ * @see https://core.telegram.org/bots/api#chatboost
+ */
+export type TgChatBoost = {
+    /**
+     * Unique identifier of the boost
+     *  */
+    boost_id: string;
+    /**
+     * Point in time (Unix timestamp) when the chat was boosted
+     *  */
+    add_date: number;
+    /**
+     * Point in time (Unix timestamp) when the boost will automatically expire, unless the booster's Telegram Premium subscription is prolonged
+     *  */
+    expiration_date: number;
+    /**
+     * Source of the added boost
+     *  */
+    source: TgChatBoostSource;
+};
+/**
+ * This object represents a boost added to a chat or changed.
+ * @see https://core.telegram.org/bots/api#chatboostupdated
+ */
+export type TgChatBoostUpdated = {
+    /**
+     * Chat which was boosted
+     *  */
+    chat: TgChat;
+    /**
+     * Infomation about the chat boost
+     *  */
+    boost: TgChatBoost;
+};
+/**
+ * This object represents a boost removed from a chat.
+ * @see https://core.telegram.org/bots/api#chatboostremoved
+ */
+export type TgChatBoostRemoved = {
+    /**
+     * Chat which was boosted
+     *  */
+    chat: TgChat;
+    /**
+     * Unique identifier of the boost
+     *  */
+    boost_id: string;
+    /**
+     * Point in time (Unix timestamp) when the boost was removed
+     *  */
+    remove_date: number;
+    /**
+     * Source of the removed boost
+     *  */
+    source: TgChatBoostSource;
+};
+/**
+ * This object represents a list of boosts added to a chat by a user.
+ * @see https://core.telegram.org/bots/api#userchatboosts
+ */
+export type TgUserChatBoosts = {
+    /**
+     * The list of boosts added to the chat by the user
+     *  */
+    boosts: TgChatBoost[];
 };
 /**
  * Describes why a request was unsuccessful.
@@ -7138,9 +7974,9 @@ export type TgInputTextMessageContent = {
      *  */
     entities?: TgMessageEntity[];
     /**
-     * Optional. Disables link previews for links in the sent message
+     * Optional. Link preview generation options for the message
      *  */
-    disable_web_page_preview?: boolean;
+    link_preview_options?: TgLinkPreviewOptions;
 };
 /**
  * Represents the content of a location message to be sent as the result of an inline query.
