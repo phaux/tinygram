@@ -1,4 +1,4 @@
-name: Generate API types
+name: Regenerate source code
 
 on:
   schedule:
