@@ -1,4 +1,4 @@
-name: Regenerate source code
+name: Regenerate API types
 
 on:
   workflow_dispatch:
@@ -16,3 +16,6 @@ jobs:
       - run: npm ci
       - run: npm run codegen
       - uses: peter-evans/create-pull-request@v5
+        with:
+          commit-message: "chore: regenerate API types"
+          title: "feat: update Bot API types"
