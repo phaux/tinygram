@@ -11,6 +11,26 @@ const apiTypeName = (typeName) =>
  * @return {Generator<import("typescript").Node>}
  */
 export function* generate(api) {
+  // const tgApiVersion
+  yield ts.factory.createVariableStatement(
+    [ts.factory.createModifier(ts.SyntaxKind.ExportKeyword)],
+    ts.factory.createVariableDeclarationList(
+      [
+        ts.factory.createVariableDeclaration(
+          "tgApiVersion",
+          undefined,
+          undefined,
+          ts.factory.createAsExpression(
+            ts.factory.createStringLiteral(api.version),
+            ts.factory.createTypeReferenceNode("const", undefined)
+          )
+        ),
+      ],
+      ts.NodeFlags.Const
+    )
+  );
+
+  // interface TgBot
   yield ts.factory.createInterfaceDeclaration(
     undefined,
     [ts.factory.createModifier(ts.SyntaxKind.ExportKeyword)],
@@ -22,10 +42,12 @@ export function* generate(api) {
     ])
   );
 
+  // type Tg[Method]Params ...
   for (const method of Object.values(api.methods)) {
     yield* generateApiMethodParamType(method);
   }
 
+  // type Tg[Type] ...
   for (const type of Object.values(api.types)) {
     yield* generateApiType(type);
   }

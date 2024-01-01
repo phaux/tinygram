@@ -1,4 +1,6 @@
 export type TgApi = {
+  version: string;
+  release_date: string;
   methods: Record<string, TgMethod>;
   types: Record<string, TgType>;
 };
