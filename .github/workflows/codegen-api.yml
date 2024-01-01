@@ -1,6 +1,8 @@
 name: Generate API types
 
-on: []
+on:
+  schedule:
+    - cron: "0 0 * * 1"
 
 jobs:
   codegen:
@@ -8,7 +10,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v3
-        with: 
+        with:
           node-version: latest
       - run: npm ci
       - run: npm run codegen
