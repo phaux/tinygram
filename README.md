@@ -1,8 +1,8 @@
-# Tg Bot Client
+# Tinygram
 
-[![deno doc](https://doc.deno.land/badge.svg)](https://deno.land/x/tg-bot-client/mod.ts?s=initTgBot)
-[![npm](https://img.shields.io/npm/v/tg-bot-client)](https://www.npmjs.com/package/tg-bot-client)
-[![bundlephobia](https://img.shields.io/bundlephobia/minzip/tg-bot-client)](https://bundlephobia.com/package/tg-bot-client)
+[![deno doc](https://doc.deno.land/badge.svg)](https://deno.land/x/tinygram/mod.ts?s=initTgBot)
+[![npm](https://img.shields.io/npm/v/tinygram)](https://www.npmjs.com/package/tinygram)
+[![bundlephobia](https://img.shields.io/bundlephobia/minzip/tinygram)](https://bundlephobia.com/package/tinygram)
 [![changelog](https://img.shields.io/badge/changelog-grey)](./CHANGELOG.md)
 
 Tiny Telegram Bot API client library with TypeScript types.
@@ -14,13 +14,13 @@ Automatically generated from [telegram-bot-api-spec](https://github.com/PaulSonO
 Import in Node.js:
 
 ```js
-import { initTgBot } from "tg-bot-client";
+import { initTgBot } from "tinygram";
 ```
 
 Import in Deno:
 
 ```js
-import { initTgBot } from "https://deno.land/x/tg-bot-client/mod.ts";
+import { initTgBot } from "https://deno.land/x/tinygram/mod.ts";
 ```
 
 Initialize the bot:
@@ -130,7 +130,7 @@ The library is only available as a module.
 If you're using CommonJS, you must import it using [dynamic import](https://nodejs.org/dist/latest/docs/api/esm.html#import-expressions):
 
 ```js
-const { initTgBot } = await import("tg-bot-client");
+const { initTgBot } = await import("tinygram");
 ```
 
 ### Proxy is not defined

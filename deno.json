@@ -5,7 +5,7 @@
   },
   "tasks": {
     "codegen": "deno run --allow-read --allow-net codegen.ts > api.ts && deno fmt api.ts",
-    "dnt": "deno run -A https://deno.land/x/dntx@v0.4.0/mod.ts -n tg-bot-client --no-script-module -o /tmp/dnt",
+    "dnt": "deno run -A https://deno.land/x/dntx@v0.4.0/mod.ts -n tinygram --no-script-module -o /tmp/dnt",
     "test": "deno test && deno check mod.ts && deno check codegen.ts && deno fmt --check"
   }
 }
