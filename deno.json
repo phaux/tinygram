@@ -1,5 +1,8 @@
 {
   "fmt": {
+    "exclude": [
+      "CHANGELOG.md"
+    ],
     "lineWidth": 100,
     "proseWrap": "preserve"
   },
