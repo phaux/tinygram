@@ -212,6 +212,14 @@ function generateTypeFieldNode(tgFieldDef: TgApiFieldDef) {
         ],
       ),
     );
+  } else if (tgFieldDef.name.endsWith("parse_mode")) {
+    // override: parse_mode: undefined | "HTML" | "Markdown" | "MarkdownV2"
+    typeNode = ts.factory.createUnionTypeNode([
+      ts.factory.createKeywordTypeNode(ts.SyntaxKind.UndefinedKeyword),
+      ...["HTML", "Markdown", "MarkdownV2"].map((mode) =>
+        ts.factory.createLiteralTypeNode(ts.factory.createStringLiteral(mode))
+      ),
+    ]);
   } else if (tgFieldDef.types.join(",") === "String") {
     // for strings, try to parse the description to get a more specific type
     let match;
