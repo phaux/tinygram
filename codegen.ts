@@ -197,7 +197,23 @@ function generateApiTypeNode(tgTypeDef: TgApiTypeDef) {
  */
 function generateTypeFieldNode(tgFieldDef: TgApiFieldDef) {
   let typeNode;
-  if (tgFieldDef.types.join(",") === "String") {
+
+  if (tgFieldDef.name === "allowed_updates") {
+    // override: allowed_updates: Exclude<keyof TgUpdate, "update_id">[]
+    typeNode = ts.factory.createArrayTypeNode(
+      ts.factory.createTypeReferenceNode(
+        ts.factory.createIdentifier("Exclude"),
+        [
+          ts.factory.createTypeOperatorNode(
+            ts.SyntaxKind.KeyOfKeyword,
+            ts.factory.createTypeReferenceNode("TgUpdate"),
+          ),
+          ts.factory.createLiteralTypeNode(ts.factory.createStringLiteral("update_id")),
+        ],
+      ),
+    );
+  } else if (tgFieldDef.types.join(",") === "String") {
+    // for strings, try to parse the description to get a more specific type
     let match;
     if ((match = tgFieldDef.description.match(/\balways "([^"]+)"(\. |$)/iu))) {
       typeNode = ts.factory.createLiteralTypeNode(
@@ -224,9 +240,11 @@ function generateTypeFieldNode(tgFieldDef: TgApiFieldDef) {
         ),
       );
     } else {
+      // give up and use just string
       typeNode = ts.factory.createKeywordTypeNode(ts.SyntaxKind.StringKeyword);
     }
   } else {
+    // use the type as is
     typeNode = ts.factory.createUnionTypeNode(
       tgFieldDef.types.map((type) => generateTypeNode(type)),
     );
