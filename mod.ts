@@ -187,7 +187,7 @@ export async function* listTgUpdates(options: TgBotOptions, params: TgGetUpdates
 }
 
 /**
- * Fetches the contents of a file that you get from {@link TgBot.getFile}.
+ * Fetches the contents of a file that you get from {@link TgApi.getFile}.
  *
  * This is just a simple wrapper over {@link fetch}.
  */
