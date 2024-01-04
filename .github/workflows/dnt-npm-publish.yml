@@ -1,4 +1,4 @@
-name: npm publish
+name: Publish to npm
 
 on:
   release:
@@ -14,7 +14,10 @@ jobs:
         with:
           node-version: latest
           registry-url: https://registry.npmjs.org/
-      - run: npm ci
-      - run: npm publish
+      - uses: denoland/setup-deno@v1
+        with:
+          deno-version: v1.x
+      - run: deno task dnt
+      - run: npm publish /tmp/dnt
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}

@@ -1,4 +1,4 @@
-name: npm test
+name: Deno test
 
 on:
   push:
@@ -13,9 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-node@v3
+      - uses: denoland/setup-deno@v1
         with:
-          node-version: latest
-          cache: npm
-      - run: npm ci
-      - run: npm test
+          deno-version: v1.x
+      - run: deno task test
