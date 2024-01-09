@@ -258,6 +258,17 @@ function generateTypeFieldNode(tgFieldDef: TgApiFieldDef) {
     );
   }
 
+  if (
+    tgFieldDef.name === "user_administrator_rights" ||
+    tgFieldDef.name === "chat_administrator_rights"
+  ) {
+    // override: these fields are actually Partial<T>
+    typeNode = ts.factory.createTypeReferenceNode(
+      ts.factory.createIdentifier("Partial"),
+      [typeNode],
+    );
+  }
+
   const propertyNode = ts.factory.createPropertySignature(
     undefined,
     ts.factory.createIdentifier(tgFieldDef.name),
