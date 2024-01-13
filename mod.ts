@@ -3,9 +3,9 @@ import { TgApi, TgGetUpdatesParams, TgResponseParameters } from "./api.ts";
 export const TG_API_URL = "https://api.telegram.org/";
 
 /**
- * {@link TgBot} options.
+ * {@link TgBot} config.
  */
-export interface TgBotOptions {
+export interface TgBotConfig {
   /**
    * Telegram Bot token.
    *
@@ -25,7 +25,13 @@ export interface TgBotOptions {
   /**
    * Use custom {@link fetch} function instead of the global one.
    *
-   * Useful for testing or if your environment doesn't support fetch.
+   * Useful for:
+   * - testing, so no real requests are sent;
+   * - if your environment doesn't support fetch.
+   * - if you want to use a different HTTP client.
+   * - adding custom headers to requests if you host your own bot API server.
+   * - automatically passing a timeout signal to every request.
+   * - automatically retrying all requests on 429 (Too Many Requests) errors.
    */
   fetch?: (
     url: string,
@@ -33,6 +39,7 @@ export interface TgBotOptions {
       method: "GET" | "POST";
       headers?: { "Content-Type"?: "application/json" };
       body?: string | FormData;
+      signal?: AbortSignal;
     },
   ) => Promise<{
     ok: boolean;
@@ -55,49 +62,86 @@ export interface TgBotOptions {
 /**
  * Returns a {@link TgBot} wrapped in a {@link Proxy} which allows to call methods from {@link TgApi} directly.
  */
-export function initTgBot(options: TgBotOptions): TgBot & TgApi {
-  return new Proxy<TgBot>(new TgBot(options), {
+export function initTgBot(config: TgBotConfig): TgBot & TgBotApi {
+  return new Proxy<TgBot>(new TgBot(config), {
     get(target, prop) {
       if (prop in target) return (target as any)[prop];
-      return (params: unknown) => callTgApi(target.options, prop as keyof TgApi, params as never);
+      return (options: Parameters<TgApi[keyof TgApi]>[0] & TgApiOptions) => {
+        const { signal, ...params } = options;
+        return callTgApi(target.config, prop as keyof TgApi, params, { signal });
+      };
     },
-  }) as TgBot & TgApi;
+  }) as TgBot & TgBotApi;
 }
+
+/**
+ * Options for {@link callTgApi}.
+ */
+export interface TgApiOptions {
+  /**
+   * Abort signal.
+   *
+   * If set, the request will be rejected with AbortError when the signal is aborted.
+   */
+  signal?: AbortSignal | undefined;
+}
+
+/**
+ * Type that wraps {@link TgApi} and adds {@link TgApiOptions} to each method's parameters.
+ */
+export type TgBotApi = {
+  [M in keyof TgApi]: (
+    params: Omit<Parameters<TgApi[M]>[0], keyof TgApiOptions> & TgApiOptions,
+  ) => Promise<Awaited<ReturnType<TgApi[M]>>>;
+};
 
 /**
  * Wraps {@link callTgApi} and other functions into a single easy-to-use class.
  */
 export class TgBot {
-  constructor(public options: TgBotOptions) {}
+  constructor(public config: TgBotConfig) {}
 
   /**
    * Calls a method from the {@link TgApi}.
    *
    * Calls {@link callTgApi} internally.
+   *
+   * @throws {TgError} if the response is not OK.
    */
   callApi<M extends keyof TgApi>(
     method: M,
-    ...params: Parameters<TgApi[M]>
+    options: Omit<Parameters<TgApi[M]>[0], keyof TgApiOptions> & TgApiOptions,
   ): Promise<Awaited<ReturnType<TgApi[M]>>> {
-    return callTgApi(this.options, method, ...params);
+    const { signal, ...params } = options;
+    return callTgApi(this.config, method, params, { signal });
   }
 
   /**
    * Returns an iterator over updates from the Telegram Bot API.
    *
    * Calls {@link listTgUpdates} internally.
+   *
+   * Exits normally when the passed signal is aborted.
+   *
+   * If a request fails with {@link TgError.code} == 429 (Too Many Requests) or {@link DOMException.name} == "TimeoutError",
+   * it will be retried automatically.
+   *
+   * @throws {TgError} if the response is not OK.
    */
-  async *listUpdates(params: TgGetUpdatesParams) {
-    yield* listTgUpdates(this.options, { ...params });
+  async *listUpdates(options: TgGetUpdatesParams & TgApiOptions) {
+    const { signal, ...params } = options;
+    yield* listTgUpdates(this.config, params, { signal });
   }
 
   /**
    * Fetches the contents of a file that you get from {@link TgApi.getFile}.
    *
    * Calls {@link getTgFileData} internally.
+   *
+   * @throws {TgError} if the response is not OK.
    */
-  getFileData(filePath: string): Promise<Blob> {
-    return getTgFileData(this.options, filePath);
+  getFileData(filePath: string, options?: TgApiOptions): Promise<Blob> {
+    return getTgFileData(this.config, filePath, options);
   }
 }
 
@@ -105,15 +149,18 @@ export class TgBot {
  * Calls a Telegram Bot API method.
  *
  * This is just a simple wrapper over {@link fetch}.
+ *
+ * @throws {TgError} if the response is not OK.
  */
 export async function callTgApi<M extends keyof TgApi>(
-  options: TgBotOptions,
+  config: TgBotConfig,
   method: M,
-  ...[params]: Parameters<TgApi[M]>
+  params: Parameters<TgApi[M]>[0],
+  options?: TgApiOptions,
 ): Promise<Awaited<ReturnType<TgApi[M]>>> {
   const url = new URL(
-    `./bot${options.botToken}/${method}`,
-    options.apiUrl ?? TG_API_URL,
+    `./bot${config.botToken}/${method}`,
+    config.apiUrl ?? TG_API_URL,
   );
   let body, headers;
   if (params != null && typeof params == "object") {
@@ -126,8 +173,8 @@ export async function callTgApi<M extends keyof TgApi>(
           typeof (v as Blob).arrayBuffer == "function",
       )
     ) {
-      const FormData = options.FormData ?? globalThis.FormData;
-      body = new FormData();
+      const LocalFormData = config.FormData ?? globalThis.FormData;
+      body = new LocalFormData();
       for (const [key, value] of Object.entries(params)) {
         if (typeof value == "string" || typeof value == "number") {
           body.set(key, String(value));
@@ -163,8 +210,13 @@ export async function callTgApi<M extends keyof TgApi>(
     }
   }
 
-  const localFetch = options.fetch ?? globalThis.fetch;
-  const response = await localFetch(url.href, { method: "POST", headers, body });
+  const localFetch = config.fetch ?? globalThis.fetch;
+  const response = await localFetch(url.href, {
+    method: "POST",
+    headers,
+    body,
+    signal: options?.signal,
+  });
   const data = await response.json().catch(() => null);
   if (data?.ok === true) return data.result;
   if (data?.ok === false) throw new TgError(data.description, data.error_code, data.parameters);
@@ -176,13 +228,35 @@ export async function callTgApi<M extends keyof TgApi>(
  * Returns an iterator over updates from the Telegram Bot API.
  *
  * This is just a simple wrapper over calling {@link TgApi.getUpdates} repeatedly.
+ *
+ * Exits normally when the passed signal is aborted.
+ *
+ * If a request fails with {@link TgError.code} == 429 (Too Many Requests) or {@link DOMException.name} == "TimeoutError",
+ * it will be retried automatically.
+ *
+ * @throws {TgError} if the response is not OK.
  */
-export async function* listTgUpdates(options: TgBotOptions, params: TgGetUpdatesParams) {
+export async function* listTgUpdates(
+  config: TgBotConfig,
+  params: TgGetUpdatesParams,
+  options?: TgApiOptions,
+) {
   let offset = params.offset ?? 0;
   while (true) {
-    const updates = await callTgApi(options, "getUpdates", { ...params, offset });
-    offset = Math.max(offset, ...updates.map((u) => u.update_id + 1));
-    yield* updates;
+    try {
+      const updates = await callTgApi(config, "getUpdates", { ...params, offset }, options);
+      offset = Math.max(offset, ...updates.map((u) => u.update_id + 1));
+      yield* updates;
+    } catch (error) {
+      if (options?.signal?.aborted) break;
+      if (error instanceof DOMException && error.name == "TimeoutError") continue;
+      if (error instanceof TgError && error.code == 429) {
+        const wait = error.parameters?.retry_after ?? 1;
+        await new Promise((resolve) => setTimeout(resolve, wait * 1000));
+        continue;
+      }
+      throw error;
+    }
   }
 }
 
@@ -190,20 +264,24 @@ export async function* listTgUpdates(options: TgBotOptions, params: TgGetUpdates
  * Fetches the contents of a file that you get from {@link TgApi.getFile}.
  *
  * This is just a simple wrapper over {@link fetch}.
+ *
+ * @throws {TgError} if the response is not OK.
  */
 export async function getTgFileData(
-  options: TgBotOptions,
+  config: TgBotConfig,
   filePath: string,
+  options?: TgApiOptions,
 ) {
   const url = new URL(
-    `./file/bot${options.botToken}/${filePath}`,
-    options.apiUrl ?? TG_API_URL,
+    `./file/bot${config.botToken}/${filePath}`,
+    config.apiUrl ?? TG_API_URL,
   );
-  const localFetch = options.fetch ?? globalThis.fetch;
+  const localFetch = config.fetch ?? globalThis.fetch;
   const response = await localFetch(url.href, {
     method: "GET",
     mode: "no-cors",
     credentials: "omit",
+    signal: options?.signal,
   });
   if (!response.ok) throw new TgError(response.statusText, response.status);
   const blob = await response.blob();

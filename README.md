@@ -74,33 +74,12 @@ for await (const update of tgBot.listUpdates({ timeout: 10 })) {
 }
 ```
 
-Auto-abort all requests after a timeout:
+Auto-abort all requests after a timeout by default:
 
 ```js
 const tgBot = initTgBot({
   botToken: "YOUR_BOT_TOKEN",
-  fetch: (url, init) => fetch(url, { ...init, signal: AbortSignal.timeout(10_000) }),
-});
-```
-
-Auto-retry rate-limited requests:
-
-```js
-const tgBot = initTgBot({
-  botToken: "YOUR_BOT_TOKEN",
-  fetch: async (url, init) => {
-    let attempts = 0;
-    while (true) {
-      attempts++;
-      const response = await fetch(url, init);
-      if (attempts < 3 && response.status === 429) {
-        const error = await response.json();
-        await new Promise((resolve) => setTimeout(resolve, error.parameters.retry_after * 1000));
-        continue;
-      }
-      return response;
-    }
-  },
+  fetch: (url, init) => fetch(url, { ...init, signal: init.signal ?? AbortSignal.timeout(10_000) }),
 });
 ```
 
