@@ -65,6 +65,7 @@ export interface TgBotConfig {
 export function initTgBot(config: TgBotConfig): TgBot & TgBotApi {
   return new Proxy<TgBot>(new TgBot(config), {
     get(target, prop) {
+      // deno-lint-ignore no-explicit-any
       if (prop in target) return (target as any)[prop];
       return (options: Parameters<TgApi[keyof TgApi]>[0] & TgApiOptions) => {
         const { signal, ...params } = options;
