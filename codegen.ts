@@ -260,7 +260,7 @@ function generateTypeFieldNode(tgFieldDef: TgApiFieldDef) {
 
   if (
     tgFieldDef.name === "user_administrator_rights" ||
-    tgFieldDef.name === "chat_administrator_rights"
+    tgFieldDef.name === "bot_administrator_rights"
   ) {
     // override: these fields are actually Partial<T>
     typeNode = ts.factory.createTypeReferenceNode(
