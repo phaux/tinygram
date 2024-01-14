@@ -45,7 +45,7 @@ const fakeFetch: TgBotConfig["fetch"] = async (url, init) => {
 
   const signal = init.signal;
   if (signal?.aborted) throw signal.reason;
-  let timeout: number;
+  let timeout: ReturnType<typeof setTimeout>;
   const timeoutPromise = new Promise((resolve) => timeout = setTimeout(resolve, reqDelay));
   let abortPromise;
   if (signal) {
