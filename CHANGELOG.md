@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.1.0](https://github.com/phaux/tinygram/compare/v1.0.0...v1.1.0) (2024-01-14)
+
+
+### Features
+
+* allow aborting requests ([e4b6ada](https://github.com/phaux/tinygram/commit/e4b6ada0e7f6d3ffb74ad5ab8ddb2731eeb6ce65))
+* more specific type for allowed_updates ([03fe232](https://github.com/phaux/tinygram/commit/03fe2324cd3e843d0811e8ede02802018c26db57))
+* more specific type for parse_mode ([6ccc1c5](https://github.com/phaux/tinygram/commit/6ccc1c52f76a7c63eba1811a7bb7ba209abd368f))
+* permission objects can be partial ([e8b64f8](https://github.com/phaux/tinygram/commit/e8b64f815738ae8d5f54e7eabca331b1484ce2b0))
+* update Bot API types ([#5](https://github.com/phaux/tinygram/issues/5)) ([1b67cde](https://github.com/phaux/tinygram/commit/1b67cdec66076571a21eaa5b56bd78c699192e78))
+
 ## [1.0.0](https://github.com/phaux/tinygram/compare/v0.2.0...v1.0.0) (2024-01-04)
 
 
