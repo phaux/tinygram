@@ -778,7 +778,7 @@ export type TgGetUpdatesParams = {
   /**
    * A JSON-serialized list of the update types you want your bot to receive. For example, specify ["message", "edited_channel_post", "callback_query"] to only receive updates of these types. See Update for a complete list of available update types. Specify an empty list to receive all update types except chat_member, message_reaction, and message_reaction_count (default). If not specified, the previous setting will be used. Please note that this parameter doesn't affect updates created before the call to the getUpdates, so unwanted updates may be received for a short period of time.
    */
-  allowed_updates?: string[];
+  allowed_updates?: Exclude<keyof TgUpdate, "update_id">[];
 };
 /**
  * Parameters of {@link TgApi.setWebhook} method.
@@ -805,7 +805,7 @@ export type TgSetWebhookParams = {
   /**
    * A JSON-serialized list of the update types you want your bot to receive. For example, specify ["message", "edited_channel_post", "callback_query"] to only receive updates of these types. See Update for a complete list of available update types. Specify an empty list to receive all update types except chat_member, message_reaction, and message_reaction_count (default). If not specified, the previous setting will be used. Please note that this parameter doesn't affect updates created before the call to the setWebhook, so unwanted updates may be received for a short period of time.
    */
-  allowed_updates?: string[];
+  allowed_updates?: Exclude<keyof TgUpdate, "update_id">[];
   /**
    * Pass True to drop all pending updates
    */
@@ -847,7 +847,7 @@ export type TgSendMessageParams = {
   /**
    * Mode for parsing entities in the message text. See formatting options for more details.
    */
-  parse_mode?: string;
+  parse_mode?: undefined | "HTML" | "Markdown" | "MarkdownV2";
   /**
    * A JSON-serialized list of special entities that appear in message text, which can be specified instead of parse_mode
    */
@@ -968,7 +968,7 @@ export type TgCopyMessageParams = {
   /**
    * Mode for parsing entities in the new caption. See formatting options for more details.
    */
-  parse_mode?: string;
+  parse_mode?: undefined | "HTML" | "Markdown" | "MarkdownV2";
   /**
    * A JSON-serialized list of special entities that appear in the new caption, which can be specified instead of parse_mode
    */
@@ -1054,7 +1054,7 @@ export type TgSendPhotoParams = {
   /**
    * Mode for parsing entities in the photo caption. See formatting options for more details.
    */
-  parse_mode?: string;
+  parse_mode?: undefined | "HTML" | "Markdown" | "MarkdownV2";
   /**
    * A JSON-serialized list of special entities that appear in the caption, which can be specified instead of parse_mode
    */
@@ -1109,7 +1109,7 @@ export type TgSendAudioParams = {
   /**
    * Mode for parsing entities in the audio caption. See formatting options for more details.
    */
-  parse_mode?: string;
+  parse_mode?: undefined | "HTML" | "Markdown" | "MarkdownV2";
   /**
    * A JSON-serialized list of special entities that appear in the caption, which can be specified instead of parse_mode
    */
@@ -1180,7 +1180,7 @@ export type TgSendDocumentParams = {
   /**
    * Mode for parsing entities in the document caption. See formatting options for more details.
    */
-  parse_mode?: string;
+  parse_mode?: undefined | "HTML" | "Markdown" | "MarkdownV2";
   /**
    * A JSON-serialized list of special entities that appear in the caption, which can be specified instead of parse_mode
    */
@@ -1251,7 +1251,7 @@ export type TgSendVideoParams = {
   /**
    * Mode for parsing entities in the video caption. See formatting options for more details.
    */
-  parse_mode?: string;
+  parse_mode?: undefined | "HTML" | "Markdown" | "MarkdownV2";
   /**
    * A JSON-serialized list of special entities that appear in the caption, which can be specified instead of parse_mode
    */
@@ -1326,7 +1326,7 @@ export type TgSendAnimationParams = {
   /**
    * Mode for parsing entities in the animation caption. See formatting options for more details.
    */
-  parse_mode?: string;
+  parse_mode?: undefined | "HTML" | "Markdown" | "MarkdownV2";
   /**
    * A JSON-serialized list of special entities that appear in the caption, which can be specified instead of parse_mode
    */
@@ -1381,7 +1381,7 @@ export type TgSendVoiceParams = {
   /**
    * Mode for parsing entities in the voice message caption. See formatting options for more details.
    */
-  parse_mode?: string;
+  parse_mode?: undefined | "HTML" | "Markdown" | "MarkdownV2";
   /**
    * A JSON-serialized list of special entities that appear in the caption, which can be specified instead of parse_mode
    */
@@ -1715,7 +1715,7 @@ export type TgSendPollParams = {
   /**
    * Mode for parsing entities in the explanation. See formatting options for more details.
    */
-  explanation_parse_mode?: string;
+  explanation_parse_mode?: undefined | "HTML" | "Markdown" | "MarkdownV2";
   /**
    * A JSON-serialized list of special entities that appear in the poll explanation, which can be specified instead of parse_mode
    */
@@ -2804,7 +2804,7 @@ export type TgEditMessageTextParams = {
   /**
    * Mode for parsing entities in the message text. See formatting options for more details.
    */
-  parse_mode?: string;
+  parse_mode?: undefined | "HTML" | "Markdown" | "MarkdownV2";
   /**
    * A JSON-serialized list of special entities that appear in message text, which can be specified instead of parse_mode
    */
@@ -2843,7 +2843,7 @@ export type TgEditMessageCaptionParams = {
   /**
    * Mode for parsing entities in the message caption. See formatting options for more details.
    */
-  parse_mode?: string;
+  parse_mode?: undefined | "HTML" | "Markdown" | "MarkdownV2";
   /**
    * A JSON-serialized list of special entities that appear in the caption, which can be specified instead of parse_mode
    */
@@ -3694,7 +3694,7 @@ export type TgGetGameHighScoresParams = {
  */
 export type TgUpdate = {
   /**
-   * The update's unique identifier. Update identifiers start from a certain positive number and increase sequentially. This ID becomes especially handy if you're using webhooks, since it allows you to ignore repeated updates or to restore the correct update sequence, should they get out of order. If there are no new updates for at least a week, then identifier of the next update will be chosen randomly instead of sequentially.
+   * The update's unique identifier. Update identifiers start from a certain positive number and increase sequentially. This identifier becomes especially handy if you're using webhooks, since it allows you to ignore repeated updates or to restore the correct update sequence, should they get out of order. If there are no new updates for at least a week, then identifier of the next update will be chosen randomly instead of sequentially.
    */
   update_id: number;
   /**
@@ -3702,7 +3702,7 @@ export type TgUpdate = {
    */
   message?: TgMessage;
   /**
-   * Optional. New version of a message that is known to the bot and was edited
+   * Optional. New version of a message that is known to the bot and was edited. This update may at times be triggered by changes to message fields that are either unavailable or not actively used by your bot.
    */
   edited_message?: TgMessage;
   /**
@@ -3710,7 +3710,7 @@ export type TgUpdate = {
    */
   channel_post?: TgMessage;
   /**
-   * Optional. New version of a channel post that is known to the bot and was edited
+   * Optional. New version of a channel post that is known to the bot and was edited. This update may at times be triggered by changes to message fields that are either unavailable or not actively used by your bot.
    */
   edited_channel_post?: TgMessage;
   /**
@@ -3718,7 +3718,7 @@ export type TgUpdate = {
    */
   message_reaction?: TgMessageReactionUpdated;
   /**
-   * Optional. Reactions to a message with anonymous reactions were changed. The bot must be an administrator in the chat and must explicitly specify "message_reaction_count" in the list of allowed_updates to receive these updates.
+   * Optional. Reactions to a message with anonymous reactions were changed. The bot must be an administrator in the chat and must explicitly specify "message_reaction_count" in the list of allowed_updates to receive these updates. The updates are grouped and can be sent with delay up to a few minutes.
    */
   message_reaction_count?: TgMessageReactionCountUpdated;
   /**
@@ -3742,7 +3742,7 @@ export type TgUpdate = {
    */
   pre_checkout_query?: TgPreCheckoutQuery;
   /**
-   * Optional. New poll state. Bots receive only updates about stopped polls and polls, which are sent by the bot
+   * Optional. New poll state. Bots receive only updates about manually stopped polls and polls, which are sent by the bot
    */
   poll?: TgPoll;
   /**
@@ -3811,7 +3811,7 @@ export type TgWebhookInfo = {
   /**
    * Optional. A list of update types the bot is subscribed to. Defaults to all update types except chat_member
    */
-  allowed_updates?: string[];
+  allowed_updates?: Exclude<keyof TgUpdate, "update_id">[];
 };
 /**
  * This object represents a Telegram user or bot.
@@ -4554,7 +4554,7 @@ export type TgReplyParameters = {
   /**
    * Optional. Mode for parsing entities in the quote. See formatting options for more details.
    */
-  quote_parse_mode?: string;
+  quote_parse_mode?: undefined | "HTML" | "Markdown" | "MarkdownV2";
   /**
    * Optional. A JSON-serialized list of special entities that appear in the quote. It can be specified instead of quote_parse_mode.
    */
@@ -5535,18 +5535,12 @@ export type TgReplyKeyboardMarkup = {
    */
   input_field_placeholder?: string;
   /**
-   * Optional. Use this parameter if you want to show the keyboard to specific users only. Targets: 1) users that are @mentioned in the text of the Message object; 2) if the bot's message is a reply (has reply_to_message_id), sender of the original message. Example: A user requests to change the bot's language, bot replies to the request with a keyboard to select the new language. Other users in the group don't see the keyboard.
+   * Optional. Use this parameter if you want to show the keyboard to specific users only. Targets: 1) users that are @mentioned in the text of the Message object; 2) if the bot's message is a reply to a message in the same chat and forum topic, sender of the original message. Example: A user requests to change the bot's language, bot replies to the request with a keyboard to select the new language. Other users in the group don't see the keyboard.
    */
   selective?: boolean;
 };
 /**
  * This object represents one button of the reply keyboard. For simple text buttons, String can be used instead of this object to specify the button text. The optional fields web_app, request_users, request_chat, request_contact, request_location, and request_poll are mutually exclusive.
- *
- * Note: request_contact and request_location options will only work in Telegram versions released after 9 April, 2016. Older clients will display unsupported message.
- *
- * Note: request_poll option will only work in Telegram versions released after 23 January, 2020. Older clients will display unsupported message.
- *
- * Note: web_app option will only work in Telegram versions released after 16 April, 2022. Older clients will display unsupported message.
  *
  * Note: request_users and request_chat options will only work in Telegram versions released after 3 February, 2023. Older clients will display unsupported message.
  *
@@ -5634,11 +5628,11 @@ export type TgKeyboardButtonRequestChat = {
   /**
    * Optional. A JSON-serialized object listing the required administrator rights of the user in the chat. The rights must be a superset of bot_administrator_rights. If not specified, no additional restrictions are applied.
    */
-  user_administrator_rights?: TgChatAdministratorRights;
+  user_administrator_rights?: Partial<TgChatAdministratorRights>;
   /**
    * Optional. A JSON-serialized object listing the required administrator rights of the bot in the chat. The rights must be a subset of user_administrator_rights. If not specified, no additional restrictions are applied.
    */
-  bot_administrator_rights?: TgChatAdministratorRights;
+  bot_administrator_rights?: Partial<TgChatAdministratorRights>;
   /**
    * Optional. Pass True to request a chat with the bot as a member. Otherwise, no additional restrictions are applied.
    */
@@ -5666,14 +5660,12 @@ export type TgReplyKeyboardRemove = {
    */
   remove_keyboard: boolean;
   /**
-   * Optional. Use this parameter if you want to remove the keyboard for specific users only. Targets: 1) users that are @mentioned in the text of the Message object; 2) if the bot's message is a reply (has reply_to_message_id), sender of the original message. Example: A user votes in a poll, bot returns confirmation message in reply to the vote and removes the keyboard for that user, while still showing the keyboard with poll options to users who haven't voted yet.
+   * Optional. Use this parameter if you want to remove the keyboard for specific users only. Targets: 1) users that are @mentioned in the text of the Message object; 2) if the bot's message is a reply to a message in the same chat and forum topic, sender of the original message. Example: A user votes in a poll, bot returns confirmation message in reply to the vote and removes the keyboard for that user, while still showing the keyboard with poll options to users who haven't voted yet.
    */
   selective?: boolean;
 };
 /**
  * This object represents an inline keyboard that appears right next to the message it belongs to.
- *
- * Note: This will only work in Telegram versions released after 9 April, 2016. Older clients will display unsupported message.
  *
  * @see https://core.telegram.org/bots/api#inlinekeyboardmarkup
  */
@@ -5694,7 +5686,7 @@ export type TgInlineKeyboardButton = {
    */
   text: string;
   /**
-   * Optional. HTTP or tg:// URL to be opened when the button is pressed. Links tg://user?id=<user_id> can be used to mention a user by their ID without using a username, if this is allowed by their privacy settings.
+   * Optional. HTTP or tg:// URL to be opened when the button is pressed. Links tg://user?id=<user_id> can be used to mention a user by their identifier without using a username, if this is allowed by their privacy settings.
    */
   url?: string;
   /**
@@ -5832,7 +5824,7 @@ export type TgForceReply = {
    */
   input_field_placeholder?: string;
   /**
-   * Optional. Use this parameter if you want to force reply from specific users only. Targets: 1) users that are @mentioned in the text of the Message object; 2) if the bot's message is a reply (has reply_to_message_id), sender of the original message.
+   * Optional. Use this parameter if you want to force reply from specific users only. Targets: 1) users that are @mentioned in the text of the Message object; 2) if the bot's message is a reply to a message in the same chat and forum topic, sender of the original message.
    */
   selective?: boolean;
 };
@@ -7000,7 +6992,7 @@ export type TgInputMediaPhoto = {
   /**
    * Optional. Mode for parsing entities in the photo caption. See formatting options for more details.
    */
-  parse_mode?: string;
+  parse_mode?: undefined | "HTML" | "Markdown" | "MarkdownV2";
   /**
    * Optional. List of special entities that appear in the caption, which can be specified instead of parse_mode
    */
@@ -7035,7 +7027,7 @@ export type TgInputMediaVideo = {
   /**
    * Optional. Mode for parsing entities in the video caption. See formatting options for more details.
    */
-  parse_mode?: string;
+  parse_mode?: undefined | "HTML" | "Markdown" | "MarkdownV2";
   /**
    * Optional. List of special entities that appear in the caption, which can be specified instead of parse_mode
    */
@@ -7086,7 +7078,7 @@ export type TgInputMediaAnimation = {
   /**
    * Optional. Mode for parsing entities in the animation caption. See formatting options for more details.
    */
-  parse_mode?: string;
+  parse_mode?: undefined | "HTML" | "Markdown" | "MarkdownV2";
   /**
    * Optional. List of special entities that appear in the caption, which can be specified instead of parse_mode
    */
@@ -7133,7 +7125,7 @@ export type TgInputMediaAudio = {
   /**
    * Optional. Mode for parsing entities in the audio caption. See formatting options for more details.
    */
-  parse_mode?: string;
+  parse_mode?: undefined | "HTML" | "Markdown" | "MarkdownV2";
   /**
    * Optional. List of special entities that appear in the caption, which can be specified instead of parse_mode
    */
@@ -7176,7 +7168,7 @@ export type TgInputMediaDocument = {
   /**
    * Optional. Mode for parsing entities in the document caption. See formatting options for more details.
    */
-  parse_mode?: string;
+  parse_mode?: undefined | "HTML" | "Markdown" | "MarkdownV2";
   /**
    * Optional. List of special entities that appear in the caption, which can be specified instead of parse_mode
    */
@@ -7554,7 +7546,7 @@ export type TgInlineQueryResultPhoto = {
   /**
    * Optional. Mode for parsing entities in the photo caption. See formatting options for more details.
    */
-  parse_mode?: string;
+  parse_mode?: undefined | "HTML" | "Markdown" | "MarkdownV2";
   /**
    * Optional. List of special entities that appear in the caption, which can be specified instead of parse_mode
    */
@@ -7617,7 +7609,7 @@ export type TgInlineQueryResultGif = {
   /**
    * Optional. Mode for parsing entities in the caption. See formatting options for more details.
    */
-  parse_mode?: string;
+  parse_mode?: undefined | "HTML" | "Markdown" | "MarkdownV2";
   /**
    * Optional. List of special entities that appear in the caption, which can be specified instead of parse_mode
    */
@@ -7680,7 +7672,7 @@ export type TgInlineQueryResultMpeg4Gif = {
   /**
    * Optional. Mode for parsing entities in the caption. See formatting options for more details.
    */
-  parse_mode?: string;
+  parse_mode?: undefined | "HTML" | "Markdown" | "MarkdownV2";
   /**
    * Optional. List of special entities that appear in the caption, which can be specified instead of parse_mode
    */
@@ -7731,7 +7723,7 @@ export type TgInlineQueryResultVideo = {
   /**
    * Optional. Mode for parsing entities in the video caption. See formatting options for more details.
    */
-  parse_mode?: string;
+  parse_mode?: undefined | "HTML" | "Markdown" | "MarkdownV2";
   /**
    * Optional. List of special entities that appear in the caption, which can be specified instead of parse_mode
    */
@@ -7764,8 +7756,6 @@ export type TgInlineQueryResultVideo = {
 /**
  * Represents a link to an MP3 audio file. By default, this audio file will be sent by the user. Alternatively, you can use input_message_content to send a message with the specified content instead of the audio.
  *
- * Note: This will only work in Telegram versions released after 9 April, 2016. Older clients will ignore them.
- *
  * @see https://core.telegram.org/bots/api#inlinequeryresultaudio
  */
 export type TgInlineQueryResultAudio = {
@@ -7792,7 +7782,7 @@ export type TgInlineQueryResultAudio = {
   /**
    * Optional. Mode for parsing entities in the audio caption. See formatting options for more details.
    */
-  parse_mode?: string;
+  parse_mode?: undefined | "HTML" | "Markdown" | "MarkdownV2";
   /**
    * Optional. List of special entities that appear in the caption, which can be specified instead of parse_mode
    */
@@ -7816,8 +7806,6 @@ export type TgInlineQueryResultAudio = {
 };
 /**
  * Represents a link to a voice recording in an .OGG container encoded with OPUS. By default, this voice recording will be sent by the user. Alternatively, you can use input_message_content to send a message with the specified content instead of the the voice message.
- *
- * Note: This will only work in Telegram versions released after 9 April, 2016. Older clients will ignore them.
  *
  * @see https://core.telegram.org/bots/api#inlinequeryresultvoice
  */
@@ -7845,7 +7833,7 @@ export type TgInlineQueryResultVoice = {
   /**
    * Optional. Mode for parsing entities in the voice message caption. See formatting options for more details.
    */
-  parse_mode?: string;
+  parse_mode?: undefined | "HTML" | "Markdown" | "MarkdownV2";
   /**
    * Optional. List of special entities that appear in the caption, which can be specified instead of parse_mode
    */
@@ -7865,8 +7853,6 @@ export type TgInlineQueryResultVoice = {
 };
 /**
  * Represents a link to a file. By default, this file will be sent by the user with an optional caption. Alternatively, you can use input_message_content to send a message with the specified content instead of the file. Currently, only .PDF and .ZIP files can be sent using this method.
- *
- * Note: This will only work in Telegram versions released after 9 April, 2016. Older clients will ignore them.
  *
  * @see https://core.telegram.org/bots/api#inlinequeryresultdocument
  */
@@ -7890,7 +7876,7 @@ export type TgInlineQueryResultDocument = {
   /**
    * Optional. Mode for parsing entities in the document caption. See formatting options for more details.
    */
-  parse_mode?: string;
+  parse_mode?: undefined | "HTML" | "Markdown" | "MarkdownV2";
   /**
    * Optional. List of special entities that appear in the caption, which can be specified instead of parse_mode
    */
@@ -7930,8 +7916,6 @@ export type TgInlineQueryResultDocument = {
 };
 /**
  * Represents a location on a map. By default, the location will be sent by the user. Alternatively, you can use input_message_content to send a message with the specified content instead of the location.
- *
- * Note: This will only work in Telegram versions released after 9 April, 2016. Older clients will ignore them.
  *
  * @see https://core.telegram.org/bots/api#inlinequeryresultlocation
  */
@@ -7995,8 +7979,6 @@ export type TgInlineQueryResultLocation = {
 };
 /**
  * Represents a venue. By default, the venue will be sent by the user. Alternatively, you can use input_message_content to send a message with the specified content instead of the venue.
- *
- * Note: This will only work in Telegram versions released after 9 April, 2016. Older clients will ignore them.
  *
  * @see https://core.telegram.org/bots/api#inlinequeryresultvenue
  */
@@ -8065,8 +8047,6 @@ export type TgInlineQueryResultVenue = {
 /**
  * Represents a contact with a phone number. By default, this contact will be sent by the user. Alternatively, you can use input_message_content to send a message with the specified content instead of the contact.
  *
- * Note: This will only work in Telegram versions released after 9 April, 2016. Older clients will ignore them.
- *
  * @see https://core.telegram.org/bots/api#inlinequeryresultcontact
  */
 export type TgInlineQueryResultContact = {
@@ -8117,8 +8097,6 @@ export type TgInlineQueryResultContact = {
 };
 /**
  * Represents a Game.
- *
- * Note: This will only work in Telegram versions released after October 1, 2016. Older clients will not display any inline results if a game result is among them.
  *
  * @see https://core.telegram.org/bots/api#inlinequeryresultgame
  */
@@ -8173,7 +8151,7 @@ export type TgInlineQueryResultCachedPhoto = {
   /**
    * Optional. Mode for parsing entities in the photo caption. See formatting options for more details.
    */
-  parse_mode?: string;
+  parse_mode?: undefined | "HTML" | "Markdown" | "MarkdownV2";
   /**
    * Optional. List of special entities that appear in the caption, which can be specified instead of parse_mode
    */
@@ -8216,7 +8194,7 @@ export type TgInlineQueryResultCachedGif = {
   /**
    * Optional. Mode for parsing entities in the caption. See formatting options for more details.
    */
-  parse_mode?: string;
+  parse_mode?: undefined | "HTML" | "Markdown" | "MarkdownV2";
   /**
    * Optional. List of special entities that appear in the caption, which can be specified instead of parse_mode
    */
@@ -8259,7 +8237,7 @@ export type TgInlineQueryResultCachedMpeg4Gif = {
   /**
    * Optional. Mode for parsing entities in the caption. See formatting options for more details.
    */
-  parse_mode?: string;
+  parse_mode?: undefined | "HTML" | "Markdown" | "MarkdownV2";
   /**
    * Optional. List of special entities that appear in the caption, which can be specified instead of parse_mode
    */
@@ -8275,8 +8253,6 @@ export type TgInlineQueryResultCachedMpeg4Gif = {
 };
 /**
  * Represents a link to a sticker stored on the Telegram servers. By default, this sticker will be sent by the user. Alternatively, you can use input_message_content to send a message with the specified content instead of the sticker.
- *
- * Note: This will only work in Telegram versions released after 9 April, 2016 for static stickers and after 06 July, 2019 for animated stickers. Older clients will ignore them.
  *
  * @see https://core.telegram.org/bots/api#inlinequeryresultcachedsticker
  */
@@ -8304,8 +8280,6 @@ export type TgInlineQueryResultCachedSticker = {
 };
 /**
  * Represents a link to a file stored on the Telegram servers. By default, this file will be sent by the user with an optional caption. Alternatively, you can use input_message_content to send a message with the specified content instead of the file.
- *
- * Note: This will only work in Telegram versions released after 9 April, 2016. Older clients will ignore them.
  *
  * @see https://core.telegram.org/bots/api#inlinequeryresultcacheddocument
  */
@@ -8337,7 +8311,7 @@ export type TgInlineQueryResultCachedDocument = {
   /**
    * Optional. Mode for parsing entities in the document caption. See formatting options for more details.
    */
-  parse_mode?: string;
+  parse_mode?: undefined | "HTML" | "Markdown" | "MarkdownV2";
   /**
    * Optional. List of special entities that appear in the caption, which can be specified instead of parse_mode
    */
@@ -8384,7 +8358,7 @@ export type TgInlineQueryResultCachedVideo = {
   /**
    * Optional. Mode for parsing entities in the video caption. See formatting options for more details.
    */
-  parse_mode?: string;
+  parse_mode?: undefined | "HTML" | "Markdown" | "MarkdownV2";
   /**
    * Optional. List of special entities that appear in the caption, which can be specified instead of parse_mode
    */
@@ -8400,8 +8374,6 @@ export type TgInlineQueryResultCachedVideo = {
 };
 /**
  * Represents a link to a voice message stored on the Telegram servers. By default, this voice message will be sent by the user. Alternatively, you can use input_message_content to send a message with the specified content instead of the voice message.
- *
- * Note: This will only work in Telegram versions released after 9 April, 2016. Older clients will ignore them.
  *
  * @see https://core.telegram.org/bots/api#inlinequeryresultcachedvoice
  */
@@ -8429,7 +8401,7 @@ export type TgInlineQueryResultCachedVoice = {
   /**
    * Optional. Mode for parsing entities in the voice message caption. See formatting options for more details.
    */
-  parse_mode?: string;
+  parse_mode?: undefined | "HTML" | "Markdown" | "MarkdownV2";
   /**
    * Optional. List of special entities that appear in the caption, which can be specified instead of parse_mode
    */
@@ -8445,8 +8417,6 @@ export type TgInlineQueryResultCachedVoice = {
 };
 /**
  * Represents a link to an MP3 audio file stored on the Telegram servers. By default, this audio file will be sent by the user. Alternatively, you can use input_message_content to send a message with the specified content instead of the audio.
- *
- * Note: This will only work in Telegram versions released after 9 April, 2016. Older clients will ignore them.
  *
  * @see https://core.telegram.org/bots/api#inlinequeryresultcachedaudio
  */
@@ -8470,7 +8440,7 @@ export type TgInlineQueryResultCachedAudio = {
   /**
    * Optional. Mode for parsing entities in the audio caption. See formatting options for more details.
    */
-  parse_mode?: string;
+  parse_mode?: undefined | "HTML" | "Markdown" | "MarkdownV2";
   /**
    * Optional. List of special entities that appear in the caption, which can be specified instead of parse_mode
    */
@@ -8518,7 +8488,7 @@ export type TgInputTextMessageContent = {
   /**
    * Optional. Mode for parsing entities in the message text. See formatting options for more details.
    */
-  parse_mode?: string;
+  parse_mode?: undefined | "HTML" | "Markdown" | "MarkdownV2";
   /**
    * Optional. List of special entities that appear in message text, which can be specified instead of parse_mode
    */
