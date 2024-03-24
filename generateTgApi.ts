@@ -1,4 +1,4 @@
-import ts, { TypeNode } from "https://esm.sh/typescript@5.3.3";
+import ts, { TypeNode } from "https://esm.sh/typescript@5.4.3";
 
 const TG_API_DEF_URL =
   "https://raw.githubusercontent.com/PaulSonOfLars/telegram-bot-api-spec/main/api.json";

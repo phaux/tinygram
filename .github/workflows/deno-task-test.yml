@@ -1,4 +1,4 @@
-name: Deno test
+name: Run tests
 
 on:
   push:
