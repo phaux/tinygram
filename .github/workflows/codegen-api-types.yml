@@ -18,8 +18,7 @@ jobs:
         with:
           deno-version: v1.x
       - run: deno task codegen
-      - uses: peter-evans/create-pull-request@v5
+      - uses: peter-evans/create-pull-request@v6
         with:
-          token: ${{ secrets.PAT }}
           commit-message: "chore: generate latest Bot API types"
           title: "feat: update Bot API types"
