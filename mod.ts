@@ -26,9 +26,10 @@ export interface TgBotConfig {
    * Use custom {@link fetch} function instead of the global one.
    *
    * Useful for:
-   * - testing, so no real requests are sent;
+   * - testing, so no real requests are sent.
    * - if your environment doesn't support fetch.
    * - if you want to use a different HTTP client.
+   * - adding logging to requests.
    * - adding custom headers to requests if you host your own bot API server.
    * - automatically passing a timeout signal to every request.
    * - automatically retrying all requests on 429 (Too Many Requests) errors.
