@@ -169,7 +169,7 @@ function generateApiTypeNode(tgTypeDef: TgApiTypeDef) {
     );
   } else if (tgTypeDef.fields) {
     typeNode = ts.factory.createTypeLiteralNode(
-      tgTypeDef.fields.map((field) => generateTypeFieldNode(field)),
+      tgTypeDef.fields.map((field) => generateTypeFieldNode(field, tgTypeDef.name)),
     );
   } else {
     typeNode = ts.factory.createTypeLiteralNode([]);
@@ -194,8 +194,10 @@ function generateApiTypeNode(tgTypeDef: TgApiTypeDef) {
 
 /**
  * Generates a TS property signature for a single API type field definition.
+ *
+ * `tgTypeDefName` is only used to replace some property types which are hardcoded.
  */
-function generateTypeFieldNode(tgFieldDef: TgApiFieldDef) {
+function generateTypeFieldNode(tgFieldDef: TgApiFieldDef, tgTypeDefName: string) {
   let typeNode;
 
   if (tgFieldDef.name === "allowed_updates") {
@@ -259,6 +261,19 @@ function generateTypeFieldNode(tgFieldDef: TgApiFieldDef) {
   }
 
   if (
+    typeNode.kind === ts.SyntaxKind.UnionType &&
+    typeNode.types.length > 1 &&
+    typeNode.types.every((type) => type.kind === ts.SyntaxKind.ArrayType)
+  ) {
+    // if the type is an union of arrays, change it to an array of unions
+    typeNode = ts.factory.createArrayTypeNode(
+      ts.factory.createUnionTypeNode(
+        typeNode.types.map((type) => (type as ts.ArrayTypeNode).elementType),
+      ),
+    );
+  }
+
+  if (
     tgFieldDef.name === "user_administrator_rights" ||
     tgFieldDef.name === "bot_administrator_rights"
   ) {
@@ -267,6 +282,14 @@ function generateTypeFieldNode(tgFieldDef: TgApiFieldDef) {
       ts.factory.createIdentifier("Partial"),
       [typeNode],
     );
+  }
+
+  if (tgTypeDefName.startsWith("InputMedia") && tgFieldDef.name === "media") {
+    // override: media: T | Blob
+    typeNode = ts.factory.createUnionTypeNode([
+      typeNode,
+      ts.factory.createTypeReferenceNode("Blob"),
+    ]);
   }
 
   const propertyNode = ts.factory.createPropertySignature(
