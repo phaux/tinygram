@@ -6,7 +6,6 @@ import { assertObjectMatch } from "https://deno.land/std@0.201.0/assert/assert_o
 import { unreachable } from "https://deno.land/std@0.201.0/assert/unreachable.ts";
 import { beforeEach, describe, it } from "https://deno.land/std@0.211.0/testing/bdd.ts";
 import { promiseState } from "https://deno.land/x/async@v2.0.2/state.ts";
-import { TgChat, TgMessage, TgResponseParameters, TgUpdate, TgUser } from "./api.ts";
 import {
   callTgApi,
   getTgFileData,
@@ -14,7 +13,12 @@ import {
   listTgUpdates,
   TgBot,
   TgBotConfig,
+  TgChat,
   TgError,
+  TgMessage,
+  TgResponseParameters,
+  TgUpdate,
+  TgUser,
 } from "./mod.ts";
 
 const assertType = <T>(value: T) => value;
@@ -121,6 +125,78 @@ describe("callTgApi", () => {
         reply_markup: { remove_keyboard: true },
       }),
     });
+  });
+
+  it("works with blob in parameters", async () => {
+    const result = await callTgApi(botConfig, "sendPhoto", {
+      chat_id: 123,
+      photo: new Blob([new Uint8Array([1, 2, 3])]),
+      caption: "Photo foo",
+    }).then((result) => assertType<TgMessage>(result));
+    assertType<TgMessage>(result);
+    assertEquals(lastReqUrl, "https://api.telegram.org/botTOKEN/sendPhoto");
+    assertObjectMatch(lastReqInit!, { method: "POST" });
+    assertInstanceOf(lastReqInit?.body, FormData);
+    const formData = lastReqInit.body;
+    assertEquals(formData.get("chat_id"), "123");
+    assertEquals(formData.get("caption"), "Photo foo");
+    const photo = formData.get("photo");
+    assertInstanceOf(photo, Blob);
+    const photoData = await photo.arrayBuffer();
+    assertEquals(new Uint8Array(photoData), new Uint8Array([1, 2, 3]));
+  });
+
+  it("works with deeply nested blobs in parameters", async () => {
+    const result = await callTgApi(botConfig, "sendMediaGroup", {
+      chat_id: 123,
+      media: [
+        {
+          type: "photo",
+          media: new Blob([new Uint8Array([1, 2, 3])]),
+          caption: "Example photo",
+        },
+        {
+          type: "video",
+          media: new Blob([new Uint8Array([4, 5, 6, 7, 8])]),
+          caption: "Example video",
+        },
+      ],
+    }).then((result) => assertType<TgMessage[]>(result));
+    assertType<TgMessage[]>(result);
+    assertEquals(lastReqUrl, "https://api.telegram.org/botTOKEN/sendMediaGroup");
+    assertObjectMatch(lastReqInit!, { method: "POST" });
+    assertInstanceOf(lastReqInit?.body, FormData);
+    const respFormData = lastReqInit.body;
+    assertEquals(respFormData.get("chat_id"), "123");
+    const respMediaJson = respFormData.get("media");
+    assert(typeof respMediaJson == "string");
+    const respMedia = JSON.parse(respMediaJson);
+    assert(Array.isArray(respMedia));
+    assertEquals(respMedia.length, 2);
+    assertObjectMatch(respMedia[0], {
+      type: "photo",
+      caption: "Example photo",
+    });
+    assertObjectMatch(respMedia[1], {
+      type: "video",
+      caption: "Example video",
+    });
+    const media1 = respMedia[0].media;
+    const media2 = respMedia[1].media;
+    assert(media1.startsWith("attach://"));
+    assert(media2.startsWith("attach://"));
+    const media1Prop = media1.slice("attach://".length);
+    const media2Prop = media2.slice("attach://".length);
+    const attachment1 = respFormData.get(media1Prop);
+    const attachment2 = respFormData.get(media2Prop);
+    assertInstanceOf(attachment1, Blob);
+    assertInstanceOf(attachment2, Blob);
+    assertEquals(attachment1.size, 3);
+    assertEquals(attachment2.size, 5);
+    const attachment1Data = await attachment1.arrayBuffer();
+    const attachment2Data = await attachment2.arrayBuffer();
+    assertEquals(new Uint8Array(attachment1Data), new Uint8Array([1, 2, 3]));
+    assertEquals(new Uint8Array(attachment2Data), new Uint8Array([4, 5, 6, 7, 8]));
   });
 
   it("throws on error", async () => {

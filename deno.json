@@ -14,8 +14,8 @@
     }
   },
   "tasks": {
-    "codegen": "deno run --allow-read --allow-net codegen.ts > api.ts && deno fmt api.ts",
+    "codegen": "deno run --allow-read --allow-net --allow-env generateTgApi.ts > TgApi.ts && deno fmt TgApi.ts",
     "dnt": "deno run -A https://deno.land/x/dntx@v0.4.0/mod.ts -n tinygram --no-script-module --declaration separate -o /tmp/dnt",
-    "test": "deno test && deno check mod.ts && deno check codegen.ts && deno lint && deno fmt --check"
+    "test": "deno test && deno check mod.ts && deno check generateTgApi.ts && deno lint && deno fmt --check"
   }
 }
