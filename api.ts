@@ -1,6 +1,6 @@
 // This file is auto-generated, do not edit it directly.
 
-export const TG_API_VERSION = "Bot API 7.0" as const;
+export const TG_API_VERSION = "Bot API 7.1" as const;
 export interface TgApi {
   /**
    * Use this method to receive incoming updates using long polling (wiki). Returns an Array of Update objects.
@@ -927,7 +927,7 @@ export type TgForwardMessagesParams = {
    */
   from_chat_id: number | string;
   /**
-   * Identifiers of 1-100 messages in the chat from_chat_id to forward. The identifiers must be specified in a strictly increasing order.
+   * A JSON-serialized list of 1-100 identifiers of messages in the chat from_chat_id to forward. The identifiers must be specified in a strictly increasing order.
    */
   message_ids: number[];
   /**
@@ -1013,7 +1013,7 @@ export type TgCopyMessagesParams = {
    */
   from_chat_id: number | string;
   /**
-   * Identifiers of 1-100 messages in the chat from_chat_id to copy. The identifiers must be specified in a strictly increasing order.
+   * A JSON-serialized list of 1-100 identifiers of messages in the chat from_chat_id to copy. The identifiers must be specified in a strictly increasing order.
    */
   message_ids: number[];
   /**
@@ -1809,7 +1809,7 @@ export type TgSendChatActionParams = {
    */
   chat_id: number | string;
   /**
-   * Unique identifier for the target message thread; supergroups only
+   * Unique identifier for the target message thread; for supergroups only
    */
   message_thread_id?: number;
   /**
@@ -1832,7 +1832,7 @@ export type TgSetMessageReactionParams = {
    */
   message_id: number;
   /**
-   * New list of reaction types to set on the message. Currently, as non-premium users, bots can set up to one reaction per message. A custom emoji reaction can be used if it is either already present on the message or explicitly allowed by chat administrators.
+   * A JSON-serialized list of reaction types to set on the message. Currently, as non-premium users, bots can set up to one reaction per message. A custom emoji reaction can be used if it is either already present on the message or explicitly allowed by chat administrators.
    */
   reaction?: TgReactionType[];
   /**
@@ -1958,7 +1958,7 @@ export type TgPromoteChatMemberParams = {
    */
   is_anonymous?: boolean;
   /**
-   * Pass True if the administrator can access the chat event log, boost list in channels, see channel members, report spam messages, see anonymous administrators in supergroups and ignore slow mode. Implied by any other administrator privilege
+   * Pass True if the administrator can access the chat event log, get boost list, see hidden supergroup and channel members, report spam messages and ignore slow mode. Implied by any other administrator privilege.
    */
   can_manage_chat?: boolean;
   /**
@@ -1986,31 +1986,31 @@ export type TgPromoteChatMemberParams = {
    */
   can_invite_users?: boolean;
   /**
-   * Pass True if the administrator can post messages in the channel, or access channel statistics; channels only
-   */
-  can_post_messages?: boolean;
-  /**
-   * Pass True if the administrator can edit messages of other users and can pin messages; channels only
-   */
-  can_edit_messages?: boolean;
-  /**
-   * Pass True if the administrator can pin messages, supergroups only
-   */
-  can_pin_messages?: boolean;
-  /**
-   * Pass True if the administrator can post stories in the channel; channels only
+   * Pass True if the administrator can post stories to the chat
    */
   can_post_stories?: boolean;
   /**
-   * Pass True if the administrator can edit stories posted by other users; channels only
+   * Pass True if the administrator can edit stories posted by other users
    */
   can_edit_stories?: boolean;
   /**
-   * Pass True if the administrator can delete stories posted by other users; channels only
+   * Pass True if the administrator can delete stories posted by other users
    */
   can_delete_stories?: boolean;
   /**
-   * Pass True if the user is allowed to create, rename, close, and reopen forum topics, supergroups only
+   * Pass True if the administrator can post messages in the channel, or access channel statistics; for channels only
+   */
+  can_post_messages?: boolean;
+  /**
+   * Pass True if the administrator can edit messages of other users and can pin messages; for channels only
+   */
+  can_edit_messages?: boolean;
+  /**
+   * Pass True if the administrator can pin messages; for supergroups only
+   */
+  can_pin_messages?: boolean;
+  /**
+   * Pass True if the user is allowed to create, rename, close, and reopen forum topics; for supergroups only
    */
   can_manage_topics?: boolean;
 };
@@ -3014,7 +3014,7 @@ export type TgDeleteMessagesParams = {
    */
   chat_id: number | string;
   /**
-   * Identifiers of 1-100 messages to delete. See deleteMessage for limitations on which messages can be deleted
+   * A JSON-serialized list of 1-100 identifiers of messages to delete. See deleteMessage for limitations on which messages can be deleted
    */
   message_ids: number[];
 };
@@ -3079,7 +3079,7 @@ export type TgGetStickerSetParams = {
  */
 export type TgGetCustomEmojiStickersParams = {
   /**
-   * List of custom emoji identifiers. At most 200 custom emoji identifiers can be specified.
+   * A JSON-serialized list of custom emoji identifiers. At most 200 custom emoji identifiers can be specified.
    */
   custom_emoji_ids: string[];
 };
@@ -3971,9 +3971,13 @@ export type TgChat = {
    */
   permissions?: TgChatPermissions;
   /**
-   * Optional. For supergroups, the minimum allowed delay between consecutive messages sent by each unpriviledged user; in seconds. Returned only in getChat.
+   * Optional. For supergroups, the minimum allowed delay between consecutive messages sent by each unprivileged user; in seconds. Returned only in getChat.
    */
   slow_mode_delay?: number;
+  /**
+   * Optional. For supergroups, the minimum number of boosts that a non-administrator user needs to add in order to ignore slow mode and chat permissions. Returned only in getChat.
+   */
+  unrestrict_boost_count?: number;
   /**
    * Optional. The time after which all messages sent to the chat will be automatically deleted; in seconds. Returned only in getChat.
    */
@@ -4002,6 +4006,10 @@ export type TgChat = {
    * Optional. True, if the bot can change the group sticker set. Returned only in getChat.
    */
   can_set_sticker_set?: boolean;
+  /**
+   * Optional. For supergroups, the name of the group's custom emoji sticker set. Custom emoji from this set can be used by all users and bots in the group. Returned only in getChat.
+   */
+  custom_emoji_sticker_set_name?: string;
   /**
    * Optional. Unique identifier for the linked chat, i.e. the discussion group identifier for a channel and vice versa; for supergroups and channel chats. This identifier may be greater than 32 bits and some programming languages may have difficulty/silent defects in interpreting it. But it is smaller than 52 bits, so a signed 64 bit integer or double-precision float type are safe for storing this identifier. Returned only in getChat.
    */
@@ -4034,6 +4042,10 @@ export type TgMessage = {
    */
   sender_chat?: TgChat;
   /**
+   * Optional. If the sender of the message boosted the chat, the number of boosts added by the user
+   */
+  sender_boost_count?: number;
+  /**
    * Date the message was sent in Unix time. It is always a positive number, representing a valid date.
    */
   date: number;
@@ -4065,6 +4077,10 @@ export type TgMessage = {
    * Optional. For replies that quote part of the original message, the quoted part of the message
    */
   quote?: TgTextQuote;
+  /**
+   * Optional. For replies to a story, the original story
+   */
+  reply_to_story?: TgStory;
   /**
    * Optional. Bot through which the message was sent
    */
@@ -4249,6 +4265,10 @@ export type TgMessage = {
    * Optional. Service message. A user in the chat triggered another user's proximity alert while sharing Live Location.
    */
   proximity_alert_triggered?: TgProximityAlertTriggered;
+  /**
+   * Optional. Service message: user boosted the chat
+   */
+  boost_added?: TgChatBoostAdded;
   /**
    * Optional. Service message: forum topic created
    */
@@ -4815,11 +4835,20 @@ export type TgDocument = {
   file_size?: number;
 };
 /**
- * This object represents a message about a forwarded story in the chat. Currently holds no information.
+ * This object represents a story.
  *
  * @see https://core.telegram.org/bots/api#story
  */
-export type TgStory = {};
+export type TgStory = {
+  /**
+   * Chat that posted the story
+   */
+  chat: TgChat;
+  /**
+   * Unique identifier for the story in the chat
+   */
+  id: number;
+};
 /**
  * This object represents a video file.
  *
@@ -5067,13 +5096,13 @@ export type TgPoll = {
  */
 export type TgLocation = {
   /**
-   * Longitude as defined by sender
-   */
-  longitude: number;
-  /**
    * Latitude as defined by sender
    */
   latitude: number;
+  /**
+   * Longitude as defined by sender
+   */
+  longitude: number;
   /**
    * Optional. The radius of uncertainty for the location, measured in meters; 0-1500
    */
@@ -5170,6 +5199,17 @@ export type TgMessageAutoDeleteTimerChanged = {
    * New auto-delete time for messages in the chat; in seconds
    */
   message_auto_delete_time: number;
+};
+/**
+ * This object represents a service message about a user boosting a chat.
+ *
+ * @see https://core.telegram.org/bots/api#chatboostadded
+ */
+export type TgChatBoostAdded = {
+  /**
+   * Number of boosts added by the user
+   */
+  boost_count: number;
 };
 /**
  * This object represents a service message about a new forum topic created in the chat.
@@ -5373,7 +5413,7 @@ export type TgGiveawayWinners = {
    */
   chat: TgChat;
   /**
-   * Identifier of the messsage with the giveaway in the chat
+   * Identifier of the message with the giveaway in the chat
    */
   giveaway_message_id: number;
   /**
@@ -5447,11 +5487,11 @@ export type TgLinkPreviewOptions = {
    */
   url?: string;
   /**
-   * Optional. True, if the media in the link preview is suppposed to be shrunk; ignored if the URL isn't explicitly specified or media size change isn't supported for the preview
+   * Optional. True, if the media in the link preview is supposed to be shrunk; ignored if the URL isn't explicitly specified or media size change isn't supported for the preview
    */
   prefer_small_media?: boolean;
   /**
-   * Optional. True, if the media in the link preview is suppposed to be enlarged; ignored if the URL isn't explicitly specified or media size change isn't supported for the preview
+   * Optional. True, if the media in the link preview is supposed to be enlarged; ignored if the URL isn't explicitly specified or media size change isn't supported for the preview
    */
   prefer_large_media?: boolean;
   /**
@@ -5905,7 +5945,7 @@ export type TgChatAdministratorRights = {
    */
   is_anonymous: boolean;
   /**
-   * True, if the administrator can access the chat event log, boost list in channels, see channel members, report spam messages, see anonymous administrators in supergroups and ignore slow mode. Implied by any other administrator privilege
+   * True, if the administrator can access the chat event log, get boost list, see hidden supergroup and channel members, report spam messages and ignore slow mode. Implied by any other administrator privilege.
    */
   can_manage_chat: boolean;
   /**
@@ -5933,31 +5973,31 @@ export type TgChatAdministratorRights = {
    */
   can_invite_users: boolean;
   /**
-   * Optional. True, if the administrator can post messages in the channel, or access channel statistics; channels only
+   * True, if the administrator can post stories to the chat
+   */
+  can_post_stories: boolean;
+  /**
+   * True, if the administrator can edit stories posted by other users
+   */
+  can_edit_stories: boolean;
+  /**
+   * True, if the administrator can delete stories posted by other users
+   */
+  can_delete_stories: boolean;
+  /**
+   * Optional. True, if the administrator can post messages in the channel, or access channel statistics; for channels only
    */
   can_post_messages?: boolean;
   /**
-   * Optional. True, if the administrator can edit messages of other users and can pin messages; channels only
+   * Optional. True, if the administrator can edit messages of other users and can pin messages; for channels only
    */
   can_edit_messages?: boolean;
   /**
-   * Optional. True, if the user is allowed to pin messages; groups and supergroups only
+   * Optional. True, if the user is allowed to pin messages; for groups and supergroups only
    */
   can_pin_messages?: boolean;
   /**
-   * Optional. True, if the administrator can post stories in the channel; channels only
-   */
-  can_post_stories?: boolean;
-  /**
-   * Optional. True, if the administrator can edit stories posted by other users; channels only
-   */
-  can_edit_stories?: boolean;
-  /**
-   * Optional. True, if the administrator can delete stories posted by other users; channels only
-   */
-  can_delete_stories?: boolean;
-  /**
-   * Optional. True, if the user is allowed to create, rename, close, and reopen forum topics; supergroups only
+   * Optional. True, if the user is allowed to create, rename, close, and reopen forum topics; for supergroups only
    */
   can_manage_topics?: boolean;
 };
@@ -6066,7 +6106,7 @@ export type TgChatMemberAdministrator = {
    */
   is_anonymous: boolean;
   /**
-   * True, if the administrator can access the chat event log, boost list in channels, see channel members, report spam messages, see anonymous administrators in supergroups and ignore slow mode. Implied by any other administrator privilege
+   * True, if the administrator can access the chat event log, get boost list, see hidden supergroup and channel members, report spam messages and ignore slow mode. Implied by any other administrator privilege.
    */
   can_manage_chat: boolean;
   /**
@@ -6094,31 +6134,31 @@ export type TgChatMemberAdministrator = {
    */
   can_invite_users: boolean;
   /**
-   * Optional. True, if the administrator can post messages in the channel, or access channel statistics; channels only
+   * True, if the administrator can post stories to the chat
+   */
+  can_post_stories: boolean;
+  /**
+   * True, if the administrator can edit stories posted by other users
+   */
+  can_edit_stories: boolean;
+  /**
+   * True, if the administrator can delete stories posted by other users
+   */
+  can_delete_stories: boolean;
+  /**
+   * Optional. True, if the administrator can post messages in the channel, or access channel statistics; for channels only
    */
   can_post_messages?: boolean;
   /**
-   * Optional. True, if the administrator can edit messages of other users and can pin messages; channels only
+   * Optional. True, if the administrator can edit messages of other users and can pin messages; for channels only
    */
   can_edit_messages?: boolean;
   /**
-   * Optional. True, if the user is allowed to pin messages; groups and supergroups only
+   * Optional. True, if the user is allowed to pin messages; for groups and supergroups only
    */
   can_pin_messages?: boolean;
   /**
-   * Optional. True, if the administrator can post stories in the channel; channels only
-   */
-  can_post_stories?: boolean;
-  /**
-   * Optional. True, if the administrator can edit stories posted by other users; channels only
-   */
-  can_edit_stories?: boolean;
-  /**
-   * Optional. True, if the administrator can delete stories posted by other users; channels only
-   */
-  can_delete_stories?: boolean;
-  /**
-   * Optional. True, if the user is allowed to create, rename, close, and reopen forum topics; supergroups only
+   * Optional. True, if the user is allowed to create, rename, close, and reopen forum topics; for supergroups only
    */
   can_manage_topics?: boolean;
   /**
@@ -6897,7 +6937,7 @@ export type TgChatBoostUpdated = {
    */
   chat: TgChat;
   /**
-   * Infomation about the chat boost
+   * Information about the chat boost
    */
   boost: TgChatBoost;
 };
@@ -8988,35 +9028,35 @@ export type TgEncryptedPassportElement = {
     | "phone_number"
     | "email";
   /**
-   * Optional. Base64-encoded encrypted Telegram Passport element data provided by the user, available for "personal_details", "passport", "driver_license", "identity_card", "internal_passport" and "address" types. Can be decrypted and verified using the accompanying EncryptedCredentials.
+   * Optional. Base64-encoded encrypted Telegram Passport element data provided by the user; available only for "personal_details", "passport", "driver_license", "identity_card", "internal_passport" and "address" types. Can be decrypted and verified using the accompanying EncryptedCredentials.
    */
   data?: string;
   /**
-   * Optional. User's verified phone number, available only for "phone_number" type
+   * Optional. User's verified phone number; available only for "phone_number" type
    */
   phone_number?: string;
   /**
-   * Optional. User's verified email address, available only for "email" type
+   * Optional. User's verified email address; available only for "email" type
    */
   email?: string;
   /**
-   * Optional. Array of encrypted files with documents provided by the user, available for "utility_bill", "bank_statement", "rental_agreement", "passport_registration" and "temporary_registration" types. Files can be decrypted and verified using the accompanying EncryptedCredentials.
+   * Optional. Array of encrypted files with documents provided by the user; available only for "utility_bill", "bank_statement", "rental_agreement", "passport_registration" and "temporary_registration" types. Files can be decrypted and verified using the accompanying EncryptedCredentials.
    */
   files?: TgPassportFile[];
   /**
-   * Optional. Encrypted file with the front side of the document, provided by the user. Available for "passport", "driver_license", "identity_card" and "internal_passport". The file can be decrypted and verified using the accompanying EncryptedCredentials.
+   * Optional. Encrypted file with the front side of the document, provided by the user; available only for "passport", "driver_license", "identity_card" and "internal_passport". The file can be decrypted and verified using the accompanying EncryptedCredentials.
    */
   front_side?: TgPassportFile;
   /**
-   * Optional. Encrypted file with the reverse side of the document, provided by the user. Available for "driver_license" and "identity_card". The file can be decrypted and verified using the accompanying EncryptedCredentials.
+   * Optional. Encrypted file with the reverse side of the document, provided by the user; available only for "driver_license" and "identity_card". The file can be decrypted and verified using the accompanying EncryptedCredentials.
    */
   reverse_side?: TgPassportFile;
   /**
-   * Optional. Encrypted file with the selfie of the user holding a document, provided by the user; available for "passport", "driver_license", "identity_card" and "internal_passport". The file can be decrypted and verified using the accompanying EncryptedCredentials.
+   * Optional. Encrypted file with the selfie of the user holding a document, provided by the user; available if requested for "passport", "driver_license", "identity_card" and "internal_passport". The file can be decrypted and verified using the accompanying EncryptedCredentials.
    */
   selfie?: TgPassportFile;
   /**
-   * Optional. Array of encrypted files with translated versions of documents provided by the user. Available if requested for "passport", "driver_license", "identity_card", "internal_passport", "utility_bill", "bank_statement", "rental_agreement", "passport_registration" and "temporary_registration" types. Files can be decrypted and verified using the accompanying EncryptedCredentials.
+   * Optional. Array of encrypted files with translated versions of documents provided by the user; available if requested for "passport", "driver_license", "identity_card", "internal_passport", "utility_bill", "bank_statement", "rental_agreement", "passport_registration" and "temporary_registration" types. Files can be decrypted and verified using the accompanying EncryptedCredentials.
    */
   translation?: TgPassportFile[];
   /**
