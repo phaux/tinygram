@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.2.0](https://github.com/phaux/tinygram/compare/v1.1.0...v1.2.0) (2024-03-25)
+
+
+### Features
+
+* handle sendMediaGroup properly ([#8](https://github.com/phaux/tinygram/issues/8)) ([183079b](https://github.com/phaux/tinygram/commit/183079bbdbe3345ccc3ead2e292bc27f671c48e8))
+* update Bot API types to 7.1 ([#6](https://github.com/phaux/tinygram/issues/6)) ([aedce0b](https://github.com/phaux/tinygram/commit/aedce0b7bc4f57d56f129e24db9e7702c739eb19))
+
 ## [1.1.0](https://github.com/phaux/tinygram/compare/v1.0.0...v1.1.0) (2024-01-14)
 
 
