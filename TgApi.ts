@@ -1,6 +1,6 @@
 // This file is auto-generated, do not edit it directly.
 
-export const TG_API_VERSION = "Bot API 7.1" as const;
+export const TG_API_VERSION = "Bot API 7.2" as const;
 export interface TgApi {
   /**
    * Use this method to receive incoming updates using long polling (wiki). Returns an Array of Update objects.
@@ -447,6 +447,12 @@ export interface TgApi {
    */
   getUserChatBoosts(params: TgGetUserChatBoostsParams): Promise<TgUserChatBoosts>;
   /**
+   * Use this method to get information about the connection of the bot with a business account. Returns a BusinessConnection object on success.
+   *
+   * @see https://core.telegram.org/bots/api#getbusinessconnection
+   */
+  getBusinessConnection(params: TgGetBusinessConnectionParams): Promise<TgBusinessConnection>;
+  /**
    * Use this method to change the list of the bot's commands. See this manual for more details about bot commands. Returns True on success.
    *
    * @see https://core.telegram.org/bots/api#setmycommands
@@ -619,7 +625,7 @@ export interface TgApi {
    */
   getCustomEmojiStickers(params: TgGetCustomEmojiStickersParams): Promise<TgSticker[]>;
   /**
-   * Use this method to upload a file with a sticker for later use in the createNewStickerSet and addStickerToSet methods (the file can be used multiple times). Returns the uploaded File on success.
+   * Use this method to upload a file with a sticker for later use in the createNewStickerSet, addStickerToSet, or replaceStickerInSet methods (the file can be used multiple times). Returns the uploaded File on success.
    *
    * @see https://core.telegram.org/bots/api#uploadstickerfile
    */
@@ -631,7 +637,7 @@ export interface TgApi {
    */
   createNewStickerSet(params: TgCreateNewStickerSetParams): Promise<boolean>;
   /**
-   * Use this method to add a new sticker to a set created by the bot. The format of the added sticker must match the format of the other stickers in the set. Emoji sticker sets can have up to 200 stickers. Animated and video sticker sets can have up to 50 stickers. Static sticker sets can have up to 120 stickers. Returns True on success.
+   * Use this method to add a new sticker to a set created by the bot. Emoji sticker sets can have up to 200 stickers. Other sticker sets can have up to 120 stickers. Returns True on success.
    *
    * @see https://core.telegram.org/bots/api#addstickertoset
    */
@@ -648,6 +654,12 @@ export interface TgApi {
    * @see https://core.telegram.org/bots/api#deletestickerfromset
    */
   deleteStickerFromSet(params: TgDeleteStickerFromSetParams): Promise<boolean>;
+  /**
+   * Use this method to replace an existing sticker in a sticker set with a new one. The method is equivalent to calling deleteStickerFromSet, then addStickerToSet, then setStickerPositionInSet. Returns True on success.
+   *
+   * @see https://core.telegram.org/bots/api#replacestickerinset
+   */
+  replaceStickerInSet(params: TgReplaceStickerInSetParams): Promise<boolean>;
   /**
    * Use this method to change the list of emoji assigned to a regular or custom emoji sticker. The sticker must belong to a sticker set created by the bot. Returns True on success.
    *
@@ -833,6 +845,10 @@ export type TgDeleteWebhookParams = {
  */
 export type TgSendMessageParams = {
   /**
+   * Unique identifier of the business connection on behalf of which the message will be sent
+   */
+  business_connection_id?: string;
+  /**
    * Unique identifier for the target chat or username of the target channel (in the format @channelusername)
    */
   chat_id: number | string;
@@ -869,7 +885,7 @@ export type TgSendMessageParams = {
    */
   reply_parameters?: TgReplyParameters;
   /**
-   * Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove reply keyboard or to force a reply from the user.
+   * Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove a reply keyboard or to force a reply from the user. Not supported for messages sent on behalf of a business account
    */
   reply_markup?:
     | TgInlineKeyboardMarkup
@@ -1036,6 +1052,10 @@ export type TgCopyMessagesParams = {
  */
 export type TgSendPhotoParams = {
   /**
+   * Unique identifier of the business connection on behalf of which the message will be sent
+   */
+  business_connection_id?: string;
+  /**
    * Unique identifier for the target chat or username of the target channel (in the format @channelusername)
    */
   chat_id: number | string;
@@ -1076,7 +1096,7 @@ export type TgSendPhotoParams = {
    */
   reply_parameters?: TgReplyParameters;
   /**
-   * Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove reply keyboard or to force a reply from the user.
+   * Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove a reply keyboard or to force a reply from the user. Not supported for messages sent on behalf of a business account
    */
   reply_markup?:
     | TgInlineKeyboardMarkup
@@ -1090,6 +1110,10 @@ export type TgSendPhotoParams = {
  * @see https://core.telegram.org/bots/api#sendaudio
  */
 export type TgSendAudioParams = {
+  /**
+   * Unique identifier of the business connection on behalf of which the message will be sent
+   */
+  business_connection_id?: string;
   /**
    * Unique identifier for the target chat or username of the target channel (in the format @channelusername)
    */
@@ -1143,7 +1167,7 @@ export type TgSendAudioParams = {
    */
   reply_parameters?: TgReplyParameters;
   /**
-   * Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove reply keyboard or to force a reply from the user.
+   * Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove a reply keyboard or to force a reply from the user. Not supported for messages sent on behalf of a business account
    */
   reply_markup?:
     | TgInlineKeyboardMarkup
@@ -1157,6 +1181,10 @@ export type TgSendAudioParams = {
  * @see https://core.telegram.org/bots/api#senddocument
  */
 export type TgSendDocumentParams = {
+  /**
+   * Unique identifier of the business connection on behalf of which the message will be sent
+   */
+  business_connection_id?: string;
   /**
    * Unique identifier for the target chat or username of the target channel (in the format @channelusername)
    */
@@ -1202,7 +1230,7 @@ export type TgSendDocumentParams = {
    */
   reply_parameters?: TgReplyParameters;
   /**
-   * Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove reply keyboard or to force a reply from the user.
+   * Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove a reply keyboard or to force a reply from the user. Not supported for messages sent on behalf of a business account
    */
   reply_markup?:
     | TgInlineKeyboardMarkup
@@ -1216,6 +1244,10 @@ export type TgSendDocumentParams = {
  * @see https://core.telegram.org/bots/api#sendvideo
  */
 export type TgSendVideoParams = {
+  /**
+   * Unique identifier of the business connection on behalf of which the message will be sent
+   */
+  business_connection_id?: string;
   /**
    * Unique identifier for the target chat or username of the target channel (in the format @channelusername)
    */
@@ -1277,7 +1309,7 @@ export type TgSendVideoParams = {
    */
   reply_parameters?: TgReplyParameters;
   /**
-   * Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove reply keyboard or to force a reply from the user.
+   * Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove a reply keyboard or to force a reply from the user. Not supported for messages sent on behalf of a business account
    */
   reply_markup?:
     | TgInlineKeyboardMarkup
@@ -1291,6 +1323,10 @@ export type TgSendVideoParams = {
  * @see https://core.telegram.org/bots/api#sendanimation
  */
 export type TgSendAnimationParams = {
+  /**
+   * Unique identifier of the business connection on behalf of which the message will be sent
+   */
+  business_connection_id?: string;
   /**
    * Unique identifier for the target chat or username of the target channel (in the format @channelusername)
    */
@@ -1348,7 +1384,7 @@ export type TgSendAnimationParams = {
    */
   reply_parameters?: TgReplyParameters;
   /**
-   * Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove reply keyboard or to force a reply from the user.
+   * Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove a reply keyboard or to force a reply from the user. Not supported for messages sent on behalf of a business account
    */
   reply_markup?:
     | TgInlineKeyboardMarkup
@@ -1362,6 +1398,10 @@ export type TgSendAnimationParams = {
  * @see https://core.telegram.org/bots/api#sendvoice
  */
 export type TgSendVoiceParams = {
+  /**
+   * Unique identifier of the business connection on behalf of which the message will be sent
+   */
+  business_connection_id?: string;
   /**
    * Unique identifier for the target chat or username of the target channel (in the format @channelusername)
    */
@@ -1403,7 +1443,7 @@ export type TgSendVoiceParams = {
    */
   reply_parameters?: TgReplyParameters;
   /**
-   * Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove reply keyboard or to force a reply from the user.
+   * Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove a reply keyboard or to force a reply from the user. Not supported for messages sent on behalf of a business account
    */
   reply_markup?:
     | TgInlineKeyboardMarkup
@@ -1417,6 +1457,10 @@ export type TgSendVoiceParams = {
  * @see https://core.telegram.org/bots/api#sendvideonote
  */
 export type TgSendVideoNoteParams = {
+  /**
+   * Unique identifier of the business connection on behalf of which the message will be sent
+   */
+  business_connection_id?: string;
   /**
    * Unique identifier for the target chat or username of the target channel (in the format @channelusername)
    */
@@ -1454,7 +1498,7 @@ export type TgSendVideoNoteParams = {
    */
   reply_parameters?: TgReplyParameters;
   /**
-   * Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove reply keyboard or to force a reply from the user.
+   * Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove a reply keyboard or to force a reply from the user. Not supported for messages sent on behalf of a business account
    */
   reply_markup?:
     | TgInlineKeyboardMarkup
@@ -1468,6 +1512,10 @@ export type TgSendVideoNoteParams = {
  * @see https://core.telegram.org/bots/api#sendmediagroup
  */
 export type TgSendMediaGroupParams = {
+  /**
+   * Unique identifier of the business connection on behalf of which the message will be sent
+   */
+  business_connection_id?: string;
   /**
    * Unique identifier for the target chat or username of the target channel (in the format @channelusername)
    */
@@ -1499,6 +1547,10 @@ export type TgSendMediaGroupParams = {
  * @see https://core.telegram.org/bots/api#sendlocation
  */
 export type TgSendLocationParams = {
+  /**
+   * Unique identifier of the business connection on behalf of which the message will be sent
+   */
+  business_connection_id?: string;
   /**
    * Unique identifier for the target chat or username of the target channel (in the format @channelusername)
    */
@@ -1544,7 +1596,7 @@ export type TgSendLocationParams = {
    */
   reply_parameters?: TgReplyParameters;
   /**
-   * Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove reply keyboard or to force a reply from the user.
+   * Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove a reply keyboard or to force a reply from the user. Not supported for messages sent on behalf of a business account
    */
   reply_markup?:
     | TgInlineKeyboardMarkup
@@ -1558,6 +1610,10 @@ export type TgSendLocationParams = {
  * @see https://core.telegram.org/bots/api#sendvenue
  */
 export type TgSendVenueParams = {
+  /**
+   * Unique identifier of the business connection on behalf of which the message will be sent
+   */
+  business_connection_id?: string;
   /**
    * Unique identifier for the target chat or username of the target channel (in the format @channelusername)
    */
@@ -1611,7 +1667,7 @@ export type TgSendVenueParams = {
    */
   reply_parameters?: TgReplyParameters;
   /**
-   * Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove reply keyboard or to force a reply from the user.
+   * Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove a reply keyboard or to force a reply from the user. Not supported for messages sent on behalf of a business account
    */
   reply_markup?:
     | TgInlineKeyboardMarkup
@@ -1625,6 +1681,10 @@ export type TgSendVenueParams = {
  * @see https://core.telegram.org/bots/api#sendcontact
  */
 export type TgSendContactParams = {
+  /**
+   * Unique identifier of the business connection on behalf of which the message will be sent
+   */
+  business_connection_id?: string;
   /**
    * Unique identifier for the target chat or username of the target channel (in the format @channelusername)
    */
@@ -1662,7 +1722,7 @@ export type TgSendContactParams = {
    */
   reply_parameters?: TgReplyParameters;
   /**
-   * Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove reply keyboard or to force a reply from the user.
+   * Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove a reply keyboard or to force a reply from the user. Not supported for messages sent on behalf of a business account
    */
   reply_markup?:
     | TgInlineKeyboardMarkup
@@ -1676,6 +1736,10 @@ export type TgSendContactParams = {
  * @see https://core.telegram.org/bots/api#sendpoll
  */
 export type TgSendPollParams = {
+  /**
+   * Unique identifier of the business connection on behalf of which the message will be sent
+   */
+  business_connection_id?: string;
   /**
    * Unique identifier for the target chat or username of the target channel (in the format @channelusername)
    */
@@ -1745,7 +1809,7 @@ export type TgSendPollParams = {
    */
   reply_parameters?: TgReplyParameters;
   /**
-   * Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove reply keyboard or to force a reply from the user.
+   * Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove a reply keyboard or to force a reply from the user. Not supported for messages sent on behalf of a business account
    */
   reply_markup?:
     | TgInlineKeyboardMarkup
@@ -1759,6 +1823,10 @@ export type TgSendPollParams = {
  * @see https://core.telegram.org/bots/api#senddice
  */
 export type TgSendDiceParams = {
+  /**
+   * Unique identifier of the business connection on behalf of which the message will be sent
+   */
+  business_connection_id?: string;
   /**
    * Unique identifier for the target chat or username of the target channel (in the format @channelusername)
    */
@@ -1790,7 +1858,7 @@ export type TgSendDiceParams = {
    */
   reply_parameters?: TgReplyParameters;
   /**
-   * Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove reply keyboard or to force a reply from the user.
+   * Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove a reply keyboard or to force a reply from the user. Not supported for messages sent on behalf of a business account
    */
   reply_markup?:
     | TgInlineKeyboardMarkup
@@ -1804,6 +1872,10 @@ export type TgSendDiceParams = {
  * @see https://core.telegram.org/bots/api#sendchataction
  */
 export type TgSendChatActionParams = {
+  /**
+   * Unique identifier of the business connection on behalf of which the action will be sent
+   */
+  business_connection_id?: string;
   /**
    * Unique identifier for the target chat or username of the target channel (in the format @channelusername)
    */
@@ -2601,6 +2673,17 @@ export type TgGetUserChatBoostsParams = {
   user_id: number;
 };
 /**
+ * Parameters of {@link TgApi.getBusinessConnection} method.
+ *
+ * @see https://core.telegram.org/bots/api#getbusinessconnection
+ */
+export type TgGetBusinessConnectionParams = {
+  /**
+   * Unique identifier of the business connection
+   */
+  business_connection_id: string;
+};
+/**
  * Parameters of {@link TgApi.setMyCommands} method.
  *
  * @see https://core.telegram.org/bots/api#setmycommands
@@ -3025,6 +3108,10 @@ export type TgDeleteMessagesParams = {
  */
 export type TgSendStickerParams = {
   /**
+   * Unique identifier of the business connection on behalf of which the message will be sent
+   */
+  business_connection_id?: string;
+  /**
    * Unique identifier for the target chat or username of the target channel (in the format @channelusername)
    */
   chat_id: number | string;
@@ -3033,7 +3120,7 @@ export type TgSendStickerParams = {
    */
   message_thread_id?: number;
   /**
-   * Sticker to send. Pass a file_id as String to send a file that exists on the Telegram servers (recommended), pass an HTTP URL as a String for Telegram to get a .WEBP sticker from the Internet, or upload a new .WEBP or .TGS sticker using multipart/form-data. More information on Sending Files: https://core.telegram.org/bots/api#sending-files. Video stickers can only be sent by a file_id. Animated stickers can't be sent via an HTTP URL.
+   * Sticker to send. Pass a file_id as String to send a file that exists on the Telegram servers (recommended), pass an HTTP URL as a String for Telegram to get a .WEBP sticker from the Internet, or upload a new .WEBP, .TGS, or .WEBM sticker using multipart/form-data. More information on Sending Files: https://core.telegram.org/bots/api#sending-files. Video and animated stickers can't be sent via an HTTP URL.
    */
   sticker: TgInputFile | string;
   /**
@@ -3053,7 +3140,7 @@ export type TgSendStickerParams = {
    */
   reply_parameters?: TgReplyParameters;
   /**
-   * Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove reply keyboard or to force a reply from the user.
+   * Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove reply keyboard or to force a reply from the user. Not supported for messages sent on behalf of a business account.
    */
   reply_markup?:
     | TgInlineKeyboardMarkup
@@ -3125,10 +3212,6 @@ export type TgCreateNewStickerSetParams = {
    */
   stickers: TgInputSticker[];
   /**
-   * Format of stickers in the set, must be one of "static", "animated", "video"
-   */
-  sticker_format: "static" | "animated" | "video";
-  /**
    * Type of stickers in the set, pass "regular", "mask", or "custom_emoji". By default, a regular sticker set is created.
    */
   sticker_type?: string;
@@ -3181,6 +3264,29 @@ export type TgDeleteStickerFromSetParams = {
    * File identifier of the sticker
    */
   sticker: string;
+};
+/**
+ * Parameters of {@link TgApi.replaceStickerInSet} method.
+ *
+ * @see https://core.telegram.org/bots/api#replacestickerinset
+ */
+export type TgReplaceStickerInSetParams = {
+  /**
+   * User identifier of the sticker set owner
+   */
+  user_id: number;
+  /**
+   * Sticker set name
+   */
+  name: string;
+  /**
+   * File identifier of the replaced sticker
+   */
+  old_sticker: string;
+  /**
+   * A JSON-serialized object with information about the added sticker. If exactly the same sticker had already been added to the set, then the set remains unchanged.
+   */
+  sticker: TgInputSticker;
 };
 /**
  * Parameters of {@link TgApi.setStickerEmojiList} method.
@@ -3260,6 +3366,10 @@ export type TgSetStickerSetThumbnailParams = {
    * A .WEBP or .PNG image with the thumbnail, must be up to 128 kilobytes in size and have a width and height of exactly 100px, or a .TGS animation with a thumbnail up to 32 kilobytes in size (see https://core.telegram.org/stickers#animated-sticker-requirements for animated sticker technical requirements), or a WEBM video with the thumbnail up to 32 kilobytes in size; see https://core.telegram.org/stickers#video-sticker-requirements for video sticker technical requirements. Pass a file_id as a String to send a file that already exists on the Telegram servers, pass an HTTP URL as a String for Telegram to get a file from the Internet, or upload a new one using multipart/form-data. More information on Sending Files: https://core.telegram.org/bots/api#sending-files. Animated and video sticker set thumbnails can't be uploaded via HTTP URL. If omitted, then the thumbnail is dropped and the first sticker is used as the thumbnail.
    */
   thumbnail?: TgInputFile | string;
+  /**
+   * Format of the thumbnail, must be one of "static" for a .WEBP or .PNG image, "animated" for a .TGS animation, or "video" for a WEBM video
+   */
+  format: "static" | "animated" | "video";
 };
 /**
  * Parameters of {@link TgApi.setCustomEmojiStickerSetThumbnail} method.
@@ -3599,6 +3709,10 @@ export type TgSetPassportDataErrorsParams = {
  */
 export type TgSendGameParams = {
   /**
+   * Unique identifier of the business connection on behalf of which the message will be sent
+   */
+  business_connection_id?: string;
+  /**
    * Unique identifier for the target chat
    */
   chat_id: number;
@@ -3623,7 +3737,7 @@ export type TgSendGameParams = {
    */
   reply_parameters?: TgReplyParameters;
   /**
-   * A JSON-serialized object for an inline keyboard. If empty, one 'Play game_title' button will be shown. If not empty, the first button must launch the game.
+   * A JSON-serialized object for an inline keyboard. If empty, one 'Play game_title' button will be shown. If not empty, the first button must launch the game. Not supported for messages sent on behalf of a business account.
    */
   reply_markup?: TgInlineKeyboardMarkup;
 };
@@ -3713,6 +3827,22 @@ export type TgUpdate = {
    * Optional. New version of a channel post that is known to the bot and was edited. This update may at times be triggered by changes to message fields that are either unavailable or not actively used by your bot.
    */
   edited_channel_post?: TgMessage;
+  /**
+   * Optional. The bot was connected to or disconnected from a business account, or a user edited an existing connection with the bot
+   */
+  business_connection?: TgBusinessConnection;
+  /**
+   * Optional. New non-service message from a connected business account
+   */
+  business_message?: TgMessage;
+  /**
+   * Optional. New version of a message from a connected business account
+   */
+  edited_business_message?: TgMessage;
+  /**
+   * Optional. Messages were deleted from a connected business account
+   */
+  deleted_business_messages?: TgBusinessMessagesDeleted;
   /**
    * Optional. A reaction to a message was changed by a user. The bot must be an administrator in the chat and must explicitly specify "message_reaction" in the list of allowed_updates to receive these updates. The update isn't received for reactions set by bots.
    */
@@ -3863,6 +3993,10 @@ export type TgUser = {
    * Optional. True, if the bot supports inline queries. Returned only in getMe.
    */
   supports_inline_queries?: boolean;
+  /**
+   * Optional. True, if the bot can be connected to a Telegram Business account to receive its messages. Returned only in getMe.
+   */
+  can_connect_to_business?: boolean;
 };
 /**
  * This object represents a chat.
@@ -3906,6 +4040,26 @@ export type TgChat = {
    * Optional. If non-empty, the list of all active chat usernames; for private chats, supergroups and channels. Returned only in getChat.
    */
   active_usernames?: string[];
+  /**
+   * Optional. For private chats, the date of birth of the user. Returned only in getChat.
+   */
+  birthdate?: TgBirthdate;
+  /**
+   * Optional. For private chats with business accounts, the intro of the business. Returned only in getChat.
+   */
+  business_intro?: TgBusinessIntro;
+  /**
+   * Optional. For private chats with business accounts, the location of the business. Returned only in getChat.
+   */
+  business_location?: TgBusinessLocation;
+  /**
+   * Optional. For private chats with business accounts, the opening hours of the business. Returned only in getChat.
+   */
+  business_opening_hours?: TgBusinessOpeningHours;
+  /**
+   * Optional. For private chats, the personal channel of the user. Returned only in getChat.
+   */
+  personal_chat?: TgChat;
   /**
    * Optional. List of available reactions allowed in the chat. If omitted, then all emoji reactions are allowed. Returned only in getChat.
    */
@@ -4046,9 +4200,17 @@ export type TgMessage = {
    */
   sender_boost_count?: number;
   /**
+   * Optional. The bot that actually sent the message on behalf of the business account. Available only for outgoing messages sent on behalf of the connected business account.
+   */
+  sender_business_bot?: TgUser;
+  /**
    * Date the message was sent in Unix time. It is always a positive number, representing a valid date.
    */
   date: number;
+  /**
+   * Optional. Unique identifier of the business connection from which the message was received. If non-empty, the message belongs to a chat of the corresponding business account that is independent from any potential bot chat which might share the same identifier.
+   */
+  business_connection_id?: string;
   /**
    * Chat the message belongs to
    */
@@ -4093,6 +4255,10 @@ export type TgMessage = {
    * Optional. True, if the message can't be forwarded
    */
   has_protected_content?: boolean;
+  /**
+   * Optional. True, if the message was sent by an implicit action, for example, as an away or a greeting business message, or as a scheduled message
+   */
+  is_from_offline?: boolean;
   /**
    * Optional. The unique identifier of a media message group this message belongs to
    */
@@ -4560,11 +4726,11 @@ export type TgReplyParameters = {
    */
   message_id: number;
   /**
-   * Optional. If the message to be replied to is from a different chat, unique identifier for the chat or username of the channel (in the format @channelusername)
+   * Optional. If the message to be replied to is from a different chat, unique identifier for the chat or username of the channel (in the format @channelusername). Not supported for messages sent on behalf of a business account.
    */
   chat_id?: number | string;
   /**
-   * Optional. Pass True if the message should be sent even if the specified message to be replied to is not found; can be used only for replies in the same chat and forum topic.
+   * Optional. Pass True if the message should be sent even if the specified message to be replied to is not found. Always False for replies in another chat or forum topic. Always True for messages sent on behalf of a business account.
    */
   allow_sending_without_reply?: boolean;
   /**
@@ -5270,6 +5436,33 @@ export type TgGeneralForumTopicHidden = {};
  */
 export type TgGeneralForumTopicUnhidden = {};
 /**
+ * This object contains information about a user that was shared with the bot using a KeyboardButtonRequestUser button.
+ *
+ * @see https://core.telegram.org/bots/api#shareduser
+ */
+export type TgSharedUser = {
+  /**
+   * Identifier of the shared user. This number may have more than 32 significant bits and some programming languages may have difficulty/silent defects in interpreting it. But it has at most 52 significant bits, so 64-bit integers or double-precision float types are safe for storing these identifiers. The bot may not have access to the user and could be unable to use this identifier, unless the user is already known to the bot by some other means.
+   */
+  user_id: number;
+  /**
+   * Optional. First name of the user, if the name was requested by the bot
+   */
+  first_name?: string;
+  /**
+   * Optional. Last name of the user, if the name was requested by the bot
+   */
+  last_name?: string;
+  /**
+   * Optional. Username of the user, if the username was requested by the bot
+   */
+  username?: string;
+  /**
+   * Optional. Available sizes of the chat photo, if the photo was requested by the bot
+   */
+  photo?: TgPhotoSize[];
+};
+/**
  * This object contains information about the users whose identifiers were shared with the bot using a KeyboardButtonRequestUsers button.
  *
  * @see https://core.telegram.org/bots/api#usersshared
@@ -5280,12 +5473,12 @@ export type TgUsersShared = {
    */
   request_id: number;
   /**
-   * Identifiers of the shared users. These numbers may have more than 32 significant bits and some programming languages may have difficulty/silent defects in interpreting them. But they have at most 52 significant bits, so 64-bit integers or double-precision float types are safe for storing these identifiers. The bot may not have access to the users and could be unable to use these identifiers, unless the users are already known to the bot by some other means.
+   * Information about users shared with the bot.
    */
-  user_ids: number[];
+  users: TgSharedUser[];
 };
 /**
- * This object contains information about the chat whose identifier was shared with the bot using a KeyboardButtonRequestChat button.
+ * This object contains information about a chat that was shared with the bot using a KeyboardButtonRequestChat button.
  *
  * @see https://core.telegram.org/bots/api#chatshared
  */
@@ -5298,6 +5491,18 @@ export type TgChatShared = {
    * Identifier of the shared chat. This number may have more than 32 significant bits and some programming languages may have difficulty/silent defects in interpreting it. But it has at most 52 significant bits, so a 64-bit integer or double-precision float type are safe for storing this identifier. The bot may not have access to the chat and could be unable to use this identifier, unless the chat is already known to the bot by some other means.
    */
   chat_id: number;
+  /**
+   * Optional. Title of the chat, if the title was requested by the bot.
+   */
+  title?: string;
+  /**
+   * Optional. Username of the chat, if the username was requested by the bot and available.
+   */
+  username?: string;
+  /**
+   * Optional. Available sizes of the chat photo, if the photo was requested by the bot
+   */
+  photo?: TgPhotoSize[];
 };
 /**
  * This object represents a service message about a user allowing a bot to write messages after adding it to the attachment menu, launching a Web App from a link, or accepting an explicit request from a Web App sent by the method requestWriteAccess.
@@ -5617,7 +5822,7 @@ export type TgKeyboardButton = {
   web_app?: TgWebAppInfo;
 };
 /**
- * This object defines the criteria used to request suitable users. The identifiers of the selected users will be shared with the bot when the corresponding button is pressed. More about requesting users: https://core.telegram.org/bots/features#chat-and-user-selection
+ * This object defines the criteria used to request suitable users. Information about the selected users will be shared with the bot when the corresponding button is pressed. More about requesting users: https://core.telegram.org/bots/features#chat-and-user-selection
  *
  * @see https://core.telegram.org/bots/api#keyboardbuttonrequestusers
  */
@@ -5638,9 +5843,21 @@ export type TgKeyboardButtonRequestUsers = {
    * Optional. The maximum number of users to be selected; 1-10. Defaults to 1.
    */
   max_quantity?: number;
+  /**
+   * Optional. Pass True to request the users' first and last name
+   */
+  request_name?: boolean;
+  /**
+   * Optional. Pass True to request the users' username
+   */
+  request_username?: boolean;
+  /**
+   * Optional. Pass True to request the users' photo
+   */
+  request_photo?: boolean;
 };
 /**
- * This object defines the criteria used to request a suitable chat. The identifier of the selected chat will be shared with the bot when the corresponding button is pressed. More about requesting chats: https://core.telegram.org/bots/features#chat-and-user-selection
+ * This object defines the criteria used to request a suitable chat. Information about the selected chat will be shared with the bot when the corresponding button is pressed. The bot will be granted requested rights in the сhat if appropriate More about requesting chats: https://core.telegram.org/bots/features#chat-and-user-selection
  *
  * @see https://core.telegram.org/bots/api#keyboardbuttonrequestchat
  */
@@ -5677,6 +5894,18 @@ export type TgKeyboardButtonRequestChat = {
    * Optional. Pass True to request a chat with the bot as a member. Otherwise, no additional restrictions are applied.
    */
   bot_is_member?: boolean;
+  /**
+   * Optional. Pass True to request the chat's title
+   */
+  request_title?: boolean;
+  /**
+   * Optional. Pass True to request the chat's username
+   */
+  request_username?: boolean;
+  /**
+   * Optional. Pass True to request the chat's photo
+   */
+  request_photo?: boolean;
 };
 /**
  * This object represents type of a poll, which is allowed to be created and sent when the corresponding button is pressed.
@@ -6389,6 +6618,79 @@ export type TgChatPermissions = {
   can_manage_topics?: boolean;
 };
 /**
+ * @see https://core.telegram.org/bots/api#birthdate
+ */
+export type TgBirthdate = {
+  /**
+   * Day of the user's birth; 1-31
+   */
+  day: number;
+  /**
+   * Month of the user's birth; 1-12
+   */
+  month: number;
+  /**
+   * Optional. Year of the user's birth
+   */
+  year?: number;
+};
+/**
+ * @see https://core.telegram.org/bots/api#businessintro
+ */
+export type TgBusinessIntro = {
+  /**
+   * Optional. Title text of the business intro
+   */
+  title?: string;
+  /**
+   * Optional. Message text of the business intro
+   */
+  message?: string;
+  /**
+   * Optional. Sticker of the business intro
+   */
+  sticker?: TgSticker;
+};
+/**
+ * @see https://core.telegram.org/bots/api#businesslocation
+ */
+export type TgBusinessLocation = {
+  /**
+   * Address of the business
+   */
+  address: string;
+  /**
+   * Optional. Location of the business
+   */
+  location?: TgLocation;
+};
+/**
+ * @see https://core.telegram.org/bots/api#businessopeninghoursinterval
+ */
+export type TgBusinessOpeningHoursInterval = {
+  /**
+   * The minute's sequence number in a week, starting on Monday, marking the start of the time interval during which the business is open; 0 - 7 24 60
+   */
+  opening_minute: number;
+  /**
+   * The minute's sequence number in a week, starting on Monday, marking the end of the time interval during which the business is open; 0 - 8 24 60
+   */
+  closing_minute: number;
+};
+/**
+ * @see https://core.telegram.org/bots/api#businessopeninghours
+ */
+export type TgBusinessOpeningHours = {
+  /**
+   * Unique name of the time zone for which the opening hours are defined
+   */
+  time_zone_name: string;
+  /**
+   * List of time intervals describing business opening hours
+   */
+  opening_hours: TgBusinessOpeningHoursInterval[];
+};
+/**
  * Represents a location to which a chat is connected.
  *
  * @see https://core.telegram.org/bots/api#chatlocation
@@ -6976,6 +7278,56 @@ export type TgUserChatBoosts = {
   boosts: TgChatBoost[];
 };
 /**
+ * Describes the connection of the bot with a business account.
+ *
+ * @see https://core.telegram.org/bots/api#businessconnection
+ */
+export type TgBusinessConnection = {
+  /**
+   * Unique identifier of the business connection
+   */
+  id: string;
+  /**
+   * Business account user that created the business connection
+   */
+  user: TgUser;
+  /**
+   * Identifier of a private chat with the user who created the business connection. This number may have more than 32 significant bits and some programming languages may have difficulty/silent defects in interpreting it. But it has at most 52 significant bits, so a 64-bit integer or double-precision float type are safe for storing this identifier.
+   */
+  user_chat_id: number;
+  /**
+   * Date the connection was established in Unix time
+   */
+  date: number;
+  /**
+   * True, if the bot can act on behalf of the business account in chats that were active in the last 24 hours
+   */
+  can_reply: boolean;
+  /**
+   * True, if the connection is active
+   */
+  is_enabled: boolean;
+};
+/**
+ * This object is received when messages are deleted from a connected business account.
+ *
+ * @see https://core.telegram.org/bots/api#businessmessagesdeleted
+ */
+export type TgBusinessMessagesDeleted = {
+  /**
+   * Unique identifier of the business connection
+   */
+  business_connection_id: string;
+  /**
+   * Information about a chat in the business account. The bot may not have access to the chat or the corresponding user.
+   */
+  chat: TgChat;
+  /**
+   * A JSON-serialized list of identifiers of deleted messages in the chat of the business account
+   */
+  message_ids: number[];
+};
+/**
  * Describes why a request was unsuccessful.
  *
  * @see https://core.telegram.org/bots/api#responseparameters
@@ -7310,14 +7662,6 @@ export type TgStickerSet = {
    */
   sticker_type: "regular" | "mask" | "custom_emoji";
   /**
-   * True, if the sticker set contains animated stickers
-   */
-  is_animated: boolean;
-  /**
-   * True, if the sticker set contains video stickers
-   */
-  is_video: boolean;
-  /**
    * List of all set stickers
    */
   stickers: TgSticker[];
@@ -7359,6 +7703,10 @@ export type TgInputSticker = {
    * The added sticker. Pass a file_id as a String to send a file that already exists on the Telegram servers, pass an HTTP URL as a String for Telegram to get a file from the Internet, upload a new one using multipart/form-data, or pass "attach://<file_attach_name>" to upload a new one using multipart/form-data under <file_attach_name> name. Animated and video stickers can't be uploaded via HTTP URL. More information on Sending Files: https://core.telegram.org/bots/api#sending-files
    */
   sticker: TgInputFile | string;
+  /**
+   * Format of the added sticker, must be one of "static" for a .WEBP or .PNG image, "animated" for a .TGS animation, "video" for a WEBM video
+   */
+  format: "static" | "animated" | "video";
   /**
    * List of 1-20 emoji associated with the sticker
    */
