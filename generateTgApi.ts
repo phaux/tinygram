@@ -12,8 +12,8 @@ interface TgApiDef {
 
 interface TgApiMethodDef {
   name: string;
-  href: string;
-  description: string[];
+  href?: string;
+  description?: string[];
   fields?: TgApiFieldDef[];
   returns: string[];
 }
@@ -22,13 +22,13 @@ interface TgApiFieldDef {
   name: string;
   types: string[];
   required: boolean;
-  description: string;
+  description?: string;
 }
 
 interface TgApiTypeDef {
   name: string;
-  href: string;
-  description: string[];
+  href?: string;
+  description?: string[];
   fields?: TgApiFieldDef[];
   subtypes?: string[];
   subtype_of?: string[];
@@ -131,12 +131,14 @@ function generateApiMethodNode(tgMethodDef: TgApiMethodDef) {
     ]),
   );
 
-  ts.addSyntheticLeadingComment(
-    methodNode,
-    ts.SyntaxKind.MultiLineCommentTrivia,
-    createJsDocText(tgMethodDef.description.join("\n"), { see: tgMethodDef.href }),
-    true,
-  );
+  if (tgMethodDef.description || tgMethodDef.href) {
+    ts.addSyntheticLeadingComment(
+      methodNode,
+      ts.SyntaxKind.MultiLineCommentTrivia,
+      createJsDocText(tgMethodDef.description?.join("\n"), { see: tgMethodDef.href }),
+      true,
+    );
+  }
 
   return methodNode;
 }
@@ -182,12 +184,14 @@ function generateApiTypeNode(tgTypeDef: TgApiTypeDef) {
     typeNode,
   );
 
-  ts.addSyntheticLeadingComment(
-    typeDeclarationNode,
-    ts.SyntaxKind.MultiLineCommentTrivia,
-    createJsDocText(tgTypeDef.description.join("\n"), { see: tgTypeDef.href }),
-    true,
-  );
+  if (tgTypeDef.description || tgTypeDef.href) {
+    ts.addSyntheticLeadingComment(
+      typeDeclarationNode,
+      ts.SyntaxKind.MultiLineCommentTrivia,
+      createJsDocText(tgTypeDef.description?.join("\n"), { see: tgTypeDef.href }),
+      true,
+    );
+  }
 
   return typeDeclarationNode;
 }
@@ -225,18 +229,18 @@ function generateTypeFieldNode(tgFieldDef: TgApiFieldDef, tgTypeDefName: string)
   } else if (tgFieldDef.types.join(",") === "String") {
     // for strings, try to parse the description to get a more specific type
     let match;
-    if ((match = tgFieldDef.description.match(/\balways "([^"]+)"(\. |$)/iu))) {
+    if ((match = tgFieldDef.description?.match(/\balways "([^"]+)"(\. |$)/iu))) {
       typeNode = ts.factory.createLiteralTypeNode(
         ts.factory.createStringLiteral(match[1]),
       );
     } else if (
-      (match = tgFieldDef.description.match(/\bmust be (\w+)(\. |$)/iu))
+      (match = tgFieldDef.description?.match(/\bmust be (\w+)(\. |$)/iu))
     ) {
       typeNode = ts.factory.createLiteralTypeNode(
         ts.factory.createStringLiteral(match[1]),
       );
     } else if (
-      (match = tgFieldDef.description.match(
+      (match = tgFieldDef.description?.match(
         /\b(?:one of|can be|either)\s+(("[^"]+".*?)+(\. |$))/iu,
       ))
     ) {
@@ -331,8 +335,8 @@ function generateTypeNode(tgType: string): TypeNode {
   }
 }
 
-function createJsDocText(description: string, tags?: { see?: string }) {
-  const lines = description.split("\n");
+function createJsDocText(description: string | undefined, tags?: { see?: string }) {
+  const lines = description?.split("\n") ?? [];
   if (tags?.see) {
     lines.push(`@see ${tags.see}`);
   }
