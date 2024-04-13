@@ -18,6 +18,6 @@ jobs:
         with:
           deno-version: v1.x
       - run: deno task dnt
-      - run: npm publish /tmp/dnt
+      - run: npm publish ./npm
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
