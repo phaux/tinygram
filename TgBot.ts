@@ -1,9 +1,9 @@
-import { TgApi, TgGetUpdatesParams } from "./TgApi.ts";
+import type { TgApi, TgGetUpdatesParams, TgUpdate } from "./TgApi.ts";
 import { getTgFileData } from "./getTgFileData.ts";
 import { listTgUpdates } from "./listTgUpdates.ts";
 import { callTgApi } from "./callTgApi.ts";
-import { TgApiOptions } from "./TgApiOptions.ts";
-import { TgBotConfig } from "./TgBotConfig.ts";
+import type { TgApiOptions } from "./TgApiOptions.ts";
+import type { TgBotConfig } from "./TgBotConfig.ts";
 
 /**
  * Wraps {@link callTgApi} and other functions into a single easy-to-use class.
@@ -38,7 +38,9 @@ export class TgBot {
    *
    * @throws {TgError} if the response is not OK.
    */
-  async *listUpdates(options: TgGetUpdatesParams & TgApiOptions) {
+  async *listUpdates(
+    options: TgGetUpdatesParams & TgApiOptions,
+  ): AsyncGenerator<TgUpdate, void, undefined> {
     const { signal, ...params } = options;
     yield* listTgUpdates(this.config, params, { signal });
   }

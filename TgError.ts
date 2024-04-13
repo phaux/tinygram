@@ -1,4 +1,4 @@
-import { TgResponseParameters } from "./TgApi.ts";
+import type { TgResponseParameters } from "./TgApi.ts";
 
 /**
  * Error returned from the Telegram Bot API.

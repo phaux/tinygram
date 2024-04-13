@@ -35,8 +35,8 @@ export interface TgBotConfig {
     init: {
       method: "GET" | "POST";
       headers?: { "Content-Type"?: "application/json" };
-      body?: string | FormData;
-      signal?: AbortSignal;
+      body?: string | FormData | null;
+      signal?: AbortSignal | null;
     },
   ) => Promise<{
     ok: boolean;

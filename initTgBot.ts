@@ -1,8 +1,8 @@
 import { TgBot } from "./TgBot.ts";
-import { TgApi } from "./TgApi.ts";
+import type { TgApi } from "./TgApi.ts";
 import { callTgApi } from "./callTgApi.ts";
-import { TgApiOptions } from "./TgApiOptions.ts";
-import { TgBotConfig } from "./TgBotConfig.ts";
+import type { TgApiOptions } from "./TgApiOptions.ts";
+import type { TgBotConfig } from "./TgBotConfig.ts";
 
 /**
  * Returns a {@link TgBot} wrapped in a {@link Proxy} which allows to call methods from {@link TgApi} directly.

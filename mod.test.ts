@@ -1,4 +1,3 @@
-// deno-lint-ignore-file require-await
 import { assert } from "https://deno.land/std@0.220.1/assert/assert.ts";
 import { assertEquals } from "https://deno.land/std@0.220.1/assert/assert_equals.ts";
 import { assertInstanceOf } from "https://deno.land/std@0.220.1/assert/assert_instance_of.ts";
@@ -12,13 +11,13 @@ import {
   initTgBot,
   listTgUpdates,
   TgBot,
-  TgBotConfig,
-  TgChat,
+  type TgBotConfig,
+  type TgChat,
   TgError,
-  TgMessage,
-  TgResponseParameters,
-  TgUpdate,
-  TgUser,
+  type TgMessage,
+  type TgResponseParameters,
+  type TgUpdate,
+  type TgUser,
 } from "./mod.ts";
 
 const assertType = <T>(value: T) => value;

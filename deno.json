@@ -1,4 +1,16 @@
 {
+  "name": "@smol/gram",
+  "compilerOptions": {
+    "exactOptionalPropertyTypes": true,
+    "noUncheckedIndexedAccess": true
+  },
+  "exclude": [
+    ".github",
+    ".vscode",
+    "coverage",
+    "npm"
+  ],
+  "exports": "./mod.ts",
   "fmt": {
     "exclude": [
       "CHANGELOG.md"
@@ -9,14 +21,21 @@
   "lint": {
     "rules": {
       "exclude": [
-        "ban-types"
+        "ban-types",
+        "require-await"
+      ],
+      "include": [
+        "explicit-module-boundary-types",
+        "no-console",
+        "no-top-level-await"
       ]
     }
   },
   "tasks": {
-    "cdnup": "deno run --allow-read --allow-write=. --allow-net https://deno.land/x/cdnup@v1.0.0/main.ts --skip '**/coverage' -w",
+    "cdnup": "deno run --allow-read --allow-write=. --allow-net https://deno.land/x/cdnup@v1.0.0/main.ts --skip coverage --skip npm -w",
     "codegen": "deno run --allow-read --allow-net --allow-env generateTgApi.ts > TgApi.ts && deno fmt TgApi.ts",
     "dnt": "deno run -A https://deno.land/x/dntx@v0.4.0/mod.ts -n tinygram --no-script-module --declaration separate",
     "test": "rm -rf coverage && deno test --coverage && deno coverage --lcov --output=coverage/lcov.info && deno check mod.ts && deno check generateTgApi.ts && deno lint && deno fmt --check"
-  }
+  },
+  "version": "1.3.0"
 }

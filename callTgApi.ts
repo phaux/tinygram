@@ -1,8 +1,8 @@
 import { TG_API_URL } from "./TG_API_URL.ts";
-import { TgApiOptions } from "./TgApiOptions.ts";
-import { TgBotConfig } from "./TgBotConfig.ts";
+import type { TgApiOptions } from "./TgApiOptions.ts";
+import type { TgBotConfig } from "./TgBotConfig.ts";
 import { TgError } from "./TgError.ts";
-import { TgApi } from "./TgApi.ts";
+import type { TgApi } from "./TgApi.ts";
 
 /**
  * Calls a Telegram Bot API method.
@@ -21,9 +21,9 @@ export async function callTgApi<M extends keyof TgApi>(
     `./bot${config.botToken}/${method}`,
     config.apiUrl ?? TG_API_URL,
   );
-  const { url, headers, body, signal } = prepareTgRequest(config, baseUrl, params, options);
+  const { url, ...init } = prepareTgRequest(config, baseUrl, params, options);
   const localFetch = config.fetch ?? globalThis.fetch;
-  const response = await localFetch(url.href, { method: "POST", headers, body, signal });
+  const response = await localFetch(url.href, { method: "POST", ...init });
   const data = await response.json().catch(() => null);
   if (data?.ok === true) return data.result;
   if (data?.ok === false) throw new TgError(data.description, data.error_code, data.parameters);
@@ -37,7 +37,7 @@ function prepareTgRequest(
   params: Record<string, unknown> | undefined,
   options?: TgApiOptions,
 ) {
-  const signal = options?.signal;
+  const signal = options?.signal ?? null;
   // Params are empty?
   if (params == null || Object.keys(params).length === 0) {
     // Send an empty request.

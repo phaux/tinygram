@@ -1,7 +1,7 @@
-import { TgGetUpdatesParams } from "./TgApi.ts";
+import type { TgGetUpdatesParams, TgUpdate } from "./TgApi.ts";
 import { callTgApi } from "./callTgApi.ts";
-import { TgApiOptions } from "./TgApiOptions.ts";
-import { TgBotConfig } from "./TgBotConfig.ts";
+import type { TgApiOptions } from "./TgApiOptions.ts";
+import type { TgBotConfig } from "./TgBotConfig.ts";
 import { TgError } from "./TgError.ts";
 
 /**
@@ -20,7 +20,7 @@ export async function* listTgUpdates(
   config: TgBotConfig,
   params: TgGetUpdatesParams,
   options?: TgApiOptions,
-) {
+): AsyncGenerator<TgUpdate, void, undefined> {
   let offset = params.offset ?? 0;
   while (true) {
     try {

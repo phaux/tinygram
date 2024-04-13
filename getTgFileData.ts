@@ -1,6 +1,6 @@
-import { TgApiOptions } from "./TgApiOptions.ts";
+import type { TgApiOptions } from "./TgApiOptions.ts";
 import { TG_API_URL } from "./TG_API_URL.ts";
-import { TgBotConfig } from "./TgBotConfig.ts";
+import type { TgBotConfig } from "./TgBotConfig.ts";
 import { TgError } from "./TgError.ts";
 
 /**
@@ -14,7 +14,7 @@ export async function getTgFileData(
   config: TgBotConfig,
   filePath: string,
   options?: TgApiOptions,
-) {
+): Promise<Blob> {
   const url = new URL(
     `./file/bot${config.botToken}/${filePath}`,
     config.apiUrl ?? TG_API_URL,
@@ -22,7 +22,7 @@ export async function getTgFileData(
   const localFetch = config.fetch ?? globalThis.fetch;
   const response = await localFetch(url.href, {
     method: "GET",
-    signal: options?.signal,
+    signal: options?.signal ?? null,
   });
   if (!response.ok) throw new TgError(response.statusText, response.status);
   const blob = await response.blob();

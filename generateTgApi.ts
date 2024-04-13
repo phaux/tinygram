@@ -1,4 +1,6 @@
-import ts, { TypeNode } from "https://esm.sh/typescript@5.4.3";
+// deno-lint-ignore-file no-top-level-await -- this is a CLI script
+
+import ts from "https://esm.sh/typescript@5.4.3";
 
 const TG_API_DEF_URL =
   "https://raw.githubusercontent.com/PaulSonOfLars/telegram-bot-api-spec/main/api.json";
@@ -12,9 +14,9 @@ interface TgApiDef {
 
 interface TgApiMethodDef {
   name: string;
-  href?: string;
-  description?: string[];
-  fields?: TgApiFieldDef[];
+  href?: string | undefined;
+  description?: string[] | undefined;
+  fields?: TgApiFieldDef[] | undefined;
   returns: string[];
 }
 
@@ -22,16 +24,16 @@ interface TgApiFieldDef {
   name: string;
   types: string[];
   required: boolean;
-  description?: string;
+  description?: string | undefined;
 }
 
 interface TgApiTypeDef {
   name: string;
-  href?: string;
-  description?: string[];
-  fields?: TgApiFieldDef[];
-  subtypes?: string[];
-  subtype_of?: string[];
+  href?: string | undefined;
+  description?: string[] | undefined;
+  fields?: TgApiFieldDef[] | undefined;
+  subtypes?: string[] | undefined;
+  subtype_of?: string[] | undefined;
 }
 
 if (import.meta.main) {
@@ -39,13 +41,14 @@ if (import.meta.main) {
     .then((resp) => resp.ok ? resp : Promise.reject(resp))
     .then((resp) => resp.json());
   const tgApiCode = generateTgApi(tgApiDef);
+  // deno-lint-ignore no-console -- this is a CLI script
   console.log(tgApiCode);
 }
 
 /**
  * Generates TypeScript code for the Telegram Bot API types.
  */
-export function generateTgApi(tgApiDef: TgApiDef) {
+export function generateTgApi(tgApiDef: TgApiDef): string {
   const sourceFileNode = ts.factory.createSourceFile(
     [...generateApiNodes(tgApiDef)],
     ts.factory.createToken(ts.SyntaxKind.EndOfFileToken),
@@ -231,20 +234,20 @@ function generateTypeFieldNode(tgFieldDef: TgApiFieldDef, tgTypeDefName: string)
     let match;
     if ((match = tgFieldDef.description?.match(/\balways "([^"]+)"(\. |$)/iu))) {
       typeNode = ts.factory.createLiteralTypeNode(
-        ts.factory.createStringLiteral(match[1]),
+        ts.factory.createStringLiteral(match[1]!),
       );
     } else if (
       (match = tgFieldDef.description?.match(/\bmust be (\w+)(\. |$)/iu))
     ) {
       typeNode = ts.factory.createLiteralTypeNode(
-        ts.factory.createStringLiteral(match[1]),
+        ts.factory.createStringLiteral(match[1]!),
       );
     } else if (
       (match = tgFieldDef.description?.match(
         /\b(?:one of|can be|either)\s+(("[^"]+".*?)+(\. |$))/iu,
       ))
     ) {
-      const variants = [...match[1].matchAll(/"([^"]+)"/gu)].map((match) => match[1]);
+      const variants = [...match[1]!.matchAll(/"([^"]+)"/gu)].map((match) => match[1]);
 
       typeNode = ts.factory.createUnionTypeNode(
         variants.map((variant) =>
@@ -316,7 +319,7 @@ function generateTypeFieldNode(tgFieldDef: TgApiFieldDef, tgTypeDefName: string)
 /**
  * Generate a TS type node from a API definition type name.
  */
-function generateTypeNode(tgType: string): TypeNode {
+function generateTypeNode(tgType: string): ts.TypeNode {
   if (tgType.toLowerCase().startsWith("array of ")) {
     return ts.factory.createArrayTypeNode(
       generateTypeNode(tgType.substring("array of ".length)),
@@ -335,7 +338,7 @@ function generateTypeNode(tgType: string): TypeNode {
   }
 }
 
-function createJsDocText(description: string | undefined, tags?: { see?: string }) {
+function createJsDocText(description: string | undefined, tags?: { see?: string | undefined }) {
   const lines = description?.split("\n") ?? [];
   if (tags?.see) {
     lines.push(`@see ${tags.see}`);
