@@ -1,7 +1,8 @@
 # Tinygram
 
 [![deno doc](https://doc.deno.land/badge.svg)](https://deno.land/x/tinygram/mod.ts?s=initTgBot)
-[![npm](https://img.shields.io/npm/v/tinygram)](https://www.npmjs.com/package/tinygram)
+[![npm](https://img.shields.io/npm/v/tinygram?color=red)](https://www.npmjs.com/package/tinygram)
+[![jsr](https://img.shields.io/jsr/v/%40smol/gram?color=gold)](https://jsr.io/@smol/gram)
 [![bundlephobia](https://img.shields.io/bundlephobia/minzip/tinygram)](https://bundlephobia.com/package/tinygram)
 [![changelog](https://img.shields.io/badge/changelog-grey)](./CHANGELOG.md)
 
