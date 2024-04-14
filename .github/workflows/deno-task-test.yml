@@ -15,6 +15,6 @@ jobs:
       - uses: actions/checkout@v4
       - uses: denoland/setup-deno@v1
       - run: deno task test
-      - uses: VeryGoodOpenSource/very_good_coverage@v2
+      - uses: codecov/codecov-action@v4
         with:
-          min_coverage: 90
+          token: ${{ secrets.CODECOV_TOKEN }}
