@@ -2,7 +2,8 @@
 
 [![deno doc](https://doc.deno.land/badge.svg)](https://deno.land/x/tinygram/mod.ts?s=initTgBot)
 [![npm](https://img.shields.io/npm/v/tinygram?color=red)](https://www.npmjs.com/package/tinygram)
-[![jsr](https://img.shields.io/jsr/v/%40smol/gram?color=gold)](https://jsr.io/@smol/gram)
+[![jsr](https://img.shields.io/jsr/v/@smol/gram?color=gold)](https://jsr.io/@smol/gram)
+[![codecov](https://img.shields.io/codecov/c/gh/phaux/tinygram)](https://codecov.io/gh/phaux/tinygram)
 [![bundlephobia](https://img.shields.io/bundlephobia/minzip/tinygram)](https://bundlephobia.com/package/tinygram)
 [![changelog](https://img.shields.io/badge/changelog-grey)](./CHANGELOG.md)
 
