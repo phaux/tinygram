@@ -1,6 +1,6 @@
 // This file is auto-generated, do not edit it directly.
 
-export const TG_API_VERSION = "Bot API 7.2" as const;
+export const TG_API_VERSION = "Bot API 7.3" as const;
 export interface TgApi {
   /**
    * Use this method to receive incoming updates using long polling (wiki). Returns an Array of Update objects.
@@ -109,7 +109,7 @@ export interface TgApi {
    */
   sendAnimation(params: TgSendAnimationParams): Promise<TgMessage>;
   /**
-   * Use this method to send audio files, if you want Telegram clients to display the file as a playable voice message. For this to work, your audio must be in an .OGG file encoded with OPUS (other formats may be sent as Audio or Document). On success, the sent Message is returned. Bots can currently send voice messages of up to 50 MB in size, this limit may be changed in the future.
+   * Use this method to send audio files, if you want Telegram clients to display the file as a playable voice message. For this to work, your audio must be in an .OGG file encoded with OPUS, or in .MP3 format, or in .M4A format (other formats may be sent as Audio or Document). On success, the sent Message is returned. Bots can currently send voice messages of up to 50 MB in size, this limit may be changed in the future.
    *
    * @see https://core.telegram.org/bots/api#sendvoice
    */
@@ -319,11 +319,11 @@ export interface TgApi {
    */
   leaveChat(params: TgLeaveChatParams): Promise<boolean>;
   /**
-   * Use this method to get up to date information about the chat. Returns a Chat object on success.
+   * Use this method to get up-to-date information about the chat. Returns a ChatFullInfo object on success.
    *
    * @see https://core.telegram.org/bots/api#getchat
    */
-  getChat(params: TgGetChatParams): Promise<TgChat>;
+  getChat(params: TgGetChatParams): Promise<TgChatFullInfo>;
   /**
    * Use this method to get a list of administrators in a chat, which aren't bots. Returns an Array of ChatMember objects.
    *
@@ -885,7 +885,7 @@ export type TgSendMessageParams = {
    */
   reply_parameters?: TgReplyParameters;
   /**
-   * Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove a reply keyboard or to force a reply from the user. Not supported for messages sent on behalf of a business account
+   * Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove a reply keyboard or to force a reply from the user
    */
   reply_markup?:
     | TgInlineKeyboardMarkup
@@ -1002,7 +1002,7 @@ export type TgCopyMessageParams = {
    */
   reply_parameters?: TgReplyParameters;
   /**
-   * Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove reply keyboard or to force a reply from the user.
+   * Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove a reply keyboard or to force a reply from the user
    */
   reply_markup?:
     | TgInlineKeyboardMarkup
@@ -1096,7 +1096,7 @@ export type TgSendPhotoParams = {
    */
   reply_parameters?: TgReplyParameters;
   /**
-   * Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove a reply keyboard or to force a reply from the user. Not supported for messages sent on behalf of a business account
+   * Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove a reply keyboard or to force a reply from the user
    */
   reply_markup?:
     | TgInlineKeyboardMarkup
@@ -1167,7 +1167,7 @@ export type TgSendAudioParams = {
    */
   reply_parameters?: TgReplyParameters;
   /**
-   * Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove a reply keyboard or to force a reply from the user. Not supported for messages sent on behalf of a business account
+   * Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove a reply keyboard or to force a reply from the user
    */
   reply_markup?:
     | TgInlineKeyboardMarkup
@@ -1230,7 +1230,7 @@ export type TgSendDocumentParams = {
    */
   reply_parameters?: TgReplyParameters;
   /**
-   * Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove a reply keyboard or to force a reply from the user. Not supported for messages sent on behalf of a business account
+   * Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove a reply keyboard or to force a reply from the user
    */
   reply_markup?:
     | TgInlineKeyboardMarkup
@@ -1309,7 +1309,7 @@ export type TgSendVideoParams = {
    */
   reply_parameters?: TgReplyParameters;
   /**
-   * Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove a reply keyboard or to force a reply from the user. Not supported for messages sent on behalf of a business account
+   * Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove a reply keyboard or to force a reply from the user
    */
   reply_markup?:
     | TgInlineKeyboardMarkup
@@ -1384,7 +1384,7 @@ export type TgSendAnimationParams = {
    */
   reply_parameters?: TgReplyParameters;
   /**
-   * Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove a reply keyboard or to force a reply from the user. Not supported for messages sent on behalf of a business account
+   * Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove a reply keyboard or to force a reply from the user
    */
   reply_markup?:
     | TgInlineKeyboardMarkup
@@ -1443,7 +1443,7 @@ export type TgSendVoiceParams = {
    */
   reply_parameters?: TgReplyParameters;
   /**
-   * Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove a reply keyboard or to force a reply from the user. Not supported for messages sent on behalf of a business account
+   * Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove a reply keyboard or to force a reply from the user
    */
   reply_markup?:
     | TgInlineKeyboardMarkup
@@ -1498,7 +1498,7 @@ export type TgSendVideoNoteParams = {
    */
   reply_parameters?: TgReplyParameters;
   /**
-   * Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove a reply keyboard or to force a reply from the user. Not supported for messages sent on behalf of a business account
+   * Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove a reply keyboard or to force a reply from the user
    */
   reply_markup?:
     | TgInlineKeyboardMarkup
@@ -1572,7 +1572,7 @@ export type TgSendLocationParams = {
    */
   horizontal_accuracy?: number;
   /**
-   * Period in seconds for which the location will be updated (see Live Locations, should be between 60 and 86400.
+   * Period in seconds during which the location will be updated (see Live Locations, should be between 60 and 86400, or 0x7FFFFFFF for live locations that can be edited indefinitely.
    */
   live_period?: number;
   /**
@@ -1596,7 +1596,7 @@ export type TgSendLocationParams = {
    */
   reply_parameters?: TgReplyParameters;
   /**
-   * Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove a reply keyboard or to force a reply from the user. Not supported for messages sent on behalf of a business account
+   * Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove a reply keyboard or to force a reply from the user
    */
   reply_markup?:
     | TgInlineKeyboardMarkup
@@ -1667,7 +1667,7 @@ export type TgSendVenueParams = {
    */
   reply_parameters?: TgReplyParameters;
   /**
-   * Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove a reply keyboard or to force a reply from the user. Not supported for messages sent on behalf of a business account
+   * Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove a reply keyboard or to force a reply from the user
    */
   reply_markup?:
     | TgInlineKeyboardMarkup
@@ -1722,7 +1722,7 @@ export type TgSendContactParams = {
    */
   reply_parameters?: TgReplyParameters;
   /**
-   * Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove a reply keyboard or to force a reply from the user. Not supported for messages sent on behalf of a business account
+   * Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove a reply keyboard or to force a reply from the user
    */
   reply_markup?:
     | TgInlineKeyboardMarkup
@@ -1753,9 +1753,17 @@ export type TgSendPollParams = {
    */
   question: string;
   /**
-   * A JSON-serialized list of answer options, 2-10 strings 1-100 characters each
+   * Mode for parsing entities in the question. See formatting options for more details. Currently, only custom emoji entities are allowed
    */
-  options: string[];
+  question_parse_mode?: undefined | "HTML" | "Markdown" | "MarkdownV2";
+  /**
+   * A JSON-serialized list of special entities that appear in the poll question. It can be specified instead of question_parse_mode
+   */
+  question_entities?: TgMessageEntity[];
+  /**
+   * A JSON-serialized list of 2-10 answer options
+   */
+  options: TgInputPollOption[];
   /**
    * True, if the poll needs to be anonymous, defaults to True
    */
@@ -1781,7 +1789,7 @@ export type TgSendPollParams = {
    */
   explanation_parse_mode?: undefined | "HTML" | "Markdown" | "MarkdownV2";
   /**
-   * A JSON-serialized list of special entities that appear in the poll explanation, which can be specified instead of parse_mode
+   * A JSON-serialized list of special entities that appear in the poll explanation. It can be specified instead of explanation_parse_mode
    */
   explanation_entities?: TgMessageEntity[];
   /**
@@ -1809,7 +1817,7 @@ export type TgSendPollParams = {
    */
   reply_parameters?: TgReplyParameters;
   /**
-   * Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove a reply keyboard or to force a reply from the user. Not supported for messages sent on behalf of a business account
+   * Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove a reply keyboard or to force a reply from the user
    */
   reply_markup?:
     | TgInlineKeyboardMarkup
@@ -1858,7 +1866,7 @@ export type TgSendDiceParams = {
    */
   reply_parameters?: TgReplyParameters;
   /**
-   * Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove a reply keyboard or to force a reply from the user. Not supported for messages sent on behalf of a business account
+   * Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove a reply keyboard or to force a reply from the user
    */
   reply_markup?:
     | TgInlineKeyboardMarkup
@@ -2062,7 +2070,7 @@ export type TgPromoteChatMemberParams = {
    */
   can_post_stories?: boolean;
   /**
-   * Pass True if the administrator can edit stories posted by other users
+   * Pass True if the administrator can edit stories posted by other users, post stories to the chat page, pin chat stories, and access the chat's story archive
    */
   can_edit_stories?: boolean;
   /**
@@ -2990,6 +2998,10 @@ export type TgEditMessageLiveLocationParams = {
    */
   longitude: number;
   /**
+   * New period in seconds during which the location can be updated, starting from the message send date. If 0x7FFFFFFF is specified, then the location can be updated forever. Otherwise, the new value must not exceed the current live_period by more than a day, and the live location expiration date must remain within the next 90 days. If not specified, then live_period remains unchanged
+   */
+  live_period?: number;
+  /**
    * The radius of uncertainty for the location, measured in meters; 0-1500
    */
   horizontal_accuracy?: number;
@@ -3140,7 +3152,7 @@ export type TgSendStickerParams = {
    */
   reply_parameters?: TgReplyParameters;
   /**
-   * Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove reply keyboard or to force a reply from the user. Not supported for messages sent on behalf of a business account.
+   * Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove a reply keyboard or to force a reply from the user
    */
   reply_markup?:
     | TgInlineKeyboardMarkup
@@ -3737,7 +3749,7 @@ export type TgSendGameParams = {
    */
   reply_parameters?: TgReplyParameters;
   /**
-   * A JSON-serialized object for an inline keyboard. If empty, one 'Play game_title' button will be shown. If not empty, the first button must launch the game. Not supported for messages sent on behalf of a business account.
+   * A JSON-serialized object for an inline keyboard. If empty, one 'Play game_title' button will be shown. If not empty, the first button must launch the game.
    */
   reply_markup?: TgInlineKeyboardMarkup;
 };
@@ -3832,7 +3844,7 @@ export type TgUpdate = {
    */
   business_connection?: TgBusinessConnection;
   /**
-   * Optional. New non-service message from a connected business account
+   * Optional. New message from a connected business account
    */
   business_message?: TgMessage;
   /**
@@ -4009,7 +4021,42 @@ export type TgChat = {
    */
   id: number;
   /**
-   * Type of chat, can be either "private", "group", "supergroup" or "channel"
+   * Type of the chat, can be either "private", "group", "supergroup" or "channel"
+   */
+  type: "private" | "group" | "supergroup" | "channel";
+  /**
+   * Optional. Title, for supergroups, channels and group chats
+   */
+  title?: string;
+  /**
+   * Optional. Username, for private chats, supergroups and channels if available
+   */
+  username?: string;
+  /**
+   * Optional. First name of the other party in a private chat
+   */
+  first_name?: string;
+  /**
+   * Optional. Last name of the other party in a private chat
+   */
+  last_name?: string;
+  /**
+   * Optional. True, if the supergroup chat is a forum (has topics enabled)
+   */
+  is_forum?: boolean;
+};
+/**
+ * This object contains full information about a chat.
+ *
+ * @see https://core.telegram.org/bots/api#chatfullinfo
+ */
+export type TgChatFullInfo = {
+  /**
+   * Unique identifier for this chat. This number may have more than 32 significant bits and some programming languages may have difficulty/silent defects in interpreting it. But it has at most 52 significant bits, so a signed 64-bit integer or double-precision float type are safe for storing this identifier.
+   */
+  id: number;
+  /**
+   * Type of the chat, can be either "private", "group", "supergroup" or "channel"
    */
   type: "private" | "group" | "supergroup" | "channel";
   /**
@@ -4033,143 +4080,147 @@ export type TgChat = {
    */
   is_forum?: boolean;
   /**
-   * Optional. Chat photo. Returned only in getChat.
+   * Identifier of the accent color for the chat name and backgrounds of the chat photo, reply header, and link preview. See accent colors for more details.
+   */
+  accent_color_id: number;
+  /**
+   * The maximum number of reactions that can be set on a message in the chat
+   */
+  max_reaction_count: number;
+  /**
+   * Optional. Chat photo
    */
   photo?: TgChatPhoto;
   /**
-   * Optional. If non-empty, the list of all active chat usernames; for private chats, supergroups and channels. Returned only in getChat.
+   * Optional. If non-empty, the list of all active chat usernames; for private chats, supergroups and channels
    */
   active_usernames?: string[];
   /**
-   * Optional. For private chats, the date of birth of the user. Returned only in getChat.
+   * Optional. For private chats, the date of birth of the user
    */
   birthdate?: TgBirthdate;
   /**
-   * Optional. For private chats with business accounts, the intro of the business. Returned only in getChat.
+   * Optional. For private chats with business accounts, the intro of the business
    */
   business_intro?: TgBusinessIntro;
   /**
-   * Optional. For private chats with business accounts, the location of the business. Returned only in getChat.
+   * Optional. For private chats with business accounts, the location of the business
    */
   business_location?: TgBusinessLocation;
   /**
-   * Optional. For private chats with business accounts, the opening hours of the business. Returned only in getChat.
+   * Optional. For private chats with business accounts, the opening hours of the business
    */
   business_opening_hours?: TgBusinessOpeningHours;
   /**
-   * Optional. For private chats, the personal channel of the user. Returned only in getChat.
+   * Optional. For private chats, the personal channel of the user
    */
   personal_chat?: TgChat;
   /**
-   * Optional. List of available reactions allowed in the chat. If omitted, then all emoji reactions are allowed. Returned only in getChat.
+   * Optional. List of available reactions allowed in the chat. If omitted, then all emoji reactions are allowed.
    */
   available_reactions?: TgReactionType[];
   /**
-   * Optional. Identifier of the accent color for the chat name and backgrounds of the chat photo, reply header, and link preview. See accent colors for more details. Returned only in getChat. Always returned in getChat.
-   */
-  accent_color_id?: number;
-  /**
-   * Optional. Custom emoji identifier of emoji chosen by the chat for the reply header and link preview background. Returned only in getChat.
+   * Optional. Custom emoji identifier of the emoji chosen by the chat for the reply header and link preview background
    */
   background_custom_emoji_id?: string;
   /**
-   * Optional. Identifier of the accent color for the chat's profile background. See profile accent colors for more details. Returned only in getChat.
+   * Optional. Identifier of the accent color for the chat's profile background. See profile accent colors for more details.
    */
   profile_accent_color_id?: number;
   /**
-   * Optional. Custom emoji identifier of the emoji chosen by the chat for its profile background. Returned only in getChat.
+   * Optional. Custom emoji identifier of the emoji chosen by the chat for its profile background
    */
   profile_background_custom_emoji_id?: string;
   /**
-   * Optional. Custom emoji identifier of the emoji status of the chat or the other party in a private chat. Returned only in getChat.
+   * Optional. Custom emoji identifier of the emoji status of the chat or the other party in a private chat
    */
   emoji_status_custom_emoji_id?: string;
   /**
-   * Optional. Expiration date of the emoji status of the chat or the other party in a private chat, in Unix time, if any. Returned only in getChat.
+   * Optional. Expiration date of the emoji status of the chat or the other party in a private chat, in Unix time, if any
    */
   emoji_status_expiration_date?: number;
   /**
-   * Optional. Bio of the other party in a private chat. Returned only in getChat.
+   * Optional. Bio of the other party in a private chat
    */
   bio?: string;
   /**
-   * Optional. True, if privacy settings of the other party in the private chat allows to use tg://user?id=<user_id> links only in chats with the user. Returned only in getChat.
+   * Optional. True, if privacy settings of the other party in the private chat allows to use tg://user?id=<user_id> links only in chats with the user
    */
   has_private_forwards?: boolean;
   /**
-   * Optional. True, if the privacy settings of the other party restrict sending voice and video note messages in the private chat. Returned only in getChat.
+   * Optional. True, if the privacy settings of the other party restrict sending voice and video note messages in the private chat
    */
   has_restricted_voice_and_video_messages?: boolean;
   /**
-   * Optional. True, if users need to join the supergroup before they can send messages. Returned only in getChat.
+   * Optional. True, if users need to join the supergroup before they can send messages
    */
   join_to_send_messages?: boolean;
   /**
-   * Optional. True, if all users directly joining the supergroup need to be approved by supergroup administrators. Returned only in getChat.
+   * Optional. True, if all users directly joining the supergroup without using an invite link need to be approved by supergroup administrators
    */
   join_by_request?: boolean;
   /**
-   * Optional. Description, for groups, supergroups and channel chats. Returned only in getChat.
+   * Optional. Description, for groups, supergroups and channel chats
    */
   description?: string;
   /**
-   * Optional. Primary invite link, for groups, supergroups and channel chats. Returned only in getChat.
+   * Optional. Primary invite link, for groups, supergroups and channel chats
    */
   invite_link?: string;
   /**
-   * Optional. The most recent pinned message (by sending date). Returned only in getChat.
+   * Optional. The most recent pinned message (by sending date)
    */
   pinned_message?: TgMessage;
   /**
-   * Optional. Default chat member permissions, for groups and supergroups. Returned only in getChat.
+   * Optional. Default chat member permissions, for groups and supergroups
    */
   permissions?: TgChatPermissions;
   /**
-   * Optional. For supergroups, the minimum allowed delay between consecutive messages sent by each unprivileged user; in seconds. Returned only in getChat.
+   * Optional. For supergroups, the minimum allowed delay between consecutive messages sent by each unprivileged user; in seconds
    */
   slow_mode_delay?: number;
   /**
-   * Optional. For supergroups, the minimum number of boosts that a non-administrator user needs to add in order to ignore slow mode and chat permissions. Returned only in getChat.
+   * Optional. For supergroups, the minimum number of boosts that a non-administrator user needs to add in order to ignore slow mode and chat permissions
    */
   unrestrict_boost_count?: number;
   /**
-   * Optional. The time after which all messages sent to the chat will be automatically deleted; in seconds. Returned only in getChat.
+   * Optional. The time after which all messages sent to the chat will be automatically deleted; in seconds
    */
   message_auto_delete_time?: number;
   /**
-   * Optional. True, if aggressive anti-spam checks are enabled in the supergroup. The field is only available to chat administrators. Returned only in getChat.
+   * Optional. True, if aggressive anti-spam checks are enabled in the supergroup. The field is only available to chat administrators.
    */
   has_aggressive_anti_spam_enabled?: boolean;
   /**
-   * Optional. True, if non-administrators can only get the list of bots and administrators in the chat. Returned only in getChat.
+   * Optional. True, if non-administrators can only get the list of bots and administrators in the chat
    */
   has_hidden_members?: boolean;
   /**
-   * Optional. True, if messages from the chat can't be forwarded to other chats. Returned only in getChat.
+   * Optional. True, if messages from the chat can't be forwarded to other chats
    */
   has_protected_content?: boolean;
   /**
-   * Optional. True, if new chat members will have access to old messages; available only to chat administrators. Returned only in getChat.
+   * Optional. True, if new chat members will have access to old messages; available only to chat administrators
    */
   has_visible_history?: boolean;
   /**
-   * Optional. For supergroups, name of group sticker set. Returned only in getChat.
+   * Optional. For supergroups, name of the group sticker set
    */
   sticker_set_name?: string;
   /**
-   * Optional. True, if the bot can change the group sticker set. Returned only in getChat.
+   * Optional. True, if the bot can change the group sticker set
    */
   can_set_sticker_set?: boolean;
   /**
-   * Optional. For supergroups, the name of the group's custom emoji sticker set. Custom emoji from this set can be used by all users and bots in the group. Returned only in getChat.
+   * Optional. For supergroups, the name of the group's custom emoji sticker set. Custom emoji from this set can be used by all users and bots in the group.
    */
   custom_emoji_sticker_set_name?: string;
   /**
-   * Optional. Unique identifier for the linked chat, i.e. the discussion group identifier for a channel and vice versa; for supergroups and channel chats. This identifier may be greater than 32 bits and some programming languages may have difficulty/silent defects in interpreting it. But it is smaller than 52 bits, so a signed 64 bit integer or double-precision float type are safe for storing this identifier. Returned only in getChat.
+   * Optional. Unique identifier for the linked chat, i.e. the discussion group identifier for a channel and vice versa; for supergroups and channel chats. This identifier may be greater than 32 bits and some programming languages may have difficulty/silent defects in interpreting it. But it is smaller than 52 bits, so a signed 64 bit integer or double-precision float type are safe for storing this identifier.
    */
   linked_chat_id?: number;
   /**
-   * Optional. For supergroups, the location to which the supergroup is connected. Returned only in getChat.
+   * Optional. For supergroups, the location to which the supergroup is connected
    */
   location?: TgChatLocation;
 };
@@ -4435,6 +4486,10 @@ export type TgMessage = {
    * Optional. Service message: user boosted the chat
    */
   boost_added?: TgChatBoostAdded;
+  /**
+   * Optional. Service message: chat background set
+   */
+  chat_background_set?: TgChatBackground;
   /**
    * Optional. Service message: forum topic created
    */
@@ -5169,9 +5224,32 @@ export type TgPollOption = {
    */
   text: string;
   /**
+   * Optional. Special entities that appear in the option text. Currently, only custom emoji entities are allowed in poll option texts
+   */
+  text_entities?: TgMessageEntity[];
+  /**
    * Number of users that voted for this option
    */
   voter_count: number;
+};
+/**
+ * This object contains information about one answer option in a poll to send.
+ *
+ * @see https://core.telegram.org/bots/api#inputpolloption
+ */
+export type TgInputPollOption = {
+  /**
+   * Option text, 1-100 characters
+   */
+  text: string;
+  /**
+   * Optional. Mode for parsing entities in the text. See formatting options for more details. Currently, only custom emoji entities are allowed
+   */
+  text_parse_mode?: undefined | "HTML" | "Markdown" | "MarkdownV2";
+  /**
+   * Optional. A JSON-serialized list of special entities that appear in the poll option text. It can be specified instead of text_parse_mode
+   */
+  text_entities?: TgMessageEntity[];
 };
 /**
  * This object represents an answer of a user in a non-anonymous poll.
@@ -5210,6 +5288,10 @@ export type TgPoll = {
    * Poll question, 1-300 characters
    */
   question: string;
+  /**
+   * Optional. Special entities that appear in the question. Currently, only custom emoji entities are allowed in poll questions
+   */
+  question_entities?: TgMessageEntity[];
   /**
    * List of poll options
    */
@@ -5378,6 +5460,195 @@ export type TgChatBoostAdded = {
   boost_count: number;
 };
 /**
+ * This object describes the way a background is filled based on the selected colors. Currently, it can be one of
+ *
+ * - BackgroundFillSolid
+ *
+ * - BackgroundFillGradient
+ *
+ * - BackgroundFillFreeformGradient
+ *
+ * @see https://core.telegram.org/bots/api#backgroundfill
+ */
+export type TgBackgroundFill =
+  | TgBackgroundFillSolid
+  | TgBackgroundFillGradient
+  | TgBackgroundFillFreeformGradient;
+/**
+ * The background is filled using the selected color.
+ *
+ * @see https://core.telegram.org/bots/api#backgroundfillsolid
+ */
+export type TgBackgroundFillSolid = {
+  /**
+   * Type of the background fill, always "solid"
+   */
+  type: "solid";
+  /**
+   * The color of the background fill in the RGB24 format
+   */
+  color: number;
+};
+/**
+ * The background is a gradient fill.
+ *
+ * @see https://core.telegram.org/bots/api#backgroundfillgradient
+ */
+export type TgBackgroundFillGradient = {
+  /**
+   * Type of the background fill, always "gradient"
+   */
+  type: "gradient";
+  /**
+   * Top color of the gradient in the RGB24 format
+   */
+  top_color: number;
+  /**
+   * Bottom color of the gradient in the RGB24 format
+   */
+  bottom_color: number;
+  /**
+   * Clockwise rotation angle of the background fill in degrees; 0-359
+   */
+  rotation_angle: number;
+};
+/**
+ * The background is a freeform gradient that rotates after every message in the chat.
+ *
+ * @see https://core.telegram.org/bots/api#backgroundfillfreeformgradient
+ */
+export type TgBackgroundFillFreeformGradient = {
+  /**
+   * Type of the background fill, always "freeform_gradient"
+   */
+  type: "freeform_gradient";
+  /**
+   * A list of the 3 or 4 base colors that are used to generate the freeform gradient in the RGB24 format
+   */
+  colors: number[];
+};
+/**
+ * This object describes the type of a background. Currently, it can be one of
+ *
+ * - BackgroundTypeFill
+ *
+ * - BackgroundTypeWallpaper
+ *
+ * - BackgroundTypePattern
+ *
+ * - BackgroundTypeChatTheme
+ *
+ * @see https://core.telegram.org/bots/api#backgroundtype
+ */
+export type TgBackgroundType =
+  | TgBackgroundTypeFill
+  | TgBackgroundTypeWallpaper
+  | TgBackgroundTypePattern
+  | TgBackgroundTypeChatTheme;
+/**
+ * The background is automatically filled based on the selected colors.
+ *
+ * @see https://core.telegram.org/bots/api#backgroundtypefill
+ */
+export type TgBackgroundTypeFill = {
+  /**
+   * Type of the background, always "fill"
+   */
+  type: "fill";
+  /**
+   * The background fill
+   */
+  fill: TgBackgroundFill;
+  /**
+   * Dimming of the background in dark themes, as a percentage; 0-100
+   */
+  dark_theme_dimming: number;
+};
+/**
+ * The background is a wallpaper in the JPEG format.
+ *
+ * @see https://core.telegram.org/bots/api#backgroundtypewallpaper
+ */
+export type TgBackgroundTypeWallpaper = {
+  /**
+   * Type of the background, always "wallpaper"
+   */
+  type: "wallpaper";
+  /**
+   * Document with the wallpaper
+   */
+  document: TgDocument;
+  /**
+   * Dimming of the background in dark themes, as a percentage; 0-100
+   */
+  dark_theme_dimming: number;
+  /**
+   * Optional. True, if the wallpaper is downscaled to fit in a 450x450 square and then box-blurred with radius 12
+   */
+  is_blurred?: boolean;
+  /**
+   * Optional. True, if the background moves slightly when the device is tilted
+   */
+  is_moving?: boolean;
+};
+/**
+ * The background is a PNG or TGV (gzipped subset of SVG with MIME type "application/x-tgwallpattern") pattern to be combined with the background fill chosen by the user.
+ *
+ * @see https://core.telegram.org/bots/api#backgroundtypepattern
+ */
+export type TgBackgroundTypePattern = {
+  /**
+   * Type of the background, always "pattern"
+   */
+  type: "pattern";
+  /**
+   * Document with the pattern
+   */
+  document: TgDocument;
+  /**
+   * The background fill that is combined with the pattern
+   */
+  fill: TgBackgroundFill;
+  /**
+   * Intensity of the pattern when it is shown above the filled background; 0-100
+   */
+  intensity: number;
+  /**
+   * Optional. True, if the background fill must be applied only to the pattern itself. All other pixels are black in this case. For dark themes only
+   */
+  is_inverted?: boolean;
+  /**
+   * Optional. True, if the background moves slightly when the device is tilted
+   */
+  is_moving?: boolean;
+};
+/**
+ * The background is taken directly from a built-in chat theme.
+ *
+ * @see https://core.telegram.org/bots/api#backgroundtypechattheme
+ */
+export type TgBackgroundTypeChatTheme = {
+  /**
+   * Type of the background, always "chat_theme"
+   */
+  type: "chat_theme";
+  /**
+   * Name of the chat theme, which is usually an emoji
+   */
+  theme_name: string;
+};
+/**
+ * This object represents a chat background.
+ *
+ * @see https://core.telegram.org/bots/api#chatbackground
+ */
+export type TgChatBackground = {
+  /**
+   * Type of the background
+   */
+  type: TgBackgroundType;
+};
+/**
  * This object represents a service message about a new forum topic created in the chat.
  *
  * @see https://core.telegram.org/bots/api#forumtopiccreated
@@ -5436,7 +5707,7 @@ export type TgGeneralForumTopicHidden = {};
  */
 export type TgGeneralForumTopicUnhidden = {};
 /**
- * This object contains information about a user that was shared with the bot using a KeyboardButtonRequestUser button.
+ * This object contains information about a user that was shared with the bot using a KeyboardButtonRequestUsers button.
  *
  * @see https://core.telegram.org/bots/api#shareduser
  */
@@ -5754,7 +6025,7 @@ export type TgWebAppInfo = {
   url: string;
 };
 /**
- * This object represents a custom keyboard with reply options (see Introduction to bots for details and examples).
+ * This object represents a custom keyboard with reply options (see Introduction to bots for details and examples). Not supported in channels and for messages sent on behalf of a Telegram Business account.
  *
  * @see https://core.telegram.org/bots/api#replykeyboardmarkup
  */
@@ -5844,20 +6115,20 @@ export type TgKeyboardButtonRequestUsers = {
    */
   max_quantity?: number;
   /**
-   * Optional. Pass True to request the users' first and last name
+   * Optional. Pass True to request the users' first and last names
    */
   request_name?: boolean;
   /**
-   * Optional. Pass True to request the users' username
+   * Optional. Pass True to request the users' usernames
    */
   request_username?: boolean;
   /**
-   * Optional. Pass True to request the users' photo
+   * Optional. Pass True to request the users' photos
    */
   request_photo?: boolean;
 };
 /**
- * This object defines the criteria used to request a suitable chat. Information about the selected chat will be shared with the bot when the corresponding button is pressed. The bot will be granted requested rights in the сhat if appropriate More about requesting chats: https://core.telegram.org/bots/features#chat-and-user-selection
+ * This object defines the criteria used to request a suitable chat. Information about the selected chat will be shared with the bot when the corresponding button is pressed. The bot will be granted requested rights in the chat if appropriate. More about requesting chats: https://core.telegram.org/bots/features#chat-and-user-selection.
  *
  * @see https://core.telegram.org/bots/api#keyboardbuttonrequestchat
  */
@@ -5919,7 +6190,7 @@ export type TgKeyboardButtonPollType = {
   type?: string;
 };
 /**
- * Upon receiving a message with this object, Telegram clients will remove the current custom keyboard and display the default letter-keyboard. By default, custom keyboards are displayed until a new keyboard is sent by a bot. An exception is made for one-time keyboards that are hidden immediately after the user presses a button (see ReplyKeyboardMarkup).
+ * Upon receiving a message with this object, Telegram clients will remove the current custom keyboard and display the default letter-keyboard. By default, custom keyboards are displayed until a new keyboard is sent by a bot. An exception is made for one-time keyboards that are hidden immediately after the user presses a button (see ReplyKeyboardMarkup). Not supported in channels and for messages sent on behalf of a Telegram Business account.
  *
  * @see https://core.telegram.org/bots/api#replykeyboardremove
  */
@@ -5959,11 +6230,11 @@ export type TgInlineKeyboardButton = {
    */
   url?: string;
   /**
-   * Optional. Data to be sent in a callback query to the bot when button is pressed, 1-64 bytes
+   * Optional. Data to be sent in a callback query to the bot when button is pressed, 1-64 bytes. Not supported for messages sent on behalf of a Telegram Business account.
    */
   callback_data?: string;
   /**
-   * Optional. Description of the Web App that will be launched when the user presses the button. The Web App will be able to send an arbitrary message on behalf of the user using the method answerWebAppQuery. Available only in private chats between a user and the bot.
+   * Optional. Description of the Web App that will be launched when the user presses the button. The Web App will be able to send an arbitrary message on behalf of the user using the method answerWebAppQuery. Available only in private chats between a user and the bot. Not supported for messages sent on behalf of a Telegram Business account.
    */
   web_app?: TgWebAppInfo;
   /**
@@ -5971,15 +6242,15 @@ export type TgInlineKeyboardButton = {
    */
   login_url?: TgLoginUrl;
   /**
-   * Optional. If set, pressing the button will prompt the user to select one of their chats, open that chat and insert the bot's username and the specified inline query in the input field. May be empty, in which case just the bot's username will be inserted.
+   * Optional. If set, pressing the button will prompt the user to select one of their chats, open that chat and insert the bot's username and the specified inline query in the input field. May be empty, in which case just the bot's username will be inserted. Not supported for messages sent on behalf of a Telegram Business account.
    */
   switch_inline_query?: string;
   /**
-   * Optional. If set, pressing the button will insert the bot's username and the specified inline query in the current chat's input field. May be empty, in which case only the bot's username will be inserted. This offers a quick way for the user to open your bot in inline mode in the same chat - good for selecting something from multiple options.
+   * Optional. If set, pressing the button will insert the bot's username and the specified inline query in the current chat's input field. May be empty, in which case only the bot's username will be inserted. This offers a quick way for the user to open your bot in inline mode in the same chat - good for selecting something from multiple options. Not supported in channels and for messages sent on behalf of a Telegram Business account.
    */
   switch_inline_query_current_chat?: string;
   /**
-   * Optional. If set, pressing the button will prompt the user to select one of their chats of the specified type, open that chat and insert the bot's username and the specified inline query in the input field
+   * Optional. If set, pressing the button will prompt the user to select one of their chats of the specified type, open that chat and insert the bot's username and the specified inline query in the input field. Not supported for messages sent on behalf of a Telegram Business account.
    */
   switch_inline_query_chosen_chat?: TgSwitchInlineQueryChosenChat;
   /**
@@ -6079,7 +6350,7 @@ export type TgCallbackQuery = {
   game_short_name?: string;
 };
 /**
- * Upon receiving a message with this object, Telegram clients will display a reply interface to the user (act as if the user has selected the bot's message and tapped 'Reply'). This can be extremely useful if you want to create user-friendly step-by-step interfaces without having to sacrifice privacy mode.
+ * Upon receiving a message with this object, Telegram clients will display a reply interface to the user (act as if the user has selected the bot's message and tapped 'Reply'). This can be extremely useful if you want to create user-friendly step-by-step interfaces without having to sacrifice privacy mode. Not supported in channels and for messages sent on behalf of a Telegram Business account.
  *
  * @see https://core.telegram.org/bots/api#forcereply
  */
@@ -6206,7 +6477,7 @@ export type TgChatAdministratorRights = {
    */
   can_post_stories: boolean;
   /**
-   * True, if the administrator can edit stories posted by other users
+   * True, if the administrator can edit stories posted by other users, post stories to the chat page, pin chat stories, and access the chat's story archive
    */
   can_edit_stories: boolean;
   /**
@@ -6260,6 +6531,10 @@ export type TgChatMemberUpdated = {
    * Optional. Chat invite link, which was used by the user to join the chat; for joining by invite link events only.
    */
   invite_link?: TgChatInviteLink;
+  /**
+   * Optional. True, if the user joined the chat after sending a direct join request without using an invite link and being approved by an administrator
+   */
+  via_join_request?: boolean;
   /**
    * Optional. True, if the user joined the chat via a chat folder invite link
    */
@@ -6367,7 +6642,7 @@ export type TgChatMemberAdministrator = {
    */
   can_post_stories: boolean;
   /**
-   * True, if the administrator can edit stories posted by other users
+   * True, if the administrator can edit stories posted by other users, post stories to the chat page, pin chat stories, and access the chat's story archive
    */
   can_edit_stories: boolean;
   /**
@@ -6618,6 +6893,8 @@ export type TgChatPermissions = {
   can_manage_topics?: boolean;
 };
 /**
+ * Describes the birthdate of a user.
+ *
  * @see https://core.telegram.org/bots/api#birthdate
  */
 export type TgBirthdate = {
@@ -6635,6 +6912,8 @@ export type TgBirthdate = {
   year?: number;
 };
 /**
+ * Contains information about the start page settings of a Telegram Business account.
+ *
  * @see https://core.telegram.org/bots/api#businessintro
  */
 export type TgBusinessIntro = {
@@ -6652,6 +6931,8 @@ export type TgBusinessIntro = {
   sticker?: TgSticker;
 };
 /**
+ * Contains information about the location of a Telegram Business account.
+ *
  * @see https://core.telegram.org/bots/api#businesslocation
  */
 export type TgBusinessLocation = {
@@ -6665,19 +6946,23 @@ export type TgBusinessLocation = {
   location?: TgLocation;
 };
 /**
+ * Describes an interval of time during which a business is open.
+ *
  * @see https://core.telegram.org/bots/api#businessopeninghoursinterval
  */
 export type TgBusinessOpeningHoursInterval = {
   /**
-   * The minute's sequence number in a week, starting on Monday, marking the start of the time interval during which the business is open; 0 - 7 24 60
+   * The minute's sequence number in a week, starting on Monday, marking the start of the time interval during which the business is open; 0 - 7 * 24 * 60
    */
   opening_minute: number;
   /**
-   * The minute's sequence number in a week, starting on Monday, marking the end of the time interval during which the business is open; 0 - 8 24 60
+   * The minute's sequence number in a week, starting on Monday, marking the end of the time interval during which the business is open; 0 - 8 * 24 * 60
    */
   closing_minute: number;
 };
 /**
+ * Describes the opening hours of a business.
+ *
  * @see https://core.telegram.org/bots/api#businessopeninghours
  */
 export type TgBusinessOpeningHours = {
@@ -7323,7 +7608,7 @@ export type TgBusinessMessagesDeleted = {
    */
   chat: TgChat;
   /**
-   * A JSON-serialized list of identifiers of deleted messages in the chat of the business account
+   * The list of identifiers of deleted messages in the chat of the business account
    */
   message_ids: number[];
 };
@@ -8333,7 +8618,7 @@ export type TgInlineQueryResultLocation = {
    */
   horizontal_accuracy?: number;
   /**
-   * Optional. Period in seconds for which the location can be updated, should be between 60 and 86400.
+   * Optional. Period in seconds during which the location can be updated, should be between 60 and 86400, or 0x7FFFFFFF for live locations that can be edited indefinitely.
    */
   live_period?: number;
   /**
@@ -8905,7 +9190,7 @@ export type TgInputLocationMessageContent = {
    */
   horizontal_accuracy?: number;
   /**
-   * Optional. Period in seconds for which the location can be updated, should be between 60 and 86400.
+   * Optional. Period in seconds during which the location can be updated, should be between 60 and 86400, or 0x7FFFFFFF for live locations that can be edited indefinitely.
    */
   live_period?: number;
   /**
