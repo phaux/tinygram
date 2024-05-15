@@ -3,7 +3,7 @@ name: Update CDN dependencies
 on:
   workflow_dispatch:
   schedule:
-    - cron: "0 0 * * 0"
+    - cron: "0 0 1 * *"
 
 permissions:
   contents: write
@@ -18,9 +18,14 @@ jobs:
       - run: deno task cdnup
       - run: deno test --no-run # update lock file
         continue-on-error: true
+      - uses: actions/create-github-app-token@v1
+        id: create-token
+        with:
+          app-id: ${{ vars.APP_ID }}
+          private-key: ${{ secrets.PRIVATE_KEY }}
       - uses: peter-evans/create-pull-request@v6
         with:
-          token: ${{ secrets.PAT }}
+          token: ${{ steps.create-token.outputs.token }}
           branch: "update-cdn-deps"
           commit-message: "chore: update CDN dependencies"
           title: "chore: update CDN dependencies"
