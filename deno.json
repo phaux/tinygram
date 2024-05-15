@@ -29,6 +29,7 @@
       ]
     }
   },
+  "lock": false,
   "publish": {
     "include": [
       "*.md",
