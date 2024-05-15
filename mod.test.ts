@@ -1,9 +1,9 @@
-import { assert } from "https://deno.land/std@0.220.1/assert/assert.ts";
-import { assertEquals } from "https://deno.land/std@0.220.1/assert/assert_equals.ts";
-import { assertInstanceOf } from "https://deno.land/std@0.220.1/assert/assert_instance_of.ts";
-import { assertObjectMatch } from "https://deno.land/std@0.220.1/assert/assert_object_match.ts";
-import { unreachable } from "https://deno.land/std@0.220.1/assert/unreachable.ts";
-import { beforeEach, describe, it } from "https://deno.land/std@0.220.1/testing/bdd.ts";
+import { assert } from "https://deno.land/std@0.224.0/assert/assert.ts";
+import { assertEquals } from "https://deno.land/std@0.224.0/assert/assert_equals.ts";
+import { assertInstanceOf } from "https://deno.land/std@0.224.0/assert/assert_instance_of.ts";
+import { assertObjectMatch } from "https://deno.land/std@0.224.0/assert/assert_object_match.ts";
+import { unreachable } from "https://deno.land/std@0.224.0/assert/unreachable.ts";
+import { beforeEach, describe, it } from "https://deno.land/std@0.224.0/testing/bdd.ts";
 import { promiseState } from "https://deno.land/x/async@v2.1.0/state.ts";
 import {
   callTgApi,
