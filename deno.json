@@ -1,5 +1,4 @@
 {
-  "name": "@smol/gram",
   "compilerOptions": {
     "exactOptionalPropertyTypes": true,
     "noUncheckedIndexedAccess": true
@@ -30,10 +29,15 @@
     }
   },
   "lock": false,
+  "name": "@smol/gram",
   "publish": {
+    "exclude": [
+      "**/*.test.ts"
+    ],
     "include": [
-      "*.md",
-      "*.ts"
+      "deno.json",
+      "**/*.md",
+      "**/*.ts"
     ]
   },
   "tasks": {
