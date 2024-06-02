@@ -29,6 +29,36 @@ export interface TgBotConfig {
    * - adding custom headers to requests if you host your own bot API server.
    * - automatically passing a timeout signal to every request.
    * - automatically retrying all requests on 429 (Too Many Requests) errors.
+   *
+   * @example Log every request.
+   *
+   * ```ts
+   * import { TgBot } from "./mod.ts";
+   *
+   * const bot = new TgBot({
+   *   botToken: "YOUR_TOKEN",
+   *   fetch: async (url, init) => {
+   *     const response = await fetch(url, init);
+   *     console.log(`${init.method} ${url} - ${response.status} ${response.statusText}`);
+   *     return response;
+   *   },
+   * });
+   * ```
+   *
+   * @example Automatically cancel all requests after 10 seconds.
+   *
+   * ```ts
+   * import { TgBot } from "./mod.ts";
+   *
+   * const bot = new TgBot({
+   *   botToken: "YOUR_TOKEN",
+   *   fetch: (url, init) =>
+   *     fetch(url, {
+   *       ...init,
+   *       signal: init.signal ?? AbortSignal.timeout(10_000),
+   *     }),
+   * });
+   * ```
    */
   fetch?: (
     url: string,

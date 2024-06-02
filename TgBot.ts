@@ -7,6 +7,17 @@ import type { TgBotConfig } from "./TgBotConfig.ts";
 
 /**
  * Wraps {@link callTgApi} and other functions into a single easy-to-use class.
+ *
+ * @example Getting bot's information.
+ *
+ * ```ts
+ * import { TgBot } from "./mod.ts";
+ *
+ * const bot = new TgBot({ botToken: "YOUR_TOKEN" });
+ *
+ * const botUser = await bot.callApi("getMe", {});
+ * console.log(botUser.is_bot); // true
+ * ```
  */
 export class TgBot {
   constructor(public config: TgBotConfig) {}
@@ -17,6 +28,19 @@ export class TgBot {
    * Calls {@link callTgApi} internally.
    *
    * @throws {TgError} if the response is not OK.
+   *
+   * @example Setting bot's name.
+   *
+   * ```ts
+   * import { TgBot } from "./mod.ts";
+   *
+   * const bot = new TgBot({ botToken: "YOUR_TOKEN" });
+   *
+   * await bot.callApi("setMyName", { name: "My Bot" });
+   *
+   * const botUser = await bot.callApi("getMe", {});
+   * console.log(botUser.first_name); // "My Bot"
+   * ```
    */
   callApi<M extends keyof TgApi>(
     method: M,
@@ -37,6 +61,20 @@ export class TgBot {
    * it will be retried automatically.
    *
    * @throws {TgError} if the response is not OK.
+   *
+   * @example Logging all incoming messages.
+   *
+   * ```ts
+   * import { TgBot } from "./mod.ts";
+   *
+   * const bot = new TgBot({ botToken: "YOUR_TOKEN" });
+   *
+   * for await (const update of bot.listUpdates({})) {
+   *   if (update.message) {
+   *     console.log(update.message.text);
+   *   }
+   * }
+   * ```
    */
   async *listUpdates(
     options: TgGetUpdatesParams & TgApiOptions,
@@ -51,6 +89,26 @@ export class TgBot {
    * Calls {@link getTgFileData} internally.
    *
    * @throws {TgError} if the response is not OK.
+   *
+   * @example Downloading bot's profile photo.
+   *
+   * ```ts
+   * import { TgBot } from "./mod.ts";
+   *
+   * const bot = new TgBot({ botToken: "YOUR_TOKEN" });
+   *
+   * const botUser = await bot.callApi("getMe", {});
+   *
+   * const botPhoto = await bot.callApi("getUserProfilePhotos", { user_id: botUser.id });
+   * const botPhotoFileId = botPhoto.photos[0]?.[0]?.file_id;
+   * if (botPhotoFileId == null) throw new Error("No profile photo");
+   *
+   * const botPhotoFile = await bot.callApi("getFile", { file_id: botPhotoFileId });
+   * if (botPhotoFile.file_path == null) throw new Error("Photo file unavailable");
+   *
+   * const botPhotoBlob = await bot.getFileData(botPhotoFile.file_path);
+   * console.log(botPhotoBlob.size);
+   * ```
    */
   getFileData(filePath: string, options?: TgApiOptions): Promise<Blob> {
     return getTgFileData(this.config, filePath, options);

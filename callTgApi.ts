@@ -10,6 +10,19 @@ import type { TgApi } from "./TgApi.ts";
  * This is just a simple wrapper over {@link fetch}.
  *
  * @throws {TgError} if the response is not OK.
+ *
+ * @example Setting bot's name.
+ *
+ * ```ts
+ * import { callTgApi } from "./mod.ts";
+ *
+ * const botToken = "YOUR_TOKEN";
+ *
+ * await callTgApi({ botToken }, "setMyName", { name: "My Bot" });
+ *
+ * const botUser = await callTgApi({ botToken }, "getMe", undefined);
+ * console.log(botUser.first_name); // "My Bot"
+ * ```
  */
 export async function callTgApi<M extends keyof TgApi>(
   config: TgBotConfig,

@@ -15,6 +15,20 @@ import { TgError } from "./TgError.ts";
  * it will be retried automatically.
  *
  * @throws {TgError} if the response is not OK.
+ *
+ * @example Logging all incoming messages.
+ *
+ * ```ts
+ * import { listTgUpdates } from "./mod.ts";
+ *
+ * const botToken = "YOUR_TOKEN";
+ *
+ * for await (const update of listTgUpdates({ botToken }, {})) {
+ *   if (update.message) {
+ *     console.log(update.message.text);
+ *   }
+ * }
+ * ```
  */
 export async function* listTgUpdates(
   config: TgBotConfig,
