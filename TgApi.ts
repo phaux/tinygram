@@ -1,6 +1,6 @@
 // This file is auto-generated, do not edit it directly.
 
-export const TG_API_VERSION = "Bot API 7.3" as const;
+export const TG_API_VERSION = "Bot API 7.4" as const;
 export interface TgApi {
   /**
    * Use this method to receive incoming updates using long polling (wiki). Returns an Array of Update objects.
@@ -743,6 +743,12 @@ export interface TgApi {
    */
   answerPreCheckoutQuery(params: TgAnswerPreCheckoutQueryParams): Promise<boolean>;
   /**
+   * Refunds a successful payment in Telegram Stars. Returns True on success.
+   *
+   * @see https://core.telegram.org/bots/api#refundstarpayment
+   */
+  refundStarPayment(params: TgRefundStarPaymentParams): Promise<boolean>;
+  /**
    * Informs a user that some of the Telegram Passport elements they provided contains errors. The user will not be able to re-submit their Passport to you until the errors are fixed (the contents of the field for which you returned the error must change). Returns True on success.
    *
    * Use this if the data submitted by the user doesn't satisfy the standards your service requires for any reason. For example, if a birthday date seems invalid, a submitted document is blurry, a scan shows evidence of tampering, etc. Supply some details in the error message to make sure the user knows how to correct the issues.
@@ -881,6 +887,10 @@ export type TgSendMessageParams = {
    */
   protect_content?: boolean;
   /**
+   * Unique identifier of the message effect to be added to the message; for private chats only
+   */
+  message_effect_id?: string;
+  /**
    * Description of the message to reply to
    */
   reply_parameters?: TgReplyParameters;
@@ -990,6 +1000,10 @@ export type TgCopyMessageParams = {
    */
   caption_entities?: TgMessageEntity[];
   /**
+   * Pass True, if the caption must be shown above the message media. Ignored if a new caption isn't specified.
+   */
+  show_caption_above_media?: boolean;
+  /**
    * Sends the message silently. Users will receive a notification with no sound.
    */
   disable_notification?: boolean;
@@ -1080,6 +1094,10 @@ export type TgSendPhotoParams = {
    */
   caption_entities?: TgMessageEntity[];
   /**
+   * Pass True, if the caption must be shown above the message media
+   */
+  show_caption_above_media?: boolean;
+  /**
    * Pass True if the photo needs to be covered with a spoiler animation
    */
   has_spoiler?: boolean;
@@ -1091,6 +1109,10 @@ export type TgSendPhotoParams = {
    * Protects the contents of the sent message from forwarding and saving
    */
   protect_content?: boolean;
+  /**
+   * Unique identifier of the message effect to be added to the message; for private chats only
+   */
+  message_effect_id?: string;
   /**
    * Description of the message to reply to
    */
@@ -1163,6 +1185,10 @@ export type TgSendAudioParams = {
    */
   protect_content?: boolean;
   /**
+   * Unique identifier of the message effect to be added to the message; for private chats only
+   */
+  message_effect_id?: string;
+  /**
    * Description of the message to reply to
    */
   reply_parameters?: TgReplyParameters;
@@ -1225,6 +1251,10 @@ export type TgSendDocumentParams = {
    * Protects the contents of the sent message from forwarding and saving
    */
   protect_content?: boolean;
+  /**
+   * Unique identifier of the message effect to be added to the message; for private chats only
+   */
+  message_effect_id?: string;
   /**
    * Description of the message to reply to
    */
@@ -1289,6 +1319,10 @@ export type TgSendVideoParams = {
    */
   caption_entities?: TgMessageEntity[];
   /**
+   * Pass True, if the caption must be shown above the message media
+   */
+  show_caption_above_media?: boolean;
+  /**
    * Pass True if the video needs to be covered with a spoiler animation
    */
   has_spoiler?: boolean;
@@ -1304,6 +1338,10 @@ export type TgSendVideoParams = {
    * Protects the contents of the sent message from forwarding and saving
    */
   protect_content?: boolean;
+  /**
+   * Unique identifier of the message effect to be added to the message; for private chats only
+   */
+  message_effect_id?: string;
   /**
    * Description of the message to reply to
    */
@@ -1368,6 +1406,10 @@ export type TgSendAnimationParams = {
    */
   caption_entities?: TgMessageEntity[];
   /**
+   * Pass True, if the caption must be shown above the message media
+   */
+  show_caption_above_media?: boolean;
+  /**
    * Pass True if the animation needs to be covered with a spoiler animation
    */
   has_spoiler?: boolean;
@@ -1379,6 +1421,10 @@ export type TgSendAnimationParams = {
    * Protects the contents of the sent message from forwarding and saving
    */
   protect_content?: boolean;
+  /**
+   * Unique identifier of the message effect to be added to the message; for private chats only
+   */
+  message_effect_id?: string;
   /**
    * Description of the message to reply to
    */
@@ -1439,6 +1485,10 @@ export type TgSendVoiceParams = {
    */
   protect_content?: boolean;
   /**
+   * Unique identifier of the message effect to be added to the message; for private chats only
+   */
+  message_effect_id?: string;
+  /**
    * Description of the message to reply to
    */
   reply_parameters?: TgReplyParameters;
@@ -1494,6 +1544,10 @@ export type TgSendVideoNoteParams = {
    */
   protect_content?: boolean;
   /**
+   * Unique identifier of the message effect to be added to the message; for private chats only
+   */
+  message_effect_id?: string;
+  /**
    * Description of the message to reply to
    */
   reply_parameters?: TgReplyParameters;
@@ -1536,6 +1590,10 @@ export type TgSendMediaGroupParams = {
    * Protects the contents of the sent messages from forwarding and saving
    */
   protect_content?: boolean;
+  /**
+   * Unique identifier of the message effect to be added to the message; for private chats only
+   */
+  message_effect_id?: string;
   /**
    * Description of the message to reply to
    */
@@ -1591,6 +1649,10 @@ export type TgSendLocationParams = {
    * Protects the contents of the sent message from forwarding and saving
    */
   protect_content?: boolean;
+  /**
+   * Unique identifier of the message effect to be added to the message; for private chats only
+   */
+  message_effect_id?: string;
   /**
    * Description of the message to reply to
    */
@@ -1663,6 +1725,10 @@ export type TgSendVenueParams = {
    */
   protect_content?: boolean;
   /**
+   * Unique identifier of the message effect to be added to the message; for private chats only
+   */
+  message_effect_id?: string;
+  /**
    * Description of the message to reply to
    */
   reply_parameters?: TgReplyParameters;
@@ -1717,6 +1783,10 @@ export type TgSendContactParams = {
    * Protects the contents of the sent message from forwarding and saving
    */
   protect_content?: boolean;
+  /**
+   * Unique identifier of the message effect to be added to the message; for private chats only
+   */
+  message_effect_id?: string;
   /**
    * Description of the message to reply to
    */
@@ -1813,6 +1883,10 @@ export type TgSendPollParams = {
    */
   protect_content?: boolean;
   /**
+   * Unique identifier of the message effect to be added to the message; for private chats only
+   */
+  message_effect_id?: string;
+  /**
    * Description of the message to reply to
    */
   reply_parameters?: TgReplyParameters;
@@ -1861,6 +1935,10 @@ export type TgSendDiceParams = {
    * Protects the contents of the sent message from forwarding
    */
   protect_content?: boolean;
+  /**
+   * Unique identifier of the message effect to be added to the message; for private chats only
+   */
+  message_effect_id?: string;
   /**
    * Description of the message to reply to
    */
@@ -2940,6 +3018,10 @@ export type TgEditMessageCaptionParams = {
    */
   caption_entities?: TgMessageEntity[];
   /**
+   * Pass True, if the caption must be shown above the message media. Supported only for animation, photo and video messages.
+   */
+  show_caption_above_media?: boolean;
+  /**
    * A JSON-serialized object for an inline keyboard.
    */
   reply_markup?: TgInlineKeyboardMarkup;
@@ -3147,6 +3229,10 @@ export type TgSendStickerParams = {
    * Protects the contents of the sent message from forwarding and saving
    */
   protect_content?: boolean;
+  /**
+   * Unique identifier of the message effect to be added to the message; for private chats only
+   */
+  message_effect_id?: string;
   /**
    * Description of the message to reply to
    */
@@ -3482,19 +3568,19 @@ export type TgSendInvoiceParams = {
    */
   payload: string;
   /**
-   * Payment provider token, obtained via @BotFather
+   * Payment provider token, obtained via @BotFather. Pass an empty string for payments in Telegram Stars.
    */
-  provider_token: string;
+  provider_token?: string;
   /**
-   * Three-letter ISO 4217 currency code, see more on currencies
+   * Three-letter ISO 4217 currency code, see more on currencies. Pass "XTR" for payments in Telegram Stars.
    */
   currency: string;
   /**
-   * Price breakdown, a JSON-serialized list of components (e.g. product price, tax, discount, delivery cost, delivery tax, bonus, etc.)
+   * Price breakdown, a JSON-serialized list of components (e.g. product price, tax, discount, delivery cost, delivery tax, bonus, etc.). Must contain exactly one item for payments in Telegram Stars.
    */
   prices: TgLabeledPrice[];
   /**
-   * The maximum accepted amount for tips in the smallest units of the currency (integer, not float/double). For example, for a maximum tip of US$ 1.45 pass max_tip_amount = 145. See the exp parameter in currencies.json, it shows the number of digits past the decimal point for each currency (2 for the majority of currencies). Defaults to 0
+   * The maximum accepted amount for tips in the smallest units of the currency (integer, not float/double). For example, for a maximum tip of US$ 1.45 pass max_tip_amount = 145. See the exp parameter in currencies.json, it shows the number of digits past the decimal point for each currency (2 for the majority of currencies). Defaults to 0. Not supported for payments in Telegram Stars.
    */
   max_tip_amount?: number;
   /**
@@ -3526,31 +3612,31 @@ export type TgSendInvoiceParams = {
    */
   photo_height?: number;
   /**
-   * Pass True if you require the user's full name to complete the order
+   * Pass True if you require the user's full name to complete the order. Ignored for payments in Telegram Stars.
    */
   need_name?: boolean;
   /**
-   * Pass True if you require the user's phone number to complete the order
+   * Pass True if you require the user's phone number to complete the order. Ignored for payments in Telegram Stars.
    */
   need_phone_number?: boolean;
   /**
-   * Pass True if you require the user's email address to complete the order
+   * Pass True if you require the user's email address to complete the order. Ignored for payments in Telegram Stars.
    */
   need_email?: boolean;
   /**
-   * Pass True if you require the user's shipping address to complete the order
+   * Pass True if you require the user's shipping address to complete the order. Ignored for payments in Telegram Stars.
    */
   need_shipping_address?: boolean;
   /**
-   * Pass True if the user's phone number should be sent to provider
+   * Pass True if the user's phone number should be sent to the provider. Ignored for payments in Telegram Stars.
    */
   send_phone_number_to_provider?: boolean;
   /**
-   * Pass True if the user's email address should be sent to provider
+   * Pass True if the user's email address should be sent to the provider. Ignored for payments in Telegram Stars.
    */
   send_email_to_provider?: boolean;
   /**
-   * Pass True if the final price depends on the shipping method
+   * Pass True if the final price depends on the shipping method. Ignored for payments in Telegram Stars.
    */
   is_flexible?: boolean;
   /**
@@ -3561,6 +3647,10 @@ export type TgSendInvoiceParams = {
    * Protects the contents of the sent message from forwarding and saving
    */
   protect_content?: boolean;
+  /**
+   * Unique identifier of the message effect to be added to the message; for private chats only
+   */
+  message_effect_id?: string;
   /**
    * Description of the message to reply to
    */
@@ -3589,19 +3679,19 @@ export type TgCreateInvoiceLinkParams = {
    */
   payload: string;
   /**
-   * Payment provider token, obtained via BotFather
+   * Payment provider token, obtained via @BotFather. Pass an empty string for payments in Telegram Stars.
    */
-  provider_token: string;
+  provider_token?: string;
   /**
-   * Three-letter ISO 4217 currency code, see more on currencies
+   * Three-letter ISO 4217 currency code, see more on currencies. Pass "XTR" for payments in Telegram Stars.
    */
   currency: string;
   /**
-   * Price breakdown, a JSON-serialized list of components (e.g. product price, tax, discount, delivery cost, delivery tax, bonus, etc.)
+   * Price breakdown, a JSON-serialized list of components (e.g. product price, tax, discount, delivery cost, delivery tax, bonus, etc.). Must contain exactly one item for payments in Telegram Stars.
    */
   prices: TgLabeledPrice[];
   /**
-   * The maximum accepted amount for tips in the smallest units of the currency (integer, not float/double). For example, for a maximum tip of US$ 1.45 pass max_tip_amount = 145. See the exp parameter in currencies.json, it shows the number of digits past the decimal point for each currency (2 for the majority of currencies). Defaults to 0
+   * The maximum accepted amount for tips in the smallest units of the currency (integer, not float/double). For example, for a maximum tip of US$ 1.45 pass max_tip_amount = 145. See the exp parameter in currencies.json, it shows the number of digits past the decimal point for each currency (2 for the majority of currencies). Defaults to 0. Not supported for payments in Telegram Stars.
    */
   max_tip_amount?: number;
   /**
@@ -3629,31 +3719,31 @@ export type TgCreateInvoiceLinkParams = {
    */
   photo_height?: number;
   /**
-   * Pass True if you require the user's full name to complete the order
+   * Pass True if you require the user's full name to complete the order. Ignored for payments in Telegram Stars.
    */
   need_name?: boolean;
   /**
-   * Pass True if you require the user's phone number to complete the order
+   * Pass True if you require the user's phone number to complete the order. Ignored for payments in Telegram Stars.
    */
   need_phone_number?: boolean;
   /**
-   * Pass True if you require the user's email address to complete the order
+   * Pass True if you require the user's email address to complete the order. Ignored for payments in Telegram Stars.
    */
   need_email?: boolean;
   /**
-   * Pass True if you require the user's shipping address to complete the order
+   * Pass True if you require the user's shipping address to complete the order. Ignored for payments in Telegram Stars.
    */
   need_shipping_address?: boolean;
   /**
-   * Pass True if the user's phone number should be sent to the provider
+   * Pass True if the user's phone number should be sent to the provider. Ignored for payments in Telegram Stars.
    */
   send_phone_number_to_provider?: boolean;
   /**
-   * Pass True if the user's email address should be sent to the provider
+   * Pass True if the user's email address should be sent to the provider. Ignored for payments in Telegram Stars.
    */
   send_email_to_provider?: boolean;
   /**
-   * Pass True if the final price depends on the shipping method
+   * Pass True if the final price depends on the shipping method. Ignored for payments in Telegram Stars.
    */
   is_flexible?: boolean;
 };
@@ -3700,6 +3790,21 @@ export type TgAnswerPreCheckoutQueryParams = {
   error_message?: string;
 };
 /**
+ * Parameters of {@link TgApi.refundStarPayment} method.
+ *
+ * @see https://core.telegram.org/bots/api#refundstarpayment
+ */
+export type TgRefundStarPaymentParams = {
+  /**
+   * Identifier of the user whose payment will be refunded
+   */
+  user_id: number;
+  /**
+   * Telegram payment identifier
+   */
+  telegram_payment_charge_id: string;
+};
+/**
  * Parameters of {@link TgApi.setPassportDataErrors} method.
  *
  * @see https://core.telegram.org/bots/api#setpassportdataerrors
@@ -3744,6 +3849,10 @@ export type TgSendGameParams = {
    * Protects the contents of the sent message from forwarding and saving
    */
   protect_content?: boolean;
+  /**
+   * Unique identifier of the message effect to be added to the message; for private chats only
+   */
+  message_effect_id?: string;
   /**
    * Description of the message to reply to
    */
@@ -4331,6 +4440,10 @@ export type TgMessage = {
    */
   link_preview_options?: TgLinkPreviewOptions;
   /**
+   * Optional. Unique identifier of the message effect added to the message
+   */
+  effect_id?: string;
+  /**
    * Optional. Message is an animation, information about the animation. For backward compatibility, when this field is set, the document field will also be set
    */
   animation?: TgAnimation;
@@ -4374,6 +4487,10 @@ export type TgMessage = {
    * Optional. For messages with a caption, special entities like usernames, URLs, bot commands, etc. that appear in the caption
    */
   caption_entities?: TgMessageEntity[];
+  /**
+   * Optional. True, if the caption must be shown above the message media
+   */
+  show_caption_above_media?: boolean;
   /**
    * Optional. True, if the message media is covered by a spoiler animation
    */
@@ -4602,7 +4719,7 @@ export type TgMaybeInaccessibleMessage = TgMessage | TgInaccessibleMessage;
  */
 export type TgMessageEntity = {
   /**
-   * Type of the entity. Currently, can be "mention" (@username), "hashtag" (#hashtag), "cashtag" ($USD), "bot_command" (/start@jobs_bot), "url" (https://telegram.org), "email" (do-not-reply@telegram.org), "phone_number" (+1-212-555-0123), "bold" (bold text), "italic" (italic text), "underline" (underlined text), "strikethrough" (strikethrough text), "spoiler" (spoiler message), "blockquote" (block quotation), "code" (monowidth string), "pre" (monowidth block), "text_link" (for clickable text URLs), "text_mention" (for users without usernames), "custom_emoji" (for inline custom emoji stickers)
+   * Type of the entity. Currently, can be "mention" (@username), "hashtag" (#hashtag), "cashtag" ($USD), "bot_command" (/start@jobs_bot), "url" (https://telegram.org), "email" (do-not-reply@telegram.org), "phone_number" (+1-212-555-0123), "bold" (bold text), "italic" (italic text), "underline" (underlined text), "strikethrough" (strikethrough text), "spoiler" (spoiler message), "blockquote" (block quotation), "expandable_blockquote" (collapsed-by-default block quotation), "code" (monowidth string), "pre" (monowidth block), "text_link" (for clickable text URLs), "text_mention" (for users without usernames), "custom_emoji" (for inline custom emoji stickers)
    */
   type:
     | "mention"
@@ -4618,6 +4735,7 @@ export type TgMessageEntity = {
     | "strikethrough"
     | "spoiler"
     | "blockquote"
+    | "expandable_blockquote"
     | "code"
     | "pre"
     | "text_link"
@@ -6056,7 +6174,7 @@ export type TgReplyKeyboardMarkup = {
   selective?: boolean;
 };
 /**
- * This object represents one button of the reply keyboard. For simple text buttons, String can be used instead of this object to specify the button text. The optional fields web_app, request_users, request_chat, request_contact, request_location, and request_poll are mutually exclusive.
+ * This object represents one button of the reply keyboard. At most one of the optional fields must be used to specify type of the button. For simple text buttons, String can be used instead of this object to specify the button text.
  *
  * Note: request_users and request_chat options will only work in Telegram versions released after 3 February, 2023. Older clients will display unsupported message.
  *
@@ -6216,7 +6334,7 @@ export type TgInlineKeyboardMarkup = {
   inline_keyboard: TgInlineKeyboardButton[][];
 };
 /**
- * This object represents one button of an inline keyboard. You must use exactly one of the optional fields.
+ * This object represents one button of an inline keyboard. Exactly one of the optional fields must be used to specify type of the button.
  *
  * @see https://core.telegram.org/bots/api#inlinekeyboardbutton
  */
@@ -6258,7 +6376,7 @@ export type TgInlineKeyboardButton = {
    */
   callback_game?: TgCallbackGame;
   /**
-   * Optional. Specify True, to send a Pay button. NOTE: This type of button must always be the first button in the first row and can only be used in invoice messages.
+   * Optional. Specify True, to send a Pay button. Substrings "⭐" and "XTR" in the buttons's text will be replaced with a Telegram Star icon. NOTE: This type of button must always be the first button in the first row and can only be used in invoice messages.
    */
   pay?: boolean;
 };
@@ -7675,6 +7793,10 @@ export type TgInputMediaPhoto = {
    */
   caption_entities?: TgMessageEntity[];
   /**
+   * Optional. Pass True, if the caption must be shown above the message media
+   */
+  show_caption_above_media?: boolean;
+  /**
    * Optional. Pass True if the photo needs to be covered with a spoiler animation
    */
   has_spoiler?: boolean;
@@ -7709,6 +7831,10 @@ export type TgInputMediaVideo = {
    * Optional. List of special entities that appear in the caption, which can be specified instead of parse_mode
    */
   caption_entities?: TgMessageEntity[];
+  /**
+   * Optional. Pass True, if the caption must be shown above the message media
+   */
+  show_caption_above_media?: boolean;
   /**
    * Optional. Video width
    */
@@ -7760,6 +7886,10 @@ export type TgInputMediaAnimation = {
    * Optional. List of special entities that appear in the caption, which can be specified instead of parse_mode
    */
   caption_entities?: TgMessageEntity[];
+  /**
+   * Optional. Pass True, if the caption must be shown above the message media
+   */
+  show_caption_above_media?: boolean;
   /**
    * Optional. Animation width
    */
@@ -8225,6 +8355,10 @@ export type TgInlineQueryResultPhoto = {
    */
   caption_entities?: TgMessageEntity[];
   /**
+   * Optional. Pass True, if the caption must be shown above the message media
+   */
+  show_caption_above_media?: boolean;
+  /**
    * Optional. Inline keyboard attached to the message
    */
   reply_markup?: TgInlineKeyboardMarkup;
@@ -8287,6 +8421,10 @@ export type TgInlineQueryResultGif = {
    * Optional. List of special entities that appear in the caption, which can be specified instead of parse_mode
    */
   caption_entities?: TgMessageEntity[];
+  /**
+   * Optional. Pass True, if the caption must be shown above the message media
+   */
+  show_caption_above_media?: boolean;
   /**
    * Optional. Inline keyboard attached to the message
    */
@@ -8351,6 +8489,10 @@ export type TgInlineQueryResultMpeg4Gif = {
    */
   caption_entities?: TgMessageEntity[];
   /**
+   * Optional. Pass True, if the caption must be shown above the message media
+   */
+  show_caption_above_media?: boolean;
+  /**
    * Optional. Inline keyboard attached to the message
    */
   reply_markup?: TgInlineKeyboardMarkup;
@@ -8401,6 +8543,10 @@ export type TgInlineQueryResultVideo = {
    * Optional. List of special entities that appear in the caption, which can be specified instead of parse_mode
    */
   caption_entities?: TgMessageEntity[];
+  /**
+   * Optional. Pass True, if the caption must be shown above the message media
+   */
+  show_caption_above_media?: boolean;
   /**
    * Optional. Video width
    */
@@ -8830,6 +8976,10 @@ export type TgInlineQueryResultCachedPhoto = {
    */
   caption_entities?: TgMessageEntity[];
   /**
+   * Optional. Pass True, if the caption must be shown above the message media
+   */
+  show_caption_above_media?: boolean;
+  /**
    * Optional. Inline keyboard attached to the message
    */
   reply_markup?: TgInlineKeyboardMarkup;
@@ -8873,6 +9023,10 @@ export type TgInlineQueryResultCachedGif = {
    */
   caption_entities?: TgMessageEntity[];
   /**
+   * Optional. Pass True, if the caption must be shown above the message media
+   */
+  show_caption_above_media?: boolean;
+  /**
    * Optional. Inline keyboard attached to the message
    */
   reply_markup?: TgInlineKeyboardMarkup;
@@ -8915,6 +9069,10 @@ export type TgInlineQueryResultCachedMpeg4Gif = {
    * Optional. List of special entities that appear in the caption, which can be specified instead of parse_mode
    */
   caption_entities?: TgMessageEntity[];
+  /**
+   * Optional. Pass True, if the caption must be shown above the message media
+   */
+  show_caption_above_media?: boolean;
   /**
    * Optional. Inline keyboard attached to the message
    */
@@ -9036,6 +9194,10 @@ export type TgInlineQueryResultCachedVideo = {
    * Optional. List of special entities that appear in the caption, which can be specified instead of parse_mode
    */
   caption_entities?: TgMessageEntity[];
+  /**
+   * Optional. Pass True, if the caption must be shown above the message media
+   */
+  show_caption_above_media?: boolean;
   /**
    * Optional. Inline keyboard attached to the message
    */
@@ -9283,19 +9445,19 @@ export type TgInputInvoiceMessageContent = {
    */
   payload: string;
   /**
-   * Payment provider token, obtained via @BotFather
+   * Optional. Payment provider token, obtained via @BotFather. Pass an empty string for payments in Telegram Stars.
    */
-  provider_token: string;
+  provider_token?: string;
   /**
-   * Three-letter ISO 4217 currency code, see more on currencies
+   * Three-letter ISO 4217 currency code, see more on currencies. Pass "XTR" for payments in Telegram Stars.
    */
   currency: string;
   /**
-   * Price breakdown, a JSON-serialized list of components (e.g. product price, tax, discount, delivery cost, delivery tax, bonus, etc.)
+   * Price breakdown, a JSON-serialized list of components (e.g. product price, tax, discount, delivery cost, delivery tax, bonus, etc.). Must contain exactly one item for payments in Telegram Stars.
    */
   prices: TgLabeledPrice[];
   /**
-   * Optional. The maximum accepted amount for tips in the smallest units of the currency (integer, not float/double). For example, for a maximum tip of US$ 1.45 pass max_tip_amount = 145. See the exp parameter in currencies.json, it shows the number of digits past the decimal point for each currency (2 for the majority of currencies). Defaults to 0
+   * Optional. The maximum accepted amount for tips in the smallest units of the currency (integer, not float/double). For example, for a maximum tip of US$ 1.45 pass max_tip_amount = 145. See the exp parameter in currencies.json, it shows the number of digits past the decimal point for each currency (2 for the majority of currencies). Defaults to 0. Not supported for payments in Telegram Stars.
    */
   max_tip_amount?: number;
   /**
@@ -9323,31 +9485,31 @@ export type TgInputInvoiceMessageContent = {
    */
   photo_height?: number;
   /**
-   * Optional. Pass True if you require the user's full name to complete the order
+   * Optional. Pass True if you require the user's full name to complete the order. Ignored for payments in Telegram Stars.
    */
   need_name?: boolean;
   /**
-   * Optional. Pass True if you require the user's phone number to complete the order
+   * Optional. Pass True if you require the user's phone number to complete the order. Ignored for payments in Telegram Stars.
    */
   need_phone_number?: boolean;
   /**
-   * Optional. Pass True if you require the user's email address to complete the order
+   * Optional. Pass True if you require the user's email address to complete the order. Ignored for payments in Telegram Stars.
    */
   need_email?: boolean;
   /**
-   * Optional. Pass True if you require the user's shipping address to complete the order
+   * Optional. Pass True if you require the user's shipping address to complete the order. Ignored for payments in Telegram Stars.
    */
   need_shipping_address?: boolean;
   /**
-   * Optional. Pass True if the user's phone number should be sent to provider
+   * Optional. Pass True if the user's phone number should be sent to the provider. Ignored for payments in Telegram Stars.
    */
   send_phone_number_to_provider?: boolean;
   /**
-   * Optional. Pass True if the user's email address should be sent to provider
+   * Optional. Pass True if the user's email address should be sent to the provider. Ignored for payments in Telegram Stars.
    */
   send_email_to_provider?: boolean;
   /**
-   * Optional. Pass True if the final price depends on the shipping method
+   * Optional. Pass True if the final price depends on the shipping method. Ignored for payments in Telegram Stars.
    */
   is_flexible?: boolean;
 };
@@ -9425,7 +9587,7 @@ export type TgInvoice = {
    */
   start_parameter: string;
   /**
-   * Three-letter ISO 4217 currency code
+   * Three-letter ISO 4217 currency code, or "XTR" for payments in Telegram Stars
    */
   currency: string;
   /**
@@ -9513,7 +9675,7 @@ export type TgShippingOption = {
  */
 export type TgSuccessfulPayment = {
   /**
-   * Three-letter ISO 4217 currency code
+   * Three-letter ISO 4217 currency code, or "XTR" for payments in Telegram Stars
    */
   currency: string;
   /**
@@ -9579,7 +9741,7 @@ export type TgPreCheckoutQuery = {
    */
   from: TgUser;
   /**
-   * Three-letter ISO 4217 currency code
+   * Three-letter ISO 4217 currency code, or "XTR" for payments in Telegram Stars
    */
   currency: string;
   /**
