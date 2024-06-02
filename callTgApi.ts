@@ -20,7 +20,7 @@ import type { TgApi } from "./TgApi.ts";
  *
  * await callTgApi({ botToken }, "setMyName", { name: "My Bot" });
  *
- * const botUser = await callTgApi({ botToken }, "getMe", undefined);
+ * const botUser = await callTgApi({ botToken }, "getMe", {});
  * console.log(botUser.first_name); // "My Bot"
  * ```
  */

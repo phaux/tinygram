@@ -7,7 +7,7 @@ export interface TgApi {
    *
    * @see https://core.telegram.org/bots/api#getupdates
    */
-  getUpdates(params: TgGetUpdatesParams): Promise<TgUpdate[]>;
+  getUpdates(params?: TgGetUpdatesParams): Promise<TgUpdate[]>;
   /**
    * Use this method to specify a URL and receive incoming updates via an outgoing webhook. Whenever there is an update for the bot, we will send an HTTPS POST request to the specified URL, containing a JSON-serialized Update. In case of an unsuccessful request, we will give up after a reasonable amount of attempts. Returns True on success.
    *
@@ -21,31 +21,31 @@ export interface TgApi {
    *
    * @see https://core.telegram.org/bots/api#deletewebhook
    */
-  deleteWebhook(params: TgDeleteWebhookParams): Promise<boolean>;
+  deleteWebhook(params?: TgDeleteWebhookParams): Promise<boolean>;
   /**
    * Use this method to get current webhook status. Requires no parameters. On success, returns a WebhookInfo object. If the bot is using getUpdates, will return an object with the url field empty.
    *
    * @see https://core.telegram.org/bots/api#getwebhookinfo
    */
-  getWebhookInfo(): Promise<TgWebhookInfo>;
+  getWebhookInfo(params?: {}): Promise<TgWebhookInfo>;
   /**
    * A simple method for testing your bot's authentication token. Requires no parameters. Returns basic information about the bot in form of a User object.
    *
    * @see https://core.telegram.org/bots/api#getme
    */
-  getMe(): Promise<TgUser>;
+  getMe(params?: {}): Promise<TgUser>;
   /**
    * Use this method to log out from the cloud Bot API server before launching the bot locally. You must log out the bot before running it locally, otherwise there is no guarantee that the bot will receive updates. After a successful call, you can immediately log in on a local server, but will not be able to log in back to the cloud Bot API server for 10 minutes. Returns True on success. Requires no parameters.
    *
    * @see https://core.telegram.org/bots/api#logout
    */
-  logOut(): Promise<boolean>;
+  logOut(params?: {}): Promise<boolean>;
   /**
    * Use this method to close the bot instance before moving it from one local server to another. You need to delete the webhook before calling this method to ensure that the bot isn't launched again after server restart. The method will return error 429 in the first 10 minutes after the bot is launched. Returns True on success. Requires no parameters.
    *
    * @see https://core.telegram.org/bots/api#close
    */
-  close(): Promise<boolean>;
+  close(params?: {}): Promise<boolean>;
   /**
    * Use this method to send text messages. On success, the sent Message is returned.
    *
@@ -359,7 +359,7 @@ export interface TgApi {
    *
    * @see https://core.telegram.org/bots/api#getforumtopiciconstickers
    */
-  getForumTopicIconStickers(): Promise<TgSticker[]>;
+  getForumTopicIconStickers(params?: {}): Promise<TgSticker[]>;
   /**
    * Use this method to create a topic in a forum supergroup chat. The bot must be an administrator in the chat for this to work and must have the can_manage_topics administrator rights. Returns information about the created topic as a ForumTopic object.
    *
@@ -463,68 +463,68 @@ export interface TgApi {
    *
    * @see https://core.telegram.org/bots/api#deletemycommands
    */
-  deleteMyCommands(params: TgDeleteMyCommandsParams): Promise<boolean>;
+  deleteMyCommands(params?: TgDeleteMyCommandsParams): Promise<boolean>;
   /**
    * Use this method to get the current list of the bot's commands for the given scope and user language. Returns an Array of BotCommand objects. If commands aren't set, an empty list is returned.
    *
    * @see https://core.telegram.org/bots/api#getmycommands
    */
-  getMyCommands(params: TgGetMyCommandsParams): Promise<TgBotCommand[]>;
+  getMyCommands(params?: TgGetMyCommandsParams): Promise<TgBotCommand[]>;
   /**
    * Use this method to change the bot's name. Returns True on success.
    *
    * @see https://core.telegram.org/bots/api#setmyname
    */
-  setMyName(params: TgSetMyNameParams): Promise<boolean>;
+  setMyName(params?: TgSetMyNameParams): Promise<boolean>;
   /**
    * Use this method to get the current bot name for the given user language. Returns BotName on success.
    *
    * @see https://core.telegram.org/bots/api#getmyname
    */
-  getMyName(params: TgGetMyNameParams): Promise<TgBotName>;
+  getMyName(params?: TgGetMyNameParams): Promise<TgBotName>;
   /**
    * Use this method to change the bot's description, which is shown in the chat with the bot if the chat is empty. Returns True on success.
    *
    * @see https://core.telegram.org/bots/api#setmydescription
    */
-  setMyDescription(params: TgSetMyDescriptionParams): Promise<boolean>;
+  setMyDescription(params?: TgSetMyDescriptionParams): Promise<boolean>;
   /**
    * Use this method to get the current bot description for the given user language. Returns BotDescription on success.
    *
    * @see https://core.telegram.org/bots/api#getmydescription
    */
-  getMyDescription(params: TgGetMyDescriptionParams): Promise<TgBotDescription>;
+  getMyDescription(params?: TgGetMyDescriptionParams): Promise<TgBotDescription>;
   /**
    * Use this method to change the bot's short description, which is shown on the bot's profile page and is sent together with the link when users share the bot. Returns True on success.
    *
    * @see https://core.telegram.org/bots/api#setmyshortdescription
    */
-  setMyShortDescription(params: TgSetMyShortDescriptionParams): Promise<boolean>;
+  setMyShortDescription(params?: TgSetMyShortDescriptionParams): Promise<boolean>;
   /**
    * Use this method to get the current bot short description for the given user language. Returns BotShortDescription on success.
    *
    * @see https://core.telegram.org/bots/api#getmyshortdescription
    */
-  getMyShortDescription(params: TgGetMyShortDescriptionParams): Promise<TgBotShortDescription>;
+  getMyShortDescription(params?: TgGetMyShortDescriptionParams): Promise<TgBotShortDescription>;
   /**
    * Use this method to change the bot's menu button in a private chat, or the default menu button. Returns True on success.
    *
    * @see https://core.telegram.org/bots/api#setchatmenubutton
    */
-  setChatMenuButton(params: TgSetChatMenuButtonParams): Promise<boolean>;
+  setChatMenuButton(params?: TgSetChatMenuButtonParams): Promise<boolean>;
   /**
    * Use this method to get the current value of the bot's menu button in a private chat, or the default menu button. Returns MenuButton on success.
    *
    * @see https://core.telegram.org/bots/api#getchatmenubutton
    */
-  getChatMenuButton(params: TgGetChatMenuButtonParams): Promise<TgMenuButton>;
+  getChatMenuButton(params?: TgGetChatMenuButtonParams): Promise<TgMenuButton>;
   /**
    * Use this method to change the default administrator rights requested by the bot when it's added as an administrator to groups or channels. These rights will be suggested to users, but they are free to modify the list before adding the bot. Returns True on success.
    *
    * @see https://core.telegram.org/bots/api#setmydefaultadministratorrights
    */
   setMyDefaultAdministratorRights(
-    params: TgSetMyDefaultAdministratorRightsParams,
+    params?: TgSetMyDefaultAdministratorRightsParams,
   ): Promise<boolean>;
   /**
    * Use this method to get the current default administrator rights of the bot. Returns ChatAdministratorRights on success.
@@ -532,7 +532,7 @@ export interface TgApi {
    * @see https://core.telegram.org/bots/api#getmydefaultadministratorrights
    */
   getMyDefaultAdministratorRights(
-    params: TgGetMyDefaultAdministratorRightsParams,
+    params?: TgGetMyDefaultAdministratorRightsParams,
   ): Promise<TgChatAdministratorRights>;
   /**
    * Use this method to edit text and game messages. On success, if the edited message is not an inline message, the edited Message is returned, otherwise True is returned.
@@ -545,7 +545,7 @@ export interface TgApi {
    *
    * @see https://core.telegram.org/bots/api#editmessagecaption
    */
-  editMessageCaption(params: TgEditMessageCaptionParams): Promise<TgMessage | boolean>;
+  editMessageCaption(params?: TgEditMessageCaptionParams): Promise<TgMessage | boolean>;
   /**
    * Use this method to edit animation, audio, document, photo, or video messages. If a message is part of a message album, then it can be edited only to an audio for audio albums, only to a document for document albums and to a photo or a video otherwise. When an inline message is edited, a new file can't be uploaded; use a previously uploaded file via its file_id or specify a URL. On success, if the edited message is not an inline message, the edited Message is returned, otherwise True is returned.
    *
@@ -563,13 +563,13 @@ export interface TgApi {
    *
    * @see https://core.telegram.org/bots/api#stopmessagelivelocation
    */
-  stopMessageLiveLocation(params: TgStopMessageLiveLocationParams): Promise<TgMessage | boolean>;
+  stopMessageLiveLocation(params?: TgStopMessageLiveLocationParams): Promise<TgMessage | boolean>;
   /**
    * Use this method to edit only the reply markup of messages. On success, if the edited message is not an inline message, the edited Message is returned, otherwise True is returned.
    *
    * @see https://core.telegram.org/bots/api#editmessagereplymarkup
    */
-  editMessageReplyMarkup(params: TgEditMessageReplyMarkupParams): Promise<TgMessage | boolean>;
+  editMessageReplyMarkup(params?: TgEditMessageReplyMarkupParams): Promise<TgMessage | boolean>;
   /**
    * Use this method to stop a poll which was sent by the bot. On success, the stopped Poll is returned.
    *

@@ -100,6 +100,13 @@ describe("callTgApi", () => {
     assertEquals(lastReqUrl, "https://api.telegram.org/botTOKEN/getMe");
   });
 
+  it("works with empty object when no parameters", async () => {
+    const result = await callTgApi(botConfig, "getMe", {})
+      .then((result) => assertType<TgUser>(result));
+    assertType<TgUser>(result);
+    assertEquals(lastReqUrl, "https://api.telegram.org/botTOKEN/getMe");
+  });
+
   it("works with simple parameters", async () => {
     const result = await callTgApi(botConfig, "getChat", { chat_id: 321 })
       .then((result) => assertType<TgChat>(result));
