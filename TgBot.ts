@@ -44,10 +44,10 @@ export class TgBot {
    */
   callApi<M extends keyof TgApi>(
     method: M,
-    options: Omit<Parameters<TgApi[M]>[0], keyof TgApiOptions> & TgApiOptions,
+    params: Parameters<TgApi[M]>[0],
+    options?: TgApiOptions,
   ): Promise<Awaited<ReturnType<TgApi[M]>>> {
-    const { signal, ...params } = options;
-    return callTgApi(this.config, method, params, { signal });
+    return callTgApi(this.config, method, params, options);
   }
 
   /**
