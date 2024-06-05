@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.0.0](https://github.com/phaux/tinygram/compare/v1.5.0...v2.0.0) (2024-06-05)
+
+
+### ⚠ BREAKING CHANGES
+
+* abort signal is now a separate argument from the rest of method parameters.
+
+### Features
+
+* allow skipping optional method params ([#20](https://github.com/phaux/tinygram/issues/20)) ([8df99aa](https://github.com/phaux/tinygram/commit/8df99aa56efc5f9ae61241c2c77e6f4360efa541))
+
 ## [1.5.0](https://github.com/phaux/tinygram/compare/v1.4.0...v1.5.0) (2024-06-02)
 
 
