@@ -5,7 +5,7 @@ export interface TgApiOptions {
   /**
    * Abort signal.
    *
-   * If set, the request will be rejected with AbortError when the signal is aborted.
+   * Will be passed to {@link fetch} as {@link RequestInit.signal}.
    *
    * @example Cancel a request if it takes too long.
    *
@@ -14,7 +14,7 @@ export interface TgApiOptions {
    *
    * const bot = new TgBot({ botToken: "YOUR_TOKEN" });
    *
-   * await bot.callApi("getMe", { signal: AbortSignal.timeout(10_000) })
+   * await bot.callApi("getMe", null, { signal: AbortSignal.timeout(10_000) })
    *   .catch((error) => {
    *     if (error instanceof DOMException && error.name === "AbortError") {
    *       console.log("Request was aborted");

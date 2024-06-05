@@ -262,7 +262,7 @@ describe("callTgApi", () => {
 describe("TgBot", () => {
   describe("direct API method call", () => {
     it("works with no parameters", async () => {
-      const result = await tgBot.getMe({}).then(assertType<TgUser>);
+      const result = await tgBot.getMe().then(assertType<TgUser>);
       assertType<TgUser>(result);
       assertEquals(lastReqUrl, "https://api.telegram.org/botTOKEN/getMe");
       assertObjectMatch(lastReqInit!, { method: "POST" });
@@ -327,7 +327,7 @@ describe("TgBot", () => {
     it("rejects when cancelled with no parameters", async () => {
       reqDelay = 500;
       try {
-        await tgBot.getMe({ signal: AbortSignal.timeout(100) });
+        await tgBot.getMe(null, { signal: AbortSignal.timeout(100) });
         unreachable();
       } catch (error) {
         assertInstanceOf(error, DOMException);
@@ -338,7 +338,7 @@ describe("TgBot", () => {
     it("rejects when cancelled with simple parameters", async () => {
       reqDelay = 500;
       try {
-        await tgBot.getChat({ chat_id: 123, signal: AbortSignal.timeout(100) });
+        await tgBot.getChat({ chat_id: 123 }, { signal: AbortSignal.timeout(100) });
         unreachable();
       } catch (error) {
         assertInstanceOf(error, DOMException);
@@ -368,7 +368,7 @@ describe("TgBot", () => {
 
   describe("callApi", () => {
     it("works with no parameters", async () => {
-      const result = await tgBot.callApi("getMe", {})
+      const result = await tgBot.callApi("getMe", undefined)
         .then(assertType<TgUser>);
       assertType<TgUser>(result);
       assertEquals(lastReqUrl, "https://api.telegram.org/botTOKEN/getMe");
@@ -436,7 +436,7 @@ describe("TgBot", () => {
     it("rejects when cancelled with no parameters", async () => {
       reqDelay = 500;
       try {
-        await tgBot.callApi("getMe", { signal: AbortSignal.timeout(100) });
+        await tgBot.callApi("getMe", null, { signal: AbortSignal.timeout(100) });
         unreachable();
       } catch (error) {
         assertInstanceOf(error, DOMException);
@@ -447,7 +447,7 @@ describe("TgBot", () => {
     it("rejects when cancelled with simple parameters", async () => {
       reqDelay = 500;
       try {
-        await tgBot.callApi("getChat", { chat_id: 123, signal: AbortSignal.timeout(100) });
+        await tgBot.callApi("getChat", { chat_id: 123 }, { signal: AbortSignal.timeout(100) });
         unreachable();
       } catch (error) {
         assertInstanceOf(error, DOMException);
@@ -537,7 +537,7 @@ describe("TgBot", () => {
       nextReqResult = [{ update_id: 1 }] satisfies TgUpdate[];
       reqDelay = 500;
       try {
-        for await (const _update of tgBot.listUpdates({ signal: AbortSignal.timeout(100) })) {
+        for await (const _update of tgBot.listUpdates({}, { signal: AbortSignal.timeout(100) })) {
           unreachable();
         }
       } catch {

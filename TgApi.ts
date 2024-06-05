@@ -1,13 +1,13 @@
 // This file is auto-generated, do not edit it directly.
 
 export const TG_API_VERSION = "Bot API 7.4" as const;
-export interface TgApi {
+export interface TgApi<O = {}> {
   /**
    * Use this method to receive incoming updates using long polling (wiki). Returns an Array of Update objects.
    *
    * @see https://core.telegram.org/bots/api#getupdates
    */
-  getUpdates(params: TgGetUpdatesParams): Promise<TgUpdate[]>;
+  getUpdates(params?: TgGetUpdatesParams | null | undefined, options?: O): Promise<TgUpdate[]>;
   /**
    * Use this method to specify a URL and receive incoming updates via an outgoing webhook. Whenever there is an update for the bot, we will send an HTTPS POST request to the specified URL, containing a JSON-serialized Update. In case of an unsuccessful request, we will give up after a reasonable amount of attempts. Returns True on success.
    *
@@ -15,73 +15,73 @@ export interface TgApi {
    *
    * @see https://core.telegram.org/bots/api#setwebhook
    */
-  setWebhook(params: TgSetWebhookParams): Promise<boolean>;
+  setWebhook(params: TgSetWebhookParams, options?: O): Promise<boolean>;
   /**
    * Use this method to remove webhook integration if you decide to switch back to getUpdates. Returns True on success.
    *
    * @see https://core.telegram.org/bots/api#deletewebhook
    */
-  deleteWebhook(params: TgDeleteWebhookParams): Promise<boolean>;
+  deleteWebhook(params?: TgDeleteWebhookParams | null | undefined, options?: O): Promise<boolean>;
   /**
    * Use this method to get current webhook status. Requires no parameters. On success, returns a WebhookInfo object. If the bot is using getUpdates, will return an object with the url field empty.
    *
    * @see https://core.telegram.org/bots/api#getwebhookinfo
    */
-  getWebhookInfo(): Promise<TgWebhookInfo>;
+  getWebhookInfo(params?: null | undefined, options?: O): Promise<TgWebhookInfo>;
   /**
    * A simple method for testing your bot's authentication token. Requires no parameters. Returns basic information about the bot in form of a User object.
    *
    * @see https://core.telegram.org/bots/api#getme
    */
-  getMe(): Promise<TgUser>;
+  getMe(params?: null | undefined, options?: O): Promise<TgUser>;
   /**
    * Use this method to log out from the cloud Bot API server before launching the bot locally. You must log out the bot before running it locally, otherwise there is no guarantee that the bot will receive updates. After a successful call, you can immediately log in on a local server, but will not be able to log in back to the cloud Bot API server for 10 minutes. Returns True on success. Requires no parameters.
    *
    * @see https://core.telegram.org/bots/api#logout
    */
-  logOut(): Promise<boolean>;
+  logOut(params?: null | undefined, options?: O): Promise<boolean>;
   /**
    * Use this method to close the bot instance before moving it from one local server to another. You need to delete the webhook before calling this method to ensure that the bot isn't launched again after server restart. The method will return error 429 in the first 10 minutes after the bot is launched. Returns True on success. Requires no parameters.
    *
    * @see https://core.telegram.org/bots/api#close
    */
-  close(): Promise<boolean>;
+  close(params?: null | undefined, options?: O): Promise<boolean>;
   /**
    * Use this method to send text messages. On success, the sent Message is returned.
    *
    * @see https://core.telegram.org/bots/api#sendmessage
    */
-  sendMessage(params: TgSendMessageParams): Promise<TgMessage>;
+  sendMessage(params: TgSendMessageParams, options?: O): Promise<TgMessage>;
   /**
    * Use this method to forward messages of any kind. Service messages and messages with protected content can't be forwarded. On success, the sent Message is returned.
    *
    * @see https://core.telegram.org/bots/api#forwardmessage
    */
-  forwardMessage(params: TgForwardMessageParams): Promise<TgMessage>;
+  forwardMessage(params: TgForwardMessageParams, options?: O): Promise<TgMessage>;
   /**
    * Use this method to forward multiple messages of any kind. If some of the specified messages can't be found or forwarded, they are skipped. Service messages and messages with protected content can't be forwarded. Album grouping is kept for forwarded messages. On success, an array of MessageId of the sent messages is returned.
    *
    * @see https://core.telegram.org/bots/api#forwardmessages
    */
-  forwardMessages(params: TgForwardMessagesParams): Promise<TgMessageId[]>;
+  forwardMessages(params: TgForwardMessagesParams, options?: O): Promise<TgMessageId[]>;
   /**
    * Use this method to copy messages of any kind. Service messages, giveaway messages, giveaway winners messages, and invoice messages can't be copied. A quiz poll can be copied only if the value of the field correct_option_id is known to the bot. The method is analogous to the method forwardMessage, but the copied message doesn't have a link to the original message. Returns the MessageId of the sent message on success.
    *
    * @see https://core.telegram.org/bots/api#copymessage
    */
-  copyMessage(params: TgCopyMessageParams): Promise<TgMessageId>;
+  copyMessage(params: TgCopyMessageParams, options?: O): Promise<TgMessageId>;
   /**
    * Use this method to copy messages of any kind. If some of the specified messages can't be found or copied, they are skipped. Service messages, giveaway messages, giveaway winners messages, and invoice messages can't be copied. A quiz poll can be copied only if the value of the field correct_option_id is known to the bot. The method is analogous to the method forwardMessages, but the copied messages don't have a link to the original message. Album grouping is kept for copied messages. On success, an array of MessageId of the sent messages is returned.
    *
    * @see https://core.telegram.org/bots/api#copymessages
    */
-  copyMessages(params: TgCopyMessagesParams): Promise<TgMessageId[]>;
+  copyMessages(params: TgCopyMessagesParams, options?: O): Promise<TgMessageId[]>;
   /**
    * Use this method to send photos. On success, the sent Message is returned.
    *
    * @see https://core.telegram.org/bots/api#sendphoto
    */
-  sendPhoto(params: TgSendPhotoParams): Promise<TgMessage>;
+  sendPhoto(params: TgSendPhotoParams, options?: O): Promise<TgMessage>;
   /**
    * Use this method to send audio files, if you want Telegram clients to display them in the music player. Your audio must be in the .MP3 or .M4A format. On success, the sent Message is returned. Bots can currently send audio files of up to 50 MB in size, this limit may be changed in the future.
    *
@@ -89,73 +89,73 @@ export interface TgApi {
    *
    * @see https://core.telegram.org/bots/api#sendaudio
    */
-  sendAudio(params: TgSendAudioParams): Promise<TgMessage>;
+  sendAudio(params: TgSendAudioParams, options?: O): Promise<TgMessage>;
   /**
    * Use this method to send general files. On success, the sent Message is returned. Bots can currently send files of any type of up to 50 MB in size, this limit may be changed in the future.
    *
    * @see https://core.telegram.org/bots/api#senddocument
    */
-  sendDocument(params: TgSendDocumentParams): Promise<TgMessage>;
+  sendDocument(params: TgSendDocumentParams, options?: O): Promise<TgMessage>;
   /**
    * Use this method to send video files, Telegram clients support MPEG4 videos (other formats may be sent as Document). On success, the sent Message is returned. Bots can currently send video files of up to 50 MB in size, this limit may be changed in the future.
    *
    * @see https://core.telegram.org/bots/api#sendvideo
    */
-  sendVideo(params: TgSendVideoParams): Promise<TgMessage>;
+  sendVideo(params: TgSendVideoParams, options?: O): Promise<TgMessage>;
   /**
    * Use this method to send animation files (GIF or H.264/MPEG-4 AVC video without sound). On success, the sent Message is returned. Bots can currently send animation files of up to 50 MB in size, this limit may be changed in the future.
    *
    * @see https://core.telegram.org/bots/api#sendanimation
    */
-  sendAnimation(params: TgSendAnimationParams): Promise<TgMessage>;
+  sendAnimation(params: TgSendAnimationParams, options?: O): Promise<TgMessage>;
   /**
    * Use this method to send audio files, if you want Telegram clients to display the file as a playable voice message. For this to work, your audio must be in an .OGG file encoded with OPUS, or in .MP3 format, or in .M4A format (other formats may be sent as Audio or Document). On success, the sent Message is returned. Bots can currently send voice messages of up to 50 MB in size, this limit may be changed in the future.
    *
    * @see https://core.telegram.org/bots/api#sendvoice
    */
-  sendVoice(params: TgSendVoiceParams): Promise<TgMessage>;
+  sendVoice(params: TgSendVoiceParams, options?: O): Promise<TgMessage>;
   /**
    * As of v.4.0, Telegram clients support rounded square MPEG4 videos of up to 1 minute long. Use this method to send video messages. On success, the sent Message is returned.
    *
    * @see https://core.telegram.org/bots/api#sendvideonote
    */
-  sendVideoNote(params: TgSendVideoNoteParams): Promise<TgMessage>;
+  sendVideoNote(params: TgSendVideoNoteParams, options?: O): Promise<TgMessage>;
   /**
    * Use this method to send a group of photos, videos, documents or audios as an album. Documents and audio files can be only grouped in an album with messages of the same type. On success, an array of Messages that were sent is returned.
    *
    * @see https://core.telegram.org/bots/api#sendmediagroup
    */
-  sendMediaGroup(params: TgSendMediaGroupParams): Promise<TgMessage[]>;
+  sendMediaGroup(params: TgSendMediaGroupParams, options?: O): Promise<TgMessage[]>;
   /**
    * Use this method to send point on the map. On success, the sent Message is returned.
    *
    * @see https://core.telegram.org/bots/api#sendlocation
    */
-  sendLocation(params: TgSendLocationParams): Promise<TgMessage>;
+  sendLocation(params: TgSendLocationParams, options?: O): Promise<TgMessage>;
   /**
    * Use this method to send information about a venue. On success, the sent Message is returned.
    *
    * @see https://core.telegram.org/bots/api#sendvenue
    */
-  sendVenue(params: TgSendVenueParams): Promise<TgMessage>;
+  sendVenue(params: TgSendVenueParams, options?: O): Promise<TgMessage>;
   /**
    * Use this method to send phone contacts. On success, the sent Message is returned.
    *
    * @see https://core.telegram.org/bots/api#sendcontact
    */
-  sendContact(params: TgSendContactParams): Promise<TgMessage>;
+  sendContact(params: TgSendContactParams, options?: O): Promise<TgMessage>;
   /**
    * Use this method to send a native poll. On success, the sent Message is returned.
    *
    * @see https://core.telegram.org/bots/api#sendpoll
    */
-  sendPoll(params: TgSendPollParams): Promise<TgMessage>;
+  sendPoll(params: TgSendPollParams, options?: O): Promise<TgMessage>;
   /**
    * Use this method to send an animated emoji that will display a random value. On success, the sent Message is returned.
    *
    * @see https://core.telegram.org/bots/api#senddice
    */
-  sendDice(params: TgSendDiceParams): Promise<TgMessage>;
+  sendDice(params: TgSendDiceParams, options?: O): Promise<TgMessage>;
   /**
    * Use this method when you need to tell the user that something is happening on the bot's side. The status is set for 5 seconds or less (when a message arrives from your bot, Telegram clients clear its typing status). Returns True on success.
    *
@@ -163,19 +163,22 @@ export interface TgApi {
    *
    * @see https://core.telegram.org/bots/api#sendchataction
    */
-  sendChatAction(params: TgSendChatActionParams): Promise<boolean>;
+  sendChatAction(params: TgSendChatActionParams, options?: O): Promise<boolean>;
   /**
    * Use this method to change the chosen reactions on a message. Service messages can't be reacted to. Automatically forwarded messages from a channel to its discussion group have the same available reactions as messages in the channel. Returns True on success.
    *
    * @see https://core.telegram.org/bots/api#setmessagereaction
    */
-  setMessageReaction(params: TgSetMessageReactionParams): Promise<boolean>;
+  setMessageReaction(params: TgSetMessageReactionParams, options?: O): Promise<boolean>;
   /**
    * Use this method to get a list of profile pictures for a user. Returns a UserProfilePhotos object.
    *
    * @see https://core.telegram.org/bots/api#getuserprofilephotos
    */
-  getUserProfilePhotos(params: TgGetUserProfilePhotosParams): Promise<TgUserProfilePhotos>;
+  getUserProfilePhotos(
+    params: TgGetUserProfilePhotosParams,
+    options?: O,
+  ): Promise<TgUserProfilePhotos>;
   /**
    * Use this method to get basic information about a file and prepare it for downloading. For the moment, bots can download files of up to 20MB in size. On success, a File object is returned. The file can then be downloaded via the link https://api.telegram.org/file/bot<token>/<file_path>, where <file_path> is taken from the response. It is guaranteed that the link will be valid for at least 1 hour. When the link expires, a new one can be requested by calling getFile again.
    *
@@ -183,31 +186,31 @@ export interface TgApi {
    *
    * @see https://core.telegram.org/bots/api#getfile
    */
-  getFile(params: TgGetFileParams): Promise<TgFile>;
+  getFile(params: TgGetFileParams, options?: O): Promise<TgFile>;
   /**
    * Use this method to ban a user in a group, a supergroup or a channel. In the case of supergroups and channels, the user will not be able to return to the chat on their own using invite links, etc., unless unbanned first. The bot must be an administrator in the chat for this to work and must have the appropriate administrator rights. Returns True on success.
    *
    * @see https://core.telegram.org/bots/api#banchatmember
    */
-  banChatMember(params: TgBanChatMemberParams): Promise<boolean>;
+  banChatMember(params: TgBanChatMemberParams, options?: O): Promise<boolean>;
   /**
    * Use this method to unban a previously banned user in a supergroup or channel. The user will not return to the group or channel automatically, but will be able to join via link, etc. The bot must be an administrator for this to work. By default, this method guarantees that after the call the user is not a member of the chat, but will be able to join it. So if the user is a member of the chat they will also be removed from the chat. If you don't want this, use the parameter only_if_banned. Returns True on success.
    *
    * @see https://core.telegram.org/bots/api#unbanchatmember
    */
-  unbanChatMember(params: TgUnbanChatMemberParams): Promise<boolean>;
+  unbanChatMember(params: TgUnbanChatMemberParams, options?: O): Promise<boolean>;
   /**
    * Use this method to restrict a user in a supergroup. The bot must be an administrator in the supergroup for this to work and must have the appropriate administrator rights. Pass True for all permissions to lift restrictions from a user. Returns True on success.
    *
    * @see https://core.telegram.org/bots/api#restrictchatmember
    */
-  restrictChatMember(params: TgRestrictChatMemberParams): Promise<boolean>;
+  restrictChatMember(params: TgRestrictChatMemberParams, options?: O): Promise<boolean>;
   /**
    * Use this method to promote or demote a user in a supergroup or a channel. The bot must be an administrator in the chat for this to work and must have the appropriate administrator rights. Pass False for all boolean parameters to demote a user. Returns True on success.
    *
    * @see https://core.telegram.org/bots/api#promotechatmember
    */
-  promoteChatMember(params: TgPromoteChatMemberParams): Promise<boolean>;
+  promoteChatMember(params: TgPromoteChatMemberParams, options?: O): Promise<boolean>;
   /**
    * Use this method to set a custom title for an administrator in a supergroup promoted by the bot. Returns True on success.
    *
@@ -215,217 +218,230 @@ export interface TgApi {
    */
   setChatAdministratorCustomTitle(
     params: TgSetChatAdministratorCustomTitleParams,
+    options?: O,
   ): Promise<boolean>;
   /**
    * Use this method to ban a channel chat in a supergroup or a channel. Until the chat is unbanned, the owner of the banned chat won't be able to send messages on behalf of any of their channels. The bot must be an administrator in the supergroup or channel for this to work and must have the appropriate administrator rights. Returns True on success.
    *
    * @see https://core.telegram.org/bots/api#banchatsenderchat
    */
-  banChatSenderChat(params: TgBanChatSenderChatParams): Promise<boolean>;
+  banChatSenderChat(params: TgBanChatSenderChatParams, options?: O): Promise<boolean>;
   /**
    * Use this method to unban a previously banned channel chat in a supergroup or channel. The bot must be an administrator for this to work and must have the appropriate administrator rights. Returns True on success.
    *
    * @see https://core.telegram.org/bots/api#unbanchatsenderchat
    */
-  unbanChatSenderChat(params: TgUnbanChatSenderChatParams): Promise<boolean>;
+  unbanChatSenderChat(params: TgUnbanChatSenderChatParams, options?: O): Promise<boolean>;
   /**
    * Use this method to set default chat permissions for all members. The bot must be an administrator in the group or a supergroup for this to work and must have the can_restrict_members administrator rights. Returns True on success.
    *
    * @see https://core.telegram.org/bots/api#setchatpermissions
    */
-  setChatPermissions(params: TgSetChatPermissionsParams): Promise<boolean>;
+  setChatPermissions(params: TgSetChatPermissionsParams, options?: O): Promise<boolean>;
   /**
    * Use this method to generate a new primary invite link for a chat; any previously generated primary link is revoked. The bot must be an administrator in the chat for this to work and must have the appropriate administrator rights. Returns the new invite link as String on success.
    *
    * @see https://core.telegram.org/bots/api#exportchatinvitelink
    */
-  exportChatInviteLink(params: TgExportChatInviteLinkParams): Promise<string>;
+  exportChatInviteLink(params: TgExportChatInviteLinkParams, options?: O): Promise<string>;
   /**
    * Use this method to create an additional invite link for a chat. The bot must be an administrator in the chat for this to work and must have the appropriate administrator rights. The link can be revoked using the method revokeChatInviteLink. Returns the new invite link as ChatInviteLink object.
    *
    * @see https://core.telegram.org/bots/api#createchatinvitelink
    */
-  createChatInviteLink(params: TgCreateChatInviteLinkParams): Promise<TgChatInviteLink>;
+  createChatInviteLink(
+    params: TgCreateChatInviteLinkParams,
+    options?: O,
+  ): Promise<TgChatInviteLink>;
   /**
    * Use this method to edit a non-primary invite link created by the bot. The bot must be an administrator in the chat for this to work and must have the appropriate administrator rights. Returns the edited invite link as a ChatInviteLink object.
    *
    * @see https://core.telegram.org/bots/api#editchatinvitelink
    */
-  editChatInviteLink(params: TgEditChatInviteLinkParams): Promise<TgChatInviteLink>;
+  editChatInviteLink(params: TgEditChatInviteLinkParams, options?: O): Promise<TgChatInviteLink>;
   /**
    * Use this method to revoke an invite link created by the bot. If the primary link is revoked, a new link is automatically generated. The bot must be an administrator in the chat for this to work and must have the appropriate administrator rights. Returns the revoked invite link as ChatInviteLink object.
    *
    * @see https://core.telegram.org/bots/api#revokechatinvitelink
    */
-  revokeChatInviteLink(params: TgRevokeChatInviteLinkParams): Promise<TgChatInviteLink>;
+  revokeChatInviteLink(
+    params: TgRevokeChatInviteLinkParams,
+    options?: O,
+  ): Promise<TgChatInviteLink>;
   /**
    * Use this method to approve a chat join request. The bot must be an administrator in the chat for this to work and must have the can_invite_users administrator right. Returns True on success.
    *
    * @see https://core.telegram.org/bots/api#approvechatjoinrequest
    */
-  approveChatJoinRequest(params: TgApproveChatJoinRequestParams): Promise<boolean>;
+  approveChatJoinRequest(params: TgApproveChatJoinRequestParams, options?: O): Promise<boolean>;
   /**
    * Use this method to decline a chat join request. The bot must be an administrator in the chat for this to work and must have the can_invite_users administrator right. Returns True on success.
    *
    * @see https://core.telegram.org/bots/api#declinechatjoinrequest
    */
-  declineChatJoinRequest(params: TgDeclineChatJoinRequestParams): Promise<boolean>;
+  declineChatJoinRequest(params: TgDeclineChatJoinRequestParams, options?: O): Promise<boolean>;
   /**
    * Use this method to set a new profile photo for the chat. Photos can't be changed for private chats. The bot must be an administrator in the chat for this to work and must have the appropriate administrator rights. Returns True on success.
    *
    * @see https://core.telegram.org/bots/api#setchatphoto
    */
-  setChatPhoto(params: TgSetChatPhotoParams): Promise<boolean>;
+  setChatPhoto(params: TgSetChatPhotoParams, options?: O): Promise<boolean>;
   /**
    * Use this method to delete a chat photo. Photos can't be changed for private chats. The bot must be an administrator in the chat for this to work and must have the appropriate administrator rights. Returns True on success.
    *
    * @see https://core.telegram.org/bots/api#deletechatphoto
    */
-  deleteChatPhoto(params: TgDeleteChatPhotoParams): Promise<boolean>;
+  deleteChatPhoto(params: TgDeleteChatPhotoParams, options?: O): Promise<boolean>;
   /**
    * Use this method to change the title of a chat. Titles can't be changed for private chats. The bot must be an administrator in the chat for this to work and must have the appropriate administrator rights. Returns True on success.
    *
    * @see https://core.telegram.org/bots/api#setchattitle
    */
-  setChatTitle(params: TgSetChatTitleParams): Promise<boolean>;
+  setChatTitle(params: TgSetChatTitleParams, options?: O): Promise<boolean>;
   /**
    * Use this method to change the description of a group, a supergroup or a channel. The bot must be an administrator in the chat for this to work and must have the appropriate administrator rights. Returns True on success.
    *
    * @see https://core.telegram.org/bots/api#setchatdescription
    */
-  setChatDescription(params: TgSetChatDescriptionParams): Promise<boolean>;
+  setChatDescription(params: TgSetChatDescriptionParams, options?: O): Promise<boolean>;
   /**
    * Use this method to add a message to the list of pinned messages in a chat. If the chat is not a private chat, the bot must be an administrator in the chat for this to work and must have the 'can_pin_messages' administrator right in a supergroup or 'can_edit_messages' administrator right in a channel. Returns True on success.
    *
    * @see https://core.telegram.org/bots/api#pinchatmessage
    */
-  pinChatMessage(params: TgPinChatMessageParams): Promise<boolean>;
+  pinChatMessage(params: TgPinChatMessageParams, options?: O): Promise<boolean>;
   /**
    * Use this method to remove a message from the list of pinned messages in a chat. If the chat is not a private chat, the bot must be an administrator in the chat for this to work and must have the 'can_pin_messages' administrator right in a supergroup or 'can_edit_messages' administrator right in a channel. Returns True on success.
    *
    * @see https://core.telegram.org/bots/api#unpinchatmessage
    */
-  unpinChatMessage(params: TgUnpinChatMessageParams): Promise<boolean>;
+  unpinChatMessage(params: TgUnpinChatMessageParams, options?: O): Promise<boolean>;
   /**
    * Use this method to clear the list of pinned messages in a chat. If the chat is not a private chat, the bot must be an administrator in the chat for this to work and must have the 'can_pin_messages' administrator right in a supergroup or 'can_edit_messages' administrator right in a channel. Returns True on success.
    *
    * @see https://core.telegram.org/bots/api#unpinallchatmessages
    */
-  unpinAllChatMessages(params: TgUnpinAllChatMessagesParams): Promise<boolean>;
+  unpinAllChatMessages(params: TgUnpinAllChatMessagesParams, options?: O): Promise<boolean>;
   /**
    * Use this method for your bot to leave a group, supergroup or channel. Returns True on success.
    *
    * @see https://core.telegram.org/bots/api#leavechat
    */
-  leaveChat(params: TgLeaveChatParams): Promise<boolean>;
+  leaveChat(params: TgLeaveChatParams, options?: O): Promise<boolean>;
   /**
    * Use this method to get up-to-date information about the chat. Returns a ChatFullInfo object on success.
    *
    * @see https://core.telegram.org/bots/api#getchat
    */
-  getChat(params: TgGetChatParams): Promise<TgChatFullInfo>;
+  getChat(params: TgGetChatParams, options?: O): Promise<TgChatFullInfo>;
   /**
    * Use this method to get a list of administrators in a chat, which aren't bots. Returns an Array of ChatMember objects.
    *
    * @see https://core.telegram.org/bots/api#getchatadministrators
    */
-  getChatAdministrators(params: TgGetChatAdministratorsParams): Promise<TgChatMember[]>;
+  getChatAdministrators(
+    params: TgGetChatAdministratorsParams,
+    options?: O,
+  ): Promise<TgChatMember[]>;
   /**
    * Use this method to get the number of members in a chat. Returns Int on success.
    *
    * @see https://core.telegram.org/bots/api#getchatmembercount
    */
-  getChatMemberCount(params: TgGetChatMemberCountParams): Promise<number>;
+  getChatMemberCount(params: TgGetChatMemberCountParams, options?: O): Promise<number>;
   /**
    * Use this method to get information about a member of a chat. The method is only guaranteed to work for other users if the bot is an administrator in the chat. Returns a ChatMember object on success.
    *
    * @see https://core.telegram.org/bots/api#getchatmember
    */
-  getChatMember(params: TgGetChatMemberParams): Promise<TgChatMember>;
+  getChatMember(params: TgGetChatMemberParams, options?: O): Promise<TgChatMember>;
   /**
    * Use this method to set a new group sticker set for a supergroup. The bot must be an administrator in the chat for this to work and must have the appropriate administrator rights. Use the field can_set_sticker_set optionally returned in getChat requests to check if the bot can use this method. Returns True on success.
    *
    * @see https://core.telegram.org/bots/api#setchatstickerset
    */
-  setChatStickerSet(params: TgSetChatStickerSetParams): Promise<boolean>;
+  setChatStickerSet(params: TgSetChatStickerSetParams, options?: O): Promise<boolean>;
   /**
    * Use this method to delete a group sticker set from a supergroup. The bot must be an administrator in the chat for this to work and must have the appropriate administrator rights. Use the field can_set_sticker_set optionally returned in getChat requests to check if the bot can use this method. Returns True on success.
    *
    * @see https://core.telegram.org/bots/api#deletechatstickerset
    */
-  deleteChatStickerSet(params: TgDeleteChatStickerSetParams): Promise<boolean>;
+  deleteChatStickerSet(params: TgDeleteChatStickerSetParams, options?: O): Promise<boolean>;
   /**
    * Use this method to get custom emoji stickers, which can be used as a forum topic icon by any user. Requires no parameters. Returns an Array of Sticker objects.
    *
    * @see https://core.telegram.org/bots/api#getforumtopiciconstickers
    */
-  getForumTopicIconStickers(): Promise<TgSticker[]>;
+  getForumTopicIconStickers(params?: null | undefined, options?: O): Promise<TgSticker[]>;
   /**
    * Use this method to create a topic in a forum supergroup chat. The bot must be an administrator in the chat for this to work and must have the can_manage_topics administrator rights. Returns information about the created topic as a ForumTopic object.
    *
    * @see https://core.telegram.org/bots/api#createforumtopic
    */
-  createForumTopic(params: TgCreateForumTopicParams): Promise<TgForumTopic>;
+  createForumTopic(params: TgCreateForumTopicParams, options?: O): Promise<TgForumTopic>;
   /**
    * Use this method to edit name and icon of a topic in a forum supergroup chat. The bot must be an administrator in the chat for this to work and must have can_manage_topics administrator rights, unless it is the creator of the topic. Returns True on success.
    *
    * @see https://core.telegram.org/bots/api#editforumtopic
    */
-  editForumTopic(params: TgEditForumTopicParams): Promise<boolean>;
+  editForumTopic(params: TgEditForumTopicParams, options?: O): Promise<boolean>;
   /**
    * Use this method to close an open topic in a forum supergroup chat. The bot must be an administrator in the chat for this to work and must have the can_manage_topics administrator rights, unless it is the creator of the topic. Returns True on success.
    *
    * @see https://core.telegram.org/bots/api#closeforumtopic
    */
-  closeForumTopic(params: TgCloseForumTopicParams): Promise<boolean>;
+  closeForumTopic(params: TgCloseForumTopicParams, options?: O): Promise<boolean>;
   /**
    * Use this method to reopen a closed topic in a forum supergroup chat. The bot must be an administrator in the chat for this to work and must have the can_manage_topics administrator rights, unless it is the creator of the topic. Returns True on success.
    *
    * @see https://core.telegram.org/bots/api#reopenforumtopic
    */
-  reopenForumTopic(params: TgReopenForumTopicParams): Promise<boolean>;
+  reopenForumTopic(params: TgReopenForumTopicParams, options?: O): Promise<boolean>;
   /**
    * Use this method to delete a forum topic along with all its messages in a forum supergroup chat. The bot must be an administrator in the chat for this to work and must have the can_delete_messages administrator rights. Returns True on success.
    *
    * @see https://core.telegram.org/bots/api#deleteforumtopic
    */
-  deleteForumTopic(params: TgDeleteForumTopicParams): Promise<boolean>;
+  deleteForumTopic(params: TgDeleteForumTopicParams, options?: O): Promise<boolean>;
   /**
    * Use this method to clear the list of pinned messages in a forum topic. The bot must be an administrator in the chat for this to work and must have the can_pin_messages administrator right in the supergroup. Returns True on success.
    *
    * @see https://core.telegram.org/bots/api#unpinallforumtopicmessages
    */
-  unpinAllForumTopicMessages(params: TgUnpinAllForumTopicMessagesParams): Promise<boolean>;
+  unpinAllForumTopicMessages(
+    params: TgUnpinAllForumTopicMessagesParams,
+    options?: O,
+  ): Promise<boolean>;
   /**
    * Use this method to edit the name of the 'General' topic in a forum supergroup chat. The bot must be an administrator in the chat for this to work and must have can_manage_topics administrator rights. Returns True on success.
    *
    * @see https://core.telegram.org/bots/api#editgeneralforumtopic
    */
-  editGeneralForumTopic(params: TgEditGeneralForumTopicParams): Promise<boolean>;
+  editGeneralForumTopic(params: TgEditGeneralForumTopicParams, options?: O): Promise<boolean>;
   /**
    * Use this method to close an open 'General' topic in a forum supergroup chat. The bot must be an administrator in the chat for this to work and must have the can_manage_topics administrator rights. Returns True on success.
    *
    * @see https://core.telegram.org/bots/api#closegeneralforumtopic
    */
-  closeGeneralForumTopic(params: TgCloseGeneralForumTopicParams): Promise<boolean>;
+  closeGeneralForumTopic(params: TgCloseGeneralForumTopicParams, options?: O): Promise<boolean>;
   /**
    * Use this method to reopen a closed 'General' topic in a forum supergroup chat. The bot must be an administrator in the chat for this to work and must have the can_manage_topics administrator rights. The topic will be automatically unhidden if it was hidden. Returns True on success.
    *
    * @see https://core.telegram.org/bots/api#reopengeneralforumtopic
    */
-  reopenGeneralForumTopic(params: TgReopenGeneralForumTopicParams): Promise<boolean>;
+  reopenGeneralForumTopic(params: TgReopenGeneralForumTopicParams, options?: O): Promise<boolean>;
   /**
    * Use this method to hide the 'General' topic in a forum supergroup chat. The bot must be an administrator in the chat for this to work and must have the can_manage_topics administrator rights. The topic will be automatically closed if it was open. Returns True on success.
    *
    * @see https://core.telegram.org/bots/api#hidegeneralforumtopic
    */
-  hideGeneralForumTopic(params: TgHideGeneralForumTopicParams): Promise<boolean>;
+  hideGeneralForumTopic(params: TgHideGeneralForumTopicParams, options?: O): Promise<boolean>;
   /**
    * Use this method to unhide the 'General' topic in a forum supergroup chat. The bot must be an administrator in the chat for this to work and must have the can_manage_topics administrator rights. Returns True on success.
    *
    * @see https://core.telegram.org/bots/api#unhidegeneralforumtopic
    */
-  unhideGeneralForumTopic(params: TgUnhideGeneralForumTopicParams): Promise<boolean>;
+  unhideGeneralForumTopic(params: TgUnhideGeneralForumTopicParams, options?: O): Promise<boolean>;
   /**
    * Use this method to clear the list of pinned messages in a General forum topic. The bot must be an administrator in the chat for this to work and must have the can_pin_messages administrator right in the supergroup. Returns True on success.
    *
@@ -433,98 +449,127 @@ export interface TgApi {
    */
   unpinAllGeneralForumTopicMessages(
     params: TgUnpinAllGeneralForumTopicMessagesParams,
+    options?: O,
   ): Promise<boolean>;
   /**
    * Use this method to send answers to callback queries sent from inline keyboards. The answer will be displayed to the user as a notification at the top of the chat screen or as an alert. On success, True is returned.
    *
    * @see https://core.telegram.org/bots/api#answercallbackquery
    */
-  answerCallbackQuery(params: TgAnswerCallbackQueryParams): Promise<boolean>;
+  answerCallbackQuery(params: TgAnswerCallbackQueryParams, options?: O): Promise<boolean>;
   /**
    * Use this method to get the list of boosts added to a chat by a user. Requires administrator rights in the chat. Returns a UserChatBoosts object.
    *
    * @see https://core.telegram.org/bots/api#getuserchatboosts
    */
-  getUserChatBoosts(params: TgGetUserChatBoostsParams): Promise<TgUserChatBoosts>;
+  getUserChatBoosts(params: TgGetUserChatBoostsParams, options?: O): Promise<TgUserChatBoosts>;
   /**
    * Use this method to get information about the connection of the bot with a business account. Returns a BusinessConnection object on success.
    *
    * @see https://core.telegram.org/bots/api#getbusinessconnection
    */
-  getBusinessConnection(params: TgGetBusinessConnectionParams): Promise<TgBusinessConnection>;
+  getBusinessConnection(
+    params: TgGetBusinessConnectionParams,
+    options?: O,
+  ): Promise<TgBusinessConnection>;
   /**
    * Use this method to change the list of the bot's commands. See this manual for more details about bot commands. Returns True on success.
    *
    * @see https://core.telegram.org/bots/api#setmycommands
    */
-  setMyCommands(params: TgSetMyCommandsParams): Promise<boolean>;
+  setMyCommands(params: TgSetMyCommandsParams, options?: O): Promise<boolean>;
   /**
    * Use this method to delete the list of the bot's commands for the given scope and user language. After deletion, higher level commands will be shown to affected users. Returns True on success.
    *
    * @see https://core.telegram.org/bots/api#deletemycommands
    */
-  deleteMyCommands(params: TgDeleteMyCommandsParams): Promise<boolean>;
+  deleteMyCommands(
+    params?: TgDeleteMyCommandsParams | null | undefined,
+    options?: O,
+  ): Promise<boolean>;
   /**
    * Use this method to get the current list of the bot's commands for the given scope and user language. Returns an Array of BotCommand objects. If commands aren't set, an empty list is returned.
    *
    * @see https://core.telegram.org/bots/api#getmycommands
    */
-  getMyCommands(params: TgGetMyCommandsParams): Promise<TgBotCommand[]>;
+  getMyCommands(
+    params?: TgGetMyCommandsParams | null | undefined,
+    options?: O,
+  ): Promise<TgBotCommand[]>;
   /**
    * Use this method to change the bot's name. Returns True on success.
    *
    * @see https://core.telegram.org/bots/api#setmyname
    */
-  setMyName(params: TgSetMyNameParams): Promise<boolean>;
+  setMyName(params?: TgSetMyNameParams | null | undefined, options?: O): Promise<boolean>;
   /**
    * Use this method to get the current bot name for the given user language. Returns BotName on success.
    *
    * @see https://core.telegram.org/bots/api#getmyname
    */
-  getMyName(params: TgGetMyNameParams): Promise<TgBotName>;
+  getMyName(params?: TgGetMyNameParams | null | undefined, options?: O): Promise<TgBotName>;
   /**
    * Use this method to change the bot's description, which is shown in the chat with the bot if the chat is empty. Returns True on success.
    *
    * @see https://core.telegram.org/bots/api#setmydescription
    */
-  setMyDescription(params: TgSetMyDescriptionParams): Promise<boolean>;
+  setMyDescription(
+    params?: TgSetMyDescriptionParams | null | undefined,
+    options?: O,
+  ): Promise<boolean>;
   /**
    * Use this method to get the current bot description for the given user language. Returns BotDescription on success.
    *
    * @see https://core.telegram.org/bots/api#getmydescription
    */
-  getMyDescription(params: TgGetMyDescriptionParams): Promise<TgBotDescription>;
+  getMyDescription(
+    params?: TgGetMyDescriptionParams | null | undefined,
+    options?: O,
+  ): Promise<TgBotDescription>;
   /**
    * Use this method to change the bot's short description, which is shown on the bot's profile page and is sent together with the link when users share the bot. Returns True on success.
    *
    * @see https://core.telegram.org/bots/api#setmyshortdescription
    */
-  setMyShortDescription(params: TgSetMyShortDescriptionParams): Promise<boolean>;
+  setMyShortDescription(
+    params?: TgSetMyShortDescriptionParams | null | undefined,
+    options?: O,
+  ): Promise<boolean>;
   /**
    * Use this method to get the current bot short description for the given user language. Returns BotShortDescription on success.
    *
    * @see https://core.telegram.org/bots/api#getmyshortdescription
    */
-  getMyShortDescription(params: TgGetMyShortDescriptionParams): Promise<TgBotShortDescription>;
+  getMyShortDescription(
+    params?: TgGetMyShortDescriptionParams | null | undefined,
+    options?: O,
+  ): Promise<TgBotShortDescription>;
   /**
    * Use this method to change the bot's menu button in a private chat, or the default menu button. Returns True on success.
    *
    * @see https://core.telegram.org/bots/api#setchatmenubutton
    */
-  setChatMenuButton(params: TgSetChatMenuButtonParams): Promise<boolean>;
+  setChatMenuButton(
+    params?: TgSetChatMenuButtonParams | null | undefined,
+    options?: O,
+  ): Promise<boolean>;
   /**
    * Use this method to get the current value of the bot's menu button in a private chat, or the default menu button. Returns MenuButton on success.
    *
    * @see https://core.telegram.org/bots/api#getchatmenubutton
    */
-  getChatMenuButton(params: TgGetChatMenuButtonParams): Promise<TgMenuButton>;
+  getChatMenuButton(
+    params?: TgGetChatMenuButtonParams | null | undefined,
+    options?: O,
+  ): Promise<TgMenuButton>;
   /**
    * Use this method to change the default administrator rights requested by the bot when it's added as an administrator to groups or channels. These rights will be suggested to users, but they are free to modify the list before adding the bot. Returns True on success.
    *
    * @see https://core.telegram.org/bots/api#setmydefaultadministratorrights
    */
   setMyDefaultAdministratorRights(
-    params: TgSetMyDefaultAdministratorRightsParams,
+    params?: TgSetMyDefaultAdministratorRightsParams | null | undefined,
+    options?: O,
   ): Promise<boolean>;
   /**
    * Use this method to get the current default administrator rights of the bot. Returns ChatAdministratorRights on success.
@@ -532,50 +577,63 @@ export interface TgApi {
    * @see https://core.telegram.org/bots/api#getmydefaultadministratorrights
    */
   getMyDefaultAdministratorRights(
-    params: TgGetMyDefaultAdministratorRightsParams,
+    params?: TgGetMyDefaultAdministratorRightsParams | null | undefined,
+    options?: O,
   ): Promise<TgChatAdministratorRights>;
   /**
    * Use this method to edit text and game messages. On success, if the edited message is not an inline message, the edited Message is returned, otherwise True is returned.
    *
    * @see https://core.telegram.org/bots/api#editmessagetext
    */
-  editMessageText(params: TgEditMessageTextParams): Promise<TgMessage | boolean>;
+  editMessageText(params: TgEditMessageTextParams, options?: O): Promise<TgMessage | boolean>;
   /**
    * Use this method to edit captions of messages. On success, if the edited message is not an inline message, the edited Message is returned, otherwise True is returned.
    *
    * @see https://core.telegram.org/bots/api#editmessagecaption
    */
-  editMessageCaption(params: TgEditMessageCaptionParams): Promise<TgMessage | boolean>;
+  editMessageCaption(
+    params?: TgEditMessageCaptionParams | null | undefined,
+    options?: O,
+  ): Promise<TgMessage | boolean>;
   /**
    * Use this method to edit animation, audio, document, photo, or video messages. If a message is part of a message album, then it can be edited only to an audio for audio albums, only to a document for document albums and to a photo or a video otherwise. When an inline message is edited, a new file can't be uploaded; use a previously uploaded file via its file_id or specify a URL. On success, if the edited message is not an inline message, the edited Message is returned, otherwise True is returned.
    *
    * @see https://core.telegram.org/bots/api#editmessagemedia
    */
-  editMessageMedia(params: TgEditMessageMediaParams): Promise<TgMessage | boolean>;
+  editMessageMedia(params: TgEditMessageMediaParams, options?: O): Promise<TgMessage | boolean>;
   /**
    * Use this method to edit live location messages. A location can be edited until its live_period expires or editing is explicitly disabled by a call to stopMessageLiveLocation. On success, if the edited message is not an inline message, the edited Message is returned, otherwise True is returned.
    *
    * @see https://core.telegram.org/bots/api#editmessagelivelocation
    */
-  editMessageLiveLocation(params: TgEditMessageLiveLocationParams): Promise<TgMessage | boolean>;
+  editMessageLiveLocation(
+    params: TgEditMessageLiveLocationParams,
+    options?: O,
+  ): Promise<TgMessage | boolean>;
   /**
    * Use this method to stop updating a live location message before live_period expires. On success, if the message is not an inline message, the edited Message is returned, otherwise True is returned.
    *
    * @see https://core.telegram.org/bots/api#stopmessagelivelocation
    */
-  stopMessageLiveLocation(params: TgStopMessageLiveLocationParams): Promise<TgMessage | boolean>;
+  stopMessageLiveLocation(
+    params?: TgStopMessageLiveLocationParams | null | undefined,
+    options?: O,
+  ): Promise<TgMessage | boolean>;
   /**
    * Use this method to edit only the reply markup of messages. On success, if the edited message is not an inline message, the edited Message is returned, otherwise True is returned.
    *
    * @see https://core.telegram.org/bots/api#editmessagereplymarkup
    */
-  editMessageReplyMarkup(params: TgEditMessageReplyMarkupParams): Promise<TgMessage | boolean>;
+  editMessageReplyMarkup(
+    params?: TgEditMessageReplyMarkupParams | null | undefined,
+    options?: O,
+  ): Promise<TgMessage | boolean>;
   /**
    * Use this method to stop a poll which was sent by the bot. On success, the stopped Poll is returned.
    *
    * @see https://core.telegram.org/bots/api#stoppoll
    */
-  stopPoll(params: TgStopPollParams): Promise<TgPoll>;
+  stopPoll(params: TgStopPollParams, options?: O): Promise<TgPoll>;
   /**
    * Use this method to delete a message, including service messages, with the following limitations:
    *
@@ -599,97 +657,97 @@ export interface TgApi {
    *
    * @see https://core.telegram.org/bots/api#deletemessage
    */
-  deleteMessage(params: TgDeleteMessageParams): Promise<boolean>;
+  deleteMessage(params: TgDeleteMessageParams, options?: O): Promise<boolean>;
   /**
    * Use this method to delete multiple messages simultaneously. If some of the specified messages can't be found, they are skipped. Returns True on success.
    *
    * @see https://core.telegram.org/bots/api#deletemessages
    */
-  deleteMessages(params: TgDeleteMessagesParams): Promise<boolean>;
+  deleteMessages(params: TgDeleteMessagesParams, options?: O): Promise<boolean>;
   /**
    * Use this method to send static .WEBP, animated .TGS, or video .WEBM stickers. On success, the sent Message is returned.
    *
    * @see https://core.telegram.org/bots/api#sendsticker
    */
-  sendSticker(params: TgSendStickerParams): Promise<TgMessage>;
+  sendSticker(params: TgSendStickerParams, options?: O): Promise<TgMessage>;
   /**
    * Use this method to get a sticker set. On success, a StickerSet object is returned.
    *
    * @see https://core.telegram.org/bots/api#getstickerset
    */
-  getStickerSet(params: TgGetStickerSetParams): Promise<TgStickerSet>;
+  getStickerSet(params: TgGetStickerSetParams, options?: O): Promise<TgStickerSet>;
   /**
    * Use this method to get information about custom emoji stickers by their identifiers. Returns an Array of Sticker objects.
    *
    * @see https://core.telegram.org/bots/api#getcustomemojistickers
    */
-  getCustomEmojiStickers(params: TgGetCustomEmojiStickersParams): Promise<TgSticker[]>;
+  getCustomEmojiStickers(params: TgGetCustomEmojiStickersParams, options?: O): Promise<TgSticker[]>;
   /**
    * Use this method to upload a file with a sticker for later use in the createNewStickerSet, addStickerToSet, or replaceStickerInSet methods (the file can be used multiple times). Returns the uploaded File on success.
    *
    * @see https://core.telegram.org/bots/api#uploadstickerfile
    */
-  uploadStickerFile(params: TgUploadStickerFileParams): Promise<TgFile>;
+  uploadStickerFile(params: TgUploadStickerFileParams, options?: O): Promise<TgFile>;
   /**
    * Use this method to create a new sticker set owned by a user. The bot will be able to edit the sticker set thus created. Returns True on success.
    *
    * @see https://core.telegram.org/bots/api#createnewstickerset
    */
-  createNewStickerSet(params: TgCreateNewStickerSetParams): Promise<boolean>;
+  createNewStickerSet(params: TgCreateNewStickerSetParams, options?: O): Promise<boolean>;
   /**
    * Use this method to add a new sticker to a set created by the bot. Emoji sticker sets can have up to 200 stickers. Other sticker sets can have up to 120 stickers. Returns True on success.
    *
    * @see https://core.telegram.org/bots/api#addstickertoset
    */
-  addStickerToSet(params: TgAddStickerToSetParams): Promise<boolean>;
+  addStickerToSet(params: TgAddStickerToSetParams, options?: O): Promise<boolean>;
   /**
    * Use this method to move a sticker in a set created by the bot to a specific position. Returns True on success.
    *
    * @see https://core.telegram.org/bots/api#setstickerpositioninset
    */
-  setStickerPositionInSet(params: TgSetStickerPositionInSetParams): Promise<boolean>;
+  setStickerPositionInSet(params: TgSetStickerPositionInSetParams, options?: O): Promise<boolean>;
   /**
    * Use this method to delete a sticker from a set created by the bot. Returns True on success.
    *
    * @see https://core.telegram.org/bots/api#deletestickerfromset
    */
-  deleteStickerFromSet(params: TgDeleteStickerFromSetParams): Promise<boolean>;
+  deleteStickerFromSet(params: TgDeleteStickerFromSetParams, options?: O): Promise<boolean>;
   /**
    * Use this method to replace an existing sticker in a sticker set with a new one. The method is equivalent to calling deleteStickerFromSet, then addStickerToSet, then setStickerPositionInSet. Returns True on success.
    *
    * @see https://core.telegram.org/bots/api#replacestickerinset
    */
-  replaceStickerInSet(params: TgReplaceStickerInSetParams): Promise<boolean>;
+  replaceStickerInSet(params: TgReplaceStickerInSetParams, options?: O): Promise<boolean>;
   /**
    * Use this method to change the list of emoji assigned to a regular or custom emoji sticker. The sticker must belong to a sticker set created by the bot. Returns True on success.
    *
    * @see https://core.telegram.org/bots/api#setstickeremojilist
    */
-  setStickerEmojiList(params: TgSetStickerEmojiListParams): Promise<boolean>;
+  setStickerEmojiList(params: TgSetStickerEmojiListParams, options?: O): Promise<boolean>;
   /**
    * Use this method to change search keywords assigned to a regular or custom emoji sticker. The sticker must belong to a sticker set created by the bot. Returns True on success.
    *
    * @see https://core.telegram.org/bots/api#setstickerkeywords
    */
-  setStickerKeywords(params: TgSetStickerKeywordsParams): Promise<boolean>;
+  setStickerKeywords(params: TgSetStickerKeywordsParams, options?: O): Promise<boolean>;
   /**
    * Use this method to change the mask position of a mask sticker. The sticker must belong to a sticker set that was created by the bot. Returns True on success.
    *
    * @see https://core.telegram.org/bots/api#setstickermaskposition
    */
-  setStickerMaskPosition(params: TgSetStickerMaskPositionParams): Promise<boolean>;
+  setStickerMaskPosition(params: TgSetStickerMaskPositionParams, options?: O): Promise<boolean>;
   /**
    * Use this method to set the title of a created sticker set. Returns True on success.
    *
    * @see https://core.telegram.org/bots/api#setstickersettitle
    */
-  setStickerSetTitle(params: TgSetStickerSetTitleParams): Promise<boolean>;
+  setStickerSetTitle(params: TgSetStickerSetTitleParams, options?: O): Promise<boolean>;
   /**
    * Use this method to set the thumbnail of a regular or mask sticker set. The format of the thumbnail file must match the format of the stickers in the set. Returns True on success.
    *
    * @see https://core.telegram.org/bots/api#setstickersetthumbnail
    */
-  setStickerSetThumbnail(params: TgSetStickerSetThumbnailParams): Promise<boolean>;
+  setStickerSetThumbnail(params: TgSetStickerSetThumbnailParams, options?: O): Promise<boolean>;
   /**
    * Use this method to set the thumbnail of a custom emoji sticker set. Returns True on success.
    *
@@ -697,13 +755,14 @@ export interface TgApi {
    */
   setCustomEmojiStickerSetThumbnail(
     params: TgSetCustomEmojiStickerSetThumbnailParams,
+    options?: O,
   ): Promise<boolean>;
   /**
    * Use this method to delete a sticker set that was created by the bot. Returns True on success.
    *
    * @see https://core.telegram.org/bots/api#deletestickerset
    */
-  deleteStickerSet(params: TgDeleteStickerSetParams): Promise<boolean>;
+  deleteStickerSet(params: TgDeleteStickerSetParams, options?: O): Promise<boolean>;
   /**
    * Use this method to send answers to an inline query. On success, True is returned.
    *
@@ -711,43 +770,43 @@ export interface TgApi {
    *
    * @see https://core.telegram.org/bots/api#answerinlinequery
    */
-  answerInlineQuery(params: TgAnswerInlineQueryParams): Promise<boolean>;
+  answerInlineQuery(params: TgAnswerInlineQueryParams, options?: O): Promise<boolean>;
   /**
    * Use this method to set the result of an interaction with a Web App and send a corresponding message on behalf of the user to the chat from which the query originated. On success, a SentWebAppMessage object is returned.
    *
    * @see https://core.telegram.org/bots/api#answerwebappquery
    */
-  answerWebAppQuery(params: TgAnswerWebAppQueryParams): Promise<TgSentWebAppMessage>;
+  answerWebAppQuery(params: TgAnswerWebAppQueryParams, options?: O): Promise<TgSentWebAppMessage>;
   /**
    * Use this method to send invoices. On success, the sent Message is returned.
    *
    * @see https://core.telegram.org/bots/api#sendinvoice
    */
-  sendInvoice(params: TgSendInvoiceParams): Promise<TgMessage>;
+  sendInvoice(params: TgSendInvoiceParams, options?: O): Promise<TgMessage>;
   /**
    * Use this method to create a link for an invoice. Returns the created invoice link as String on success.
    *
    * @see https://core.telegram.org/bots/api#createinvoicelink
    */
-  createInvoiceLink(params: TgCreateInvoiceLinkParams): Promise<string>;
+  createInvoiceLink(params: TgCreateInvoiceLinkParams, options?: O): Promise<string>;
   /**
    * If you sent an invoice requesting a shipping address and the parameter is_flexible was specified, the Bot API will send an Update with a shipping_query field to the bot. Use this method to reply to shipping queries. On success, True is returned.
    *
    * @see https://core.telegram.org/bots/api#answershippingquery
    */
-  answerShippingQuery(params: TgAnswerShippingQueryParams): Promise<boolean>;
+  answerShippingQuery(params: TgAnswerShippingQueryParams, options?: O): Promise<boolean>;
   /**
    * Once the user has confirmed their payment and shipping details, the Bot API sends the final confirmation in the form of an Update with the field pre_checkout_query. Use this method to respond to such pre-checkout queries. On success, True is returned. Note: The Bot API must receive an answer within 10 seconds after the pre-checkout query was sent.
    *
    * @see https://core.telegram.org/bots/api#answerprecheckoutquery
    */
-  answerPreCheckoutQuery(params: TgAnswerPreCheckoutQueryParams): Promise<boolean>;
+  answerPreCheckoutQuery(params: TgAnswerPreCheckoutQueryParams, options?: O): Promise<boolean>;
   /**
    * Refunds a successful payment in Telegram Stars. Returns True on success.
    *
    * @see https://core.telegram.org/bots/api#refundstarpayment
    */
-  refundStarPayment(params: TgRefundStarPaymentParams): Promise<boolean>;
+  refundStarPayment(params: TgRefundStarPaymentParams, options?: O): Promise<boolean>;
   /**
    * Informs a user that some of the Telegram Passport elements they provided contains errors. The user will not be able to re-submit their Passport to you until the errors are fixed (the contents of the field for which you returned the error must change). Returns True on success.
    *
@@ -755,25 +814,25 @@ export interface TgApi {
    *
    * @see https://core.telegram.org/bots/api#setpassportdataerrors
    */
-  setPassportDataErrors(params: TgSetPassportDataErrorsParams): Promise<boolean>;
+  setPassportDataErrors(params: TgSetPassportDataErrorsParams, options?: O): Promise<boolean>;
   /**
    * Use this method to send a game. On success, the sent Message is returned.
    *
    * @see https://core.telegram.org/bots/api#sendgame
    */
-  sendGame(params: TgSendGameParams): Promise<TgMessage>;
+  sendGame(params: TgSendGameParams, options?: O): Promise<TgMessage>;
   /**
    * Use this method to set the score of the specified user in a game message. On success, if the message is not an inline message, the Message is returned, otherwise True is returned. Returns an error, if the new score is not greater than the user's current score in the chat and force is False.
    *
    * @see https://core.telegram.org/bots/api#setgamescore
    */
-  setGameScore(params: TgSetGameScoreParams): Promise<TgMessage | boolean>;
+  setGameScore(params: TgSetGameScoreParams, options?: O): Promise<TgMessage | boolean>;
   /**
    * Use this method to get data for high score tables. Will return the score of the specified user and several of their neighbors in a game. Returns an Array of GameHighScore objects.
    *
    * @see https://core.telegram.org/bots/api#getgamehighscores
    */
-  getGameHighScores(params: TgGetGameHighScoresParams): Promise<TgGameHighScore[]>;
+  getGameHighScores(params: TgGetGameHighScoresParams, options?: O): Promise<TgGameHighScore[]>;
 }
 /**
  * Parameters of {@link TgApi.getUpdates} method.

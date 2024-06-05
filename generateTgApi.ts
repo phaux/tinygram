@@ -88,7 +88,12 @@ function* generateApiNodes(tgApiDef: TgApiDef) {
   yield ts.factory.createInterfaceDeclaration(
     [ts.factory.createModifier(ts.SyntaxKind.ExportKeyword)],
     ts.factory.createIdentifier("TgApi"),
-    undefined,
+    [ts.factory.createTypeParameterDeclaration(
+      [],
+      "O",
+      undefined,
+      ts.factory.createTypeLiteralNode([]),
+    )],
     undefined,
     Object.values(tgApiDef.methods).map((method) => generateApiMethodNode(method)),
   );
@@ -110,25 +115,50 @@ function* generateApiNodes(tgApiDef: TgApiDef) {
  * Generates a TS method signature for a single API method definition.
  */
 function generateApiMethodNode(tgMethodDef: TgApiMethodDef) {
+  const paramTypes: ts.TypeNode[] = [];
+  let paramOptional = false;
+
+  // if method has input fields
+  if (tgMethodDef.fields) {
+    // create a type reference to an interface which will be generated later
+    paramTypes.push(ts.factory.createTypeReferenceNode(
+      "Tg" + tgMethodDef.name.replace(/^./, (c) => c.toUpperCase()) + "Params",
+    ));
+  }
+
+  // if method doesn't have any required input fields
+  if (!tgMethodDef.fields?.some((field) => field.required)) {
+    // make the parameter optional
+    paramOptional = true;
+    // add null and undefined to types
+    paramTypes.push(
+      ts.factory.createLiteralTypeNode(ts.factory.createNull()),
+      ts.factory.createKeywordTypeNode(ts.SyntaxKind.UndefinedKeyword),
+    );
+  }
+
   const methodNode = ts.factory.createMethodSignature(
     [],
     ts.factory.createIdentifier(tgMethodDef.name),
     undefined,
-    undefined,
-    tgMethodDef.fields
-      ? [
-        ts.factory.createParameterDeclaration(
-          undefined,
-          undefined,
-          "params",
-          undefined,
-          ts.factory.createTypeReferenceNode(
-            "Tg" + tgMethodDef.name.replace(/^./, (c) => c.toUpperCase()) + "Params",
-          ),
-          undefined,
-        ),
-      ]
-      : [],
+    [],
+    [
+      ts.factory.createParameterDeclaration(
+        [],
+        undefined,
+        "params",
+        paramOptional ? ts.factory.createToken(ts.SyntaxKind.QuestionToken) : undefined,
+        ts.factory.createUnionTypeNode(paramTypes),
+        undefined,
+      ),
+      ts.factory.createParameterDeclaration(
+        [],
+        undefined,
+        "options",
+        ts.factory.createToken(ts.SyntaxKind.QuestionToken),
+        ts.factory.createTypeReferenceNode("O"),
+      ),
+    ],
     ts.factory.createTypeReferenceNode("Promise", [
       ts.factory.createUnionTypeNode(tgMethodDef.returns.map((type) => generateTypeNode(type))),
     ]),

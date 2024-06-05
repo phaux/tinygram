@@ -32,10 +32,10 @@ import { TgError } from "./TgError.ts";
  */
 export async function* listTgUpdates(
   config: TgBotConfig,
-  params: TgGetUpdatesParams,
+  params?: TgGetUpdatesParams,
   options?: TgApiOptions,
 ): AsyncGenerator<TgUpdate, void, undefined> {
-  let offset = params.offset ?? 0;
+  let offset = params?.offset ?? 0;
   while (true) {
     try {
       const updates = await callTgApi(config, "getUpdates", { ...params, offset }, options);
