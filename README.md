@@ -21,7 +21,7 @@ import { initTgBot } from "tinygram";
 Import in Deno:
 
 ```js
-import { initTgBot } from "https://deno.land/x/tinygram/mod.ts";
+import { initTgBot } from "jsr:@smol/gram";
 ```
 
-More docs at [jsr](https://jsr.io/@smol/gram).
+See more usage examples in the Deno docs.
