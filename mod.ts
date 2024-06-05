@@ -10,7 +10,7 @@
  *
  * const bot = initTgBot({ botToken: "YOUR_TOKEN" });
  *
- * for await (const update of bot.listUpdates({})) {
+ * for await (const update of bot.listUpdates()) {
  *   if (update.message) {
  *     const { chat, text, message_id, from } = update.message;
  *
@@ -32,7 +32,7 @@
  *
  * const bot = initTgBot({ botToken: "YOUR_TOKEN" });
  *
- * for await (const update of bot.listUpdates({})) {
+ * for await (const update of bot.listUpdates()) {
  *   if (update.my_chat_member) {
  *     const { chat, new_chat_member } = update.my_chat_member;
  *     if (
@@ -55,7 +55,7 @@
  * const bot = initTgBot({ botToken: "YOUR_TOKEN" });
  *
  * // Download bot's profile photo
- * const botUser = await bot.getMe({});
+ * const botUser = await bot.getMe();
  *
  * const botPhoto = await bot.getUserProfilePhotos({ user_id: botUser.id });
  * const botPhotoFileId = botPhoto.photos[0]?.[0]?.file_id;

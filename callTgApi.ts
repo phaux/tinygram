@@ -27,8 +27,7 @@ import type { TgApi } from "./TgApi.ts";
 export async function callTgApi<M extends keyof TgApi>(
   config: TgBotConfig,
   method: M,
-  params: Parameters<TgApi[M]>[0],
-  options?: TgApiOptions,
+  ...[params, options]: Parameters<TgApi<TgApiOptions>[M]>
 ): Promise<Awaited<ReturnType<TgApi[M]>>> {
   const baseUrl = new URL(
     `./bot${config.botToken}/${method}`,
@@ -47,7 +46,7 @@ export async function callTgApi<M extends keyof TgApi>(
 function prepareTgRequest(
   config: TgBotConfig,
   url: URL,
-  params: Record<string, unknown> | undefined,
+  params: Record<string, unknown> | null | undefined,
   options?: TgApiOptions,
 ) {
   const signal = options?.signal ?? null;

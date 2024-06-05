@@ -14,28 +14,17 @@ import type { TgBotConfig } from "./TgBotConfig.ts";
  *
  * const bot = initTgBot({ botToken: "YOUR_TOKEN" });
  *
- * const botUser = await bot.getMe({});
+ * const botUser = await bot.getMe();
  * console.log(botUser.is_bot); // true
  * ```
  */
-export function initTgBot(config: TgBotConfig): TgBot & TgBotApi {
+export function initTgBot(config: TgBotConfig): TgBot & TgApi<TgApiOptions> {
   return new Proxy<TgBot>(new TgBot(config), {
     get(target, prop) {
-      // deno-lint-ignore no-explicit-any
-      if (prop in target) return (target as any)[prop];
-      return (options: Parameters<TgApi[keyof TgApi]>[0] & TgApiOptions) => {
-        const { signal, ...params } = options;
-        return callTgApi(target.config, prop as keyof TgApi, params, { signal });
-      };
+      if (prop in target) return target[prop as keyof TgBot];
+      return <M extends keyof TgApi>(
+        ...params: Parameters<TgApi<TgApiOptions>[M]>
+      ) => callTgApi(target.config, prop as keyof TgApi, ...params);
     },
-  }) as TgBot & TgBotApi;
+  }) as TgBot & TgApi<TgApiOptions>;
 }
-
-/**
- * Type that wraps {@link TgApi} and adds {@link TgApiOptions} to each method's parameters.
- */
-export type TgBotApi = {
-  [M in keyof TgApi]: (
-    params: Omit<Parameters<TgApi[M]>[0], keyof TgApiOptions> & TgApiOptions,
-  ) => Promise<Awaited<ReturnType<TgApi[M]>>>;
-};

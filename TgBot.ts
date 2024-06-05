@@ -15,7 +15,7 @@ import type { TgBotConfig } from "./TgBotConfig.ts";
  *
  * const bot = new TgBot({ botToken: "YOUR_TOKEN" });
  *
- * const botUser = await bot.callApi("getMe", {});
+ * const botUser = await bot.callApi("getMe");
  * console.log(botUser.is_bot); // true
  * ```
  */
@@ -38,16 +38,15 @@ export class TgBot {
    *
    * await bot.callApi("setMyName", { name: "My Bot" });
    *
-   * const botUser = await bot.callApi("getMe", {});
+   * const botUser = await bot.callApi("getMe");
    * console.log(botUser.first_name); // "My Bot"
    * ```
    */
   callApi<M extends keyof TgApi>(
     method: M,
-    options: Omit<Parameters<TgApi[M]>[0], keyof TgApiOptions> & TgApiOptions,
+    ...params: Parameters<TgApi<TgApiOptions>[M]>
   ): Promise<Awaited<ReturnType<TgApi[M]>>> {
-    const { signal, ...params } = options;
-    return callTgApi(this.config, method, params, { signal });
+    return callTgApi(this.config, method, ...params);
   }
 
   /**
@@ -69,7 +68,7 @@ export class TgBot {
    *
    * const bot = new TgBot({ botToken: "YOUR_TOKEN" });
    *
-   * for await (const update of bot.listUpdates({})) {
+   * for await (const update of bot.listUpdates()) {
    *   if (update.message) {
    *     console.log(update.message.text);
    *   }
@@ -77,10 +76,10 @@ export class TgBot {
    * ```
    */
   async *listUpdates(
-    options: TgGetUpdatesParams & TgApiOptions,
+    params?: TgGetUpdatesParams,
+    options?: TgApiOptions,
   ): AsyncGenerator<TgUpdate, void, undefined> {
-    const { signal, ...params } = options;
-    yield* listTgUpdates(this.config, params, { signal });
+    yield* listTgUpdates(this.config, params, options);
   }
 
   /**
@@ -97,7 +96,7 @@ export class TgBot {
    *
    * const bot = new TgBot({ botToken: "YOUR_TOKEN" });
    *
-   * const botUser = await bot.callApi("getMe", {});
+   * const botUser = await bot.callApi("getMe");
    *
    * const botPhoto = await bot.callApi("getUserProfilePhotos", { user_id: botUser.id });
    * const botPhotoFileId = botPhoto.photos[0]?.[0]?.file_id;
