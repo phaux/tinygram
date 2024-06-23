@@ -1,6 +1,6 @@
 // This file is auto-generated, do not edit it directly.
 
-export const TG_API_VERSION = "Bot API 7.4" as const;
+export const TG_API_VERSION = "Bot API 7.5" as const;
 export interface TgApi<O = {}> {
   /**
    * Use this method to receive incoming updates using long polling (wiki). Returns an Array of Update objects.
@@ -581,13 +581,13 @@ export interface TgApi<O = {}> {
     options?: O,
   ): Promise<TgChatAdministratorRights>;
   /**
-   * Use this method to edit text and game messages. On success, if the edited message is not an inline message, the edited Message is returned, otherwise True is returned.
+   * Use this method to edit text and game messages. On success, if the edited message is not an inline message, the edited Message is returned, otherwise True is returned. Note that business messages that were not sent by the bot and do not contain an inline keyboard can only be edited within 48 hours from the time they were sent.
    *
    * @see https://core.telegram.org/bots/api#editmessagetext
    */
   editMessageText(params: TgEditMessageTextParams, options?: O): Promise<TgMessage | boolean>;
   /**
-   * Use this method to edit captions of messages. On success, if the edited message is not an inline message, the edited Message is returned, otherwise True is returned.
+   * Use this method to edit captions of messages. On success, if the edited message is not an inline message, the edited Message is returned, otherwise True is returned. Note that business messages that were not sent by the bot and do not contain an inline keyboard can only be edited within 48 hours from the time they were sent.
    *
    * @see https://core.telegram.org/bots/api#editmessagecaption
    */
@@ -596,7 +596,7 @@ export interface TgApi<O = {}> {
     options?: O,
   ): Promise<TgMessage | boolean>;
   /**
-   * Use this method to edit animation, audio, document, photo, or video messages. If a message is part of a message album, then it can be edited only to an audio for audio albums, only to a document for document albums and to a photo or a video otherwise. When an inline message is edited, a new file can't be uploaded; use a previously uploaded file via its file_id or specify a URL. On success, if the edited message is not an inline message, the edited Message is returned, otherwise True is returned.
+   * Use this method to edit animation, audio, document, photo, or video messages. If a message is part of a message album, then it can be edited only to an audio for audio albums, only to a document for document albums and to a photo or a video otherwise. When an inline message is edited, a new file can't be uploaded; use a previously uploaded file via its file_id or specify a URL. On success, if the edited message is not an inline message, the edited Message is returned, otherwise True is returned. Note that business messages that were not sent by the bot and do not contain an inline keyboard can only be edited within 48 hours from the time they were sent.
    *
    * @see https://core.telegram.org/bots/api#editmessagemedia
    */
@@ -620,7 +620,7 @@ export interface TgApi<O = {}> {
     options?: O,
   ): Promise<TgMessage | boolean>;
   /**
-   * Use this method to edit only the reply markup of messages. On success, if the edited message is not an inline message, the edited Message is returned, otherwise True is returned.
+   * Use this method to edit only the reply markup of messages. On success, if the edited message is not an inline message, the edited Message is returned, otherwise True is returned. Note that business messages that were not sent by the bot and do not contain an inline keyboard can only be edited within 48 hours from the time they were sent.
    *
    * @see https://core.telegram.org/bots/api#editmessagereplymarkup
    */
@@ -801,6 +801,15 @@ export interface TgApi<O = {}> {
    * @see https://core.telegram.org/bots/api#answerprecheckoutquery
    */
   answerPreCheckoutQuery(params: TgAnswerPreCheckoutQueryParams, options?: O): Promise<boolean>;
+  /**
+   * Returns the bot's Telegram Star transactions in chronological order. On success, returns a StarTransactions object.
+   *
+   * @see https://core.telegram.org/bots/api#getstartransactions
+   */
+  getStarTransactions(
+    params?: TgGetStarTransactionsParams | null | undefined,
+    options?: O,
+  ): Promise<TgStarTransactions>;
   /**
    * Refunds a successful payment in Telegram Stars. Returns True on success.
    *
@@ -3014,6 +3023,10 @@ export type TgGetMyDefaultAdministratorRightsParams = {
  */
 export type TgEditMessageTextParams = {
   /**
+   * Unique identifier of the business connection on behalf of which the message to be edited was sent
+   */
+  business_connection_id?: string;
+  /**
    * Required if inline_message_id is not specified. Unique identifier for the target chat or username of the target channel (in the format @channelusername)
    */
   chat_id?: number | string;
@@ -3052,6 +3065,10 @@ export type TgEditMessageTextParams = {
  * @see https://core.telegram.org/bots/api#editmessagecaption
  */
 export type TgEditMessageCaptionParams = {
+  /**
+   * Unique identifier of the business connection on behalf of which the message to be edited was sent
+   */
+  business_connection_id?: string;
   /**
    * Required if inline_message_id is not specified. Unique identifier for the target chat or username of the target channel (in the format @channelusername)
    */
@@ -3092,6 +3109,10 @@ export type TgEditMessageCaptionParams = {
  */
 export type TgEditMessageMediaParams = {
   /**
+   * Unique identifier of the business connection on behalf of which the message to be edited was sent
+   */
+  business_connection_id?: string;
+  /**
    * Required if inline_message_id is not specified. Unique identifier for the target chat or username of the target channel (in the format @channelusername)
    */
   chat_id?: number | string;
@@ -3118,6 +3139,10 @@ export type TgEditMessageMediaParams = {
  * @see https://core.telegram.org/bots/api#editmessagelivelocation
  */
 export type TgEditMessageLiveLocationParams = {
+  /**
+   * Unique identifier of the business connection on behalf of which the message to be edited was sent
+   */
+  business_connection_id?: string;
   /**
    * Required if inline_message_id is not specified. Unique identifier for the target chat or username of the target channel (in the format @channelusername)
    */
@@ -3166,6 +3191,10 @@ export type TgEditMessageLiveLocationParams = {
  */
 export type TgStopMessageLiveLocationParams = {
   /**
+   * Unique identifier of the business connection on behalf of which the message to be edited was sent
+   */
+  business_connection_id?: string;
+  /**
    * Required if inline_message_id is not specified. Unique identifier for the target chat or username of the target channel (in the format @channelusername)
    */
   chat_id?: number | string;
@@ -3189,6 +3218,10 @@ export type TgStopMessageLiveLocationParams = {
  */
 export type TgEditMessageReplyMarkupParams = {
   /**
+   * Unique identifier of the business connection on behalf of which the message to be edited was sent
+   */
+  business_connection_id?: string;
+  /**
    * Required if inline_message_id is not specified. Unique identifier for the target chat or username of the target channel (in the format @channelusername)
    */
   chat_id?: number | string;
@@ -3211,6 +3244,10 @@ export type TgEditMessageReplyMarkupParams = {
  * @see https://core.telegram.org/bots/api#stoppoll
  */
 export type TgStopPollParams = {
+  /**
+   * Unique identifier of the business connection on behalf of which the message to be edited was sent
+   */
+  business_connection_id?: string;
   /**
    * Unique identifier for the target chat or username of the target channel (in the format @channelusername)
    */
@@ -3847,6 +3884,21 @@ export type TgAnswerPreCheckoutQueryParams = {
    * Required if ok is False. Error message in human readable form that explains the reason for failure to proceed with the checkout (e.g. "Sorry, somebody just bought the last of our amazing black T-shirts while you were busy filling out your payment details. Please choose a different color or garment!"). Telegram will display this message to the user.
    */
   error_message?: string;
+};
+/**
+ * Parameters of {@link TgApi.getStarTransactions} method.
+ *
+ * @see https://core.telegram.org/bots/api#getstartransactions
+ */
+export type TgGetStarTransactionsParams = {
+  /**
+   * Number of transactions to skip in the response
+   */
+  offset?: number;
+  /**
+   * The maximum number of transactions to be retrieved. Values between 1-100 are accepted. Defaults to 100.
+   */
+  limit?: number;
 };
 /**
  * Parameters of {@link TgApi.refundStarPayment} method.
@@ -6407,7 +6459,7 @@ export type TgInlineKeyboardButton = {
    */
   url?: string;
   /**
-   * Optional. Data to be sent in a callback query to the bot when button is pressed, 1-64 bytes. Not supported for messages sent on behalf of a Telegram Business account.
+   * Optional. Data to be sent in a callback query to the bot when the button is pressed, 1-64 bytes
    */
   callback_data?: string;
   /**
@@ -9819,6 +9871,156 @@ export type TgPreCheckoutQuery = {
    * Optional. Order information provided by the user
    */
   order_info?: TgOrderInfo;
+};
+/**
+ * This object describes the state of a revenue withdrawal operation. Currently, it can be one of
+ *
+ * - RevenueWithdrawalStatePending
+ *
+ * - RevenueWithdrawalStateSucceeded
+ *
+ * - RevenueWithdrawalStateFailed
+ *
+ * @see https://core.telegram.org/bots/api#revenuewithdrawalstate
+ */
+export type TgRevenueWithdrawalState =
+  | TgRevenueWithdrawalStatePending
+  | TgRevenueWithdrawalStateSucceeded
+  | TgRevenueWithdrawalStateFailed;
+/**
+ * The withdrawal is in progress.
+ *
+ * @see https://core.telegram.org/bots/api#revenuewithdrawalstatepending
+ */
+export type TgRevenueWithdrawalStatePending = {
+  /**
+   * Type of the state, always "pending"
+   */
+  type: "pending";
+};
+/**
+ * The withdrawal succeeded.
+ *
+ * @see https://core.telegram.org/bots/api#revenuewithdrawalstatesucceeded
+ */
+export type TgRevenueWithdrawalStateSucceeded = {
+  /**
+   * Type of the state, always "succeeded"
+   */
+  type: "succeeded";
+  /**
+   * Date the withdrawal was completed in Unix time
+   */
+  date: number;
+  /**
+   * An HTTPS URL that can be used to see transaction details
+   */
+  url: string;
+};
+/**
+ * The withdrawal failed and the transaction was refunded.
+ *
+ * @see https://core.telegram.org/bots/api#revenuewithdrawalstatefailed
+ */
+export type TgRevenueWithdrawalStateFailed = {
+  /**
+   * Type of the state, always "failed"
+   */
+  type: "failed";
+};
+/**
+ * This object describes the source of a transaction, or its recipient for outgoing transactions. Currently, it can be one of
+ *
+ * - TransactionPartnerFragment
+ *
+ * - TransactionPartnerUser
+ *
+ * - TransactionPartnerOther
+ *
+ * @see https://core.telegram.org/bots/api#transactionpartner
+ */
+export type TgTransactionPartner =
+  | TgTransactionPartnerFragment
+  | TgTransactionPartnerUser
+  | TgTransactionPartnerOther;
+/**
+ * Describes a withdrawal transaction with Fragment.
+ *
+ * @see https://core.telegram.org/bots/api#transactionpartnerfragment
+ */
+export type TgTransactionPartnerFragment = {
+  /**
+   * Type of the transaction partner, always "fragment"
+   */
+  type: "fragment";
+  /**
+   * Optional. State of the transaction if the transaction is outgoing
+   */
+  withdrawal_state?: TgRevenueWithdrawalState;
+};
+/**
+ * Describes a transaction with a user.
+ *
+ * @see https://core.telegram.org/bots/api#transactionpartneruser
+ */
+export type TgTransactionPartnerUser = {
+  /**
+   * Type of the transaction partner, always "user"
+   */
+  type: "user";
+  /**
+   * Information about the user
+   */
+  user: TgUser;
+};
+/**
+ * Describes a transaction with an unknown source or recipient.
+ *
+ * @see https://core.telegram.org/bots/api#transactionpartnerother
+ */
+export type TgTransactionPartnerOther = {
+  /**
+   * Type of the transaction partner, always "other"
+   */
+  type: "other";
+};
+/**
+ * Describes a Telegram Star transaction.
+ *
+ * @see https://core.telegram.org/bots/api#startransaction
+ */
+export type TgStarTransaction = {
+  /**
+   * Unique identifier of the transaction. Coincides with the identifer of the original transaction for refund transactions. Coincides with SuccessfulPayment.telegram_payment_charge_id for successful incoming payments from users.
+   */
+  id: string;
+  /**
+   * Number of Telegram Stars transferred by the transaction
+   */
+  amount: number;
+  /**
+   * Date the transaction was created in Unix time
+   */
+  date: number;
+  /**
+   * Optional. Source of an incoming transaction (e.g., a user purchasing goods or services, Fragment refunding a failed withdrawal). Only for incoming transactions
+   */
+  source?: TgTransactionPartner;
+  /**
+   * Optional. Receiver of an outgoing transaction (e.g., a user for a purchase refund, Fragment for a withdrawal). Only for outgoing transactions
+   */
+  receiver?: TgTransactionPartner;
+};
+/**
+ * Contains a list of Telegram Star transactions.
+ *
+ * @see https://core.telegram.org/bots/api#startransactions
+ */
+export type TgStarTransactions = {
+  /**
+   * The list of transactions
+   */
+  transactions: TgStarTransaction[];
 };
 /**
  * Describes Telegram Passport data shared with the bot by the user.
