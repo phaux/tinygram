@@ -1,6 +1,6 @@
 // This file is auto-generated, do not edit it directly.
 
-export const TG_API_VERSION = "Bot API 7.5" as const;
+export const TG_API_VERSION = "Bot API 7.7" as const;
 export interface TgApi<O = {}> {
   /**
    * Use this method to receive incoming updates using long polling (wiki). Returns an Array of Update objects.
@@ -65,13 +65,13 @@ export interface TgApi<O = {}> {
    */
   forwardMessages(params: TgForwardMessagesParams, options?: O): Promise<TgMessageId[]>;
   /**
-   * Use this method to copy messages of any kind. Service messages, giveaway messages, giveaway winners messages, and invoice messages can't be copied. A quiz poll can be copied only if the value of the field correct_option_id is known to the bot. The method is analogous to the method forwardMessage, but the copied message doesn't have a link to the original message. Returns the MessageId of the sent message on success.
+   * Use this method to copy messages of any kind. Service messages, paid media messages, giveaway messages, giveaway winners messages, and invoice messages can't be copied. A quiz poll can be copied only if the value of the field correct_option_id is known to the bot. The method is analogous to the method forwardMessage, but the copied message doesn't have a link to the original message. Returns the MessageId of the sent message on success.
    *
    * @see https://core.telegram.org/bots/api#copymessage
    */
   copyMessage(params: TgCopyMessageParams, options?: O): Promise<TgMessageId>;
   /**
-   * Use this method to copy messages of any kind. If some of the specified messages can't be found or copied, they are skipped. Service messages, giveaway messages, giveaway winners messages, and invoice messages can't be copied. A quiz poll can be copied only if the value of the field correct_option_id is known to the bot. The method is analogous to the method forwardMessages, but the copied messages don't have a link to the original message. Album grouping is kept for copied messages. On success, an array of MessageId of the sent messages is returned.
+   * Use this method to copy messages of any kind. If some of the specified messages can't be found or copied, they are skipped. Service messages, paid media messages, giveaway messages, giveaway winners messages, and invoice messages can't be copied. A quiz poll can be copied only if the value of the field correct_option_id is known to the bot. The method is analogous to the method forwardMessages, but the copied messages don't have a link to the original message. Album grouping is kept for copied messages. On success, an array of MessageId of the sent messages is returned.
    *
    * @see https://core.telegram.org/bots/api#copymessages
    */
@@ -120,6 +120,12 @@ export interface TgApi<O = {}> {
    * @see https://core.telegram.org/bots/api#sendvideonote
    */
   sendVideoNote(params: TgSendVideoNoteParams, options?: O): Promise<TgMessage>;
+  /**
+   * Use this method to send paid media to channel chats. On success, the sent Message is returned.
+   *
+   * @see https://core.telegram.org/bots/api#sendpaidmedia
+   */
+  sendPaidMedia(params: TgSendPaidMediaParams, options?: O): Promise<TgMessage>;
   /**
    * Use this method to send a group of photos, videos, documents or audios as an album. Documents and audio files can be only grouped in an album with messages of the same type. On success, an array of Messages that were sent is returned.
    *
@@ -1615,6 +1621,61 @@ export type TgSendVideoNoteParams = {
    * Unique identifier of the message effect to be added to the message; for private chats only
    */
   message_effect_id?: string;
+  /**
+   * Description of the message to reply to
+   */
+  reply_parameters?: TgReplyParameters;
+  /**
+   * Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove a reply keyboard or to force a reply from the user
+   */
+  reply_markup?:
+    | TgInlineKeyboardMarkup
+    | TgReplyKeyboardMarkup
+    | TgReplyKeyboardRemove
+    | TgForceReply;
+};
+/**
+ * Parameters of {@link TgApi.sendPaidMedia} method.
+ *
+ * @see https://core.telegram.org/bots/api#sendpaidmedia
+ */
+export type TgSendPaidMediaParams = {
+  /**
+   * Unique identifier for the target chat or username of the target channel (in the format @channelusername)
+   */
+  chat_id: number | string;
+  /**
+   * The number of Telegram Stars that must be paid to buy access to the media
+   */
+  star_count: number;
+  /**
+   * A JSON-serialized array describing the media to be sent; up to 10 items
+   */
+  media: TgInputPaidMedia[];
+  /**
+   * Media caption, 0-1024 characters after entities parsing
+   */
+  caption?: string;
+  /**
+   * Mode for parsing entities in the media caption. See formatting options for more details.
+   */
+  parse_mode?: undefined | "HTML" | "Markdown" | "MarkdownV2";
+  /**
+   * A JSON-serialized list of special entities that appear in the caption, which can be specified instead of parse_mode
+   */
+  caption_entities?: TgMessageEntity[];
+  /**
+   * Pass True, if the caption must be shown above the message media
+   */
+  show_caption_above_media?: boolean;
+  /**
+   * Sends the message silently. Users will receive a notification with no sound.
+   */
+  disable_notification?: boolean;
+  /**
+   * Protects the contents of the sent message from forwarding and saving
+   */
+  protect_content?: boolean;
   /**
    * Description of the message to reply to
    */
@@ -4396,6 +4457,10 @@ export type TgChatFullInfo = {
    */
   permissions?: TgChatPermissions;
   /**
+   * Optional. True, if paid media messages can be sent or forwarded to the channel chat. The field is available only for channel chats.
+   */
+  can_send_paid_media?: boolean;
+  /**
    * Optional. For supergroups, the minimum allowed delay between consecutive messages sent by each unprivileged user; in seconds
    */
   slow_mode_delay?: number;
@@ -4567,6 +4632,10 @@ export type TgMessage = {
    */
   document?: TgDocument;
   /**
+   * Optional. Message contains paid media; information about the paid media
+   */
+  paid_media?: TgPaidMediaInfo;
+  /**
    * Optional. Message is a photo, available sizes of the photo
    */
   photo?: TgPhotoSize[];
@@ -4591,7 +4660,7 @@ export type TgMessage = {
    */
   voice?: TgVoice;
   /**
-   * Optional. Caption for the animation, audio, document, photo, video or voice
+   * Optional. Caption for the animation, audio, document, paid media, photo, video or voice
    */
   caption?: string;
   /**
@@ -4686,6 +4755,10 @@ export type TgMessage = {
    * Optional. Message is a service message about a successful payment, information about the payment. More about payments: https://core.telegram.org/bots/api#payments
    */
   successful_payment?: TgSuccessfulPayment;
+  /**
+   * Optional. Message is a service message about a refunded payment, information about the payment. More about payments: https://core.telegram.org/bots/api#payments
+   */
+  refunded_payment?: TgRefundedPayment;
   /**
    * Optional. Service message: users were shared with the bot
    */
@@ -4935,6 +5008,10 @@ export type TgExternalReplyInfo = {
    */
   document?: TgDocument;
   /**
+   * Optional. Message contains paid media; information about the paid media
+   */
+  paid_media?: TgPaidMediaInfo;
+  /**
    * Optional. Message is a photo, available sizes of the photo
    */
   photo?: TgPhotoSize[];
@@ -5182,27 +5259,27 @@ export type TgAnimation = {
    */
   file_unique_id: string;
   /**
-   * Video width as defined by sender
+   * Video width as defined by the sender
    */
   width: number;
   /**
-   * Video height as defined by sender
+   * Video height as defined by the sender
    */
   height: number;
   /**
-   * Duration of the video in seconds as defined by sender
+   * Duration of the video in seconds as defined by the sender
    */
   duration: number;
   /**
-   * Optional. Animation thumbnail as defined by sender
+   * Optional. Animation thumbnail as defined by the sender
    */
   thumbnail?: TgPhotoSize;
   /**
-   * Optional. Original animation filename as defined by sender
+   * Optional. Original animation filename as defined by the sender
    */
   file_name?: string;
   /**
-   * Optional. MIME type of the file as defined by sender
+   * Optional. MIME type of the file as defined by the sender
    */
   mime_type?: string;
   /**
@@ -5225,23 +5302,23 @@ export type TgAudio = {
    */
   file_unique_id: string;
   /**
-   * Duration of the audio in seconds as defined by sender
+   * Duration of the audio in seconds as defined by the sender
    */
   duration: number;
   /**
-   * Optional. Performer of the audio as defined by sender or by audio tags
+   * Optional. Performer of the audio as defined by the sender or by audio tags
    */
   performer?: string;
   /**
-   * Optional. Title of the audio as defined by sender or by audio tags
+   * Optional. Title of the audio as defined by the sender or by audio tags
    */
   title?: string;
   /**
-   * Optional. Original filename as defined by sender
+   * Optional. Original filename as defined by the sender
    */
   file_name?: string;
   /**
-   * Optional. MIME type of the file as defined by sender
+   * Optional. MIME type of the file as defined by the sender
    */
   mime_type?: string;
   /**
@@ -5268,15 +5345,15 @@ export type TgDocument = {
    */
   file_unique_id: string;
   /**
-   * Optional. Document thumbnail as defined by sender
+   * Optional. Document thumbnail as defined by the sender
    */
   thumbnail?: TgPhotoSize;
   /**
-   * Optional. Original filename as defined by sender
+   * Optional. Original filename as defined by the sender
    */
   file_name?: string;
   /**
-   * Optional. MIME type of the file as defined by sender
+   * Optional. MIME type of the file as defined by the sender
    */
   mime_type?: string;
   /**
@@ -5314,15 +5391,15 @@ export type TgVideo = {
    */
   file_unique_id: string;
   /**
-   * Video width as defined by sender
+   * Video width as defined by the sender
    */
   width: number;
   /**
-   * Video height as defined by sender
+   * Video height as defined by the sender
    */
   height: number;
   /**
-   * Duration of the video in seconds as defined by sender
+   * Duration of the video in seconds as defined by the sender
    */
   duration: number;
   /**
@@ -5330,11 +5407,11 @@ export type TgVideo = {
    */
   thumbnail?: TgPhotoSize;
   /**
-   * Optional. Original filename as defined by sender
+   * Optional. Original filename as defined by the sender
    */
   file_name?: string;
   /**
-   * Optional. MIME type of the file as defined by sender
+   * Optional. MIME type of the file as defined by the sender
    */
   mime_type?: string;
   /**
@@ -5357,11 +5434,11 @@ export type TgVideoNote = {
    */
   file_unique_id: string;
   /**
-   * Video width and height (diameter of the video message) as defined by sender
+   * Video width and height (diameter of the video message) as defined by the sender
    */
   length: number;
   /**
-   * Duration of the video in seconds as defined by sender
+   * Duration of the video in seconds as defined by the sender
    */
   duration: number;
   /**
@@ -5388,17 +5465,97 @@ export type TgVoice = {
    */
   file_unique_id: string;
   /**
-   * Duration of the audio in seconds as defined by sender
+   * Duration of the audio in seconds as defined by the sender
    */
   duration: number;
   /**
-   * Optional. MIME type of the file as defined by sender
+   * Optional. MIME type of the file as defined by the sender
    */
   mime_type?: string;
   /**
    * Optional. File size in bytes. It can be bigger than 2^31 and some programming languages may have difficulty/silent defects in interpreting it. But it has at most 52 significant bits, so a signed 64-bit integer or double-precision float type are safe for storing this value.
    */
   file_size?: number;
+};
+/**
+ * Describes the paid media added to a message.
+ *
+ * @see https://core.telegram.org/bots/api#paidmediainfo
+ */
+export type TgPaidMediaInfo = {
+  /**
+   * The number of Telegram Stars that must be paid to buy access to the media
+   */
+  star_count: number;
+  /**
+   * Information about the paid media
+   */
+  paid_media: TgPaidMedia[];
+};
+/**
+ * This object describes paid media. Currently, it can be one of
+ *
+ * - PaidMediaPreview
+ *
+ * - PaidMediaPhoto
+ *
+ * - PaidMediaVideo
+ *
+ * @see https://core.telegram.org/bots/api#paidmedia
+ */
+export type TgPaidMedia = TgPaidMediaPreview | TgPaidMediaPhoto | TgPaidMediaVideo;
+/**
+ * The paid media isn't available before the payment.
+ *
+ * @see https://core.telegram.org/bots/api#paidmediapreview
+ */
+export type TgPaidMediaPreview = {
+  /**
+   * Type of the paid media, always "preview"
+   */
+  type: "preview";
+  /**
+   * Optional. Media width as defined by the sender
+   */
+  width?: number;
+  /**
+   * Optional. Media height as defined by the sender
+   */
+  height?: number;
+  /**
+   * Optional. Duration of the media in seconds as defined by the sender
+   */
+  duration?: number;
+};
+/**
+ * The paid media is a photo.
+ *
+ * @see https://core.telegram.org/bots/api#paidmediaphoto
+ */
+export type TgPaidMediaPhoto = {
+  /**
+   * Type of the paid media, always "photo"
+   */
+  type: "photo";
+  /**
+   * The photo
+   */
+  photo: TgPhotoSize[];
+};
+/**
+ * The paid media is a video.
+ *
+ * @see https://core.telegram.org/bots/api#paidmediavideo
+ */
+export type TgPaidMediaVideo = {
+  /**
+   * Type of the paid media, always "video"
+   */
+  type: "video";
+  /**
+   * The video
+   */
+  video: TgVideo;
 };
 /**
  * This object represents a phone contact.
@@ -5462,7 +5619,7 @@ export type TgPollOption = {
   voter_count: number;
 };
 /**
- * This object contains information about one answer option in a poll to send.
+ * This object contains information about one answer option in a poll to be sent.
  *
  * @see https://core.telegram.org/bots/api#inputpolloption
  */
@@ -5573,11 +5730,11 @@ export type TgPoll = {
  */
 export type TgLocation = {
   /**
-   * Latitude as defined by sender
+   * Latitude as defined by the sender
    */
   latitude: number;
   /**
-   * Longitude as defined by sender
+   * Longitude as defined by the sender
    */
   longitude: number;
   /**
@@ -7636,7 +7793,7 @@ export type TgMenuButtonWebApp = {
    */
   text: string;
   /**
-   * Description of the Web App that will be launched when the user presses the button. The Web App will be able to send an arbitrary message on behalf of the user using the method answerWebAppQuery.
+   * Description of the Web App that will be launched when the user presses the button. The Web App will be able to send an arbitrary message on behalf of the user using the method answerWebAppQuery. Alternatively, a t.me link to a Web App of the bot can be specified in the object instead of the Web App's URL, in which case the Web App will be opened as if the user pressed the link.
    */
   web_app: TgWebAppInfo;
 };
@@ -8102,6 +8259,66 @@ export type TgInputMediaDocument = {
  * @see https://core.telegram.org/bots/api#inputfile
  */
 export type TgInputFile = Blob;
+/**
+ * This object describes the paid media to be sent. Currently, it can be one of
+ *
+ * - InputPaidMediaPhoto
+ *
+ * - InputPaidMediaVideo
+ *
+ * @see https://core.telegram.org/bots/api#inputpaidmedia
+ */
+export type TgInputPaidMedia = TgInputPaidMediaPhoto | TgInputPaidMediaVideo;
+/**
+ * The paid media to send is a photo.
+ *
+ * @see https://core.telegram.org/bots/api#inputpaidmediaphoto
+ */
+export type TgInputPaidMediaPhoto = {
+  /**
+   * Type of the media, must be photo
+   */
+  type: "photo";
+  /**
+   * File to send. Pass a file_id to send a file that exists on the Telegram servers (recommended), pass an HTTP URL for Telegram to get a file from the Internet, or pass "attach://<file_attach_name>" to upload a new one using multipart/form-data under <file_attach_name> name. More information on Sending Files: https://core.telegram.org/bots/api#sending-files
+   */
+  media: string;
+};
+/**
+ * The paid media to send is a video.
+ *
+ * @see https://core.telegram.org/bots/api#inputpaidmediavideo
+ */
+export type TgInputPaidMediaVideo = {
+  /**
+   * Type of the media, must be video
+   */
+  type: "video";
+  /**
+   * File to send. Pass a file_id to send a file that exists on the Telegram servers (recommended), pass an HTTP URL for Telegram to get a file from the Internet, or pass "attach://<file_attach_name>" to upload a new one using multipart/form-data under <file_attach_name> name. More information on Sending Files: https://core.telegram.org/bots/api#sending-files
+   */
+  media: string;
+  /**
+   * Optional. Thumbnail of the file sent; can be ignored if thumbnail generation for the file is supported server-side. The thumbnail should be in JPEG format and less than 200 kB in size. A thumbnail's width and height should not exceed 320. Ignored if the file is not uploaded using multipart/form-data. Thumbnails can't be reused and can be only uploaded as a new file, so you can pass "attach://<file_attach_name>" if the thumbnail was uploaded using multipart/form-data under <file_attach_name>. More information on Sending Files: https://core.telegram.org/bots/api#sending-files
+   */
+  thumbnail?: TgInputFile | string;
+  /**
+   * Optional. Video width
+   */
+  width?: number;
+  /**
+   * Optional. Video height
+   */
+  height?: number;
+  /**
+   * Optional. Video duration in seconds
+   */
+  duration?: number;
+  /**
+   * Optional. Pass True if the uploaded video is suitable for streaming
+   */
+  supports_streaming?: boolean;
+};
 /**
  * This object represents a sticker.
  *
@@ -9794,7 +10011,7 @@ export type TgSuccessfulPayment = {
    */
   total_amount: number;
   /**
-   * Bot specified invoice payload
+   * Bot-specified invoice payload
    */
   invoice_payload: string;
   /**
@@ -9815,6 +10032,33 @@ export type TgSuccessfulPayment = {
   provider_payment_charge_id: string;
 };
 /**
+ * This object contains basic information about a refunded payment.
+ *
+ * @see https://core.telegram.org/bots/api#refundedpayment
+ */
+export type TgRefundedPayment = {
+  /**
+   * Three-letter ISO 4217 currency code, or "XTR" for payments in Telegram Stars. Currently, always "XTR"
+   */
+  currency: "XTR";
+  /**
+   * Total refunded price in the smallest units of the currency (integer, not float/double). For example, for a price of US$ 1.45, total_amount = 145. See the exp parameter in currencies.json, it shows the number of digits past the decimal point for each currency (2 for the majority of currencies).
+   */
+  total_amount: number;
+  /**
+   * Bot-specified invoice payload
+   */
+  invoice_payload: string;
+  /**
+   * Telegram payment identifier
+   */
+  telegram_payment_charge_id: string;
+  /**
+   * Optional. Provider payment identifier
+   */
+  provider_payment_charge_id?: string;
+};
+/**
  * This object contains information about an incoming shipping query.
  *
  * @see https://core.telegram.org/bots/api#shippingquery
@@ -9829,7 +10073,7 @@ export type TgShippingQuery = {
    */
   from: TgUser;
   /**
-   * Bot specified invoice payload
+   * Bot-specified invoice payload
    */
   invoice_payload: string;
   /**
@@ -9860,7 +10104,7 @@ export type TgPreCheckoutQuery = {
    */
   total_amount: number;
   /**
-   * Bot specified invoice payload
+   * Bot-specified invoice payload
    */
   invoice_payload: string;
   /**
@@ -9931,18 +10175,40 @@ export type TgRevenueWithdrawalStateFailed = {
 /**
  * This object describes the source of a transaction, or its recipient for outgoing transactions. Currently, it can be one of
  *
+ * - TransactionPartnerUser
+ *
  * - TransactionPartnerFragment
  *
- * - TransactionPartnerUser
+ * - TransactionPartnerTelegramAds
  *
  * - TransactionPartnerOther
  *
  * @see https://core.telegram.org/bots/api#transactionpartner
  */
 export type TgTransactionPartner =
-  | TgTransactionPartnerFragment
   | TgTransactionPartnerUser
+  | TgTransactionPartnerFragment
+  | TgTransactionPartnerTelegramAds
   | TgTransactionPartnerOther;
+/**
+ * Describes a transaction with a user.
+ *
+ * @see https://core.telegram.org/bots/api#transactionpartneruser
+ */
+export type TgTransactionPartnerUser = {
+  /**
+   * Type of the transaction partner, always "user"
+   */
+  type: "user";
+  /**
+   * Information about the user
+   */
+  user: TgUser;
+  /**
+   * Optional. Bot-specified invoice payload
+   */
+  invoice_payload?: string;
+};
 /**
  * Describes a withdrawal transaction with Fragment.
  *
@@ -9959,19 +10225,15 @@ export type TgTransactionPartnerFragment = {
   withdrawal_state?: TgRevenueWithdrawalState;
 };
 /**
- * Describes a transaction with a user.
+ * Describes a withdrawal transaction to the Telegram Ads platform.
  *
- * @see https://core.telegram.org/bots/api#transactionpartneruser
+ * @see https://core.telegram.org/bots/api#transactionpartnertelegramads
  */
-export type TgTransactionPartnerUser = {
+export type TgTransactionPartnerTelegramAds = {
   /**
-   * Type of the transaction partner, always "user"
+   * Type of the transaction partner, always "telegram_ads"
    */
-  type: "user";
-  /**
-   * Information about the user
-   */
-  user: TgUser;
+  type: "telegram_ads";
 };
 /**
  * Describes a transaction with an unknown source or recipient.
