@@ -16,6 +16,8 @@ jobs:
       - uses: actions/checkout@v4
       - uses: denoland/setup-deno@v1
       - run: deno task codegen
+      - id: get-metadata
+        run: deno eval 'console.log("version=" + (await import("./TgApi.ts")).TG_API_VERSION)' >> $GITHUB_OUTPUT
       - uses: actions/create-github-app-token@v1
         id: create-token
         with:
@@ -26,5 +28,4 @@ jobs:
           token: ${{ steps.create-token.outputs.token }}
           branch: "update-api-types"
           commit-message: "chore: generate latest Bot API types"
-          # TODO: Automatically insert Bot API version
-          title: "feat: update Bot API types"
+          title: "feat: update Bot API types to ${{ steps.get-metadata.outputs.version }}"
