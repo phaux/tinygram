@@ -1,6 +1,6 @@
 // This file is auto-generated, do not edit it directly.
 
-export const TG_API_VERSION = "Bot API 7.7" as const;
+export const TG_API_VERSION = "Bot API 7.8" as const;
 export interface TgApi<O = {}> {
   /**
    * Use this method to receive incoming updates using long polling (wiki). Returns an Array of Update objects.
@@ -2546,6 +2546,10 @@ export type TgSetChatDescriptionParams = {
  */
 export type TgPinChatMessageParams = {
   /**
+   * Unique identifier of the business connection on behalf of which the message will be pinned
+   */
+  business_connection_id?: string;
+  /**
    * Unique identifier for the target chat or username of the target channel (in the format @channelusername)
    */
   chat_id: number | string;
@@ -2565,11 +2569,15 @@ export type TgPinChatMessageParams = {
  */
 export type TgUnpinChatMessageParams = {
   /**
+   * Unique identifier of the business connection on behalf of which the message will be unpinned
+   */
+  business_connection_id?: string;
+  /**
    * Unique identifier for the target chat or username of the target channel (in the format @channelusername)
    */
   chat_id: number | string;
   /**
-   * Identifier of a message to unpin. If not specified, the most recent pinned message (by sending date) will be unpinned.
+   * Identifier of the message to unpin. Required if business_connection_id is specified. If not specified, the most recent pinned message (by sending date) will be unpinned.
    */
   message_id?: number;
 };
@@ -3618,7 +3626,7 @@ export type TgSetStickerSetThumbnailParams = {
    */
   user_id: number;
   /**
-   * A .WEBP or .PNG image with the thumbnail, must be up to 128 kilobytes in size and have a width and height of exactly 100px, or a .TGS animation with a thumbnail up to 32 kilobytes in size (see https://core.telegram.org/stickers#animated-sticker-requirements for animated sticker technical requirements), or a WEBM video with the thumbnail up to 32 kilobytes in size; see https://core.telegram.org/stickers#video-sticker-requirements for video sticker technical requirements. Pass a file_id as a String to send a file that already exists on the Telegram servers, pass an HTTP URL as a String for Telegram to get a file from the Internet, or upload a new one using multipart/form-data. More information on Sending Files: https://core.telegram.org/bots/api#sending-files. Animated and video sticker set thumbnails can't be uploaded via HTTP URL. If omitted, then the thumbnail is dropped and the first sticker is used as the thumbnail.
+   * A .WEBP or .PNG image with the thumbnail, must be up to 128 kilobytes in size and have a width and height of exactly 100px, or a .TGS animation with a thumbnail up to 32 kilobytes in size (see https://core.telegram.org/stickers#animation-requirements for animated sticker technical requirements), or a WEBM video with the thumbnail up to 32 kilobytes in size; see https://core.telegram.org/stickers#video-requirements for video sticker technical requirements. Pass a file_id as a String to send a file that already exists on the Telegram servers, pass an HTTP URL as a String for Telegram to get a file from the Internet, or upload a new one using multipart/form-data. More information on Sending Files: https://core.telegram.org/bots/api#sending-files. Animated and video sticker set thumbnails can't be uploaded via HTTP URL. If omitted, then the thumbnail is dropped and the first sticker is used as the thumbnail.
    */
   thumbnail?: TgInputFile | string;
   /**
@@ -4290,6 +4298,10 @@ export type TgUser = {
    * Optional. True, if the bot can be connected to a Telegram Business account to receive its messages. Returned only in getMe.
    */
   can_connect_to_business?: boolean;
+  /**
+   * Optional. True, if the bot has a main Web App. Returned only in getMe.
+   */
+  has_main_web_app?: boolean;
 };
 /**
  * This object represents a chat.
