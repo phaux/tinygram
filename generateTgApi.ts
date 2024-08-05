@@ -8,6 +8,7 @@ const TG_API_DEF_URL =
 interface TgApiDef {
   version: string;
   release_date: string;
+  changelog: string;
   methods: Record<string, TgApiMethodDef>;
   types: Record<string, TgApiTypeDef>;
 }

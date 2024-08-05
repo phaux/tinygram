@@ -1,0 +1,490 @@
+export const snapshot = {};
+
+snapshot[`should match snapshot 1`] = `
+\`// This file is auto-generated, do not edit it directly.
+
+export const TG_API_VERSION = "Bot API Test" as const;
+export interface TgApi<O = {}> {
+    /**
+     * Use this method to receive incoming updates using long polling (wiki). Returns an Array of Update objects.
+     *
+     * @see https://core.telegram.org/bots/api#getupdates
+     */
+    getUpdates(params?: TgGetUpdatesParams | null | undefined, options?: O): Promise<TgUpdate[]>;
+    /**
+     * A simple method for testing your bot's authentication token. Requires no parameters. Returns basic information about the bot in form of a User object.
+     *
+     * @see https://core.telegram.org/bots/api#getme
+     */
+    getMe(params?: null | undefined, options?: O): Promise<TgUser>;
+    /**
+     * Use this method to send text messages. On success, the sent Message is returned.
+     *
+     * @see https://core.telegram.org/bots/api#sendmessage
+     */
+    sendMessage(params: TgSendMessageParams, options?: O): Promise<TgMessage>;
+    /**
+     * Use this method to send a group of photos, videos, documents or audios as an album. Documents and audio files can be only grouped in an album with messages of the same type. On success, an array of Messages that were sent is returned.
+     *
+     * @see https://core.telegram.org/bots/api#sendmediagroup
+     */
+    sendMediaGroup(params: TgSendMediaGroupParams, options?: O): Promise<TgMessage[]>;
+    /**
+     * Use this method to upload a file with a sticker for later use in the createNewStickerSet, addStickerToSet, or replaceStickerInSet methods (the file can be used multiple times). Returns the uploaded File on success.
+     *
+     * @see https://core.telegram.org/bots/api#uploadstickerfile
+     */
+    uploadStickerFile(params: TgUploadStickerFileParams, options?: O): Promise<TgFile>;
+    /**
+     * Use this method to set the thumbnail of a regular or mask sticker set. The format of the thumbnail file must match the format of the stickers in the set. Returns True on success.
+     *
+     * @see https://core.telegram.org/bots/api#setstickersetthumbnail
+     */
+    setStickerSetThumbnail(params: TgSetStickerSetThumbnailParams, options?: O): Promise<boolean>;
+}
+/**
+ * Parameters of {@link TgApi.getUpdates} method.
+ *
+ * @see https://core.telegram.org/bots/api#getupdates
+ */
+export type TgGetUpdatesParams = {
+    /**
+     * Identifier of the first update to be returned. Must be greater by one than the highest among the identifiers of previously received updates. By default, updates starting with the earliest unconfirmed update are returned. An update is considered confirmed as soon as getUpdates is called with an offset higher than its update_id. The negative offset can be specified to retrieve updates starting from -offset update from the end of the updates queue. All previous updates will be forgotten.
+     */
+    offset?: number;
+    /**
+     * Timeout in seconds for long polling. Defaults to 0, i.e. usual short polling. Should be positive, short polling should be used for testing purposes only.
+     */
+    timeout?: number;
+    /**
+     * A JSON-serialized list of the update types you want your bot to receive. For example, specify ["message", "edited_channel_post", "callback_query"] to only receive updates of these types. See Update for a complete list of available update types. Specify an empty list to receive all update types except chat_member, message_reaction, and message_reaction_count (default). If not specified, the previous setting will be used. Please note that this parameter doesn't affect updates created before the call to the getUpdates, so unwanted updates may be received for a short period of time.
+     */
+    allowed_updates?: Exclude<keyof TgUpdate, "update_id">[];
+};
+/**
+ * Parameters of {@link TgApi.sendMessage} method.
+ *
+ * @see https://core.telegram.org/bots/api#sendmessage
+ */
+export type TgSendMessageParams = {
+    /**
+     * Unique identifier for the target chat or username of the target channel (in the format @channelusername)
+     */
+    chat_id: number | string;
+    /**
+     * Text of the message to be sent, 1-4096 characters after entities parsing
+     */
+    text: string;
+    /**
+     * Mode for parsing entities in the message text. See formatting options for more details.
+     */
+    parse_mode?: undefined | "HTML" | "Markdown" | "MarkdownV2";
+    /**
+     * A JSON-serialized list of special entities that appear in message text, which can be specified instead of parse_mode
+     */
+    entities?: TgMessageEntity[];
+    /**
+     * Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove a reply keyboard or to force a reply from the user
+     */
+    reply_markup?: TgInlineKeyboardMarkup | TgReplyKeyboardMarkup | TgReplyKeyboardRemove | TgForceReply;
+};
+/**
+ * Parameters of {@link TgApi.sendMediaGroup} method.
+ *
+ * @see https://core.telegram.org/bots/api#sendmediagroup
+ */
+export type TgSendMediaGroupParams = {
+    /**
+     * Unique identifier for the target chat or username of the target channel (in the format @channelusername)
+     */
+    chat_id: number | string;
+    /**
+     * A JSON-serialized array describing messages to be sent, must include 2-10 items
+     */
+    media: (TgInputMediaAudio | TgInputMediaDocument | TgInputMediaPhoto | TgInputMediaVideo)[];
+};
+/**
+ * Parameters of {@link TgApi.uploadStickerFile} method.
+ *
+ * @see https://core.telegram.org/bots/api#uploadstickerfile
+ */
+export type TgUploadStickerFileParams = {
+    /**
+     * User identifier of sticker file owner
+     */
+    user_id: number;
+    /**
+     * A file with the sticker in .WEBP, .PNG, .TGS, or .WEBM format. See https://core.telegram.org/stickers for technical requirements. More information on Sending Files: https://core.telegram.org/bots/api#sending-files
+     */
+    sticker: TgInputFile;
+    /**
+     * Format of the sticker, must be one of "static", "animated", "video"
+     */
+    sticker_format: "static" | "animated" | "video";
+};
+/**
+ * Parameters of {@link TgApi.setStickerSetThumbnail} method.
+ *
+ * @see https://core.telegram.org/bots/api#setstickersetthumbnail
+ */
+export type TgSetStickerSetThumbnailParams = {
+    /**
+     * Sticker set name
+     */
+    name: string;
+    /**
+     * User identifier of the sticker set owner
+     */
+    user_id: number;
+    /**
+     * A .WEBP or .PNG image with the thumbnail, must be up to 128 kilobytes in size and have a width and height of exactly 100px, or a .TGS animation with a thumbnail up to 32 kilobytes in size (see https://core.telegram.org/stickers#animation-requirements for animated sticker technical requirements), or a WEBM video with the thumbnail up to 32 kilobytes in size; see https://core.telegram.org/stickers#video-requirements for video sticker technical requirements. Pass a file_id as a String to send a file that already exists on the Telegram servers, pass an HTTP URL as a String for Telegram to get a file from the Internet, or upload a new one using multipart/form-data. More information on Sending Files: https://core.telegram.org/bots/api#sending-files. Animated and video sticker set thumbnails can't be uploaded via HTTP URL. If omitted, then the thumbnail is dropped and the first sticker is used as the thumbnail.
+     */
+    thumbnail?: TgInputFile | string;
+    /**
+     * Format of the thumbnail, must be one of "static" for a .WEBP or .PNG image, "animated" for a .TGS animation, or "video" for a WEBM video
+     */
+    format: "static" | "animated" | "video";
+};
+/**
+ * This object represents an incoming update.
+ *
+ * At most one of the optional parameters can be present in any given update.
+ *
+ * @see https://core.telegram.org/bots/api#update
+ */
+export type TgUpdate = {
+    /**
+     * The update's unique identifier. Update identifiers start from a certain positive number and increase sequentially. This identifier becomes especially handy if you're using webhooks, since it allows you to ignore repeated updates or to restore the correct update sequence, should they get out of order. If there are no new updates for at least a week, then identifier of the next update will be chosen randomly instead of sequentially.
+     */
+    update_id: number;
+    /**
+     * Optional. New incoming message of any kind - text, photo, sticker, etc.
+     */
+    message?: TgMessage;
+    /**
+     * Optional. A chat member's status was updated in a chat. The bot must be an administrator in the chat and must explicitly specify "chat_member" in the list of allowed_updates to receive these updates.
+     */
+    chat_member?: TgChatMemberUpdated;
+};
+/**
+ * This object represents a Telegram user or bot.
+ *
+ * @see https://core.telegram.org/bots/api#user
+ */
+export type TgUser = {
+    /**
+     * Unique identifier for this user or bot. This number may have more than 32 significant bits and some programming languages may have difficulty/silent defects in interpreting it. But it has at most 52 significant bits, so a 64-bit integer or double-precision float type are safe for storing this identifier.
+     */
+    id: number;
+    /**
+     * True, if this user is a bot
+     */
+    is_bot: boolean;
+    /**
+     * User's or bot's first name
+     */
+    first_name: string;
+    /**
+     * Optional. User's or bot's last name
+     */
+    last_name?: string;
+    /**
+     * Optional. User's or bot's username
+     */
+    username?: string;
+};
+/**
+ * This object represents a chat.
+ *
+ * @see https://core.telegram.org/bots/api#chat
+ */
+export type TgChat = {
+    /**
+     * Unique identifier for this chat. This number may have more than 32 significant bits and some programming languages may have difficulty/silent defects in interpreting it. But it has at most 52 significant bits, so a signed 64-bit integer or double-precision float type are safe for storing this identifier.
+     */
+    id: number;
+    /**
+     * Type of the chat, can be either "private", "group", "supergroup" or "channel"
+     */
+    type: "private" | "group" | "supergroup" | "channel";
+    /**
+     * Optional. Title, for supergroups, channels and group chats
+     */
+    title?: string;
+    /**
+     * Optional. Username, for private chats, supergroups and channels if available
+     */
+    username?: string;
+    /**
+     * Optional. First name of the other party in a private chat
+     */
+    first_name?: string;
+    /**
+     * Optional. Last name of the other party in a private chat
+     */
+    last_name?: string;
+};
+/**
+ * This object represents a message.
+ *
+ * @see https://core.telegram.org/bots/api#message
+ */
+export type TgMessage = {
+    /**
+     * Unique message identifier inside this chat
+     */
+    message_id: number;
+    /**
+     * Optional. Sender of the message; empty for messages sent to channels. For backward compatibility, the field contains a fake sender user in non-channel chats, if the message was sent on behalf of a chat.
+     */
+    from?: TgUser;
+    /**
+     * Date the message was sent in Unix time. It is always a positive number, representing a valid date.
+     */
+    date: number;
+    /**
+     * Chat the message belongs to
+     */
+    chat: TgChat;
+    /**
+     * Optional. For replies in the same chat and message thread, the original message. Note that the Message object in this field will not contain further reply_to_message fields even if it itself is a reply.
+     */
+    reply_to_message?: TgMessage;
+    /**
+     * Optional. Bot through which the message was sent
+     */
+    via_bot?: TgUser;
+    /**
+     * Optional. For text messages, the actual UTF-8 text of the message
+     */
+    text?: string;
+    /**
+     * Optional. For text messages, special entities like usernames, URLs, bot commands, etc. that appear in the text
+     */
+    entities?: TgMessageEntity[];
+    /**
+     * Optional. Message is a photo, available sizes of the photo
+     */
+    photo?: TgPhotoSize[];
+    /**
+     * Optional. Message is a sticker, information about the sticker
+     */
+    sticker?: TgSticker;
+    /**
+     * Optional. Message is a video, information about the video
+     */
+    video?: TgVideo;
+    /**
+     * Optional. Caption for the animation, audio, document, paid media, photo, video or voice
+     */
+    caption?: string;
+    /**
+     * Optional. For messages with a caption, special entities like usernames, URLs, bot commands, etc. that appear in the caption
+     */
+    caption_entities?: TgMessageEntity[];
+    /**
+     * Optional. Inline keyboard attached to the message. login_url buttons are represented as ordinary url buttons.
+     */
+    reply_markup?: TgInlineKeyboardMarkup;
+};
+/**
+ * This object contains information about one member of a chat. Currently, the following 6 types of chat members are supported:
+ *
+ * - ChatMemberOwner
+ *
+ * - ChatMemberAdministrator
+ *
+ * - ChatMemberMember
+ *
+ * - ChatMemberRestricted
+ *
+ * - ChatMemberLeft
+ *
+ * - ChatMemberBanned
+ *
+ * @see https://core.telegram.org/bots/api#chatmember
+ */
+export type TgChatMember = TgChatMemberOwner | TgChatMemberAdministrator | TgChatMemberMember | TgChatMemberRestricted | TgChatMemberLeft | TgChatMemberBanned;
+/**
+ * Represents a chat member that owns the chat and has all administrator privileges.
+ *
+ * @see https://core.telegram.org/bots/api#chatmemberowner
+ */
+export type TgChatMemberOwner = {};
+/**
+ * Represents a chat member that has some additional privileges.
+ *
+ * @see https://core.telegram.org/bots/api#chatmemberadministrator
+ */
+export type TgChatMemberAdministrator = {
+    /**
+     * The member's status in the chat, always "administrator"
+     */
+    status: "administrator";
+    /**
+     * Information about the user
+     */
+    user: TgUser;
+};
+/**
+ * This object represents a point on the map.
+ *
+ * @see https://core.telegram.org/bots/api#location
+ */
+export type TgLocation = {
+    /**
+     * Latitude as defined by the sender
+     */
+    latitude: number;
+    /**
+     * Longitude as defined by the sender
+     */
+    longitude: number;
+    /**
+     * Optional. The radius of uncertainty for the location, measured in meters; 0-1500
+     */
+    horizontal_accuracy?: number;
+};
+/**
+ * Represents the default scope of bot commands. Default commands are used if no commands with a narrower scope are specified for the user.
+ *
+ * @see https://core.telegram.org/bots/api#botcommandscopedefault
+ */
+export type TgBotCommandScopeDefault = {
+    /**
+     * Scope type, must be default
+     */
+    type: "default";
+};
+/**
+ * The reaction is based on an emoji.
+ *
+ * @see https://core.telegram.org/bots/api#reactiontypeemoji
+ */
+export type TgReactionTypeEmoji = {
+    /**
+     * Type of the reaction, always "emoji"
+     */
+    type: "emoji";
+    /**
+     * Reaction emoji. Currently, it can be one of "👍", "👎", "❤", "🔥", "🥰", "👏", "😁", "🤔", "🤯", "😱", "🤬", "😢", "🎉", "🤩", "🤮", "💩", "🙏", "👌", "🕊", "🤡", "🥱", "🥴", "😍", "🐳", "❤‍🔥", "🌚", "🌭", "💯", "🤣", "⚡", "🍌", "🏆", "💔", "🤨", "😐", "🍓", "🍾", "💋", "🖕", "😈", "😴", "😭", "🤓", "👻", "👨‍💻", "👀", "🎃", "🙈", "😇", "😨", "🤝", "✍", "🤗", "🫡", "🎅", "🎄", "☃", "💅", "🤪", "🗿", "🆒", "💘", "🙉", "🦄", "😘", "💊", "🙊", "😎", "👾", "🤷‍♂", "🤷", "🤷‍♀", "😡"
+     */
+    emoji: "\\\\uD83D\\\\uDC4D" | "\\\\uD83D\\\\uDC4E" | "\\\\u2764" | "\\\\uD83D\\\\uDD25" | "\\\\uD83E\\\\uDD70" | "\\\\uD83D\\\\uDC4F" | "\\\\uD83D\\\\uDE01" | "\\\\uD83E\\\\uDD14" | "\\\\uD83E\\\\uDD2F" | "\\\\uD83D\\\\uDE31" | "\\\\uD83E\\\\uDD2C" | "\\\\uD83D\\\\uDE22" | "\\\\uD83C\\\\uDF89" | "\\\\uD83E\\\\uDD29" | "\\\\uD83E\\\\uDD2E" | "\\\\uD83D\\\\uDCA9" | "\\\\uD83D\\\\uDE4F" | "\\\\uD83D\\\\uDC4C" | "\\\\uD83D\\\\uDD4A" | "\\\\uD83E\\\\uDD21" | "\\\\uD83E\\\\uDD71" | "\\\\uD83E\\\\uDD74" | "\\\\uD83D\\\\uDE0D" | "\\\\uD83D\\\\uDC33" | "\\\\u2764\\\\u200D\\\\uD83D\\\\uDD25" | "\\\\uD83C\\\\uDF1A" | "\\\\uD83C\\\\uDF2D" | "\\\\uD83D\\\\uDCAF" | "\\\\uD83E\\\\uDD23" | "\\\\u26A1" | "\\\\uD83C\\\\uDF4C" | "\\\\uD83C\\\\uDFC6" | "\\\\uD83D\\\\uDC94" | "\\\\uD83E\\\\uDD28" | "\\\\uD83D\\\\uDE10" | "\\\\uD83C\\\\uDF53" | "\\\\uD83C\\\\uDF7E" | "\\\\uD83D\\\\uDC8B" | "\\\\uD83D\\\\uDD95" | "\\\\uD83D\\\\uDE08" | "\\\\uD83D\\\\uDE34" | "\\\\uD83D\\\\uDE2D" | "\\\\uD83E\\\\uDD13" | "\\\\uD83D\\\\uDC7B" | "\\\\uD83D\\\\uDC68\\\\u200D\\\\uD83D\\\\uDCBB" | "\\\\uD83D\\\\uDC40" | "\\\\uD83C\\\\uDF83" | "\\\\uD83D\\\\uDE48" | "\\\\uD83D\\\\uDE07" | "\\\\uD83D\\\\uDE28" | "\\\\uD83E\\\\uDD1D" | "\\\\u270D" | "\\\\uD83E\\\\uDD17" | "\\\\uD83E\\\\uDEE1" | "\\\\uD83C\\\\uDF85" | "\\\\uD83C\\\\uDF84" | "\\\\u2603" | "\\\\uD83D\\\\uDC85" | "\\\\uD83E\\\\uDD2A" | "\\\\uD83D\\\\uDDFF" | "\\\\uD83C\\\\uDD92" | "\\\\uD83D\\\\uDC98" | "\\\\uD83D\\\\uDE49" | "\\\\uD83E\\\\uDD84" | "\\\\uD83D\\\\uDE18" | "\\\\uD83D\\\\uDC8A" | "\\\\uD83D\\\\uDE4A" | "\\\\uD83D\\\\uDE0E" | "\\\\uD83D\\\\uDC7E" | "\\\\uD83E\\\\uDD37\\\\u200D\\\\u2642" | "\\\\uD83E\\\\uDD37" | "\\\\uD83E\\\\uDD37\\\\u200D\\\\u2640" | "\\\\uD83D\\\\uDE21";
+};
+/**
+ * This object defines the criteria used to request a suitable chat. Information about the selected chat will be shared with the bot when the corresponding button is pressed. The bot will be granted requested rights in the chat if appropriate. More about requesting chats: https://core.telegram.org/bots/features#chat-and-user-selection.
+ *
+ * @see https://core.telegram.org/bots/api#keyboardbuttonrequestchat
+ */
+export type TgKeyboardButtonRequestChat = {
+    /**
+     * Signed 32-bit identifier of the request, which will be received back in the ChatShared object. Must be unique within the message
+     */
+    request_id: number;
+    /**
+     * Optional. A JSON-serialized object listing the required administrator rights of the user in the chat. The rights must be a superset of bot_administrator_rights. If not specified, no additional restrictions are applied.
+     */
+    user_administrator_rights?: Partial<TgChatAdministratorRights>;
+    /**
+     * Optional. A JSON-serialized object listing the required administrator rights of the bot in the chat. The rights must be a subset of user_administrator_rights. If not specified, no additional restrictions are applied.
+     */
+    bot_administrator_rights?: Partial<TgChatAdministratorRights>;
+    /**
+     * Optional. Pass True to request a chat with the bot as a member. Otherwise, no additional restrictions are applied.
+     */
+    bot_is_member?: boolean;
+};
+/**
+ * This object represents the contents of a file to be uploaded. Must be posted using multipart/form-data in the usual way that files are uploaded via the browser.
+ *
+ * @see https://core.telegram.org/bots/api#inputfile
+ */
+export type TgInputFile = Blob;
+/**
+ * This object represents the content of a media message to be sent. It should be one of
+ *
+ * - InputMediaAnimation
+ *
+ * - InputMediaDocument
+ *
+ * - InputMediaAudio
+ *
+ * - InputMediaPhoto
+ *
+ * - InputMediaVideo
+ *
+ * @see https://core.telegram.org/bots/api#inputmedia
+ */
+export type TgInputMedia = TgInputMediaAnimation | TgInputMediaDocument | TgInputMediaAudio | TgInputMediaPhoto | TgInputMediaVideo;
+/**
+ * Represents a photo to be sent.
+ *
+ * @see https://core.telegram.org/bots/api#inputmediaphoto
+ */
+export type TgInputMediaPhoto = {
+    /**
+     * Type of the result, must be photo
+     */
+    type: "photo";
+    /**
+     * File to send. Pass a file_id to send a file that exists on the Telegram servers (recommended), pass an HTTP URL for Telegram to get a file from the Internet, or pass "attach://<file_attach_name>" to upload a new one using multipart/form-data under <file_attach_name> name. More information on Sending Files: https://core.telegram.org/bots/api#sending-files
+     */
+    media: string | Blob;
+    /**
+     * Optional. Caption of the photo to be sent, 0-1024 characters after entities parsing
+     */
+    caption?: string;
+    /**
+     * Optional. Mode for parsing entities in the photo caption. See formatting options for more details.
+     */
+    parse_mode?: undefined | "HTML" | "Markdown" | "MarkdownV2";
+    /**
+     * Optional. List of special entities that appear in the caption, which can be specified instead of parse_mode
+     */
+    caption_entities?: TgMessageEntity[];
+};
+/**
+ * Represents a video to be sent.
+ *
+ * @see https://core.telegram.org/bots/api#inputmediavideo
+ */
+export type TgInputMediaVideo = {
+    /**
+     * Type of the result, must be video
+     */
+    type: "video";
+    /**
+     * File to send. Pass a file_id to send a file that exists on the Telegram servers (recommended), pass an HTTP URL for Telegram to get a file from the Internet, or pass "attach://<file_attach_name>" to upload a new one using multipart/form-data under <file_attach_name> name. More information on Sending Files: https://core.telegram.org/bots/api#sending-files
+     */
+    media: string | Blob;
+    /**
+     * Optional. Thumbnail of the file sent; can be ignored if thumbnail generation for the file is supported server-side. The thumbnail should be in JPEG format and less than 200 kB in size. A thumbnail's width and height should not exceed 320. Ignored if the file is not uploaded using multipart/form-data. Thumbnails can't be reused and can be only uploaded as a new file, so you can pass "attach://<file_attach_name>" if the thumbnail was uploaded using multipart/form-data under <file_attach_name>. More information on Sending Files: https://core.telegram.org/bots/api#sending-files
+     */
+    thumbnail?: TgInputFile | string;
+    /**
+     * Optional. Caption of the video to be sent, 0-1024 characters after entities parsing
+     */
+    caption?: string;
+    /**
+     * Optional. Mode for parsing entities in the video caption. See formatting options for more details.
+     */
+    parse_mode?: undefined | "HTML" | "Markdown" | "MarkdownV2";
+    /**
+     * Optional. List of special entities that appear in the caption, which can be specified instead of parse_mode
+     */
+    caption_entities?: TgMessageEntity[];
+    /**
+     * Optional. Video width
+     */
+    width?: number;
+    /**
+     * Optional. Video height
+     */
+    height?: number;
+    /**
+     * Optional. Video duration in seconds
+     */
+    duration?: number;
+};
+\`
+`;
