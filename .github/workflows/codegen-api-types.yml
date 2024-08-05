@@ -3,7 +3,7 @@ name: Generate API types
 on:
   workflow_dispatch:
   schedule:
-    - cron: "0 0 * * 0"
+    - cron: "30 4 * * */2"
 
 permissions:
   contents: write
@@ -24,8 +24,13 @@ jobs:
           app-id: ${{ vars.APP_ID }}
           private-key: ${{ secrets.PRIVATE_KEY }}
       - uses: peter-evans/create-pull-request@v6
+        id: create-pr
         with:
           token: ${{ steps.create-token.outputs.token }}
           branch: "update-api-types"
           commit-message: "chore: generate latest Bot API types"
           title: "feat: update Bot API types to ${{ steps.get-metadata.outputs.version }}"
+      - if: steps.create-pr.outputs.pull-request-operation == 'created'
+        run: gh pr merge --squash --auto
+        env:
+          GITHUB_TOKEN: ${{ steps.create-token.outputs.token }}
