@@ -47,7 +47,8 @@
     "cdnup": "deno run --allow-read --allow-write=. --allow-net https://deno.land/x/cdnup@v1.2.0/main.ts --skip coverage --skip npm -w",
     "codegen": "deno run --allow-read --allow-net --allow-env generateTgApi.ts > TgApi.ts && deno fmt TgApi.ts",
     "dnt": "deno run -A https://deno.land/x/dntx@v0.5.0/mod.ts -n tinygram --no-script-module --declaration separate",
-    "test": "rm -rf coverage && deno test --doc --coverage && deno coverage --lcov --output=coverage/lcov.info && deno check mod.ts && deno check generateTgApi.ts && deno lint"
+    "test": "rm -rf coverage && deno test --doc --coverage --allow-read && deno coverage --lcov --output=coverage/lcov.info && deno check mod.ts && deno check generateTgApi.ts && deno lint",
+    "snapshot": "deno test --allow-read --allow-write=. -- --update"
   },
   "version": "2.1.0"
 }
