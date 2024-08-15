@@ -1,6 +1,6 @@
 // This file is auto-generated, do not edit it directly.
 
-export const TG_API_VERSION = "Bot API 7.8" as const;
+export const TG_API_VERSION = "Bot API 7.9" as const;
 export interface TgApi<O = {}> {
   /**
    * Use this method to receive incoming updates using long polling (wiki). Returns an Array of Update objects.
@@ -121,7 +121,7 @@ export interface TgApi<O = {}> {
    */
   sendVideoNote(params: TgSendVideoNoteParams, options?: O): Promise<TgMessage>;
   /**
-   * Use this method to send paid media to channel chats. On success, the sent Message is returned.
+   * Use this method to send paid media. On success, the sent Message is returned.
    *
    * @see https://core.telegram.org/bots/api#sendpaidmedia
    */
@@ -171,7 +171,7 @@ export interface TgApi<O = {}> {
    */
   sendChatAction(params: TgSendChatActionParams, options?: O): Promise<boolean>;
   /**
-   * Use this method to change the chosen reactions on a message. Service messages can't be reacted to. Automatically forwarded messages from a channel to its discussion group have the same available reactions as messages in the channel. Returns True on success.
+   * Use this method to change the chosen reactions on a message. Service messages can't be reacted to. Automatically forwarded messages from a channel to its discussion group have the same available reactions as messages in the channel. Bots can't use paid reactions. Returns True on success.
    *
    * @see https://core.telegram.org/bots/api#setmessagereaction
    */
@@ -265,6 +265,24 @@ export interface TgApi<O = {}> {
    * @see https://core.telegram.org/bots/api#editchatinvitelink
    */
   editChatInviteLink(params: TgEditChatInviteLinkParams, options?: O): Promise<TgChatInviteLink>;
+  /**
+   * Use this method to create a subscription invite link for a channel chat. The bot must have the can_invite_users administrator rights. The link can be edited using the method editChatSubscriptionInviteLink or revoked using the method revokeChatInviteLink. Returns the new invite link as a ChatInviteLink object.
+   *
+   * @see https://core.telegram.org/bots/api#createchatsubscriptioninvitelink
+   */
+  createChatSubscriptionInviteLink(
+    params: TgCreateChatSubscriptionInviteLinkParams,
+    options?: O,
+  ): Promise<TgChatInviteLink>;
+  /**
+   * Use this method to edit a subscription invite link created by the bot. The bot must have the can_invite_users administrator rights. Returns the edited invite link as a ChatInviteLink object.
+   *
+   * @see https://core.telegram.org/bots/api#editchatsubscriptioninvitelink
+   */
+  editChatSubscriptionInviteLink(
+    params: TgEditChatSubscriptionInviteLinkParams,
+    options?: O,
+  ): Promise<TgChatInviteLink>;
   /**
    * Use this method to revoke an invite link created by the bot. If the primary link is revoked, a new link is automatically generated. The bot must be an administrator in the chat for this to work and must have the appropriate administrator rights. Returns the revoked invite link as ChatInviteLink object.
    *
@@ -386,7 +404,7 @@ export interface TgApi<O = {}> {
    */
   createForumTopic(params: TgCreateForumTopicParams, options?: O): Promise<TgForumTopic>;
   /**
-   * Use this method to edit name and icon of a topic in a forum supergroup chat. The bot must be an administrator in the chat for this to work and must have can_manage_topics administrator rights, unless it is the creator of the topic. Returns True on success.
+   * Use this method to edit name and icon of a topic in a forum supergroup chat. The bot must be an administrator in the chat for this to work and must have the can_manage_topics administrator rights, unless it is the creator of the topic. Returns True on success.
    *
    * @see https://core.telegram.org/bots/api#editforumtopic
    */
@@ -419,7 +437,7 @@ export interface TgApi<O = {}> {
     options?: O,
   ): Promise<boolean>;
   /**
-   * Use this method to edit the name of the 'General' topic in a forum supergroup chat. The bot must be an administrator in the chat for this to work and must have can_manage_topics administrator rights. Returns True on success.
+   * Use this method to edit the name of the 'General' topic in a forum supergroup chat. The bot must be an administrator in the chat for this to work and must have the can_manage_topics administrator rights. Returns True on success.
    *
    * @see https://core.telegram.org/bots/api#editgeneralforumtopic
    */
@@ -1641,7 +1659,11 @@ export type TgSendVideoNoteParams = {
  */
 export type TgSendPaidMediaParams = {
   /**
-   * Unique identifier for the target chat or username of the target channel (in the format @channelusername)
+   * Unique identifier of the business connection on behalf of which the message will be sent
+   */
+  business_connection_id?: string;
+  /**
+   * Unique identifier for the target chat or username of the target channel (in the format @channelusername). If the chat is a channel, all Telegram Star proceeds from this media will be credited to the chat's balance. Otherwise, they will be credited to the bot's balance.
    */
   chat_id: number | string;
   /**
@@ -2119,7 +2141,7 @@ export type TgSetMessageReactionParams = {
    */
   message_id: number;
   /**
-   * A JSON-serialized list of reaction types to set on the message. Currently, as non-premium users, bots can set up to one reaction per message. A custom emoji reaction can be used if it is either already present on the message or explicitly allowed by chat administrators.
+   * A JSON-serialized list of reaction types to set on the message. Currently, as non-premium users, bots can set up to one reaction per message. A custom emoji reaction can be used if it is either already present on the message or explicitly allowed by chat administrators. Paid reactions can't be used by bots.
    */
   reaction?: TgReactionType[];
   /**
@@ -2437,6 +2459,48 @@ export type TgEditChatInviteLinkParams = {
    * True, if users joining the chat via the link need to be approved by chat administrators. If True, member_limit can't be specified
    */
   creates_join_request?: boolean;
+};
+/**
+ * Parameters of {@link TgApi.createChatSubscriptionInviteLink} method.
+ *
+ * @see https://core.telegram.org/bots/api#createchatsubscriptioninvitelink
+ */
+export type TgCreateChatSubscriptionInviteLinkParams = {
+  /**
+   * Unique identifier for the target channel chat or username of the target channel (in the format @channelusername)
+   */
+  chat_id: number | string;
+  /**
+   * Invite link name; 0-32 characters
+   */
+  name?: string;
+  /**
+   * The number of seconds the subscription will be active for before the next payment. Currently, it must always be 2592000 (30 days).
+   */
+  subscription_period: number;
+  /**
+   * The amount of Telegram Stars a user must pay initially and after each subsequent subscription period to be a member of the chat; 1-2500
+   */
+  subscription_price: number;
+};
+/**
+ * Parameters of {@link TgApi.editChatSubscriptionInviteLink} method.
+ *
+ * @see https://core.telegram.org/bots/api#editchatsubscriptioninvitelink
+ */
+export type TgEditChatSubscriptionInviteLinkParams = {
+  /**
+   * Unique identifier for the target chat or username of the target channel (in the format @channelusername)
+   */
+  chat_id: number | string;
+  /**
+   * The invite link to edit
+   */
+  invite_link: string;
+  /**
+   * Invite link name; 0-32 characters
+   */
+  name?: string;
 };
 /**
  * Parameters of {@link TgApi.revokeChatInviteLink} method.
@@ -4536,11 +4600,11 @@ export type TgMessage = {
    */
   message_thread_id?: number;
   /**
-   * Optional. Sender of the message; empty for messages sent to channels. For backward compatibility, the field contains a fake sender user in non-channel chats, if the message was sent on behalf of a chat.
+   * Optional. Sender of the message; may be empty for messages sent to channels. For backward compatibility, if the message was sent on behalf of a chat, the field contains a fake sender user in non-channel chats
    */
   from?: TgUser;
   /**
-   * Optional. Sender of the message, sent on behalf of a chat. For example, the channel itself for channel posts, the supergroup itself for messages from anonymous group administrators, the linked channel for messages automatically forwarded to the discussion group. For backward compatibility, the field from contains a fake sender user in non-channel chats, if the message was sent on behalf of a chat.
+   * Optional. Sender of the message when sent on behalf of a chat. For example, the supergroup itself for messages sent by its anonymous administrators or a linked channel for messages automatically forwarded to the channel's discussion group. For backward compatibility, if the message was sent on behalf of a chat, the field from contains a fake sender user in non-channel chats.
    */
   sender_chat?: TgChat;
   /**
@@ -7082,6 +7146,10 @@ export type TgChatMemberMember = {
    * Information about the user
    */
   user: TgUser;
+  /**
+   * Optional. Date when the user's subscription will expire; Unix time
+   */
+  until_date?: number;
 };
 /**
  * Represents a chat member that is under certain restrictions in the chat. Supergroups only.
@@ -7395,9 +7463,11 @@ export type TgChatLocation = {
  *
  * - ReactionTypeCustomEmoji
  *
+ * - ReactionTypePaid
+ *
  * @see https://core.telegram.org/bots/api#reactiontype
  */
-export type TgReactionType = TgReactionTypeEmoji | TgReactionTypeCustomEmoji;
+export type TgReactionType = TgReactionTypeEmoji | TgReactionTypeCustomEmoji | TgReactionTypePaid;
 /**
  * The reaction is based on an emoji.
  *
@@ -7500,6 +7570,17 @@ export type TgReactionTypeCustomEmoji = {
    * Custom emoji identifier
    */
   custom_emoji_id: string;
+};
+/**
+ * The reaction is paid.
+ *
+ * @see https://core.telegram.org/bots/api#reactiontypepaid
+ */
+export type TgReactionTypePaid = {
+  /**
+   * Type of the reaction, always "paid"
+   */
+  type: "paid";
 };
 /**
  * Represents a reaction added to a message along with the number of times it was added.
@@ -10220,6 +10301,10 @@ export type TgTransactionPartnerUser = {
    * Optional. Bot-specified invoice payload
    */
   invoice_payload?: string;
+  /**
+   * Optional. Information about the paid media bought by the user
+   */
+  paid_media?: TgPaidMedia[];
 };
 /**
  * Describes a withdrawal transaction with Fragment.
