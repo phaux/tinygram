@@ -3793,7 +3793,7 @@ export type TgSendInvoiceParams = {
    */
   description: string;
   /**
-   * Bot-defined invoice payload, 1-128 bytes. This will not be displayed to the user, use for your internal processes.
+   * Bot-defined invoice payload, 1-128 bytes. This will not be displayed to the user, use it for your internal processes.
    */
   payload: string;
   /**
@@ -3904,7 +3904,7 @@ export type TgCreateInvoiceLinkParams = {
    */
   description: string;
   /**
-   * Bot-defined invoice payload, 1-128 bytes. This will not be displayed to the user, use for your internal processes.
+   * Bot-defined invoice payload, 1-128 bytes. This will not be displayed to the user, use it for your internal processes.
    */
   payload: string;
   /**
@@ -6895,6 +6895,14 @@ export type TgChatInviteLink = {
    * Optional. Number of pending join requests created using this link
    */
   pending_join_request_count?: number;
+  /**
+   * Optional. The number of seconds the subscription will be active for before the next payment
+   */
+  subscription_period?: number;
+  /**
+   * Optional. The amount of Telegram Stars a user must pay initially and after each subsequent subscription period to be a member of the chat using the link
+   */
+  subscription_price?: number;
 };
 /**
  * Represents the rights of an administrator in a chat.
@@ -9862,7 +9870,7 @@ export type TgInputInvoiceMessageContent = {
    */
   description: string;
   /**
-   * Bot-defined invoice payload, 1-128 bytes. This will not be displayed to the user, use for your internal processes.
+   * Bot-defined invoice payload, 1-128 bytes. This will not be displayed to the user, use it for your internal processes.
    */
   payload: string;
   /**
