@@ -1,6 +1,6 @@
 // This file is auto-generated, do not edit it directly.
 
-export const TG_API_VERSION = "Bot API 7.10" as const;
+export const TG_API_VERSION = "Bot API 7.11" as const;
 export interface TgApi<O = {}> {
   /**
    * Use this method to receive incoming updates using long polling (wiki). Returns an Array of Update objects.
@@ -620,7 +620,7 @@ export interface TgApi<O = {}> {
     options?: O,
   ): Promise<TgMessage | boolean>;
   /**
-   * Use this method to edit animation, audio, document, photo, or video messages. If a message is part of a message album, then it can be edited only to an audio for audio albums, only to a document for document albums and to a photo or a video otherwise. When an inline message is edited, a new file can't be uploaded; use a previously uploaded file via its file_id or specify a URL. On success, if the edited message is not an inline message, the edited Message is returned, otherwise True is returned. Note that business messages that were not sent by the bot and do not contain an inline keyboard can only be edited within 48 hours from the time they were sent.
+   * Use this method to edit animation, audio, document, photo, or video messages, or to add media to text messages. If a message is part of a message album, then it can be edited only to an audio for audio albums, only to a document for document albums and to a photo or a video otherwise. When an inline message is edited, a new file can't be uploaded; use a previously uploaded file via its file_id or specify a URL. On success, if the edited message is not an inline message, the edited Message is returned, otherwise True is returned. Note that business messages that were not sent by the bot and do not contain an inline keyboard can only be edited within 48 hours from the time they were sent.
    *
    * @see https://core.telegram.org/bots/api#editmessagemedia
    */
@@ -979,6 +979,10 @@ export type TgSendMessageParams = {
    */
   protect_content?: boolean;
   /**
+   * Pass True to allow up to 1000 messages per second, ignoring broadcasting limits for a fee of 0.1 Telegram Stars per message. The relevant Stars will be withdrawn from the bot's balance
+   */
+  allow_paid_broadcast?: boolean;
+  /**
    * Unique identifier of the message effect to be added to the message; for private chats only
    */
   message_effect_id?: string;
@@ -1104,6 +1108,10 @@ export type TgCopyMessageParams = {
    */
   protect_content?: boolean;
   /**
+   * Pass True to allow up to 1000 messages per second, ignoring broadcasting limits for a fee of 0.1 Telegram Stars per message. The relevant Stars will be withdrawn from the bot's balance
+   */
+  allow_paid_broadcast?: boolean;
+  /**
    * Description of the message to reply to
    */
   reply_parameters?: TgReplyParameters;
@@ -1202,6 +1210,10 @@ export type TgSendPhotoParams = {
    */
   protect_content?: boolean;
   /**
+   * Pass True to allow up to 1000 messages per second, ignoring broadcasting limits for a fee of 0.1 Telegram Stars per message. The relevant Stars will be withdrawn from the bot's balance
+   */
+  allow_paid_broadcast?: boolean;
+  /**
    * Unique identifier of the message effect to be added to the message; for private chats only
    */
   message_effect_id?: string;
@@ -1277,6 +1289,10 @@ export type TgSendAudioParams = {
    */
   protect_content?: boolean;
   /**
+   * Pass True to allow up to 1000 messages per second, ignoring broadcasting limits for a fee of 0.1 Telegram Stars per message. The relevant Stars will be withdrawn from the bot's balance
+   */
+  allow_paid_broadcast?: boolean;
+  /**
    * Unique identifier of the message effect to be added to the message; for private chats only
    */
   message_effect_id?: string;
@@ -1343,6 +1359,10 @@ export type TgSendDocumentParams = {
    * Protects the contents of the sent message from forwarding and saving
    */
   protect_content?: boolean;
+  /**
+   * Pass True to allow up to 1000 messages per second, ignoring broadcasting limits for a fee of 0.1 Telegram Stars per message. The relevant Stars will be withdrawn from the bot's balance
+   */
+  allow_paid_broadcast?: boolean;
   /**
    * Unique identifier of the message effect to be added to the message; for private chats only
    */
@@ -1431,6 +1451,10 @@ export type TgSendVideoParams = {
    */
   protect_content?: boolean;
   /**
+   * Pass True to allow up to 1000 messages per second, ignoring broadcasting limits for a fee of 0.1 Telegram Stars per message. The relevant Stars will be withdrawn from the bot's balance
+   */
+  allow_paid_broadcast?: boolean;
+  /**
    * Unique identifier of the message effect to be added to the message; for private chats only
    */
   message_effect_id?: string;
@@ -1514,6 +1538,10 @@ export type TgSendAnimationParams = {
    */
   protect_content?: boolean;
   /**
+   * Pass True to allow up to 1000 messages per second, ignoring broadcasting limits for a fee of 0.1 Telegram Stars per message. The relevant Stars will be withdrawn from the bot's balance
+   */
+  allow_paid_broadcast?: boolean;
+  /**
    * Unique identifier of the message effect to be added to the message; for private chats only
    */
   message_effect_id?: string;
@@ -1577,6 +1605,10 @@ export type TgSendVoiceParams = {
    */
   protect_content?: boolean;
   /**
+   * Pass True to allow up to 1000 messages per second, ignoring broadcasting limits for a fee of 0.1 Telegram Stars per message. The relevant Stars will be withdrawn from the bot's balance
+   */
+  allow_paid_broadcast?: boolean;
+  /**
    * Unique identifier of the message effect to be added to the message; for private chats only
    */
   message_effect_id?: string;
@@ -1635,6 +1667,10 @@ export type TgSendVideoNoteParams = {
    * Protects the contents of the sent message from forwarding and saving
    */
   protect_content?: boolean;
+  /**
+   * Pass True to allow up to 1000 messages per second, ignoring broadcasting limits for a fee of 0.1 Telegram Stars per message. The relevant Stars will be withdrawn from the bot's balance
+   */
+  allow_paid_broadcast?: boolean;
   /**
    * Unique identifier of the message effect to be added to the message; for private chats only
    */
@@ -1703,6 +1739,10 @@ export type TgSendPaidMediaParams = {
    */
   protect_content?: boolean;
   /**
+   * Pass True to allow up to 1000 messages per second, ignoring broadcasting limits for a fee of 0.1 Telegram Stars per message. The relevant Stars will be withdrawn from the bot's balance
+   */
+  allow_paid_broadcast?: boolean;
+  /**
    * Description of the message to reply to
    */
   reply_parameters?: TgReplyParameters;
@@ -1745,6 +1785,10 @@ export type TgSendMediaGroupParams = {
    * Protects the contents of the sent messages from forwarding and saving
    */
   protect_content?: boolean;
+  /**
+   * Pass True to allow up to 1000 messages per second, ignoring broadcasting limits for a fee of 0.1 Telegram Stars per message. The relevant Stars will be withdrawn from the bot's balance
+   */
+  allow_paid_broadcast?: boolean;
   /**
    * Unique identifier of the message effect to be added to the message; for private chats only
    */
@@ -1804,6 +1848,10 @@ export type TgSendLocationParams = {
    * Protects the contents of the sent message from forwarding and saving
    */
   protect_content?: boolean;
+  /**
+   * Pass True to allow up to 1000 messages per second, ignoring broadcasting limits for a fee of 0.1 Telegram Stars per message. The relevant Stars will be withdrawn from the bot's balance
+   */
+  allow_paid_broadcast?: boolean;
   /**
    * Unique identifier of the message effect to be added to the message; for private chats only
    */
@@ -1880,6 +1928,10 @@ export type TgSendVenueParams = {
    */
   protect_content?: boolean;
   /**
+   * Pass True to allow up to 1000 messages per second, ignoring broadcasting limits for a fee of 0.1 Telegram Stars per message. The relevant Stars will be withdrawn from the bot's balance
+   */
+  allow_paid_broadcast?: boolean;
+  /**
    * Unique identifier of the message effect to be added to the message; for private chats only
    */
   message_effect_id?: string;
@@ -1938,6 +1990,10 @@ export type TgSendContactParams = {
    * Protects the contents of the sent message from forwarding and saving
    */
   protect_content?: boolean;
+  /**
+   * Pass True to allow up to 1000 messages per second, ignoring broadcasting limits for a fee of 0.1 Telegram Stars per message. The relevant Stars will be withdrawn from the bot's balance
+   */
+  allow_paid_broadcast?: boolean;
   /**
    * Unique identifier of the message effect to be added to the message; for private chats only
    */
@@ -2038,6 +2094,10 @@ export type TgSendPollParams = {
    */
   protect_content?: boolean;
   /**
+   * Pass True to allow up to 1000 messages per second, ignoring broadcasting limits for a fee of 0.1 Telegram Stars per message. The relevant Stars will be withdrawn from the bot's balance
+   */
+  allow_paid_broadcast?: boolean;
+  /**
    * Unique identifier of the message effect to be added to the message; for private chats only
    */
   message_effect_id?: string;
@@ -2090,6 +2150,10 @@ export type TgSendDiceParams = {
    * Protects the contents of the sent message from forwarding
    */
   protect_content?: boolean;
+  /**
+   * Pass True to allow up to 1000 messages per second, ignoring broadcasting limits for a fee of 0.1 Telegram Stars per message. The relevant Stars will be withdrawn from the bot's balance
+   */
+  allow_paid_broadcast?: boolean;
   /**
    * Unique identifier of the message effect to be added to the message; for private chats only
    */
@@ -3463,6 +3527,10 @@ export type TgSendStickerParams = {
    */
   protect_content?: boolean;
   /**
+   * Pass True to allow up to 1000 messages per second, ignoring broadcasting limits for a fee of 0.1 Telegram Stars per message. The relevant Stars will be withdrawn from the bot's balance
+   */
+  allow_paid_broadcast?: boolean;
+  /**
    * Unique identifier of the message effect to be added to the message; for private chats only
    */
   message_effect_id?: string;
@@ -3881,6 +3949,10 @@ export type TgSendInvoiceParams = {
    */
   protect_content?: boolean;
   /**
+   * Pass True to allow up to 1000 messages per second, ignoring broadcasting limits for a fee of 0.1 Telegram Stars per message. The relevant Stars will be withdrawn from the bot's balance
+   */
+  allow_paid_broadcast?: boolean;
+  /**
    * Unique identifier of the message effect to be added to the message; for private chats only
    */
   message_effect_id?: string;
@@ -4097,6 +4169,10 @@ export type TgSendGameParams = {
    * Protects the contents of the sent message from forwarding and saving
    */
   protect_content?: boolean;
+  /**
+   * Pass True to allow up to 1000 messages per second, ignoring broadcasting limits for a fee of 0.1 Telegram Stars per message. The relevant Stars will be withdrawn from the bot's balance
+   */
+  allow_paid_broadcast?: boolean;
   /**
    * Unique identifier of the message effect to be added to the message; for private chats only
    */
@@ -4600,7 +4676,7 @@ export type TgChatFullInfo = {
  */
 export type TgMessage = {
   /**
-   * Unique message identifier inside this chat
+   * Unique message identifier inside this chat. In specific instances (e.g., message containing a video sent to a big chat), the server might automatically schedule a message instead of sending it immediately. In such cases, this field will be 0 and the relevant message will be unusable until it is actually sent
    */
   message_id: number;
   /**
@@ -4947,7 +5023,7 @@ export type TgMessage = {
  */
 export type TgMessageId = {
   /**
-   * Unique message identifier
+   * Unique message identifier. In specific instances (e.g., message containing a video sent to a big chat), the server might automatically schedule a message instead of sending it immediately. In such cases, this field will be 0 and the relevant message will be unusable until it is actually sent
    */
   message_id: number;
 };
@@ -4987,7 +5063,7 @@ export type TgMaybeInaccessibleMessage = TgMessage | TgInaccessibleMessage;
  */
 export type TgMessageEntity = {
   /**
-   * Type of the entity. Currently, can be "mention" (@username), "hashtag" (#hashtag), "cashtag" ($USD), "bot_command" (/start@jobs_bot), "url" (https://telegram.org), "email" (do-not-reply@telegram.org), "phone_number" (+1-212-555-0123), "bold" (bold text), "italic" (italic text), "underline" (underlined text), "strikethrough" (strikethrough text), "spoiler" (spoiler message), "blockquote" (block quotation), "expandable_blockquote" (collapsed-by-default block quotation), "code" (monowidth string), "pre" (monowidth block), "text_link" (for clickable text URLs), "text_mention" (for users without usernames), "custom_emoji" (for inline custom emoji stickers)
+   * Type of the entity. Currently, can be "mention" (@username), "hashtag" (#hashtag or #hashtag@chatusername), "cashtag" ($USD or $USD@chatusername), "bot_command" (/start@jobs_bot), "url" (https://telegram.org), "email" (do-not-reply@telegram.org), "phone_number" (+1-212-555-0123), "bold" (bold text), "italic" (italic text), "underline" (underlined text), "strikethrough" (strikethrough text), "spoiler" (spoiler message), "blockquote" (block quotation), "expandable_blockquote" (collapsed-by-default block quotation), "code" (monowidth string), "pre" (monowidth block), "text_link" (for clickable text URLs), "text_mention" (for users without usernames), "custom_emoji" (for inline custom emoji stickers)
    */
   type:
     | "mention"
@@ -6741,6 +6817,10 @@ export type TgInlineKeyboardButton = {
    */
   switch_inline_query_chosen_chat?: TgSwitchInlineQueryChosenChat;
   /**
+   * Optional. Description of the button that copies the specified text to the clipboard.
+   */
+  copy_text?: TgCopyTextButton;
+  /**
    * Optional. Description of the game that will be launched when the user presses the button. NOTE: This type of button must always be the first button in the first row.
    */
   callback_game?: TgCallbackGame;
@@ -6800,6 +6880,17 @@ export type TgSwitchInlineQueryChosenChat = {
    * Optional. True, if channel chats can be chosen
    */
   allow_channel_chats?: boolean;
+};
+/**
+ * This object represents an inline keyboard button that copies specified text to the clipboard.
+ *
+ * @see https://core.telegram.org/bots/api#copytextbutton
+ */
+export type TgCopyTextButton = {
+  /**
+   * The text to be copied to the clipboard; 1-256 characters
+   */
+  text: string;
 };
 /**
  * This object represents an incoming callback query from a callback button in an inline keyboard. If the button that originated the query was attached to a message sent by the bot, the field message will be present. If the button was attached to a message sent via the bot (in inline mode), the field inline_message_id will be present. Exactly one of the fields data or game_short_name will be present.
@@ -10326,6 +10417,8 @@ export type TgRevenueWithdrawalStateFailed = {
  *
  * - TransactionPartnerTelegramAds
  *
+ * - TransactionPartnerTelegramApi
+ *
  * - TransactionPartnerOther
  *
  * @see https://core.telegram.org/bots/api#transactionpartner
@@ -10334,6 +10427,7 @@ export type TgTransactionPartner =
   | TgTransactionPartnerUser
   | TgTransactionPartnerFragment
   | TgTransactionPartnerTelegramAds
+  | TgTransactionPartnerTelegramApi
   | TgTransactionPartnerOther;
 /**
  * Describes a transaction with a user.
@@ -10389,6 +10483,21 @@ export type TgTransactionPartnerTelegramAds = {
   type: "telegram_ads";
 };
 /**
+ * Describes a transaction with payment for paid broadcasting.
+ *
+ * @see https://core.telegram.org/bots/api#transactionpartnertelegramapi
+ */
+export type TgTransactionPartnerTelegramApi = {
+  /**
+   * Type of the transaction partner, always "telegram_api"
+   */
+  type: "telegram_api";
+  /**
+   * The number of successful requests that exceeded regular limits and were therefore billed
+   */
+  request_count: number;
+};
+/**
  * Describes a transaction with an unknown source or recipient.
  *
  * @see https://core.telegram.org/bots/api#transactionpartnerother
@@ -10406,7 +10515,7 @@ export type TgTransactionPartnerOther = {
  */
 export type TgStarTransaction = {
   /**
-   * Unique identifier of the transaction. Coincides with the identifer of the original transaction for refund transactions. Coincides with SuccessfulPayment.telegram_payment_charge_id for successful incoming payments from users.
+   * Unique identifier of the transaction. Coincides with the identifier of the original transaction for refund transactions. Coincides with SuccessfulPayment.telegram_payment_charge_id for successful incoming payments from users.
    */
   id: string;
   /**
