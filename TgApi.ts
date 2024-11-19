@@ -1,6 +1,6 @@
 // This file is auto-generated, do not edit it directly.
 
-export const TG_API_VERSION = "Bot API 7.11" as const;
+export const TG_API_VERSION = "Bot API 8.0" as const;
 export interface TgApi<O = {}> {
   /**
    * Use this method to receive incoming updates using long polling (wiki). Returns an Array of Update objects.
@@ -185,6 +185,12 @@ export interface TgApi<O = {}> {
     params: TgGetUserProfilePhotosParams,
     options?: O,
   ): Promise<TgUserProfilePhotos>;
+  /**
+   * Changes the emoji status for a given user that previously allowed the bot to manage their emoji status via the Mini App method requestEmojiStatusAccess. Returns True on success.
+   *
+   * @see https://core.telegram.org/bots/api#setuseremojistatus
+   */
+  setUserEmojiStatus(params: TgSetUserEmojiStatusParams, options?: O): Promise<boolean>;
   /**
    * Use this method to get basic information about a file and prepare it for downloading. For the moment, bots can download files of up to 20MB in size. On success, a File object is returned. The file can then be downloaded via the link https://api.telegram.org/file/bot<token>/<file_path>, where <file_path> is taken from the response. It is guaranteed that the link will be valid for at least 1 hour. When the link expires, a new one can be requested by calling getFile again.
    *
@@ -788,6 +794,18 @@ export interface TgApi<O = {}> {
    */
   deleteStickerSet(params: TgDeleteStickerSetParams, options?: O): Promise<boolean>;
   /**
+   * Returns the list of gifts that can be sent by the bot to users. Requires no parameters. Returns a Gifts object.
+   *
+   * @see https://core.telegram.org/bots/api#getavailablegifts
+   */
+  getAvailableGifts(params?: null | undefined, options?: O): Promise<TgGifts>;
+  /**
+   * Sends a gift to the given user. The gift can't be converted to Telegram Stars by the user. Returns True on success.
+   *
+   * @see https://core.telegram.org/bots/api#sendgift
+   */
+  sendGift(params: TgSendGiftParams, options?: O): Promise<boolean>;
+  /**
    * Use this method to send answers to an inline query. On success, True is returned.
    *
    * No more than 50 results per query are allowed.
@@ -801,6 +819,15 @@ export interface TgApi<O = {}> {
    * @see https://core.telegram.org/bots/api#answerwebappquery
    */
   answerWebAppQuery(params: TgAnswerWebAppQueryParams, options?: O): Promise<TgSentWebAppMessage>;
+  /**
+   * Stores a message that can be sent by a user of a Mini App. Returns a PreparedInlineMessage object.
+   *
+   * @see https://core.telegram.org/bots/api#savepreparedinlinemessage
+   */
+  savePreparedInlineMessage(
+    params: TgSavePreparedInlineMessageParams,
+    options?: O,
+  ): Promise<TgPreparedInlineMessage>;
   /**
    * Use this method to send invoices. On success, the sent Message is returned.
    *
@@ -840,6 +867,12 @@ export interface TgApi<O = {}> {
    * @see https://core.telegram.org/bots/api#refundstarpayment
    */
   refundStarPayment(params: TgRefundStarPaymentParams, options?: O): Promise<boolean>;
+  /**
+   * Allows the bot to cancel or re-enable extension of a subscription paid in Telegram Stars. Returns True on success.
+   *
+   * @see https://core.telegram.org/bots/api#edituserstarsubscription
+   */
+  editUserStarSubscription(params: TgEditUserStarSubscriptionParams, options?: O): Promise<boolean>;
   /**
    * Informs a user that some of the Telegram Passport elements they provided contains errors. The user will not be able to re-submit their Passport to you until the errors are fixed (the contents of the field for which you returned the error must change). Returns True on success.
    *
@@ -2235,6 +2268,25 @@ export type TgGetUserProfilePhotosParams = {
    * Limits the number of photos to be retrieved. Values between 1-100 are accepted. Defaults to 100.
    */
   limit?: number;
+};
+/**
+ * Parameters of {@link TgApi.setUserEmojiStatus} method.
+ *
+ * @see https://core.telegram.org/bots/api#setuseremojistatus
+ */
+export type TgSetUserEmojiStatusParams = {
+  /**
+   * Unique identifier of the target user
+   */
+  user_id: number;
+  /**
+   * Custom emoji identifier of the emoji status to set. Pass an empty string to remove the status.
+   */
+  emoji_status_custom_emoji_id?: string;
+  /**
+   * Expiration date of the emoji status, if any
+   */
+  emoji_status_expiration_date?: number;
 };
 /**
  * Parameters of {@link TgApi.getFile} method.
@@ -3797,6 +3849,33 @@ export type TgDeleteStickerSetParams = {
   name: string;
 };
 /**
+ * Parameters of {@link TgApi.sendGift} method.
+ *
+ * @see https://core.telegram.org/bots/api#sendgift
+ */
+export type TgSendGiftParams = {
+  /**
+   * Unique identifier of the target user that will receive the gift
+   */
+  user_id: number;
+  /**
+   * Identifier of the gift
+   */
+  gift_id: string;
+  /**
+   * Text that will be shown along with the gift; 0-255 characters
+   */
+  text?: string;
+  /**
+   * Mode for parsing entities in the text. See formatting options for more details. Entities other than "bold", "italic", "underline", "strikethrough", "spoiler", and "custom_emoji" are ignored.
+   */
+  text_parse_mode?: undefined | "HTML" | "Markdown" | "MarkdownV2";
+  /**
+   * A JSON-serialized list of special entities that appear in the gift text. It can be specified instead of text_parse_mode. Entities other than "bold", "italic", "underline", "strikethrough", "spoiler", and "custom_emoji" are ignored.
+   */
+  text_entities?: TgMessageEntity[];
+};
+/**
  * Parameters of {@link TgApi.answerInlineQuery} method.
  *
  * @see https://core.telegram.org/bots/api#answerinlinequery
@@ -3841,6 +3920,37 @@ export type TgAnswerWebAppQueryParams = {
    * A JSON-serialized object describing the message to be sent
    */
   result: TgInlineQueryResult;
+};
+/**
+ * Parameters of {@link TgApi.savePreparedInlineMessage} method.
+ *
+ * @see https://core.telegram.org/bots/api#savepreparedinlinemessage
+ */
+export type TgSavePreparedInlineMessageParams = {
+  /**
+   * Unique identifier of the target user that can use the prepared message
+   */
+  user_id: number;
+  /**
+   * A JSON-serialized object describing the message to be sent
+   */
+  result: TgInlineQueryResult;
+  /**
+   * Pass True if the message can be sent to private chats with users
+   */
+  allow_user_chats?: boolean;
+  /**
+   * Pass True if the message can be sent to private chats with bots
+   */
+  allow_bot_chats?: boolean;
+  /**
+   * Pass True if the message can be sent to group and supergroup chats
+   */
+  allow_group_chats?: boolean;
+  /**
+   * Pass True if the message can be sent to channel chats
+   */
+  allow_channel_chats?: boolean;
 };
 /**
  * Parameters of {@link TgApi.sendInvoice} method.
@@ -3972,6 +4082,10 @@ export type TgSendInvoiceParams = {
  */
 export type TgCreateInvoiceLinkParams = {
   /**
+   * Unique identifier of the business connection on behalf of which the link will be created
+   */
+  business_connection_id?: string;
+  /**
    * Product name, 1-32 characters
    */
   title: string;
@@ -3995,6 +4109,10 @@ export type TgCreateInvoiceLinkParams = {
    * Price breakdown, a JSON-serialized list of components (e.g. product price, tax, discount, delivery cost, delivery tax, bonus, etc.). Must contain exactly one item for payments in Telegram Stars.
    */
   prices: TgLabeledPrice[];
+  /**
+   * The number of seconds the subscription will be active for before the next payment. The currency must be set to "XTR" (Telegram Stars) if the parameter is used. Currently, it must always be 2592000 (30 days) if specified.
+   */
+  subscription_period?: number;
   /**
    * The maximum accepted amount for tips in the smallest units of the currency (integer, not float/double). For example, for a maximum tip of US$ 1.45 pass max_tip_amount = 145. See the exp parameter in currencies.json, it shows the number of digits past the decimal point for each currency (2 for the majority of currencies). Defaults to 0. Not supported for payments in Telegram Stars.
    */
@@ -4123,6 +4241,25 @@ export type TgRefundStarPaymentParams = {
    * Telegram payment identifier
    */
   telegram_payment_charge_id: string;
+};
+/**
+ * Parameters of {@link TgApi.editUserStarSubscription} method.
+ *
+ * @see https://core.telegram.org/bots/api#edituserstarsubscription
+ */
+export type TgEditUserStarSubscriptionParams = {
+  /**
+   * Identifier of the user whose subscription will be edited
+   */
+  user_id: number;
+  /**
+   * Telegram payment identifier for the subscription
+   */
+  telegram_payment_charge_id: string;
+  /**
+   * Pass True to cancel extension of the user subscription; the subscription must be active up to the end of the current subscription period. Pass False to allow the user to re-enable a subscription that was previously canceled by the bot.
+   */
+  is_canceled: boolean;
 };
 /**
  * Parameters of {@link TgApi.setPassportDataErrors} method.
@@ -8685,6 +8822,44 @@ export type TgInputSticker = {
   keywords?: string[];
 };
 /**
+ * This object represents a gift that can be sent by the bot.
+ *
+ * @see https://core.telegram.org/bots/api#gift
+ */
+export type TgGift = {
+  /**
+   * Unique identifier of the gift
+   */
+  id: string;
+  /**
+   * The sticker that represents the gift
+   */
+  sticker: TgSticker;
+  /**
+   * The number of Telegram Stars that must be paid to send the sticker
+   */
+  star_count: number;
+  /**
+   * Optional. The total number of the gifts of this type that can be sent; for limited gifts only
+   */
+  total_count?: number;
+  /**
+   * Optional. The number of remaining gifts of this type that can be sent; for limited gifts only
+   */
+  remaining_count?: number;
+};
+/**
+ * This object represent a list of gifts.
+ *
+ * @see https://core.telegram.org/bots/api#gifts
+ */
+export type TgGifts = {
+  /**
+   * The list of gifts
+   */
+  gifts: TgGift[];
+};
+/**
  * This object represents an incoming inline query. When the user sends an empty query, your bot could return some default or trending results.
  *
  * @see https://core.telegram.org/bots/api#inlinequery
@@ -10103,6 +10278,21 @@ export type TgSentWebAppMessage = {
   inline_message_id?: string;
 };
 /**
+ * Describes an inline message to be sent by a user of a Mini App.
+ *
+ * @see https://core.telegram.org/bots/api#preparedinlinemessage
+ */
+export type TgPreparedInlineMessage = {
+  /**
+   * Unique identifier of the prepared message
+   */
+  id: string;
+  /**
+   * Expiration date of the prepared message, in Unix time. Expired prepared messages can no longer be used
+   */
+  expiration_date: number;
+};
+/**
  * This object represents a portion of the price for goods or services.
  *
  * @see https://core.telegram.org/bots/api#labeledprice
@@ -10235,6 +10425,18 @@ export type TgSuccessfulPayment = {
    * Bot-specified invoice payload
    */
   invoice_payload: string;
+  /**
+   * Optional. Expiration date of the subscription, in Unix time; for recurring payments only
+   */
+  subscription_expiration_date?: number;
+  /**
+   * Optional. True, if the payment is a recurring payment for a subscription
+   */
+  is_recurring?: boolean;
+  /**
+   * Optional. True, if the payment is the first payment for a subscription
+   */
+  is_first_recurring?: boolean;
   /**
    * Optional. Identifier of the shipping option chosen by the user
    */
@@ -10448,6 +10650,10 @@ export type TgTransactionPartnerUser = {
    */
   invoice_payload?: string;
   /**
+   * Optional. The duration of the paid subscription
+   */
+  subscription_period?: number;
+  /**
    * Optional. Information about the paid media bought by the user
    */
   paid_media?: TgPaidMedia[];
@@ -10455,6 +10661,10 @@ export type TgTransactionPartnerUser = {
    * Optional. Bot-specified paid media payload
    */
   paid_media_payload?: string;
+  /**
+   * Optional. The gift sent to the user by the bot
+   */
+  gift?: string;
 };
 /**
  * Describes a withdrawal transaction with Fragment.
