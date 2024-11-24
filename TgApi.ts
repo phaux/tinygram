@@ -4082,7 +4082,7 @@ export type TgSendInvoiceParams = {
  */
 export type TgCreateInvoiceLinkParams = {
   /**
-   * Unique identifier of the business connection on behalf of which the link will be created
+   * Unique identifier of the business connection on behalf of which the link will be created. For payments in Telegram Stars only.
    */
   business_connection_id?: string;
   /**
@@ -4110,7 +4110,7 @@ export type TgCreateInvoiceLinkParams = {
    */
   prices: TgLabeledPrice[];
   /**
-   * The number of seconds the subscription will be active for before the next payment. The currency must be set to "XTR" (Telegram Stars) if the parameter is used. Currently, it must always be 2592000 (30 days) if specified.
+   * The number of seconds the subscription will be active for before the next payment. The currency must be set to "XTR" (Telegram Stars) if the parameter is used. Currently, it must always be 2592000 (30 days) if specified. Any number of subscriptions can be active for a given bot at the same time, including multiple concurrent subscriptions from the same user.
    */
   subscription_period?: number;
   /**
@@ -10664,7 +10664,7 @@ export type TgTransactionPartnerUser = {
   /**
    * Optional. The gift sent to the user by the bot
    */
-  gift?: string;
+  gift?: TgGift;
 };
 /**
  * Describes a withdrawal transaction with Fragment.
