@@ -1,6 +1,6 @@
 // This file is auto-generated, do not edit it directly.
 
-export const TG_API_VERSION = "Bot API 8.0" as const;
+export const TG_API_VERSION = "Bot API 8.1" as const;
 export interface TgApi<O = {}> {
   /**
    * Use this method to receive incoming updates using long polling (wiki). Returns an Array of Update objects.
@@ -4110,7 +4110,7 @@ export type TgCreateInvoiceLinkParams = {
    */
   prices: TgLabeledPrice[];
   /**
-   * The number of seconds the subscription will be active for before the next payment. The currency must be set to "XTR" (Telegram Stars) if the parameter is used. Currently, it must always be 2592000 (30 days) if specified. Any number of subscriptions can be active for a given bot at the same time, including multiple concurrent subscriptions from the same user.
+   * The number of seconds the subscription will be active for before the next payment. The currency must be set to "XTR" (Telegram Stars) if the parameter is used. Currently, it must always be 2592000 (30 days) if specified. Any number of subscriptions can be active for a given bot at the same time, including multiple concurrent subscriptions from the same user. Subscription price must no exceed 2500 Telegram Stars.
    */
   subscription_period?: number;
   /**
@@ -10611,9 +10611,38 @@ export type TgRevenueWithdrawalStateFailed = {
   type: "failed";
 };
 /**
+ * Contains information about the affiliate that received a commission via this transaction.
+ *
+ * @see https://core.telegram.org/bots/api#affiliateinfo
+ */
+export type TgAffiliateInfo = {
+  /**
+   * Optional. The bot or the user that received an affiliate commission if it was received by a bot or a user
+   */
+  affiliate_user?: TgUser;
+  /**
+   * Optional. The chat that received an affiliate commission if it was received by a chat
+   */
+  affiliate_chat?: TgChat;
+  /**
+   * The number of Telegram Stars received by the affiliate for each 1000 Telegram Stars received by the bot from referred users
+   */
+  commission_per_mille: number;
+  /**
+   * Integer amount of Telegram Stars received by the affiliate from the transaction, rounded to 0; can be negative for refunds
+   */
+  amount: number;
+  /**
+   * Optional. The number of 1/1000000000 shares of Telegram Stars received by the affiliate; from -999999999 to 999999999; can be negative for refunds
+   */
+  nanostar_amount?: number;
+};
+/**
  * This object describes the source of a transaction, or its recipient for outgoing transactions. Currently, it can be one of
  *
  * - TransactionPartnerUser
+ *
+ * - TransactionPartnerAffiliateProgram
  *
  * - TransactionPartnerFragment
  *
@@ -10627,6 +10656,7 @@ export type TgRevenueWithdrawalStateFailed = {
  */
 export type TgTransactionPartner =
   | TgTransactionPartnerUser
+  | TgTransactionPartnerAffiliateProgram
   | TgTransactionPartnerFragment
   | TgTransactionPartnerTelegramAds
   | TgTransactionPartnerTelegramApi
@@ -10645,6 +10675,10 @@ export type TgTransactionPartnerUser = {
    * Information about the user
    */
   user: TgUser;
+  /**
+   * Optional. Information about the affiliate that received a commission via this transaction
+   */
+  affiliate?: TgAffiliateInfo;
   /**
    * Optional. Bot-specified invoice payload
    */
@@ -10665,6 +10699,25 @@ export type TgTransactionPartnerUser = {
    * Optional. The gift sent to the user by the bot
    */
   gift?: TgGift;
+};
+/**
+ * Describes the affiliate program that issued the affiliate commission received via this transaction.
+ *
+ * @see https://core.telegram.org/bots/api#transactionpartneraffiliateprogram
+ */
+export type TgTransactionPartnerAffiliateProgram = {
+  /**
+   * Type of the transaction partner, always "affiliate_program"
+   */
+  type: "affiliate_program";
+  /**
+   * Optional. Information about the bot that sponsored the affiliate program
+   */
+  sponsor_user?: TgUser;
+  /**
+   * The number of Telegram Stars received by the bot for each 1000 Telegram Stars received by the affiliate program sponsor from referred users
+   */
+  commission_per_mille: number;
 };
 /**
  * Describes a withdrawal transaction with Fragment.
@@ -10729,9 +10782,13 @@ export type TgStarTransaction = {
    */
   id: string;
   /**
-   * Number of Telegram Stars transferred by the transaction
+   * Integer amount of Telegram Stars transferred by the transaction
    */
   amount: number;
+  /**
+   * Optional. The number of 1/1000000000 shares of Telegram Stars transferred by the transaction; from 0 to 999999999
+   */
+  nanostar_amount?: number;
   /**
    * Date the transaction was created in Unix time
    */
