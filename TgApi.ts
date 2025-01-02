@@ -1,6 +1,6 @@
 // This file is auto-generated, do not edit it directly.
 
-export const TG_API_VERSION = "Bot API 8.1" as const;
+export const TG_API_VERSION = "Bot API 8.2" as const;
 export interface TgApi<O = {}> {
   /**
    * Use this method to receive incoming updates using long polling (wiki). Returns an Array of Update objects.
@@ -9,7 +9,7 @@ export interface TgApi<O = {}> {
    */
   getUpdates(params?: TgGetUpdatesParams | null | undefined, options?: O): Promise<TgUpdate[]>;
   /**
-   * Use this method to specify a URL and receive incoming updates via an outgoing webhook. Whenever there is an update for the bot, we will send an HTTPS POST request to the specified URL, containing a JSON-serialized Update. In case of an unsuccessful request, we will give up after a reasonable amount of attempts. Returns True on success.
+   * Use this method to specify a URL and receive incoming updates via an outgoing webhook. Whenever there is an update for the bot, we will send an HTTPS POST request to the specified URL, containing a JSON-serialized Update. In case of an unsuccessful request (a request with response HTTP status code different from 2XY), we will repeat the request and give up after a reasonable amount of attempts. Returns True on success.
    *
    * If you'd like to make sure that the webhook was set by you, you can specify secret data in the parameter secret_token. If specified, the request will contain a header "X-Telegram-Bot-Api-Secret-Token" with the secret token as content.
    *
@@ -805,6 +805,30 @@ export interface TgApi<O = {}> {
    * @see https://core.telegram.org/bots/api#sendgift
    */
   sendGift(params: TgSendGiftParams, options?: O): Promise<boolean>;
+  /**
+   * Verifies a user on behalf of the organization which is represented by the bot. Returns True on success.
+   *
+   * @see https://core.telegram.org/bots/api#verifyuser
+   */
+  verifyUser(params: TgVerifyUserParams, options?: O): Promise<boolean>;
+  /**
+   * Verifies a chat on behalf of the organization which is represented by the bot. Returns True on success.
+   *
+   * @see https://core.telegram.org/bots/api#verifychat
+   */
+  verifyChat(params: TgVerifyChatParams, options?: O): Promise<boolean>;
+  /**
+   * Removes verification from a user who is currently verified on behalf of the organization represented by the bot. Returns True on success.
+   *
+   * @see https://core.telegram.org/bots/api#removeuserverification
+   */
+  removeUserVerification(params: TgRemoveUserVerificationParams, options?: O): Promise<boolean>;
+  /**
+   * Removes verification from a chat that is currently verified on behalf of the organization represented by the bot. Returns True on success.
+   *
+   * @see https://core.telegram.org/bots/api#removechatverification
+   */
+  removeChatVerification(params: TgRemoveChatVerificationParams, options?: O): Promise<boolean>;
   /**
    * Use this method to send answers to an inline query. On success, True is returned.
    *
@@ -3814,11 +3838,11 @@ export type TgSetStickerSetThumbnailParams = {
    */
   user_id: number;
   /**
-   * A .WEBP or .PNG image with the thumbnail, must be up to 128 kilobytes in size and have a width and height of exactly 100px, or a .TGS animation with a thumbnail up to 32 kilobytes in size (see https://core.telegram.org/stickers#animation-requirements for animated sticker technical requirements), or a WEBM video with the thumbnail up to 32 kilobytes in size; see https://core.telegram.org/stickers#video-requirements for video sticker technical requirements. Pass a file_id as a String to send a file that already exists on the Telegram servers, pass an HTTP URL as a String for Telegram to get a file from the Internet, or upload a new one using multipart/form-data. More information on Sending Files: https://core.telegram.org/bots/api#sending-files. Animated and video sticker set thumbnails can't be uploaded via HTTP URL. If omitted, then the thumbnail is dropped and the first sticker is used as the thumbnail.
+   * A .WEBP or .PNG image with the thumbnail, must be up to 128 kilobytes in size and have a width and height of exactly 100px, or a .TGS animation with a thumbnail up to 32 kilobytes in size (see https://core.telegram.org/stickers#animation-requirements for animated sticker technical requirements), or a .WEBM video with the thumbnail up to 32 kilobytes in size; see https://core.telegram.org/stickers#video-requirements for video sticker technical requirements. Pass a file_id as a String to send a file that already exists on the Telegram servers, pass an HTTP URL as a String for Telegram to get a file from the Internet, or upload a new one using multipart/form-data. More information on Sending Files: https://core.telegram.org/bots/api#sending-files. Animated and video sticker set thumbnails can't be uploaded via HTTP URL. If omitted, then the thumbnail is dropped and the first sticker is used as the thumbnail.
    */
   thumbnail?: TgInputFile | string;
   /**
-   * Format of the thumbnail, must be one of "static" for a .WEBP or .PNG image, "animated" for a .TGS animation, or "video" for a WEBM video
+   * Format of the thumbnail, must be one of "static" for a .WEBP or .PNG image, "animated" for a .TGS animation, or "video" for a .WEBM video
    */
   format: "static" | "animated" | "video";
 };
@@ -3863,6 +3887,10 @@ export type TgSendGiftParams = {
    */
   gift_id: string;
   /**
+   * Pass True to pay for the gift upgrade from the bot's balance, thereby making the upgrade free for the receiver
+   */
+  pay_for_upgrade?: boolean;
+  /**
    * Text that will be shown along with the gift; 0-255 characters
    */
   text?: string;
@@ -3874,6 +3902,58 @@ export type TgSendGiftParams = {
    * A JSON-serialized list of special entities that appear in the gift text. It can be specified instead of text_parse_mode. Entities other than "bold", "italic", "underline", "strikethrough", "spoiler", and "custom_emoji" are ignored.
    */
   text_entities?: TgMessageEntity[];
+};
+/**
+ * Parameters of {@link TgApi.verifyUser} method.
+ *
+ * @see https://core.telegram.org/bots/api#verifyuser
+ */
+export type TgVerifyUserParams = {
+  /**
+   * Unique identifier of the target user
+   */
+  user_id: number;
+  /**
+   * Custom description for the verification; 0-70 characters. Must be empty if the organization isn't allowed to provide a custom verification description.
+   */
+  custom_description?: string;
+};
+/**
+ * Parameters of {@link TgApi.verifyChat} method.
+ *
+ * @see https://core.telegram.org/bots/api#verifychat
+ */
+export type TgVerifyChatParams = {
+  /**
+   * Unique identifier for the target chat or username of the target channel (in the format @channelusername)
+   */
+  chat_id: number | string;
+  /**
+   * Custom description for the verification; 0-70 characters. Must be empty if the organization isn't allowed to provide a custom verification description.
+   */
+  custom_description?: string;
+};
+/**
+ * Parameters of {@link TgApi.removeUserVerification} method.
+ *
+ * @see https://core.telegram.org/bots/api#removeuserverification
+ */
+export type TgRemoveUserVerificationParams = {
+  /**
+   * Unique identifier of the target user
+   */
+  user_id: number;
+};
+/**
+ * Parameters of {@link TgApi.removeChatVerification} method.
+ *
+ * @see https://core.telegram.org/bots/api#removechatverification
+ */
+export type TgRemoveChatVerificationParams = {
+  /**
+   * Unique identifier for the target chat or username of the target channel (in the format @channelusername)
+   */
+  chat_id: number | string;
 };
 /**
  * Parameters of {@link TgApi.answerInlineQuery} method.
@@ -6275,7 +6355,7 @@ export type TgBackgroundTypeWallpaper = {
   is_moving?: boolean;
 };
 /**
- * The background is a PNG or TGV (gzipped subset of SVG with MIME type "application/x-tgwallpattern") pattern to be combined with the background fill chosen by the user.
+ * The background is a .PNG or .TGV (gzipped subset of SVG with MIME type "application/x-tgwallpattern") pattern to be combined with the background fill chosen by the user.
  *
  * @see https://core.telegram.org/bots/api#backgroundtypepattern
  */
@@ -8805,7 +8885,7 @@ export type TgInputSticker = {
    */
   sticker: TgInputFile | string;
   /**
-   * Format of the added sticker, must be one of "static" for a .WEBP or .PNG image, "animated" for a .TGS animation, "video" for a WEBM video
+   * Format of the added sticker, must be one of "static" for a .WEBP or .PNG image, "animated" for a .TGS animation, "video" for a .WEBM video
    */
   format: "static" | "animated" | "video";
   /**
@@ -8839,6 +8919,10 @@ export type TgGift = {
    * The number of Telegram Stars that must be paid to send the sticker
    */
   star_count: number;
+  /**
+   * Optional. The number of Telegram Stars that must be paid to upgrade the gift to a unique one
+   */
+  upgrade_star_count?: number;
   /**
    * Optional. The total number of the gifts of this type that can be sent; for limited gifts only
    */
@@ -9008,10 +9092,6 @@ export type TgInlineQueryResultArticle = {
    */
   url?: string;
   /**
-   * Optional. Pass True if you don't want the URL to be shown in the message
-   */
-  hide_url?: boolean;
-  /**
    * Optional. Short description of the result
    */
   description?: string;
@@ -9106,7 +9186,7 @@ export type TgInlineQueryResultGif = {
    */
   id: string;
   /**
-   * A valid URL for the GIF file. File size must not exceed 1MB
+   * A valid URL for the GIF file
    */
   gif_url: string;
   /**
@@ -9173,7 +9253,7 @@ export type TgInlineQueryResultMpeg4Gif = {
    */
   id: string;
   /**
-   * A valid URL for the MPEG4 file. File size must not exceed 1MB
+   * A valid URL for the MPEG4 file
    */
   mpeg4_url: string;
   /**
