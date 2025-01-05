@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.8.0](https://github.com/phaux/tinygram/compare/v2.7.0...v2.8.0) (2025-01-02)
+
+
+### Features
+
+* update Bot API types to Bot API 8.0 ([#41](https://github.com/phaux/tinygram/issues/41)) ([a3bd2d6](https://github.com/phaux/tinygram/commit/a3bd2d6aa503d417041c5f3c36193fedd940e271))
+* update Bot API types to Bot API 8.1 ([#44](https://github.com/phaux/tinygram/issues/44)) ([58b72ac](https://github.com/phaux/tinygram/commit/58b72ac508b575cadc27475093b2bad990d371f6))
+* update Bot API types to Bot API 8.1 ([#45](https://github.com/phaux/tinygram/issues/45)) ([a443fa0](https://github.com/phaux/tinygram/commit/a443fa0570a9b9d5415ac5406cfb90c4c59bb45a))
+* update Bot API types to Bot API 8.2 ([#46](https://github.com/phaux/tinygram/issues/46)) ([80588e5](https://github.com/phaux/tinygram/commit/80588e5cea4bf4189237a096f7df3b0c78c9c74a))
+
 ## [2.7.0](https://github.com/phaux/tinygram/compare/v2.6.0...v2.7.0) (2024-11-19)
 
 
