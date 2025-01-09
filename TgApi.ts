@@ -4269,7 +4269,7 @@ export type TgAnswerShippingQueryParams = {
    */
   shipping_options?: TgShippingOption[];
   /**
-   * Required if ok is False. Error message in human readable form that explains why it is impossible to complete the order (e.g. "Sorry, delivery to your desired address is unavailable'). Telegram will display this message to the user.
+   * Required if ok is False. Error message in human readable form that explains why it is impossible to complete the order (e.g. "Sorry, delivery to your desired address is unavailable"). Telegram will display this message to the user.
    */
   error_message?: string;
 };
