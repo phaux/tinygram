@@ -1,6 +1,6 @@
 // deno-lint-ignore-file no-top-level-await -- this is a CLI script
 
-import ts from "https://esm.sh/typescript@5.7.2";
+import ts from "https://esm.sh/typescript@5.7.3";
 
 const TG_API_DEF_URL =
   "https://raw.githubusercontent.com/PaulSonOfLars/telegram-bot-api-spec/main/api.json";
