@@ -427,6 +427,28 @@ describe("TgBot", () => {
       assertInstanceOf(formData.get("photo"), Blob);
     });
 
+    it("works with video file parameters", async () => {
+      const data = {
+        chat_id: 123,
+        video: new Blob(),
+        cover: new Blob(),
+        thumbnail: new Blob(),
+        reply_markup: { remove_keyboard: true },
+      };
+      const result = await tgBot.callApi("sendVideo", data)
+        .then(assertType<TgMessage>);
+      assertType<TgMessage>(result);
+      assertEquals(lastReqUrl, "https://api.telegram.org/botTOKEN/sendVideo");
+      assertObjectMatch(lastReqInit!, { method: "POST" });
+      assertInstanceOf(lastReqInit?.body, FormData);
+      const formData = lastReqInit.body;
+      assertEquals(formData.get("chat_id"), "123");
+      assertEquals(formData.get("reply_markup"), JSON.stringify(data.reply_markup));
+      assertInstanceOf(formData.get("video"), Blob);
+      assertInstanceOf(formData.get("cover"), Blob);
+      assertInstanceOf(formData.get("thumbnail"), Blob);
+    });
+
     it("throws on error", async () => {
       try {
         reqShouldFail = true;
