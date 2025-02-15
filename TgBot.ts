@@ -32,8 +32,6 @@ export class TgBot {
    * @example Setting bot's name.
    *
    * ```ts
-   * import { TgBot } from "./mod.ts";
-   *
    * const bot = new TgBot({ botToken: "YOUR_TOKEN" });
    *
    * await bot.callApi("setMyName", { name: "My Bot" });

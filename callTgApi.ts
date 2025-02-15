@@ -14,8 +14,6 @@ import type { TgApi } from "./TgApi.ts";
  * @example Setting bot's name.
  *
  * ```ts
- * import { callTgApi } from "./mod.ts";
- *
  * const botToken = "YOUR_TOKEN";
  *
  * await callTgApi({ botToken }, "setMyName", { name: "My Bot" });
