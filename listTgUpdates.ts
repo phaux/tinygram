@@ -19,8 +19,6 @@ import { TgError } from "./TgError.ts";
  * @example Logging all incoming messages.
  *
  * ```ts
- * import { listTgUpdates } from "./mod.ts";
- *
  * const botToken = "YOUR_TOKEN";
  *
  * for await (const update of listTgUpdates({ botToken }, {})) {

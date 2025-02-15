@@ -64,8 +64,6 @@ export class TgBot {
    * @example Logging all incoming messages.
    *
    * ```ts
-   * import { TgBot } from "./mod.ts";
-   *
    * const bot = new TgBot({ botToken: "YOUR_TOKEN" });
    *
    * for await (const update of bot.listUpdates()) {
@@ -92,8 +90,6 @@ export class TgBot {
    * @example Downloading bot's profile photo.
    *
    * ```ts
-   * import { TgBot } from "./mod.ts";
-   *
    * const bot = new TgBot({ botToken: "YOUR_TOKEN" });
    *
    * const botUser = await bot.callApi("getMe");

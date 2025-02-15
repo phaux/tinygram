@@ -10,8 +10,6 @@ import type { TgBotConfig } from "./TgBotConfig.ts";
  * @example Getting bot's information.
  *
  * ```ts
- * import { initTgBot } from "./mod.ts";
- *
  * const bot = initTgBot({ botToken: "YOUR_TOKEN" });
  *
  * const botUser = await bot.getMe();

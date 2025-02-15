@@ -16,7 +16,11 @@
     "proseWrap": "preserve"
   },
   "imports": {
-    "tinygram": "./mod.ts"
+    "@core/asyncutil": "jsr:@core/asyncutil@^1.2.0",
+    "@deno/dnt": "jsr:@deno/dnt@^0.41.3",
+    "@std/assert": "jsr:@std/assert@^1.0.11",
+    "@std/testing": "jsr:@std/testing@^1.0.9",
+    "typescript": "npm:typescript@^5.7.3"
   },
   "lint": {
     "rules": {
@@ -45,11 +49,10 @@
     ]
   },
   "tasks": {
-    "cdnup": "deno run --allow-read --allow-write=. --allow-net https://deno.land/x/cdnup@v1.2.0/main.ts --skip coverage --skip npm -w",
-    "codegen": "deno run --allow-read --allow-net --allow-env generateTgApi.ts > TgApi.ts && deno fmt TgApi.ts",
-    "dnt": "deno run -A https://deno.land/x/dntx@v0.5.0/mod.ts -n tinygram --no-script-module --declaration separate",
-    "test": "rm -rf coverage && deno test --doc --coverage --allow-read && deno coverage --lcov --output=coverage/lcov.info && deno check mod.ts && deno check generateTgApi.ts && deno lint",
-    "snapshot": "deno test --allow-read --allow-write=. -- --update"
+    "codegen": "deno run -ENR generateTgApi.ts > TgApi.ts && deno fmt TgApi.ts",
+    "dnt": "deno run -A buildForNode.ts",
+    "test": "deno test --coverage -R && deno coverage --lcov --output=coverage/lcov.info && deno check --doc **/*.ts && deno lint",
+    "snapshot": "deno test -RW=. generateTgApi.test.ts -- --update"
   },
   "version": "2.8.0"
 }

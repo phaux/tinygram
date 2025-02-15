@@ -1,4 +1,4 @@
-import { assertSnapshot } from "jsr:@std/testing/snapshot";
+import { assertSnapshot } from "@std/testing/snapshot";
 import { generateTgApi } from "./generateTgApi.ts";
 
 Deno.test("should match snapshot", async (t) => {
