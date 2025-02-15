@@ -40,7 +40,8 @@
   "name": "@smol/gram",
   "publish": {
     "exclude": [
-      "**/*.test.ts"
+      "**/*.test.ts",
+      "buildForNode.ts"
     ],
     "include": [
       "deno.json",
