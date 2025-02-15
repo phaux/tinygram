@@ -6,8 +6,6 @@
  * @example Reply to private commands.
  *
  * ```ts
- * import { initTgBot } from "./mod.ts";
- *
  * const bot = initTgBot({ botToken: "YOUR_TOKEN" });
  *
  * for await (const update of bot.listUpdates()) {
@@ -28,8 +26,6 @@
  * @example Say hello when added to a group.
  *
  * ```ts
- * import { initTgBot } from "./mod.ts";
- *
  * const bot = initTgBot({ botToken: "YOUR_TOKEN" });
  *
  * for await (const update of bot.listUpdates()) {
@@ -50,7 +46,6 @@
  * ```ts
  * /// <reference lib="dom" />
  * import { writeFile } from "node:fs/promises"
- * import { initTgBot } from "./mod.ts";
  *
  * const bot = initTgBot({ botToken: "YOUR_TOKEN" });
  *

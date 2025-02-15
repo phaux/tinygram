@@ -1,10 +1,11 @@
-import { assert } from "https://deno.land/std@0.224.0/assert/assert.ts";
-import { assertEquals } from "https://deno.land/std@0.224.0/assert/assert_equals.ts";
-import { assertInstanceOf } from "https://deno.land/std@0.224.0/assert/assert_instance_of.ts";
-import { assertObjectMatch } from "https://deno.land/std@0.224.0/assert/assert_object_match.ts";
-import { unreachable } from "https://deno.land/std@0.224.0/assert/unreachable.ts";
-import { beforeEach, describe, it } from "https://deno.land/std@0.224.0/testing/bdd.ts";
-import { promiseState } from "https://deno.land/x/async@v2.1.0/state.ts";
+import {
+  assert,
+  assertEquals,
+  assertInstanceOf,
+  assertObjectMatch,
+  unreachable,
+} from "@std/assert";
+import { beforeEach, describe, it } from "@std/testing/bdd";
 import {
   callTgApi,
   getTgFileData,
@@ -21,6 +22,14 @@ import {
 } from "./mod.ts";
 
 const assertType = <T>(value: T) => value;
+
+function promiseState(promise: Promise<unknown>): Promise<"pending" | "fulfilled" | "rejected"> {
+  const pendingSymbol = Symbol();
+  return Promise.race([promise, pendingSymbol]).then(
+    (value) => (value === pendingSymbol ? "pending" : "fulfilled"),
+    () => "rejected",
+  );
+}
 
 let lastReqUrl: string | undefined;
 let lastReqInit: RequestInit | undefined;
