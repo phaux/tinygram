@@ -51,5 +51,5 @@
     "test": "rm -rf coverage && deno test --doc --coverage --allow-read && deno coverage --lcov --output=coverage/lcov.info && deno check mod.ts && deno check generateTgApi.ts && deno lint",
     "snapshot": "deno test --allow-read --allow-write=. -- --update"
   },
-  "version": "2.8.0"
+  "version": "2.9.0"
 }
