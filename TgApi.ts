@@ -1,6 +1,6 @@
 // This file is auto-generated, do not edit it directly.
 
-export const TG_API_VERSION = "Bot API 8.2" as const;
+export const TG_API_VERSION = "Bot API 8.3" as const;
 export interface TgApi<O = {}> {
   /**
    * Use this method to receive incoming updates using long polling (wiki). Returns an Array of Update objects.
@@ -171,7 +171,7 @@ export interface TgApi<O = {}> {
    */
   sendChatAction(params: TgSendChatActionParams, options?: O): Promise<boolean>;
   /**
-   * Use this method to change the chosen reactions on a message. Service messages can't be reacted to. Automatically forwarded messages from a channel to its discussion group have the same available reactions as messages in the channel. Bots can't use paid reactions. Returns True on success.
+   * Use this method to change the chosen reactions on a message. Service messages of some types can't be reacted to. Automatically forwarded messages from a channel to its discussion group have the same available reactions as messages in the channel. Bots can't use paid reactions. Returns True on success.
    *
    * @see https://core.telegram.org/bots/api#setmessagereaction
    */
@@ -794,13 +794,13 @@ export interface TgApi<O = {}> {
    */
   deleteStickerSet(params: TgDeleteStickerSetParams, options?: O): Promise<boolean>;
   /**
-   * Returns the list of gifts that can be sent by the bot to users. Requires no parameters. Returns a Gifts object.
+   * Returns the list of gifts that can be sent by the bot to users and channel chats. Requires no parameters. Returns a Gifts object.
    *
    * @see https://core.telegram.org/bots/api#getavailablegifts
    */
   getAvailableGifts(params?: null | undefined, options?: O): Promise<TgGifts>;
   /**
-   * Sends a gift to the given user. The gift can't be converted to Telegram Stars by the user. Returns True on success.
+   * Sends a gift to the given user or channel chat. The gift can't be converted to Telegram Stars by the receiver. Returns True on success.
    *
    * @see https://core.telegram.org/bots/api#sendgift
    */
@@ -1075,6 +1075,10 @@ export type TgForwardMessageParams = {
    */
   from_chat_id: number | string;
   /**
+   * New start timestamp for the forwarded video in the message
+   */
+  video_start_timestamp?: number;
+  /**
    * Sends the message silently. Users will receive a notification with no sound.
    */
   disable_notification?: boolean;
@@ -1140,6 +1144,10 @@ export type TgCopyMessageParams = {
    * Message identifier in the chat specified in from_chat_id
    */
   message_id: number;
+  /**
+   * New start timestamp for the copied video in the message
+   */
+  video_start_timestamp?: number;
   /**
    * New caption for media, 0-1024 characters after entities parsing. If not specified, the original caption is kept
    */
@@ -1475,6 +1483,14 @@ export type TgSendVideoParams = {
    * Thumbnail of the file sent; can be ignored if thumbnail generation for the file is supported server-side. The thumbnail should be in JPEG format and less than 200 kB in size. A thumbnail's width and height should not exceed 320. Ignored if the file is not uploaded using multipart/form-data. Thumbnails can't be reused and can be only uploaded as a new file, so you can pass "attach://<file_attach_name>" if the thumbnail was uploaded using multipart/form-data under <file_attach_name>. More information on Sending Files: https://core.telegram.org/bots/api#sending-files
    */
   thumbnail?: TgInputFile | string;
+  /**
+   * Cover for the video in the message. Pass a file_id to send a file that exists on the Telegram servers (recommended), pass an HTTP URL for Telegram to get a file from the Internet, or pass "attach://<file_attach_name>" to upload a new one using multipart/form-data under <file_attach_name> name. More information on Sending Files: https://core.telegram.org/bots/api#sending-files
+   */
+  cover?: TgInputFile | string;
+  /**
+   * Start timestamp for the video in the message
+   */
+  start_timestamp?: number;
   /**
    * Video caption (may also be used when resending videos by file_id), 0-1024 characters after entities parsing
    */
@@ -3879,9 +3895,13 @@ export type TgDeleteStickerSetParams = {
  */
 export type TgSendGiftParams = {
   /**
-   * Unique identifier of the target user that will receive the gift
+   * Required if chat_id is not specified. Unique identifier of the target user who will receive the gift.
    */
-  user_id: number;
+  user_id?: number;
+  /**
+   * Required if user_id is not specified. Unique identifier for the chat or username of the channel (in the format @channelusername) that will receive the gift.
+   */
+  chat_id?: number | string;
   /**
    * Identifier of the gift
    */
@@ -3891,7 +3911,7 @@ export type TgSendGiftParams = {
    */
   pay_for_upgrade?: boolean;
   /**
-   * Text that will be shown along with the gift; 0-255 characters
+   * Text that will be shown along with the gift; 0-128 characters
    */
   text?: string;
   /**
@@ -4269,7 +4289,7 @@ export type TgAnswerShippingQueryParams = {
    */
   shipping_options?: TgShippingOption[];
   /**
-   * Required if ok is False. Error message in human readable form that explains why it is impossible to complete the order (e.g. "Sorry, delivery to your desired address is unavailable'). Telegram will display this message to the user.
+   * Required if ok is False. Error message in human readable form that explains why it is impossible to complete the order (e.g. "Sorry, delivery to your desired address is unavailable"). Telegram will display this message to the user.
    */
   error_message?: string;
 };
@@ -4833,6 +4853,10 @@ export type TgChatFullInfo = {
    * Optional. Default chat member permissions, for groups and supergroups
    */
   permissions?: TgChatPermissions;
+  /**
+   * Optional. True, if gifts can be sent to the chat
+   */
+  can_send_gift?: boolean;
   /**
    * Optional. True, if paid media messages can be sent or forwarded to the channel chat. The field is available only for channel chats.
    */
@@ -5783,6 +5807,14 @@ export type TgVideo = {
    * Optional. Video thumbnail
    */
   thumbnail?: TgPhotoSize;
+  /**
+   * Optional. Available sizes of the cover of the video in the message
+   */
+  cover?: TgPhotoSize[];
+  /**
+   * Optional. Timestamp in seconds from which the video will play in the message
+   */
+  start_timestamp?: number;
   /**
    * Optional. Original filename as defined by the sender
    */
@@ -8524,7 +8556,15 @@ export type TgInputMediaVideo = {
   /**
    * Optional. Thumbnail of the file sent; can be ignored if thumbnail generation for the file is supported server-side. The thumbnail should be in JPEG format and less than 200 kB in size. A thumbnail's width and height should not exceed 320. Ignored if the file is not uploaded using multipart/form-data. Thumbnails can't be reused and can be only uploaded as a new file, so you can pass "attach://<file_attach_name>" if the thumbnail was uploaded using multipart/form-data under <file_attach_name>. More information on Sending Files: https://core.telegram.org/bots/api#sending-files
    */
-  thumbnail?: TgInputFile | string;
+  thumbnail?: string;
+  /**
+   * Optional. Cover for the video in the message. Pass a file_id to send a file that exists on the Telegram servers (recommended), pass an HTTP URL for Telegram to get a file from the Internet, or pass "attach://<file_attach_name>" to upload a new one using multipart/form-data under <file_attach_name> name. More information on Sending Files: https://core.telegram.org/bots/api#sending-files
+   */
+  cover?: string;
+  /**
+   * Optional. Start timestamp for the video in the message
+   */
+  start_timestamp?: number;
   /**
    * Optional. Caption of the video to be sent, 0-1024 characters after entities parsing
    */
@@ -8579,7 +8619,7 @@ export type TgInputMediaAnimation = {
   /**
    * Optional. Thumbnail of the file sent; can be ignored if thumbnail generation for the file is supported server-side. The thumbnail should be in JPEG format and less than 200 kB in size. A thumbnail's width and height should not exceed 320. Ignored if the file is not uploaded using multipart/form-data. Thumbnails can't be reused and can be only uploaded as a new file, so you can pass "attach://<file_attach_name>" if the thumbnail was uploaded using multipart/form-data under <file_attach_name>. More information on Sending Files: https://core.telegram.org/bots/api#sending-files
    */
-  thumbnail?: TgInputFile | string;
+  thumbnail?: string;
   /**
    * Optional. Caption of the animation to be sent, 0-1024 characters after entities parsing
    */
@@ -8630,7 +8670,7 @@ export type TgInputMediaAudio = {
   /**
    * Optional. Thumbnail of the file sent; can be ignored if thumbnail generation for the file is supported server-side. The thumbnail should be in JPEG format and less than 200 kB in size. A thumbnail's width and height should not exceed 320. Ignored if the file is not uploaded using multipart/form-data. Thumbnails can't be reused and can be only uploaded as a new file, so you can pass "attach://<file_attach_name>" if the thumbnail was uploaded using multipart/form-data under <file_attach_name>. More information on Sending Files: https://core.telegram.org/bots/api#sending-files
    */
-  thumbnail?: TgInputFile | string;
+  thumbnail?: string;
   /**
    * Optional. Caption of the audio to be sent, 0-1024 characters after entities parsing
    */
@@ -8673,7 +8713,7 @@ export type TgInputMediaDocument = {
   /**
    * Optional. Thumbnail of the file sent; can be ignored if thumbnail generation for the file is supported server-side. The thumbnail should be in JPEG format and less than 200 kB in size. A thumbnail's width and height should not exceed 320. Ignored if the file is not uploaded using multipart/form-data. Thumbnails can't be reused and can be only uploaded as a new file, so you can pass "attach://<file_attach_name>" if the thumbnail was uploaded using multipart/form-data under <file_attach_name>. More information on Sending Files: https://core.telegram.org/bots/api#sending-files
    */
-  thumbnail?: TgInputFile | string;
+  thumbnail?: string;
   /**
    * Optional. Caption of the document to be sent, 0-1024 characters after entities parsing
    */
@@ -8739,7 +8779,15 @@ export type TgInputPaidMediaVideo = {
   /**
    * Optional. Thumbnail of the file sent; can be ignored if thumbnail generation for the file is supported server-side. The thumbnail should be in JPEG format and less than 200 kB in size. A thumbnail's width and height should not exceed 320. Ignored if the file is not uploaded using multipart/form-data. Thumbnails can't be reused and can be only uploaded as a new file, so you can pass "attach://<file_attach_name>" if the thumbnail was uploaded using multipart/form-data under <file_attach_name>. More information on Sending Files: https://core.telegram.org/bots/api#sending-files
    */
-  thumbnail?: TgInputFile | string;
+  thumbnail?: string;
+  /**
+   * Optional. Cover for the video in the message. Pass a file_id to send a file that exists on the Telegram servers (recommended), pass an HTTP URL for Telegram to get a file from the Internet, or pass "attach://<file_attach_name>" to upload a new one using multipart/form-data under <file_attach_name> name. More information on Sending Files: https://core.telegram.org/bots/api#sending-files
+   */
+  cover?: string;
+  /**
+   * Optional. Start timestamp for the video in the message
+   */
+  start_timestamp?: number;
   /**
    * Optional. Video width
    */
@@ -10488,7 +10536,7 @@ export type TgShippingOption = {
   prices: TgLabeledPrice[];
 };
 /**
- * This object contains basic information about a successful payment.
+ * This object contains basic information about a successful payment. Note that if the buyer initiates a chargeback with the relevant payment provider following this transaction, the funds may be debited from your balance. This is outside of Telegram's control.
  *
  * @see https://core.telegram.org/bots/api#successfulpayment
  */
@@ -10722,6 +10770,8 @@ export type TgAffiliateInfo = {
  *
  * - TransactionPartnerUser
  *
+ * - TransactionPartnerChat
+ *
  * - TransactionPartnerAffiliateProgram
  *
  * - TransactionPartnerFragment
@@ -10736,6 +10786,7 @@ export type TgAffiliateInfo = {
  */
 export type TgTransactionPartner =
   | TgTransactionPartnerUser
+  | TgTransactionPartnerChat
   | TgTransactionPartnerAffiliateProgram
   | TgTransactionPartnerFragment
   | TgTransactionPartnerTelegramAds
@@ -10777,6 +10828,25 @@ export type TgTransactionPartnerUser = {
   paid_media_payload?: string;
   /**
    * Optional. The gift sent to the user by the bot
+   */
+  gift?: TgGift;
+};
+/**
+ * Describes a transaction with a chat.
+ *
+ * @see https://core.telegram.org/bots/api#transactionpartnerchat
+ */
+export type TgTransactionPartnerChat = {
+  /**
+   * Type of the transaction partner, always "chat"
+   */
+  type: "chat";
+  /**
+   * Information about the chat
+   */
+  chat: TgChat;
+  /**
+   * Optional. The gift sent to the chat by the bot
    */
   gift?: TgGift;
 };
@@ -10852,7 +10922,7 @@ export type TgTransactionPartnerOther = {
   type: "other";
 };
 /**
- * Describes a Telegram Star transaction.
+ * Describes a Telegram Star transaction. Note that if the buyer initiates a chargeback with the payment provider from whom they acquired Stars (e.g., Apple, Google) following this transaction, the refunded Stars will be deducted from the bot's balance. This is outside of Telegram's control.
  *
  * @see https://core.telegram.org/bots/api#startransaction
  */
