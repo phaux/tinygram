@@ -7,7 +7,10 @@
     "coverage",
     "npm"
   ],
-  "exports": "./mod.ts",
+  "exports": {
+    ".": "./mod.ts",
+    "./format": "./formatMessage.ts"
+  },
   "fmt": {
     "exclude": [
       "CHANGELOG.md"
