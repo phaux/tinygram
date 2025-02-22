@@ -1,3 +1,21 @@
+/**
+ * Module for formatting messages to be sent to Telegram.
+ *
+ * Use {@link tgFmt} function to format a message.
+ *
+ * @example Formatting and sending a message
+ *
+ * ```ts
+ * import { initTgBot } from "./mod.ts";
+ * const bot = initTgBot({ botToken: "YOUR_TOKEN" });
+ *
+ * const msg = tgFmt`Hello, ${tgEntity("bold", "World")}!`;
+ * await bot.sendMessage({ chat_id: "123", ...msg });
+ * ```
+ *
+ * @module
+ */
+
 import type { TgMessageEntity, TgSendMessageParams } from "./TgApi.ts";
 
 /**
