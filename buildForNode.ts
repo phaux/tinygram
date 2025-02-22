@@ -5,7 +5,7 @@ import denoJson from "./deno.json" with { type: "json" };
 await emptyDir("./npm");
 
 await build({
-  entryPoints: ["./mod.ts"],
+  entryPoints: Object.entries(denoJson.exports).map(([name, path]) => ({ name, path })),
   outDir: "./npm",
   shims: {
     deno: "dev",
