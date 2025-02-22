@@ -933,19 +933,19 @@ export type TgGetUpdatesParams = {
   /**
    * Identifier of the first update to be returned. Must be greater by one than the highest among the identifiers of previously received updates. By default, updates starting with the earliest unconfirmed update are returned. An update is considered confirmed as soon as getUpdates is called with an offset higher than its update_id. The negative offset can be specified to retrieve updates starting from -offset update from the end of the updates queue. All previous updates will be forgotten.
    */
-  offset?: number;
+  offset?: number | undefined;
   /**
    * Limits the number of updates to be retrieved. Values between 1-100 are accepted. Defaults to 100.
    */
-  limit?: number;
+  limit?: number | undefined;
   /**
    * Timeout in seconds for long polling. Defaults to 0, i.e. usual short polling. Should be positive, short polling should be used for testing purposes only.
    */
-  timeout?: number;
+  timeout?: number | undefined;
   /**
    * A JSON-serialized list of the update types you want your bot to receive. For example, specify ["message", "edited_channel_post", "callback_query"] to only receive updates of these types. See Update for a complete list of available update types. Specify an empty list to receive all update types except chat_member, message_reaction, and message_reaction_count (default). If not specified, the previous setting will be used. Please note that this parameter doesn't affect updates created before the call to getUpdates, so unwanted updates may be received for a short period of time.
    */
-  allowed_updates?: Exclude<keyof TgUpdate, "update_id">[];
+  allowed_updates?: Exclude<keyof TgUpdate, "update_id">[] | undefined;
 };
 /**
  * Parameters of {@link TgApi.setWebhook} method.
@@ -960,27 +960,27 @@ export type TgSetWebhookParams = {
   /**
    * Upload your public key certificate so that the root certificate in use can be checked. See our self-signed guide for details.
    */
-  certificate?: TgInputFile;
+  certificate?: TgInputFile | undefined;
   /**
    * The fixed IP address which will be used to send webhook requests instead of the IP address resolved through DNS
    */
-  ip_address?: string;
+  ip_address?: string | undefined;
   /**
    * The maximum allowed number of simultaneous HTTPS connections to the webhook for update delivery, 1-100. Defaults to 40. Use lower values to limit the load on your bot's server, and higher values to increase your bot's throughput.
    */
-  max_connections?: number;
+  max_connections?: number | undefined;
   /**
    * A JSON-serialized list of the update types you want your bot to receive. For example, specify ["message", "edited_channel_post", "callback_query"] to only receive updates of these types. See Update for a complete list of available update types. Specify an empty list to receive all update types except chat_member, message_reaction, and message_reaction_count (default). If not specified, the previous setting will be used. Please note that this parameter doesn't affect updates created before the call to the setWebhook, so unwanted updates may be received for a short period of time.
    */
-  allowed_updates?: Exclude<keyof TgUpdate, "update_id">[];
+  allowed_updates?: Exclude<keyof TgUpdate, "update_id">[] | undefined;
   /**
    * Pass True to drop all pending updates
    */
-  drop_pending_updates?: boolean;
+  drop_pending_updates?: boolean | undefined;
   /**
    * A secret token to be sent in a header "X-Telegram-Bot-Api-Secret-Token" in every webhook request, 1-256 characters. Only characters A-Z, a-z, 0-9, _ and - are allowed. The header is useful to ensure that the request comes from a webhook set by you.
    */
-  secret_token?: string;
+  secret_token?: string | undefined;
 };
 /**
  * Parameters of {@link TgApi.deleteWebhook} method.
@@ -991,7 +991,7 @@ export type TgDeleteWebhookParams = {
   /**
    * Pass True to drop all pending updates
    */
-  drop_pending_updates?: boolean;
+  drop_pending_updates?: boolean | undefined;
 };
 /**
  * Parameters of {@link TgApi.sendMessage} method.
@@ -1002,7 +1002,7 @@ export type TgSendMessageParams = {
   /**
    * Unique identifier of the business connection on behalf of which the message will be sent
    */
-  business_connection_id?: string;
+  business_connection_id?: string | undefined;
   /**
    * Unique identifier for the target chat or username of the target channel (in the format @channelusername)
    */
@@ -1010,7 +1010,7 @@ export type TgSendMessageParams = {
   /**
    * Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
    */
-  message_thread_id?: number;
+  message_thread_id?: number | undefined;
   /**
    * Text of the message to be sent, 1-4096 characters after entities parsing
    */
@@ -1018,35 +1018,35 @@ export type TgSendMessageParams = {
   /**
    * Mode for parsing entities in the message text. See formatting options for more details.
    */
-  parse_mode?: undefined | "HTML" | "Markdown" | "MarkdownV2";
+  parse_mode?: "HTML" | "Markdown" | "MarkdownV2" | undefined;
   /**
    * A JSON-serialized list of special entities that appear in message text, which can be specified instead of parse_mode
    */
-  entities?: TgMessageEntity[];
+  entities?: TgMessageEntity[] | undefined;
   /**
    * Link preview generation options for the message
    */
-  link_preview_options?: TgLinkPreviewOptions;
+  link_preview_options?: TgLinkPreviewOptions | undefined;
   /**
    * Sends the message silently. Users will receive a notification with no sound.
    */
-  disable_notification?: boolean;
+  disable_notification?: boolean | undefined;
   /**
    * Protects the contents of the sent message from forwarding and saving
    */
-  protect_content?: boolean;
+  protect_content?: boolean | undefined;
   /**
    * Pass True to allow up to 1000 messages per second, ignoring broadcasting limits for a fee of 0.1 Telegram Stars per message. The relevant Stars will be withdrawn from the bot's balance
    */
-  allow_paid_broadcast?: boolean;
+  allow_paid_broadcast?: boolean | undefined;
   /**
    * Unique identifier of the message effect to be added to the message; for private chats only
    */
-  message_effect_id?: string;
+  message_effect_id?: string | undefined;
   /**
    * Description of the message to reply to
    */
-  reply_parameters?: TgReplyParameters;
+  reply_parameters?: TgReplyParameters | undefined;
   /**
    * Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove a reply keyboard or to force a reply from the user
    */
@@ -1054,7 +1054,8 @@ export type TgSendMessageParams = {
     | TgInlineKeyboardMarkup
     | TgReplyKeyboardMarkup
     | TgReplyKeyboardRemove
-    | TgForceReply;
+    | TgForceReply
+    | undefined;
 };
 /**
  * Parameters of {@link TgApi.forwardMessage} method.
@@ -1069,7 +1070,7 @@ export type TgForwardMessageParams = {
   /**
    * Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
    */
-  message_thread_id?: number;
+  message_thread_id?: number | undefined;
   /**
    * Unique identifier for the chat where the original message was sent (or channel username in the format @channelusername)
    */
@@ -1077,15 +1078,15 @@ export type TgForwardMessageParams = {
   /**
    * New start timestamp for the forwarded video in the message
    */
-  video_start_timestamp?: number;
+  video_start_timestamp?: number | undefined;
   /**
    * Sends the message silently. Users will receive a notification with no sound.
    */
-  disable_notification?: boolean;
+  disable_notification?: boolean | undefined;
   /**
    * Protects the contents of the forwarded message from forwarding and saving
    */
-  protect_content?: boolean;
+  protect_content?: boolean | undefined;
   /**
    * Message identifier in the chat specified in from_chat_id
    */
@@ -1104,7 +1105,7 @@ export type TgForwardMessagesParams = {
   /**
    * Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
    */
-  message_thread_id?: number;
+  message_thread_id?: number | undefined;
   /**
    * Unique identifier for the chat where the original messages were sent (or channel username in the format @channelusername)
    */
@@ -1116,11 +1117,11 @@ export type TgForwardMessagesParams = {
   /**
    * Sends the messages silently. Users will receive a notification with no sound.
    */
-  disable_notification?: boolean;
+  disable_notification?: boolean | undefined;
   /**
    * Protects the contents of the forwarded messages from forwarding and saving
    */
-  protect_content?: boolean;
+  protect_content?: boolean | undefined;
 };
 /**
  * Parameters of {@link TgApi.copyMessage} method.
@@ -1135,7 +1136,7 @@ export type TgCopyMessageParams = {
   /**
    * Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
    */
-  message_thread_id?: number;
+  message_thread_id?: number | undefined;
   /**
    * Unique identifier for the chat where the original message was sent (or channel username in the format @channelusername)
    */
@@ -1147,39 +1148,39 @@ export type TgCopyMessageParams = {
   /**
    * New start timestamp for the copied video in the message
    */
-  video_start_timestamp?: number;
+  video_start_timestamp?: number | undefined;
   /**
    * New caption for media, 0-1024 characters after entities parsing. If not specified, the original caption is kept
    */
-  caption?: string;
+  caption?: string | undefined;
   /**
    * Mode for parsing entities in the new caption. See formatting options for more details.
    */
-  parse_mode?: undefined | "HTML" | "Markdown" | "MarkdownV2";
+  parse_mode?: "HTML" | "Markdown" | "MarkdownV2" | undefined;
   /**
    * A JSON-serialized list of special entities that appear in the new caption, which can be specified instead of parse_mode
    */
-  caption_entities?: TgMessageEntity[];
+  caption_entities?: TgMessageEntity[] | undefined;
   /**
    * Pass True, if the caption must be shown above the message media. Ignored if a new caption isn't specified.
    */
-  show_caption_above_media?: boolean;
+  show_caption_above_media?: boolean | undefined;
   /**
    * Sends the message silently. Users will receive a notification with no sound.
    */
-  disable_notification?: boolean;
+  disable_notification?: boolean | undefined;
   /**
    * Protects the contents of the sent message from forwarding and saving
    */
-  protect_content?: boolean;
+  protect_content?: boolean | undefined;
   /**
    * Pass True to allow up to 1000 messages per second, ignoring broadcasting limits for a fee of 0.1 Telegram Stars per message. The relevant Stars will be withdrawn from the bot's balance
    */
-  allow_paid_broadcast?: boolean;
+  allow_paid_broadcast?: boolean | undefined;
   /**
    * Description of the message to reply to
    */
-  reply_parameters?: TgReplyParameters;
+  reply_parameters?: TgReplyParameters | undefined;
   /**
    * Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove a reply keyboard or to force a reply from the user
    */
@@ -1187,7 +1188,8 @@ export type TgCopyMessageParams = {
     | TgInlineKeyboardMarkup
     | TgReplyKeyboardMarkup
     | TgReplyKeyboardRemove
-    | TgForceReply;
+    | TgForceReply
+    | undefined;
 };
 /**
  * Parameters of {@link TgApi.copyMessages} method.
@@ -1202,7 +1204,7 @@ export type TgCopyMessagesParams = {
   /**
    * Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
    */
-  message_thread_id?: number;
+  message_thread_id?: number | undefined;
   /**
    * Unique identifier for the chat where the original messages were sent (or channel username in the format @channelusername)
    */
@@ -1214,15 +1216,15 @@ export type TgCopyMessagesParams = {
   /**
    * Sends the messages silently. Users will receive a notification with no sound.
    */
-  disable_notification?: boolean;
+  disable_notification?: boolean | undefined;
   /**
    * Protects the contents of the sent messages from forwarding and saving
    */
-  protect_content?: boolean;
+  protect_content?: boolean | undefined;
   /**
    * Pass True to copy the messages without their captions
    */
-  remove_caption?: boolean;
+  remove_caption?: boolean | undefined;
 };
 /**
  * Parameters of {@link TgApi.sendPhoto} method.
@@ -1233,7 +1235,7 @@ export type TgSendPhotoParams = {
   /**
    * Unique identifier of the business connection on behalf of which the message will be sent
    */
-  business_connection_id?: string;
+  business_connection_id?: string | undefined;
   /**
    * Unique identifier for the target chat or username of the target channel (in the format @channelusername)
    */
@@ -1241,7 +1243,7 @@ export type TgSendPhotoParams = {
   /**
    * Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
    */
-  message_thread_id?: number;
+  message_thread_id?: number | undefined;
   /**
    * Photo to send. Pass a file_id as String to send a photo that exists on the Telegram servers (recommended), pass an HTTP URL as a String for Telegram to get a photo from the Internet, or upload a new photo using multipart/form-data. The photo must be at most 10 MB in size. The photo's width and height must not exceed 10000 in total. Width and height ratio must be at most 20. More information on Sending Files: https://core.telegram.org/bots/api#sending-files
    */
@@ -1249,43 +1251,43 @@ export type TgSendPhotoParams = {
   /**
    * Photo caption (may also be used when resending photos by file_id), 0-1024 characters after entities parsing
    */
-  caption?: string;
+  caption?: string | undefined;
   /**
    * Mode for parsing entities in the photo caption. See formatting options for more details.
    */
-  parse_mode?: undefined | "HTML" | "Markdown" | "MarkdownV2";
+  parse_mode?: "HTML" | "Markdown" | "MarkdownV2" | undefined;
   /**
    * A JSON-serialized list of special entities that appear in the caption, which can be specified instead of parse_mode
    */
-  caption_entities?: TgMessageEntity[];
+  caption_entities?: TgMessageEntity[] | undefined;
   /**
    * Pass True, if the caption must be shown above the message media
    */
-  show_caption_above_media?: boolean;
+  show_caption_above_media?: boolean | undefined;
   /**
    * Pass True if the photo needs to be covered with a spoiler animation
    */
-  has_spoiler?: boolean;
+  has_spoiler?: boolean | undefined;
   /**
    * Sends the message silently. Users will receive a notification with no sound.
    */
-  disable_notification?: boolean;
+  disable_notification?: boolean | undefined;
   /**
    * Protects the contents of the sent message from forwarding and saving
    */
-  protect_content?: boolean;
+  protect_content?: boolean | undefined;
   /**
    * Pass True to allow up to 1000 messages per second, ignoring broadcasting limits for a fee of 0.1 Telegram Stars per message. The relevant Stars will be withdrawn from the bot's balance
    */
-  allow_paid_broadcast?: boolean;
+  allow_paid_broadcast?: boolean | undefined;
   /**
    * Unique identifier of the message effect to be added to the message; for private chats only
    */
-  message_effect_id?: string;
+  message_effect_id?: string | undefined;
   /**
    * Description of the message to reply to
    */
-  reply_parameters?: TgReplyParameters;
+  reply_parameters?: TgReplyParameters | undefined;
   /**
    * Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove a reply keyboard or to force a reply from the user
    */
@@ -1293,7 +1295,8 @@ export type TgSendPhotoParams = {
     | TgInlineKeyboardMarkup
     | TgReplyKeyboardMarkup
     | TgReplyKeyboardRemove
-    | TgForceReply;
+    | TgForceReply
+    | undefined;
 };
 /**
  * Parameters of {@link TgApi.sendAudio} method.
@@ -1304,7 +1307,7 @@ export type TgSendAudioParams = {
   /**
    * Unique identifier of the business connection on behalf of which the message will be sent
    */
-  business_connection_id?: string;
+  business_connection_id?: string | undefined;
   /**
    * Unique identifier for the target chat or username of the target channel (in the format @channelusername)
    */
@@ -1312,7 +1315,7 @@ export type TgSendAudioParams = {
   /**
    * Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
    */
-  message_thread_id?: number;
+  message_thread_id?: number | undefined;
   /**
    * Audio file to send. Pass a file_id as String to send an audio file that exists on the Telegram servers (recommended), pass an HTTP URL as a String for Telegram to get an audio file from the Internet, or upload a new one using multipart/form-data. More information on Sending Files: https://core.telegram.org/bots/api#sending-files
    */
@@ -1320,51 +1323,51 @@ export type TgSendAudioParams = {
   /**
    * Audio caption, 0-1024 characters after entities parsing
    */
-  caption?: string;
+  caption?: string | undefined;
   /**
    * Mode for parsing entities in the audio caption. See formatting options for more details.
    */
-  parse_mode?: undefined | "HTML" | "Markdown" | "MarkdownV2";
+  parse_mode?: "HTML" | "Markdown" | "MarkdownV2" | undefined;
   /**
    * A JSON-serialized list of special entities that appear in the caption, which can be specified instead of parse_mode
    */
-  caption_entities?: TgMessageEntity[];
+  caption_entities?: TgMessageEntity[] | undefined;
   /**
    * Duration of the audio in seconds
    */
-  duration?: number;
+  duration?: number | undefined;
   /**
    * Performer
    */
-  performer?: string;
+  performer?: string | undefined;
   /**
    * Track name
    */
-  title?: string;
+  title?: string | undefined;
   /**
    * Thumbnail of the file sent; can be ignored if thumbnail generation for the file is supported server-side. The thumbnail should be in JPEG format and less than 200 kB in size. A thumbnail's width and height should not exceed 320. Ignored if the file is not uploaded using multipart/form-data. Thumbnails can't be reused and can be only uploaded as a new file, so you can pass "attach://<file_attach_name>" if the thumbnail was uploaded using multipart/form-data under <file_attach_name>. More information on Sending Files: https://core.telegram.org/bots/api#sending-files
    */
-  thumbnail?: TgInputFile | string;
+  thumbnail?: TgInputFile | string | undefined;
   /**
    * Sends the message silently. Users will receive a notification with no sound.
    */
-  disable_notification?: boolean;
+  disable_notification?: boolean | undefined;
   /**
    * Protects the contents of the sent message from forwarding and saving
    */
-  protect_content?: boolean;
+  protect_content?: boolean | undefined;
   /**
    * Pass True to allow up to 1000 messages per second, ignoring broadcasting limits for a fee of 0.1 Telegram Stars per message. The relevant Stars will be withdrawn from the bot's balance
    */
-  allow_paid_broadcast?: boolean;
+  allow_paid_broadcast?: boolean | undefined;
   /**
    * Unique identifier of the message effect to be added to the message; for private chats only
    */
-  message_effect_id?: string;
+  message_effect_id?: string | undefined;
   /**
    * Description of the message to reply to
    */
-  reply_parameters?: TgReplyParameters;
+  reply_parameters?: TgReplyParameters | undefined;
   /**
    * Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove a reply keyboard or to force a reply from the user
    */
@@ -1372,7 +1375,8 @@ export type TgSendAudioParams = {
     | TgInlineKeyboardMarkup
     | TgReplyKeyboardMarkup
     | TgReplyKeyboardRemove
-    | TgForceReply;
+    | TgForceReply
+    | undefined;
 };
 /**
  * Parameters of {@link TgApi.sendDocument} method.
@@ -1383,7 +1387,7 @@ export type TgSendDocumentParams = {
   /**
    * Unique identifier of the business connection on behalf of which the message will be sent
    */
-  business_connection_id?: string;
+  business_connection_id?: string | undefined;
   /**
    * Unique identifier for the target chat or username of the target channel (in the format @channelusername)
    */
@@ -1391,7 +1395,7 @@ export type TgSendDocumentParams = {
   /**
    * Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
    */
-  message_thread_id?: number;
+  message_thread_id?: number | undefined;
   /**
    * File to send. Pass a file_id as String to send a file that exists on the Telegram servers (recommended), pass an HTTP URL as a String for Telegram to get a file from the Internet, or upload a new one using multipart/form-data. More information on Sending Files: https://core.telegram.org/bots/api#sending-files
    */
@@ -1399,43 +1403,43 @@ export type TgSendDocumentParams = {
   /**
    * Thumbnail of the file sent; can be ignored if thumbnail generation for the file is supported server-side. The thumbnail should be in JPEG format and less than 200 kB in size. A thumbnail's width and height should not exceed 320. Ignored if the file is not uploaded using multipart/form-data. Thumbnails can't be reused and can be only uploaded as a new file, so you can pass "attach://<file_attach_name>" if the thumbnail was uploaded using multipart/form-data under <file_attach_name>. More information on Sending Files: https://core.telegram.org/bots/api#sending-files
    */
-  thumbnail?: TgInputFile | string;
+  thumbnail?: TgInputFile | string | undefined;
   /**
    * Document caption (may also be used when resending documents by file_id), 0-1024 characters after entities parsing
    */
-  caption?: string;
+  caption?: string | undefined;
   /**
    * Mode for parsing entities in the document caption. See formatting options for more details.
    */
-  parse_mode?: undefined | "HTML" | "Markdown" | "MarkdownV2";
+  parse_mode?: "HTML" | "Markdown" | "MarkdownV2" | undefined;
   /**
    * A JSON-serialized list of special entities that appear in the caption, which can be specified instead of parse_mode
    */
-  caption_entities?: TgMessageEntity[];
+  caption_entities?: TgMessageEntity[] | undefined;
   /**
    * Disables automatic server-side content type detection for files uploaded using multipart/form-data
    */
-  disable_content_type_detection?: boolean;
+  disable_content_type_detection?: boolean | undefined;
   /**
    * Sends the message silently. Users will receive a notification with no sound.
    */
-  disable_notification?: boolean;
+  disable_notification?: boolean | undefined;
   /**
    * Protects the contents of the sent message from forwarding and saving
    */
-  protect_content?: boolean;
+  protect_content?: boolean | undefined;
   /**
    * Pass True to allow up to 1000 messages per second, ignoring broadcasting limits for a fee of 0.1 Telegram Stars per message. The relevant Stars will be withdrawn from the bot's balance
    */
-  allow_paid_broadcast?: boolean;
+  allow_paid_broadcast?: boolean | undefined;
   /**
    * Unique identifier of the message effect to be added to the message; for private chats only
    */
-  message_effect_id?: string;
+  message_effect_id?: string | undefined;
   /**
    * Description of the message to reply to
    */
-  reply_parameters?: TgReplyParameters;
+  reply_parameters?: TgReplyParameters | undefined;
   /**
    * Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove a reply keyboard or to force a reply from the user
    */
@@ -1443,7 +1447,8 @@ export type TgSendDocumentParams = {
     | TgInlineKeyboardMarkup
     | TgReplyKeyboardMarkup
     | TgReplyKeyboardRemove
-    | TgForceReply;
+    | TgForceReply
+    | undefined;
 };
 /**
  * Parameters of {@link TgApi.sendVideo} method.
@@ -1454,7 +1459,7 @@ export type TgSendVideoParams = {
   /**
    * Unique identifier of the business connection on behalf of which the message will be sent
    */
-  business_connection_id?: string;
+  business_connection_id?: string | undefined;
   /**
    * Unique identifier for the target chat or username of the target channel (in the format @channelusername)
    */
@@ -1462,7 +1467,7 @@ export type TgSendVideoParams = {
   /**
    * Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
    */
-  message_thread_id?: number;
+  message_thread_id?: number | undefined;
   /**
    * Video to send. Pass a file_id as String to send a video that exists on the Telegram servers (recommended), pass an HTTP URL as a String for Telegram to get a video from the Internet, or upload a new video using multipart/form-data. More information on Sending Files: https://core.telegram.org/bots/api#sending-files
    */
@@ -1470,71 +1475,71 @@ export type TgSendVideoParams = {
   /**
    * Duration of sent video in seconds
    */
-  duration?: number;
+  duration?: number | undefined;
   /**
    * Video width
    */
-  width?: number;
+  width?: number | undefined;
   /**
    * Video height
    */
-  height?: number;
+  height?: number | undefined;
   /**
    * Thumbnail of the file sent; can be ignored if thumbnail generation for the file is supported server-side. The thumbnail should be in JPEG format and less than 200 kB in size. A thumbnail's width and height should not exceed 320. Ignored if the file is not uploaded using multipart/form-data. Thumbnails can't be reused and can be only uploaded as a new file, so you can pass "attach://<file_attach_name>" if the thumbnail was uploaded using multipart/form-data under <file_attach_name>. More information on Sending Files: https://core.telegram.org/bots/api#sending-files
    */
-  thumbnail?: TgInputFile | string;
+  thumbnail?: TgInputFile | string | undefined;
   /**
    * Cover for the video in the message. Pass a file_id to send a file that exists on the Telegram servers (recommended), pass an HTTP URL for Telegram to get a file from the Internet, or pass "attach://<file_attach_name>" to upload a new one using multipart/form-data under <file_attach_name> name. More information on Sending Files: https://core.telegram.org/bots/api#sending-files
    */
-  cover?: TgInputFile | string;
+  cover?: TgInputFile | string | undefined;
   /**
    * Start timestamp for the video in the message
    */
-  start_timestamp?: number;
+  start_timestamp?: number | undefined;
   /**
    * Video caption (may also be used when resending videos by file_id), 0-1024 characters after entities parsing
    */
-  caption?: string;
+  caption?: string | undefined;
   /**
    * Mode for parsing entities in the video caption. See formatting options for more details.
    */
-  parse_mode?: undefined | "HTML" | "Markdown" | "MarkdownV2";
+  parse_mode?: "HTML" | "Markdown" | "MarkdownV2" | undefined;
   /**
    * A JSON-serialized list of special entities that appear in the caption, which can be specified instead of parse_mode
    */
-  caption_entities?: TgMessageEntity[];
+  caption_entities?: TgMessageEntity[] | undefined;
   /**
    * Pass True, if the caption must be shown above the message media
    */
-  show_caption_above_media?: boolean;
+  show_caption_above_media?: boolean | undefined;
   /**
    * Pass True if the video needs to be covered with a spoiler animation
    */
-  has_spoiler?: boolean;
+  has_spoiler?: boolean | undefined;
   /**
    * Pass True if the uploaded video is suitable for streaming
    */
-  supports_streaming?: boolean;
+  supports_streaming?: boolean | undefined;
   /**
    * Sends the message silently. Users will receive a notification with no sound.
    */
-  disable_notification?: boolean;
+  disable_notification?: boolean | undefined;
   /**
    * Protects the contents of the sent message from forwarding and saving
    */
-  protect_content?: boolean;
+  protect_content?: boolean | undefined;
   /**
    * Pass True to allow up to 1000 messages per second, ignoring broadcasting limits for a fee of 0.1 Telegram Stars per message. The relevant Stars will be withdrawn from the bot's balance
    */
-  allow_paid_broadcast?: boolean;
+  allow_paid_broadcast?: boolean | undefined;
   /**
    * Unique identifier of the message effect to be added to the message; for private chats only
    */
-  message_effect_id?: string;
+  message_effect_id?: string | undefined;
   /**
    * Description of the message to reply to
    */
-  reply_parameters?: TgReplyParameters;
+  reply_parameters?: TgReplyParameters | undefined;
   /**
    * Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove a reply keyboard or to force a reply from the user
    */
@@ -1542,7 +1547,8 @@ export type TgSendVideoParams = {
     | TgInlineKeyboardMarkup
     | TgReplyKeyboardMarkup
     | TgReplyKeyboardRemove
-    | TgForceReply;
+    | TgForceReply
+    | undefined;
 };
 /**
  * Parameters of {@link TgApi.sendAnimation} method.
@@ -1553,7 +1559,7 @@ export type TgSendAnimationParams = {
   /**
    * Unique identifier of the business connection on behalf of which the message will be sent
    */
-  business_connection_id?: string;
+  business_connection_id?: string | undefined;
   /**
    * Unique identifier for the target chat or username of the target channel (in the format @channelusername)
    */
@@ -1561,7 +1567,7 @@ export type TgSendAnimationParams = {
   /**
    * Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
    */
-  message_thread_id?: number;
+  message_thread_id?: number | undefined;
   /**
    * Animation to send. Pass a file_id as String to send an animation that exists on the Telegram servers (recommended), pass an HTTP URL as a String for Telegram to get an animation from the Internet, or upload a new animation using multipart/form-data. More information on Sending Files: https://core.telegram.org/bots/api#sending-files
    */
@@ -1569,59 +1575,59 @@ export type TgSendAnimationParams = {
   /**
    * Duration of sent animation in seconds
    */
-  duration?: number;
+  duration?: number | undefined;
   /**
    * Animation width
    */
-  width?: number;
+  width?: number | undefined;
   /**
    * Animation height
    */
-  height?: number;
+  height?: number | undefined;
   /**
    * Thumbnail of the file sent; can be ignored if thumbnail generation for the file is supported server-side. The thumbnail should be in JPEG format and less than 200 kB in size. A thumbnail's width and height should not exceed 320. Ignored if the file is not uploaded using multipart/form-data. Thumbnails can't be reused and can be only uploaded as a new file, so you can pass "attach://<file_attach_name>" if the thumbnail was uploaded using multipart/form-data under <file_attach_name>. More information on Sending Files: https://core.telegram.org/bots/api#sending-files
    */
-  thumbnail?: TgInputFile | string;
+  thumbnail?: TgInputFile | string | undefined;
   /**
    * Animation caption (may also be used when resending animation by file_id), 0-1024 characters after entities parsing
    */
-  caption?: string;
+  caption?: string | undefined;
   /**
    * Mode for parsing entities in the animation caption. See formatting options for more details.
    */
-  parse_mode?: undefined | "HTML" | "Markdown" | "MarkdownV2";
+  parse_mode?: "HTML" | "Markdown" | "MarkdownV2" | undefined;
   /**
    * A JSON-serialized list of special entities that appear in the caption, which can be specified instead of parse_mode
    */
-  caption_entities?: TgMessageEntity[];
+  caption_entities?: TgMessageEntity[] | undefined;
   /**
    * Pass True, if the caption must be shown above the message media
    */
-  show_caption_above_media?: boolean;
+  show_caption_above_media?: boolean | undefined;
   /**
    * Pass True if the animation needs to be covered with a spoiler animation
    */
-  has_spoiler?: boolean;
+  has_spoiler?: boolean | undefined;
   /**
    * Sends the message silently. Users will receive a notification with no sound.
    */
-  disable_notification?: boolean;
+  disable_notification?: boolean | undefined;
   /**
    * Protects the contents of the sent message from forwarding and saving
    */
-  protect_content?: boolean;
+  protect_content?: boolean | undefined;
   /**
    * Pass True to allow up to 1000 messages per second, ignoring broadcasting limits for a fee of 0.1 Telegram Stars per message. The relevant Stars will be withdrawn from the bot's balance
    */
-  allow_paid_broadcast?: boolean;
+  allow_paid_broadcast?: boolean | undefined;
   /**
    * Unique identifier of the message effect to be added to the message; for private chats only
    */
-  message_effect_id?: string;
+  message_effect_id?: string | undefined;
   /**
    * Description of the message to reply to
    */
-  reply_parameters?: TgReplyParameters;
+  reply_parameters?: TgReplyParameters | undefined;
   /**
    * Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove a reply keyboard or to force a reply from the user
    */
@@ -1629,7 +1635,8 @@ export type TgSendAnimationParams = {
     | TgInlineKeyboardMarkup
     | TgReplyKeyboardMarkup
     | TgReplyKeyboardRemove
-    | TgForceReply;
+    | TgForceReply
+    | undefined;
 };
 /**
  * Parameters of {@link TgApi.sendVoice} method.
@@ -1640,7 +1647,7 @@ export type TgSendVoiceParams = {
   /**
    * Unique identifier of the business connection on behalf of which the message will be sent
    */
-  business_connection_id?: string;
+  business_connection_id?: string | undefined;
   /**
    * Unique identifier for the target chat or username of the target channel (in the format @channelusername)
    */
@@ -1648,7 +1655,7 @@ export type TgSendVoiceParams = {
   /**
    * Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
    */
-  message_thread_id?: number;
+  message_thread_id?: number | undefined;
   /**
    * Audio file to send. Pass a file_id as String to send a file that exists on the Telegram servers (recommended), pass an HTTP URL as a String for Telegram to get a file from the Internet, or upload a new one using multipart/form-data. More information on Sending Files: https://core.telegram.org/bots/api#sending-files
    */
@@ -1656,39 +1663,39 @@ export type TgSendVoiceParams = {
   /**
    * Voice message caption, 0-1024 characters after entities parsing
    */
-  caption?: string;
+  caption?: string | undefined;
   /**
    * Mode for parsing entities in the voice message caption. See formatting options for more details.
    */
-  parse_mode?: undefined | "HTML" | "Markdown" | "MarkdownV2";
+  parse_mode?: "HTML" | "Markdown" | "MarkdownV2" | undefined;
   /**
    * A JSON-serialized list of special entities that appear in the caption, which can be specified instead of parse_mode
    */
-  caption_entities?: TgMessageEntity[];
+  caption_entities?: TgMessageEntity[] | undefined;
   /**
    * Duration of the voice message in seconds
    */
-  duration?: number;
+  duration?: number | undefined;
   /**
    * Sends the message silently. Users will receive a notification with no sound.
    */
-  disable_notification?: boolean;
+  disable_notification?: boolean | undefined;
   /**
    * Protects the contents of the sent message from forwarding and saving
    */
-  protect_content?: boolean;
+  protect_content?: boolean | undefined;
   /**
    * Pass True to allow up to 1000 messages per second, ignoring broadcasting limits for a fee of 0.1 Telegram Stars per message. The relevant Stars will be withdrawn from the bot's balance
    */
-  allow_paid_broadcast?: boolean;
+  allow_paid_broadcast?: boolean | undefined;
   /**
    * Unique identifier of the message effect to be added to the message; for private chats only
    */
-  message_effect_id?: string;
+  message_effect_id?: string | undefined;
   /**
    * Description of the message to reply to
    */
-  reply_parameters?: TgReplyParameters;
+  reply_parameters?: TgReplyParameters | undefined;
   /**
    * Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove a reply keyboard or to force a reply from the user
    */
@@ -1696,7 +1703,8 @@ export type TgSendVoiceParams = {
     | TgInlineKeyboardMarkup
     | TgReplyKeyboardMarkup
     | TgReplyKeyboardRemove
-    | TgForceReply;
+    | TgForceReply
+    | undefined;
 };
 /**
  * Parameters of {@link TgApi.sendVideoNote} method.
@@ -1707,7 +1715,7 @@ export type TgSendVideoNoteParams = {
   /**
    * Unique identifier of the business connection on behalf of which the message will be sent
    */
-  business_connection_id?: string;
+  business_connection_id?: string | undefined;
   /**
    * Unique identifier for the target chat or username of the target channel (in the format @channelusername)
    */
@@ -1715,7 +1723,7 @@ export type TgSendVideoNoteParams = {
   /**
    * Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
    */
-  message_thread_id?: number;
+  message_thread_id?: number | undefined;
   /**
    * Video note to send. Pass a file_id as String to send a video note that exists on the Telegram servers (recommended) or upload a new video using multipart/form-data. More information on Sending Files: https://core.telegram.org/bots/api#sending-files. Sending video notes by a URL is currently unsupported
    */
@@ -1723,35 +1731,35 @@ export type TgSendVideoNoteParams = {
   /**
    * Duration of sent video in seconds
    */
-  duration?: number;
+  duration?: number | undefined;
   /**
    * Video width and height, i.e. diameter of the video message
    */
-  length?: number;
+  length?: number | undefined;
   /**
    * Thumbnail of the file sent; can be ignored if thumbnail generation for the file is supported server-side. The thumbnail should be in JPEG format and less than 200 kB in size. A thumbnail's width and height should not exceed 320. Ignored if the file is not uploaded using multipart/form-data. Thumbnails can't be reused and can be only uploaded as a new file, so you can pass "attach://<file_attach_name>" if the thumbnail was uploaded using multipart/form-data under <file_attach_name>. More information on Sending Files: https://core.telegram.org/bots/api#sending-files
    */
-  thumbnail?: TgInputFile | string;
+  thumbnail?: TgInputFile | string | undefined;
   /**
    * Sends the message silently. Users will receive a notification with no sound.
    */
-  disable_notification?: boolean;
+  disable_notification?: boolean | undefined;
   /**
    * Protects the contents of the sent message from forwarding and saving
    */
-  protect_content?: boolean;
+  protect_content?: boolean | undefined;
   /**
    * Pass True to allow up to 1000 messages per second, ignoring broadcasting limits for a fee of 0.1 Telegram Stars per message. The relevant Stars will be withdrawn from the bot's balance
    */
-  allow_paid_broadcast?: boolean;
+  allow_paid_broadcast?: boolean | undefined;
   /**
    * Unique identifier of the message effect to be added to the message; for private chats only
    */
-  message_effect_id?: string;
+  message_effect_id?: string | undefined;
   /**
    * Description of the message to reply to
    */
-  reply_parameters?: TgReplyParameters;
+  reply_parameters?: TgReplyParameters | undefined;
   /**
    * Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove a reply keyboard or to force a reply from the user
    */
@@ -1759,7 +1767,8 @@ export type TgSendVideoNoteParams = {
     | TgInlineKeyboardMarkup
     | TgReplyKeyboardMarkup
     | TgReplyKeyboardRemove
-    | TgForceReply;
+    | TgForceReply
+    | undefined;
 };
 /**
  * Parameters of {@link TgApi.sendPaidMedia} method.
@@ -1770,7 +1779,7 @@ export type TgSendPaidMediaParams = {
   /**
    * Unique identifier of the business connection on behalf of which the message will be sent
    */
-  business_connection_id?: string;
+  business_connection_id?: string | undefined;
   /**
    * Unique identifier for the target chat or username of the target channel (in the format @channelusername). If the chat is a channel, all Telegram Star proceeds from this media will be credited to the chat's balance. Otherwise, they will be credited to the bot's balance.
    */
@@ -1786,39 +1795,39 @@ export type TgSendPaidMediaParams = {
   /**
    * Bot-defined paid media payload, 0-128 bytes. This will not be displayed to the user, use it for your internal processes.
    */
-  payload?: string;
+  payload?: string | undefined;
   /**
    * Media caption, 0-1024 characters after entities parsing
    */
-  caption?: string;
+  caption?: string | undefined;
   /**
    * Mode for parsing entities in the media caption. See formatting options for more details.
    */
-  parse_mode?: undefined | "HTML" | "Markdown" | "MarkdownV2";
+  parse_mode?: "HTML" | "Markdown" | "MarkdownV2" | undefined;
   /**
    * A JSON-serialized list of special entities that appear in the caption, which can be specified instead of parse_mode
    */
-  caption_entities?: TgMessageEntity[];
+  caption_entities?: TgMessageEntity[] | undefined;
   /**
    * Pass True, if the caption must be shown above the message media
    */
-  show_caption_above_media?: boolean;
+  show_caption_above_media?: boolean | undefined;
   /**
    * Sends the message silently. Users will receive a notification with no sound.
    */
-  disable_notification?: boolean;
+  disable_notification?: boolean | undefined;
   /**
    * Protects the contents of the sent message from forwarding and saving
    */
-  protect_content?: boolean;
+  protect_content?: boolean | undefined;
   /**
    * Pass True to allow up to 1000 messages per second, ignoring broadcasting limits for a fee of 0.1 Telegram Stars per message. The relevant Stars will be withdrawn from the bot's balance
    */
-  allow_paid_broadcast?: boolean;
+  allow_paid_broadcast?: boolean | undefined;
   /**
    * Description of the message to reply to
    */
-  reply_parameters?: TgReplyParameters;
+  reply_parameters?: TgReplyParameters | undefined;
   /**
    * Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove a reply keyboard or to force a reply from the user
    */
@@ -1826,7 +1835,8 @@ export type TgSendPaidMediaParams = {
     | TgInlineKeyboardMarkup
     | TgReplyKeyboardMarkup
     | TgReplyKeyboardRemove
-    | TgForceReply;
+    | TgForceReply
+    | undefined;
 };
 /**
  * Parameters of {@link TgApi.sendMediaGroup} method.
@@ -1837,7 +1847,7 @@ export type TgSendMediaGroupParams = {
   /**
    * Unique identifier of the business connection on behalf of which the message will be sent
    */
-  business_connection_id?: string;
+  business_connection_id?: string | undefined;
   /**
    * Unique identifier for the target chat or username of the target channel (in the format @channelusername)
    */
@@ -1845,7 +1855,7 @@ export type TgSendMediaGroupParams = {
   /**
    * Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
    */
-  message_thread_id?: number;
+  message_thread_id?: number | undefined;
   /**
    * A JSON-serialized array describing messages to be sent, must include 2-10 items
    */
@@ -1853,23 +1863,23 @@ export type TgSendMediaGroupParams = {
   /**
    * Sends messages silently. Users will receive a notification with no sound.
    */
-  disable_notification?: boolean;
+  disable_notification?: boolean | undefined;
   /**
    * Protects the contents of the sent messages from forwarding and saving
    */
-  protect_content?: boolean;
+  protect_content?: boolean | undefined;
   /**
    * Pass True to allow up to 1000 messages per second, ignoring broadcasting limits for a fee of 0.1 Telegram Stars per message. The relevant Stars will be withdrawn from the bot's balance
    */
-  allow_paid_broadcast?: boolean;
+  allow_paid_broadcast?: boolean | undefined;
   /**
    * Unique identifier of the message effect to be added to the message; for private chats only
    */
-  message_effect_id?: string;
+  message_effect_id?: string | undefined;
   /**
    * Description of the message to reply to
    */
-  reply_parameters?: TgReplyParameters;
+  reply_parameters?: TgReplyParameters | undefined;
 };
 /**
  * Parameters of {@link TgApi.sendLocation} method.
@@ -1880,7 +1890,7 @@ export type TgSendLocationParams = {
   /**
    * Unique identifier of the business connection on behalf of which the message will be sent
    */
-  business_connection_id?: string;
+  business_connection_id?: string | undefined;
   /**
    * Unique identifier for the target chat or username of the target channel (in the format @channelusername)
    */
@@ -1888,7 +1898,7 @@ export type TgSendLocationParams = {
   /**
    * Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
    */
-  message_thread_id?: number;
+  message_thread_id?: number | undefined;
   /**
    * Latitude of the location
    */
@@ -1900,39 +1910,39 @@ export type TgSendLocationParams = {
   /**
    * The radius of uncertainty for the location, measured in meters; 0-1500
    */
-  horizontal_accuracy?: number;
+  horizontal_accuracy?: number | undefined;
   /**
    * Period in seconds during which the location will be updated (see Live Locations, should be between 60 and 86400, or 0x7FFFFFFF for live locations that can be edited indefinitely.
    */
-  live_period?: number;
+  live_period?: number | undefined;
   /**
    * For live locations, a direction in which the user is moving, in degrees. Must be between 1 and 360 if specified.
    */
-  heading?: number;
+  heading?: number | undefined;
   /**
    * For live locations, a maximum distance for proximity alerts about approaching another chat member, in meters. Must be between 1 and 100000 if specified.
    */
-  proximity_alert_radius?: number;
+  proximity_alert_radius?: number | undefined;
   /**
    * Sends the message silently. Users will receive a notification with no sound.
    */
-  disable_notification?: boolean;
+  disable_notification?: boolean | undefined;
   /**
    * Protects the contents of the sent message from forwarding and saving
    */
-  protect_content?: boolean;
+  protect_content?: boolean | undefined;
   /**
    * Pass True to allow up to 1000 messages per second, ignoring broadcasting limits for a fee of 0.1 Telegram Stars per message. The relevant Stars will be withdrawn from the bot's balance
    */
-  allow_paid_broadcast?: boolean;
+  allow_paid_broadcast?: boolean | undefined;
   /**
    * Unique identifier of the message effect to be added to the message; for private chats only
    */
-  message_effect_id?: string;
+  message_effect_id?: string | undefined;
   /**
    * Description of the message to reply to
    */
-  reply_parameters?: TgReplyParameters;
+  reply_parameters?: TgReplyParameters | undefined;
   /**
    * Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove a reply keyboard or to force a reply from the user
    */
@@ -1940,7 +1950,8 @@ export type TgSendLocationParams = {
     | TgInlineKeyboardMarkup
     | TgReplyKeyboardMarkup
     | TgReplyKeyboardRemove
-    | TgForceReply;
+    | TgForceReply
+    | undefined;
 };
 /**
  * Parameters of {@link TgApi.sendVenue} method.
@@ -1951,7 +1962,7 @@ export type TgSendVenueParams = {
   /**
    * Unique identifier of the business connection on behalf of which the message will be sent
    */
-  business_connection_id?: string;
+  business_connection_id?: string | undefined;
   /**
    * Unique identifier for the target chat or username of the target channel (in the format @channelusername)
    */
@@ -1959,7 +1970,7 @@ export type TgSendVenueParams = {
   /**
    * Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
    */
-  message_thread_id?: number;
+  message_thread_id?: number | undefined;
   /**
    * Latitude of the venue
    */
@@ -1979,39 +1990,39 @@ export type TgSendVenueParams = {
   /**
    * Foursquare identifier of the venue
    */
-  foursquare_id?: string;
+  foursquare_id?: string | undefined;
   /**
    * Foursquare type of the venue, if known. (For example, "arts_entertainment/default", "arts_entertainment/aquarium" or "food/icecream".)
    */
-  foursquare_type?: string;
+  foursquare_type?: string | undefined;
   /**
    * Google Places identifier of the venue
    */
-  google_place_id?: string;
+  google_place_id?: string | undefined;
   /**
    * Google Places type of the venue. (See supported types.)
    */
-  google_place_type?: string;
+  google_place_type?: string | undefined;
   /**
    * Sends the message silently. Users will receive a notification with no sound.
    */
-  disable_notification?: boolean;
+  disable_notification?: boolean | undefined;
   /**
    * Protects the contents of the sent message from forwarding and saving
    */
-  protect_content?: boolean;
+  protect_content?: boolean | undefined;
   /**
    * Pass True to allow up to 1000 messages per second, ignoring broadcasting limits for a fee of 0.1 Telegram Stars per message. The relevant Stars will be withdrawn from the bot's balance
    */
-  allow_paid_broadcast?: boolean;
+  allow_paid_broadcast?: boolean | undefined;
   /**
    * Unique identifier of the message effect to be added to the message; for private chats only
    */
-  message_effect_id?: string;
+  message_effect_id?: string | undefined;
   /**
    * Description of the message to reply to
    */
-  reply_parameters?: TgReplyParameters;
+  reply_parameters?: TgReplyParameters | undefined;
   /**
    * Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove a reply keyboard or to force a reply from the user
    */
@@ -2019,7 +2030,8 @@ export type TgSendVenueParams = {
     | TgInlineKeyboardMarkup
     | TgReplyKeyboardMarkup
     | TgReplyKeyboardRemove
-    | TgForceReply;
+    | TgForceReply
+    | undefined;
 };
 /**
  * Parameters of {@link TgApi.sendContact} method.
@@ -2030,7 +2042,7 @@ export type TgSendContactParams = {
   /**
    * Unique identifier of the business connection on behalf of which the message will be sent
    */
-  business_connection_id?: string;
+  business_connection_id?: string | undefined;
   /**
    * Unique identifier for the target chat or username of the target channel (in the format @channelusername)
    */
@@ -2038,7 +2050,7 @@ export type TgSendContactParams = {
   /**
    * Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
    */
-  message_thread_id?: number;
+  message_thread_id?: number | undefined;
   /**
    * Contact's phone number
    */
@@ -2050,31 +2062,31 @@ export type TgSendContactParams = {
   /**
    * Contact's last name
    */
-  last_name?: string;
+  last_name?: string | undefined;
   /**
    * Additional data about the contact in the form of a vCard, 0-2048 bytes
    */
-  vcard?: string;
+  vcard?: string | undefined;
   /**
    * Sends the message silently. Users will receive a notification with no sound.
    */
-  disable_notification?: boolean;
+  disable_notification?: boolean | undefined;
   /**
    * Protects the contents of the sent message from forwarding and saving
    */
-  protect_content?: boolean;
+  protect_content?: boolean | undefined;
   /**
    * Pass True to allow up to 1000 messages per second, ignoring broadcasting limits for a fee of 0.1 Telegram Stars per message. The relevant Stars will be withdrawn from the bot's balance
    */
-  allow_paid_broadcast?: boolean;
+  allow_paid_broadcast?: boolean | undefined;
   /**
    * Unique identifier of the message effect to be added to the message; for private chats only
    */
-  message_effect_id?: string;
+  message_effect_id?: string | undefined;
   /**
    * Description of the message to reply to
    */
-  reply_parameters?: TgReplyParameters;
+  reply_parameters?: TgReplyParameters | undefined;
   /**
    * Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove a reply keyboard or to force a reply from the user
    */
@@ -2082,7 +2094,8 @@ export type TgSendContactParams = {
     | TgInlineKeyboardMarkup
     | TgReplyKeyboardMarkup
     | TgReplyKeyboardRemove
-    | TgForceReply;
+    | TgForceReply
+    | undefined;
 };
 /**
  * Parameters of {@link TgApi.sendPoll} method.
@@ -2093,7 +2106,7 @@ export type TgSendPollParams = {
   /**
    * Unique identifier of the business connection on behalf of which the message will be sent
    */
-  business_connection_id?: string;
+  business_connection_id?: string | undefined;
   /**
    * Unique identifier for the target chat or username of the target channel (in the format @channelusername)
    */
@@ -2101,7 +2114,7 @@ export type TgSendPollParams = {
   /**
    * Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
    */
-  message_thread_id?: number;
+  message_thread_id?: number | undefined;
   /**
    * Poll question, 1-300 characters
    */
@@ -2109,11 +2122,11 @@ export type TgSendPollParams = {
   /**
    * Mode for parsing entities in the question. See formatting options for more details. Currently, only custom emoji entities are allowed
    */
-  question_parse_mode?: undefined | "HTML" | "Markdown" | "MarkdownV2";
+  question_parse_mode?: "HTML" | "Markdown" | "MarkdownV2" | undefined;
   /**
    * A JSON-serialized list of special entities that appear in the poll question. It can be specified instead of question_parse_mode
    */
-  question_entities?: TgMessageEntity[];
+  question_entities?: TgMessageEntity[] | undefined;
   /**
    * A JSON-serialized list of 2-10 answer options
    */
@@ -2121,63 +2134,63 @@ export type TgSendPollParams = {
   /**
    * True, if the poll needs to be anonymous, defaults to True
    */
-  is_anonymous?: boolean;
+  is_anonymous?: boolean | undefined;
   /**
    * Poll type, "quiz" or "regular", defaults to "regular"
    */
-  type?: string;
+  type?: string | undefined;
   /**
    * True, if the poll allows multiple answers, ignored for polls in quiz mode, defaults to False
    */
-  allows_multiple_answers?: boolean;
+  allows_multiple_answers?: boolean | undefined;
   /**
    * 0-based identifier of the correct answer option, required for polls in quiz mode
    */
-  correct_option_id?: number;
+  correct_option_id?: number | undefined;
   /**
    * Text that is shown when a user chooses an incorrect answer or taps on the lamp icon in a quiz-style poll, 0-200 characters with at most 2 line feeds after entities parsing
    */
-  explanation?: string;
+  explanation?: string | undefined;
   /**
    * Mode for parsing entities in the explanation. See formatting options for more details.
    */
-  explanation_parse_mode?: undefined | "HTML" | "Markdown" | "MarkdownV2";
+  explanation_parse_mode?: "HTML" | "Markdown" | "MarkdownV2" | undefined;
   /**
    * A JSON-serialized list of special entities that appear in the poll explanation. It can be specified instead of explanation_parse_mode
    */
-  explanation_entities?: TgMessageEntity[];
+  explanation_entities?: TgMessageEntity[] | undefined;
   /**
    * Amount of time in seconds the poll will be active after creation, 5-600. Can't be used together with close_date.
    */
-  open_period?: number;
+  open_period?: number | undefined;
   /**
    * Point in time (Unix timestamp) when the poll will be automatically closed. Must be at least 5 and no more than 600 seconds in the future. Can't be used together with open_period.
    */
-  close_date?: number;
+  close_date?: number | undefined;
   /**
    * Pass True if the poll needs to be immediately closed. This can be useful for poll preview.
    */
-  is_closed?: boolean;
+  is_closed?: boolean | undefined;
   /**
    * Sends the message silently. Users will receive a notification with no sound.
    */
-  disable_notification?: boolean;
+  disable_notification?: boolean | undefined;
   /**
    * Protects the contents of the sent message from forwarding and saving
    */
-  protect_content?: boolean;
+  protect_content?: boolean | undefined;
   /**
    * Pass True to allow up to 1000 messages per second, ignoring broadcasting limits for a fee of 0.1 Telegram Stars per message. The relevant Stars will be withdrawn from the bot's balance
    */
-  allow_paid_broadcast?: boolean;
+  allow_paid_broadcast?: boolean | undefined;
   /**
    * Unique identifier of the message effect to be added to the message; for private chats only
    */
-  message_effect_id?: string;
+  message_effect_id?: string | undefined;
   /**
    * Description of the message to reply to
    */
-  reply_parameters?: TgReplyParameters;
+  reply_parameters?: TgReplyParameters | undefined;
   /**
    * Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove a reply keyboard or to force a reply from the user
    */
@@ -2185,7 +2198,8 @@ export type TgSendPollParams = {
     | TgInlineKeyboardMarkup
     | TgReplyKeyboardMarkup
     | TgReplyKeyboardRemove
-    | TgForceReply;
+    | TgForceReply
+    | undefined;
 };
 /**
  * Parameters of {@link TgApi.sendDice} method.
@@ -2196,7 +2210,7 @@ export type TgSendDiceParams = {
   /**
    * Unique identifier of the business connection on behalf of which the message will be sent
    */
-  business_connection_id?: string;
+  business_connection_id?: string | undefined;
   /**
    * Unique identifier for the target chat or username of the target channel (in the format @channelusername)
    */
@@ -2204,7 +2218,7 @@ export type TgSendDiceParams = {
   /**
    * Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
    */
-  message_thread_id?: number;
+  message_thread_id?: number | undefined;
   /**
    * Emoji on which the dice throw animation is based. Currently, must be one of "🎲", "🎯", "🏀", "⚽", "🎳", or "🎰". Dice can have values 1-6 for "🎲", "🎯" and "🎳", values 1-5 for "🏀" and "⚽", and values 1-64 for "🎰". Defaults to "🎲"
    */
@@ -2214,27 +2228,28 @@ export type TgSendDiceParams = {
     | "\uD83C\uDFC0"
     | "\u26BD"
     | "\uD83C\uDFB3"
-    | "\uD83C\uDFB0";
+    | "\uD83C\uDFB0"
+    | undefined;
   /**
    * Sends the message silently. Users will receive a notification with no sound.
    */
-  disable_notification?: boolean;
+  disable_notification?: boolean | undefined;
   /**
    * Protects the contents of the sent message from forwarding
    */
-  protect_content?: boolean;
+  protect_content?: boolean | undefined;
   /**
    * Pass True to allow up to 1000 messages per second, ignoring broadcasting limits for a fee of 0.1 Telegram Stars per message. The relevant Stars will be withdrawn from the bot's balance
    */
-  allow_paid_broadcast?: boolean;
+  allow_paid_broadcast?: boolean | undefined;
   /**
    * Unique identifier of the message effect to be added to the message; for private chats only
    */
-  message_effect_id?: string;
+  message_effect_id?: string | undefined;
   /**
    * Description of the message to reply to
    */
-  reply_parameters?: TgReplyParameters;
+  reply_parameters?: TgReplyParameters | undefined;
   /**
    * Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove a reply keyboard or to force a reply from the user
    */
@@ -2242,7 +2257,8 @@ export type TgSendDiceParams = {
     | TgInlineKeyboardMarkup
     | TgReplyKeyboardMarkup
     | TgReplyKeyboardRemove
-    | TgForceReply;
+    | TgForceReply
+    | undefined;
 };
 /**
  * Parameters of {@link TgApi.sendChatAction} method.
@@ -2253,7 +2269,7 @@ export type TgSendChatActionParams = {
   /**
    * Unique identifier of the business connection on behalf of which the action will be sent
    */
-  business_connection_id?: string;
+  business_connection_id?: string | undefined;
   /**
    * Unique identifier for the target chat or username of the target channel (in the format @channelusername)
    */
@@ -2261,7 +2277,7 @@ export type TgSendChatActionParams = {
   /**
    * Unique identifier for the target message thread; for supergroups only
    */
-  message_thread_id?: number;
+  message_thread_id?: number | undefined;
   /**
    * Type of action to broadcast. Choose one, depending on what the user is about to receive: typing for text messages, upload_photo for photos, record_video or upload_video for videos, record_voice or upload_voice for voice notes, upload_document for general files, choose_sticker for stickers, find_location for location data, record_video_note or upload_video_note for video notes.
    */
@@ -2284,11 +2300,11 @@ export type TgSetMessageReactionParams = {
   /**
    * A JSON-serialized list of reaction types to set on the message. Currently, as non-premium users, bots can set up to one reaction per message. A custom emoji reaction can be used if it is either already present on the message or explicitly allowed by chat administrators. Paid reactions can't be used by bots.
    */
-  reaction?: TgReactionType[];
+  reaction?: TgReactionType[] | undefined;
   /**
    * Pass True to set the reaction with a big animation
    */
-  is_big?: boolean;
+  is_big?: boolean | undefined;
 };
 /**
  * Parameters of {@link TgApi.getUserProfilePhotos} method.
@@ -2303,11 +2319,11 @@ export type TgGetUserProfilePhotosParams = {
   /**
    * Sequential number of the first photo to be returned. By default, all photos are returned.
    */
-  offset?: number;
+  offset?: number | undefined;
   /**
    * Limits the number of photos to be retrieved. Values between 1-100 are accepted. Defaults to 100.
    */
-  limit?: number;
+  limit?: number | undefined;
 };
 /**
  * Parameters of {@link TgApi.setUserEmojiStatus} method.
@@ -2322,11 +2338,11 @@ export type TgSetUserEmojiStatusParams = {
   /**
    * Custom emoji identifier of the emoji status to set. Pass an empty string to remove the status.
    */
-  emoji_status_custom_emoji_id?: string;
+  emoji_status_custom_emoji_id?: string | undefined;
   /**
    * Expiration date of the emoji status, if any
    */
-  emoji_status_expiration_date?: number;
+  emoji_status_expiration_date?: number | undefined;
 };
 /**
  * Parameters of {@link TgApi.getFile} method.
@@ -2356,11 +2372,11 @@ export type TgBanChatMemberParams = {
   /**
    * Date when the user will be unbanned; Unix time. If user is banned for more than 366 days or less than 30 seconds from the current time they are considered to be banned forever. Applied for supergroups and channels only.
    */
-  until_date?: number;
+  until_date?: number | undefined;
   /**
    * Pass True to delete all messages from the chat for the user that is being removed. If False, the user will be able to see messages in the group that were sent before the user was removed. Always True for supergroups and channels.
    */
-  revoke_messages?: boolean;
+  revoke_messages?: boolean | undefined;
 };
 /**
  * Parameters of {@link TgApi.unbanChatMember} method.
@@ -2379,7 +2395,7 @@ export type TgUnbanChatMemberParams = {
   /**
    * Do nothing if the user is not banned
    */
-  only_if_banned?: boolean;
+  only_if_banned?: boolean | undefined;
 };
 /**
  * Parameters of {@link TgApi.restrictChatMember} method.
@@ -2402,11 +2418,11 @@ export type TgRestrictChatMemberParams = {
   /**
    * Pass True if chat permissions are set independently. Otherwise, the can_send_other_messages and can_add_web_page_previews permissions will imply the can_send_messages, can_send_audios, can_send_documents, can_send_photos, can_send_videos, can_send_video_notes, and can_send_voice_notes permissions; the can_send_polls permission will imply the can_send_messages permission.
    */
-  use_independent_chat_permissions?: boolean;
+  use_independent_chat_permissions?: boolean | undefined;
   /**
    * Date when restrictions will be lifted for the user; Unix time. If user is restricted for more than 366 days or less than 30 seconds from the current time, they are considered to be restricted forever
    */
-  until_date?: number;
+  until_date?: number | undefined;
 };
 /**
  * Parameters of {@link TgApi.promoteChatMember} method.
@@ -2425,63 +2441,63 @@ export type TgPromoteChatMemberParams = {
   /**
    * Pass True if the administrator's presence in the chat is hidden
    */
-  is_anonymous?: boolean;
+  is_anonymous?: boolean | undefined;
   /**
    * Pass True if the administrator can access the chat event log, get boost list, see hidden supergroup and channel members, report spam messages and ignore slow mode. Implied by any other administrator privilege.
    */
-  can_manage_chat?: boolean;
+  can_manage_chat?: boolean | undefined;
   /**
    * Pass True if the administrator can delete messages of other users
    */
-  can_delete_messages?: boolean;
+  can_delete_messages?: boolean | undefined;
   /**
    * Pass True if the administrator can manage video chats
    */
-  can_manage_video_chats?: boolean;
+  can_manage_video_chats?: boolean | undefined;
   /**
    * Pass True if the administrator can restrict, ban or unban chat members, or access supergroup statistics
    */
-  can_restrict_members?: boolean;
+  can_restrict_members?: boolean | undefined;
   /**
    * Pass True if the administrator can add new administrators with a subset of their own privileges or demote administrators that they have promoted, directly or indirectly (promoted by administrators that were appointed by him)
    */
-  can_promote_members?: boolean;
+  can_promote_members?: boolean | undefined;
   /**
    * Pass True if the administrator can change chat title, photo and other settings
    */
-  can_change_info?: boolean;
+  can_change_info?: boolean | undefined;
   /**
    * Pass True if the administrator can invite new users to the chat
    */
-  can_invite_users?: boolean;
+  can_invite_users?: boolean | undefined;
   /**
    * Pass True if the administrator can post stories to the chat
    */
-  can_post_stories?: boolean;
+  can_post_stories?: boolean | undefined;
   /**
    * Pass True if the administrator can edit stories posted by other users, post stories to the chat page, pin chat stories, and access the chat's story archive
    */
-  can_edit_stories?: boolean;
+  can_edit_stories?: boolean | undefined;
   /**
    * Pass True if the administrator can delete stories posted by other users
    */
-  can_delete_stories?: boolean;
+  can_delete_stories?: boolean | undefined;
   /**
    * Pass True if the administrator can post messages in the channel, or access channel statistics; for channels only
    */
-  can_post_messages?: boolean;
+  can_post_messages?: boolean | undefined;
   /**
    * Pass True if the administrator can edit messages of other users and can pin messages; for channels only
    */
-  can_edit_messages?: boolean;
+  can_edit_messages?: boolean | undefined;
   /**
    * Pass True if the administrator can pin messages; for supergroups only
    */
-  can_pin_messages?: boolean;
+  can_pin_messages?: boolean | undefined;
   /**
    * Pass True if the user is allowed to create, rename, close, and reopen forum topics; for supergroups only
    */
-  can_manage_topics?: boolean;
+  can_manage_topics?: boolean | undefined;
 };
 /**
  * Parameters of {@link TgApi.setChatAdministratorCustomTitle} method.
@@ -2549,7 +2565,7 @@ export type TgSetChatPermissionsParams = {
   /**
    * Pass True if chat permissions are set independently. Otherwise, the can_send_other_messages and can_add_web_page_previews permissions will imply the can_send_messages, can_send_audios, can_send_documents, can_send_photos, can_send_videos, can_send_video_notes, and can_send_voice_notes permissions; the can_send_polls permission will imply the can_send_messages permission.
    */
-  use_independent_chat_permissions?: boolean;
+  use_independent_chat_permissions?: boolean | undefined;
 };
 /**
  * Parameters of {@link TgApi.exportChatInviteLink} method.
@@ -2575,19 +2591,19 @@ export type TgCreateChatInviteLinkParams = {
   /**
    * Invite link name; 0-32 characters
    */
-  name?: string;
+  name?: string | undefined;
   /**
    * Point in time (Unix timestamp) when the link will expire
    */
-  expire_date?: number;
+  expire_date?: number | undefined;
   /**
    * The maximum number of users that can be members of the chat simultaneously after joining the chat via this invite link; 1-99999
    */
-  member_limit?: number;
+  member_limit?: number | undefined;
   /**
    * True, if users joining the chat via the link need to be approved by chat administrators. If True, member_limit can't be specified
    */
-  creates_join_request?: boolean;
+  creates_join_request?: boolean | undefined;
 };
 /**
  * Parameters of {@link TgApi.editChatInviteLink} method.
@@ -2606,19 +2622,19 @@ export type TgEditChatInviteLinkParams = {
   /**
    * Invite link name; 0-32 characters
    */
-  name?: string;
+  name?: string | undefined;
   /**
    * Point in time (Unix timestamp) when the link will expire
    */
-  expire_date?: number;
+  expire_date?: number | undefined;
   /**
    * The maximum number of users that can be members of the chat simultaneously after joining the chat via this invite link; 1-99999
    */
-  member_limit?: number;
+  member_limit?: number | undefined;
   /**
    * True, if users joining the chat via the link need to be approved by chat administrators. If True, member_limit can't be specified
    */
-  creates_join_request?: boolean;
+  creates_join_request?: boolean | undefined;
 };
 /**
  * Parameters of {@link TgApi.createChatSubscriptionInviteLink} method.
@@ -2633,7 +2649,7 @@ export type TgCreateChatSubscriptionInviteLinkParams = {
   /**
    * Invite link name; 0-32 characters
    */
-  name?: string;
+  name?: string | undefined;
   /**
    * The number of seconds the subscription will be active for before the next payment. Currently, it must always be 2592000 (30 days).
    */
@@ -2660,7 +2676,7 @@ export type TgEditChatSubscriptionInviteLinkParams = {
   /**
    * Invite link name; 0-32 characters
    */
-  name?: string;
+  name?: string | undefined;
 };
 /**
  * Parameters of {@link TgApi.revokeChatInviteLink} method.
@@ -2761,7 +2777,7 @@ export type TgSetChatDescriptionParams = {
   /**
    * New chat description, 0-255 characters
    */
-  description?: string;
+  description?: string | undefined;
 };
 /**
  * Parameters of {@link TgApi.pinChatMessage} method.
@@ -2772,7 +2788,7 @@ export type TgPinChatMessageParams = {
   /**
    * Unique identifier of the business connection on behalf of which the message will be pinned
    */
-  business_connection_id?: string;
+  business_connection_id?: string | undefined;
   /**
    * Unique identifier for the target chat or username of the target channel (in the format @channelusername)
    */
@@ -2784,7 +2800,7 @@ export type TgPinChatMessageParams = {
   /**
    * Pass True if it is not necessary to send a notification to all chat members about the new pinned message. Notifications are always disabled in channels and private chats.
    */
-  disable_notification?: boolean;
+  disable_notification?: boolean | undefined;
 };
 /**
  * Parameters of {@link TgApi.unpinChatMessage} method.
@@ -2795,7 +2811,7 @@ export type TgUnpinChatMessageParams = {
   /**
    * Unique identifier of the business connection on behalf of which the message will be unpinned
    */
-  business_connection_id?: string;
+  business_connection_id?: string | undefined;
   /**
    * Unique identifier for the target chat or username of the target channel (in the format @channelusername)
    */
@@ -2803,7 +2819,7 @@ export type TgUnpinChatMessageParams = {
   /**
    * Identifier of the message to unpin. Required if business_connection_id is specified. If not specified, the most recent pinned message (by sending date) will be unpinned.
    */
-  message_id?: number;
+  message_id?: number | undefined;
 };
 /**
  * Parameters of {@link TgApi.unpinAllChatMessages} method.
@@ -2918,11 +2934,11 @@ export type TgCreateForumTopicParams = {
   /**
    * Color of the topic icon in RGB format. Currently, must be one of 7322096 (0x6FB9F0), 16766590 (0xFFD67E), 13338331 (0xCB86DB), 9367192 (0x8EEE98), 16749490 (0xFF93B2), or 16478047 (0xFB6F5F)
    */
-  icon_color?: number;
+  icon_color?: number | undefined;
   /**
    * Unique identifier of the custom emoji shown as the topic icon. Use getForumTopicIconStickers to get all allowed custom emoji identifiers.
    */
-  icon_custom_emoji_id?: string;
+  icon_custom_emoji_id?: string | undefined;
 };
 /**
  * Parameters of {@link TgApi.editForumTopic} method.
@@ -2941,11 +2957,11 @@ export type TgEditForumTopicParams = {
   /**
    * New topic name, 0-128 characters. If not specified or empty, the current name of the topic will be kept
    */
-  name?: string;
+  name?: string | undefined;
   /**
    * New unique identifier of the custom emoji shown as the topic icon. Use getForumTopicIconStickers to get all allowed custom emoji identifiers. Pass an empty string to remove the icon. If not specified, the current icon will be kept
    */
-  icon_custom_emoji_id?: string;
+  icon_custom_emoji_id?: string | undefined;
 };
 /**
  * Parameters of {@link TgApi.closeForumTopic} method.
@@ -3090,19 +3106,19 @@ export type TgAnswerCallbackQueryParams = {
   /**
    * Text of the notification. If not specified, nothing will be shown to the user, 0-200 characters
    */
-  text?: string;
+  text?: string | undefined;
   /**
    * If True, an alert will be shown by the client instead of a notification at the top of the chat screen. Defaults to false.
    */
-  show_alert?: boolean;
+  show_alert?: boolean | undefined;
   /**
    * URL that will be opened by the user's client. If you have created a Game and accepted the conditions via @BotFather, specify the URL that opens your game - note that this will only work if the query comes from a callback_game button. Otherwise, you may use links like t.me/your_bot?start=XXXX that open your bot with a parameter.
    */
-  url?: string;
+  url?: string | undefined;
   /**
    * The maximum amount of time in seconds that the result of the callback query may be cached client-side. Telegram apps will support caching starting in version 3.14. Defaults to 0.
    */
-  cache_time?: number;
+  cache_time?: number | undefined;
 };
 /**
  * Parameters of {@link TgApi.getUserChatBoosts} method.
@@ -3143,11 +3159,11 @@ export type TgSetMyCommandsParams = {
   /**
    * A JSON-serialized object, describing scope of users for which the commands are relevant. Defaults to BotCommandScopeDefault.
    */
-  scope?: TgBotCommandScope;
+  scope?: TgBotCommandScope | undefined;
   /**
    * A two-letter ISO 639-1 language code. If empty, commands will be applied to all users from the given scope, for whose language there are no dedicated commands
    */
-  language_code?: string;
+  language_code?: string | undefined;
 };
 /**
  * Parameters of {@link TgApi.deleteMyCommands} method.
@@ -3158,11 +3174,11 @@ export type TgDeleteMyCommandsParams = {
   /**
    * A JSON-serialized object, describing scope of users for which the commands are relevant. Defaults to BotCommandScopeDefault.
    */
-  scope?: TgBotCommandScope;
+  scope?: TgBotCommandScope | undefined;
   /**
    * A two-letter ISO 639-1 language code. If empty, commands will be applied to all users from the given scope, for whose language there are no dedicated commands
    */
-  language_code?: string;
+  language_code?: string | undefined;
 };
 /**
  * Parameters of {@link TgApi.getMyCommands} method.
@@ -3173,11 +3189,11 @@ export type TgGetMyCommandsParams = {
   /**
    * A JSON-serialized object, describing scope of users. Defaults to BotCommandScopeDefault.
    */
-  scope?: TgBotCommandScope;
+  scope?: TgBotCommandScope | undefined;
   /**
    * A two-letter ISO 639-1 language code or an empty string
    */
-  language_code?: string;
+  language_code?: string | undefined;
 };
 /**
  * Parameters of {@link TgApi.setMyName} method.
@@ -3188,11 +3204,11 @@ export type TgSetMyNameParams = {
   /**
    * New bot name; 0-64 characters. Pass an empty string to remove the dedicated name for the given language.
    */
-  name?: string;
+  name?: string | undefined;
   /**
    * A two-letter ISO 639-1 language code. If empty, the name will be shown to all users for whose language there is no dedicated name.
    */
-  language_code?: string;
+  language_code?: string | undefined;
 };
 /**
  * Parameters of {@link TgApi.getMyName} method.
@@ -3203,7 +3219,7 @@ export type TgGetMyNameParams = {
   /**
    * A two-letter ISO 639-1 language code or an empty string
    */
-  language_code?: string;
+  language_code?: string | undefined;
 };
 /**
  * Parameters of {@link TgApi.setMyDescription} method.
@@ -3214,11 +3230,11 @@ export type TgSetMyDescriptionParams = {
   /**
    * New bot description; 0-512 characters. Pass an empty string to remove the dedicated description for the given language.
    */
-  description?: string;
+  description?: string | undefined;
   /**
    * A two-letter ISO 639-1 language code. If empty, the description will be applied to all users for whose language there is no dedicated description.
    */
-  language_code?: string;
+  language_code?: string | undefined;
 };
 /**
  * Parameters of {@link TgApi.getMyDescription} method.
@@ -3229,7 +3245,7 @@ export type TgGetMyDescriptionParams = {
   /**
    * A two-letter ISO 639-1 language code or an empty string
    */
-  language_code?: string;
+  language_code?: string | undefined;
 };
 /**
  * Parameters of {@link TgApi.setMyShortDescription} method.
@@ -3240,11 +3256,11 @@ export type TgSetMyShortDescriptionParams = {
   /**
    * New short description for the bot; 0-120 characters. Pass an empty string to remove the dedicated short description for the given language.
    */
-  short_description?: string;
+  short_description?: string | undefined;
   /**
    * A two-letter ISO 639-1 language code. If empty, the short description will be applied to all users for whose language there is no dedicated short description.
    */
-  language_code?: string;
+  language_code?: string | undefined;
 };
 /**
  * Parameters of {@link TgApi.getMyShortDescription} method.
@@ -3255,7 +3271,7 @@ export type TgGetMyShortDescriptionParams = {
   /**
    * A two-letter ISO 639-1 language code or an empty string
    */
-  language_code?: string;
+  language_code?: string | undefined;
 };
 /**
  * Parameters of {@link TgApi.setChatMenuButton} method.
@@ -3266,11 +3282,11 @@ export type TgSetChatMenuButtonParams = {
   /**
    * Unique identifier for the target private chat. If not specified, default bot's menu button will be changed
    */
-  chat_id?: number;
+  chat_id?: number | undefined;
   /**
    * A JSON-serialized object for the bot's new menu button. Defaults to MenuButtonDefault
    */
-  menu_button?: TgMenuButton;
+  menu_button?: TgMenuButton | undefined;
 };
 /**
  * Parameters of {@link TgApi.getChatMenuButton} method.
@@ -3281,7 +3297,7 @@ export type TgGetChatMenuButtonParams = {
   /**
    * Unique identifier for the target private chat. If not specified, default bot's menu button will be returned
    */
-  chat_id?: number;
+  chat_id?: number | undefined;
 };
 /**
  * Parameters of {@link TgApi.setMyDefaultAdministratorRights} method.
@@ -3292,11 +3308,11 @@ export type TgSetMyDefaultAdministratorRightsParams = {
   /**
    * A JSON-serialized object describing new default administrator rights. If not specified, the default administrator rights will be cleared.
    */
-  rights?: TgChatAdministratorRights;
+  rights?: TgChatAdministratorRights | undefined;
   /**
    * Pass True to change the default administrator rights of the bot in channels. Otherwise, the default administrator rights of the bot for groups and supergroups will be changed.
    */
-  for_channels?: boolean;
+  for_channels?: boolean | undefined;
 };
 /**
  * Parameters of {@link TgApi.getMyDefaultAdministratorRights} method.
@@ -3307,7 +3323,7 @@ export type TgGetMyDefaultAdministratorRightsParams = {
   /**
    * Pass True to get default administrator rights of the bot in channels. Otherwise, default administrator rights of the bot for groups and supergroups will be returned.
    */
-  for_channels?: boolean;
+  for_channels?: boolean | undefined;
 };
 /**
  * Parameters of {@link TgApi.editMessageText} method.
@@ -3318,19 +3334,19 @@ export type TgEditMessageTextParams = {
   /**
    * Unique identifier of the business connection on behalf of which the message to be edited was sent
    */
-  business_connection_id?: string;
+  business_connection_id?: string | undefined;
   /**
    * Required if inline_message_id is not specified. Unique identifier for the target chat or username of the target channel (in the format @channelusername)
    */
-  chat_id?: number | string;
+  chat_id?: number | string | undefined;
   /**
    * Required if inline_message_id is not specified. Identifier of the message to edit
    */
-  message_id?: number;
+  message_id?: number | undefined;
   /**
    * Required if chat_id and message_id are not specified. Identifier of the inline message
    */
-  inline_message_id?: string;
+  inline_message_id?: string | undefined;
   /**
    * New text of the message, 1-4096 characters after entities parsing
    */
@@ -3338,19 +3354,19 @@ export type TgEditMessageTextParams = {
   /**
    * Mode for parsing entities in the message text. See formatting options for more details.
    */
-  parse_mode?: undefined | "HTML" | "Markdown" | "MarkdownV2";
+  parse_mode?: "HTML" | "Markdown" | "MarkdownV2" | undefined;
   /**
    * A JSON-serialized list of special entities that appear in message text, which can be specified instead of parse_mode
    */
-  entities?: TgMessageEntity[];
+  entities?: TgMessageEntity[] | undefined;
   /**
    * Link preview generation options for the message
    */
-  link_preview_options?: TgLinkPreviewOptions;
+  link_preview_options?: TgLinkPreviewOptions | undefined;
   /**
    * A JSON-serialized object for an inline keyboard.
    */
-  reply_markup?: TgInlineKeyboardMarkup;
+  reply_markup?: TgInlineKeyboardMarkup | undefined;
 };
 /**
  * Parameters of {@link TgApi.editMessageCaption} method.
@@ -3361,39 +3377,39 @@ export type TgEditMessageCaptionParams = {
   /**
    * Unique identifier of the business connection on behalf of which the message to be edited was sent
    */
-  business_connection_id?: string;
+  business_connection_id?: string | undefined;
   /**
    * Required if inline_message_id is not specified. Unique identifier for the target chat or username of the target channel (in the format @channelusername)
    */
-  chat_id?: number | string;
+  chat_id?: number | string | undefined;
   /**
    * Required if inline_message_id is not specified. Identifier of the message to edit
    */
-  message_id?: number;
+  message_id?: number | undefined;
   /**
    * Required if chat_id and message_id are not specified. Identifier of the inline message
    */
-  inline_message_id?: string;
+  inline_message_id?: string | undefined;
   /**
    * New caption of the message, 0-1024 characters after entities parsing
    */
-  caption?: string;
+  caption?: string | undefined;
   /**
    * Mode for parsing entities in the message caption. See formatting options for more details.
    */
-  parse_mode?: undefined | "HTML" | "Markdown" | "MarkdownV2";
+  parse_mode?: "HTML" | "Markdown" | "MarkdownV2" | undefined;
   /**
    * A JSON-serialized list of special entities that appear in the caption, which can be specified instead of parse_mode
    */
-  caption_entities?: TgMessageEntity[];
+  caption_entities?: TgMessageEntity[] | undefined;
   /**
    * Pass True, if the caption must be shown above the message media. Supported only for animation, photo and video messages.
    */
-  show_caption_above_media?: boolean;
+  show_caption_above_media?: boolean | undefined;
   /**
    * A JSON-serialized object for an inline keyboard.
    */
-  reply_markup?: TgInlineKeyboardMarkup;
+  reply_markup?: TgInlineKeyboardMarkup | undefined;
 };
 /**
  * Parameters of {@link TgApi.editMessageMedia} method.
@@ -3404,19 +3420,19 @@ export type TgEditMessageMediaParams = {
   /**
    * Unique identifier of the business connection on behalf of which the message to be edited was sent
    */
-  business_connection_id?: string;
+  business_connection_id?: string | undefined;
   /**
    * Required if inline_message_id is not specified. Unique identifier for the target chat or username of the target channel (in the format @channelusername)
    */
-  chat_id?: number | string;
+  chat_id?: number | string | undefined;
   /**
    * Required if inline_message_id is not specified. Identifier of the message to edit
    */
-  message_id?: number;
+  message_id?: number | undefined;
   /**
    * Required if chat_id and message_id are not specified. Identifier of the inline message
    */
-  inline_message_id?: string;
+  inline_message_id?: string | undefined;
   /**
    * A JSON-serialized object for a new media content of the message
    */
@@ -3424,7 +3440,7 @@ export type TgEditMessageMediaParams = {
   /**
    * A JSON-serialized object for a new inline keyboard.
    */
-  reply_markup?: TgInlineKeyboardMarkup;
+  reply_markup?: TgInlineKeyboardMarkup | undefined;
 };
 /**
  * Parameters of {@link TgApi.editMessageLiveLocation} method.
@@ -3435,19 +3451,19 @@ export type TgEditMessageLiveLocationParams = {
   /**
    * Unique identifier of the business connection on behalf of which the message to be edited was sent
    */
-  business_connection_id?: string;
+  business_connection_id?: string | undefined;
   /**
    * Required if inline_message_id is not specified. Unique identifier for the target chat or username of the target channel (in the format @channelusername)
    */
-  chat_id?: number | string;
+  chat_id?: number | string | undefined;
   /**
    * Required if inline_message_id is not specified. Identifier of the message to edit
    */
-  message_id?: number;
+  message_id?: number | undefined;
   /**
    * Required if chat_id and message_id are not specified. Identifier of the inline message
    */
-  inline_message_id?: string;
+  inline_message_id?: string | undefined;
   /**
    * Latitude of new location
    */
@@ -3459,23 +3475,23 @@ export type TgEditMessageLiveLocationParams = {
   /**
    * New period in seconds during which the location can be updated, starting from the message send date. If 0x7FFFFFFF is specified, then the location can be updated forever. Otherwise, the new value must not exceed the current live_period by more than a day, and the live location expiration date must remain within the next 90 days. If not specified, then live_period remains unchanged
    */
-  live_period?: number;
+  live_period?: number | undefined;
   /**
    * The radius of uncertainty for the location, measured in meters; 0-1500
    */
-  horizontal_accuracy?: number;
+  horizontal_accuracy?: number | undefined;
   /**
    * Direction in which the user is moving, in degrees. Must be between 1 and 360 if specified.
    */
-  heading?: number;
+  heading?: number | undefined;
   /**
    * The maximum distance for proximity alerts about approaching another chat member, in meters. Must be between 1 and 100000 if specified.
    */
-  proximity_alert_radius?: number;
+  proximity_alert_radius?: number | undefined;
   /**
    * A JSON-serialized object for a new inline keyboard.
    */
-  reply_markup?: TgInlineKeyboardMarkup;
+  reply_markup?: TgInlineKeyboardMarkup | undefined;
 };
 /**
  * Parameters of {@link TgApi.stopMessageLiveLocation} method.
@@ -3486,23 +3502,23 @@ export type TgStopMessageLiveLocationParams = {
   /**
    * Unique identifier of the business connection on behalf of which the message to be edited was sent
    */
-  business_connection_id?: string;
+  business_connection_id?: string | undefined;
   /**
    * Required if inline_message_id is not specified. Unique identifier for the target chat or username of the target channel (in the format @channelusername)
    */
-  chat_id?: number | string;
+  chat_id?: number | string | undefined;
   /**
    * Required if inline_message_id is not specified. Identifier of the message with live location to stop
    */
-  message_id?: number;
+  message_id?: number | undefined;
   /**
    * Required if chat_id and message_id are not specified. Identifier of the inline message
    */
-  inline_message_id?: string;
+  inline_message_id?: string | undefined;
   /**
    * A JSON-serialized object for a new inline keyboard.
    */
-  reply_markup?: TgInlineKeyboardMarkup;
+  reply_markup?: TgInlineKeyboardMarkup | undefined;
 };
 /**
  * Parameters of {@link TgApi.editMessageReplyMarkup} method.
@@ -3513,23 +3529,23 @@ export type TgEditMessageReplyMarkupParams = {
   /**
    * Unique identifier of the business connection on behalf of which the message to be edited was sent
    */
-  business_connection_id?: string;
+  business_connection_id?: string | undefined;
   /**
    * Required if inline_message_id is not specified. Unique identifier for the target chat or username of the target channel (in the format @channelusername)
    */
-  chat_id?: number | string;
+  chat_id?: number | string | undefined;
   /**
    * Required if inline_message_id is not specified. Identifier of the message to edit
    */
-  message_id?: number;
+  message_id?: number | undefined;
   /**
    * Required if chat_id and message_id are not specified. Identifier of the inline message
    */
-  inline_message_id?: string;
+  inline_message_id?: string | undefined;
   /**
    * A JSON-serialized object for an inline keyboard.
    */
-  reply_markup?: TgInlineKeyboardMarkup;
+  reply_markup?: TgInlineKeyboardMarkup | undefined;
 };
 /**
  * Parameters of {@link TgApi.stopPoll} method.
@@ -3540,7 +3556,7 @@ export type TgStopPollParams = {
   /**
    * Unique identifier of the business connection on behalf of which the message to be edited was sent
    */
-  business_connection_id?: string;
+  business_connection_id?: string | undefined;
   /**
    * Unique identifier for the target chat or username of the target channel (in the format @channelusername)
    */
@@ -3552,7 +3568,7 @@ export type TgStopPollParams = {
   /**
    * A JSON-serialized object for a new message inline keyboard.
    */
-  reply_markup?: TgInlineKeyboardMarkup;
+  reply_markup?: TgInlineKeyboardMarkup | undefined;
 };
 /**
  * Parameters of {@link TgApi.deleteMessage} method.
@@ -3593,7 +3609,7 @@ export type TgSendStickerParams = {
   /**
    * Unique identifier of the business connection on behalf of which the message will be sent
    */
-  business_connection_id?: string;
+  business_connection_id?: string | undefined;
   /**
    * Unique identifier for the target chat or username of the target channel (in the format @channelusername)
    */
@@ -3601,7 +3617,7 @@ export type TgSendStickerParams = {
   /**
    * Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
    */
-  message_thread_id?: number;
+  message_thread_id?: number | undefined;
   /**
    * Sticker to send. Pass a file_id as String to send a file that exists on the Telegram servers (recommended), pass an HTTP URL as a String for Telegram to get a .WEBP sticker from the Internet, or upload a new .WEBP, .TGS, or .WEBM sticker using multipart/form-data. More information on Sending Files: https://core.telegram.org/bots/api#sending-files. Video and animated stickers can't be sent via an HTTP URL.
    */
@@ -3609,27 +3625,27 @@ export type TgSendStickerParams = {
   /**
    * Emoji associated with the sticker; only for just uploaded stickers
    */
-  emoji?: string;
+  emoji?: string | undefined;
   /**
    * Sends the message silently. Users will receive a notification with no sound.
    */
-  disable_notification?: boolean;
+  disable_notification?: boolean | undefined;
   /**
    * Protects the contents of the sent message from forwarding and saving
    */
-  protect_content?: boolean;
+  protect_content?: boolean | undefined;
   /**
    * Pass True to allow up to 1000 messages per second, ignoring broadcasting limits for a fee of 0.1 Telegram Stars per message. The relevant Stars will be withdrawn from the bot's balance
    */
-  allow_paid_broadcast?: boolean;
+  allow_paid_broadcast?: boolean | undefined;
   /**
    * Unique identifier of the message effect to be added to the message; for private chats only
    */
-  message_effect_id?: string;
+  message_effect_id?: string | undefined;
   /**
    * Description of the message to reply to
    */
-  reply_parameters?: TgReplyParameters;
+  reply_parameters?: TgReplyParameters | undefined;
   /**
    * Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove a reply keyboard or to force a reply from the user
    */
@@ -3637,7 +3653,8 @@ export type TgSendStickerParams = {
     | TgInlineKeyboardMarkup
     | TgReplyKeyboardMarkup
     | TgReplyKeyboardRemove
-    | TgForceReply;
+    | TgForceReply
+    | undefined;
 };
 /**
  * Parameters of {@link TgApi.getStickerSet} method.
@@ -3705,11 +3722,11 @@ export type TgCreateNewStickerSetParams = {
   /**
    * Type of stickers in the set, pass "regular", "mask", or "custom_emoji". By default, a regular sticker set is created.
    */
-  sticker_type?: string;
+  sticker_type?: string | undefined;
   /**
    * Pass True if stickers in the sticker set must be repainted to the color of text when used in messages, the accent color if used as emoji status, white on chat photos, or another appropriate color based on context; for custom emoji sticker sets only
    */
-  needs_repainting?: boolean;
+  needs_repainting?: boolean | undefined;
 };
 /**
  * Parameters of {@link TgApi.addStickerToSet} method.
@@ -3807,7 +3824,7 @@ export type TgSetStickerKeywordsParams = {
   /**
    * A JSON-serialized list of 0-20 search keywords for the sticker with total length of up to 64 characters
    */
-  keywords?: string[];
+  keywords?: string[] | undefined;
 };
 /**
  * Parameters of {@link TgApi.setStickerMaskPosition} method.
@@ -3822,7 +3839,7 @@ export type TgSetStickerMaskPositionParams = {
   /**
    * A JSON-serialized object with the position where the mask should be placed on faces. Omit the parameter to remove the mask position.
    */
-  mask_position?: TgMaskPosition;
+  mask_position?: TgMaskPosition | undefined;
 };
 /**
  * Parameters of {@link TgApi.setStickerSetTitle} method.
@@ -3856,7 +3873,7 @@ export type TgSetStickerSetThumbnailParams = {
   /**
    * A .WEBP or .PNG image with the thumbnail, must be up to 128 kilobytes in size and have a width and height of exactly 100px, or a .TGS animation with a thumbnail up to 32 kilobytes in size (see https://core.telegram.org/stickers#animation-requirements for animated sticker technical requirements), or a .WEBM video with the thumbnail up to 32 kilobytes in size; see https://core.telegram.org/stickers#video-requirements for video sticker technical requirements. Pass a file_id as a String to send a file that already exists on the Telegram servers, pass an HTTP URL as a String for Telegram to get a file from the Internet, or upload a new one using multipart/form-data. More information on Sending Files: https://core.telegram.org/bots/api#sending-files. Animated and video sticker set thumbnails can't be uploaded via HTTP URL. If omitted, then the thumbnail is dropped and the first sticker is used as the thumbnail.
    */
-  thumbnail?: TgInputFile | string;
+  thumbnail?: TgInputFile | string | undefined;
   /**
    * Format of the thumbnail, must be one of "static" for a .WEBP or .PNG image, "animated" for a .TGS animation, or "video" for a .WEBM video
    */
@@ -3875,7 +3892,7 @@ export type TgSetCustomEmojiStickerSetThumbnailParams = {
   /**
    * Custom emoji identifier of a sticker from the sticker set; pass an empty string to drop the thumbnail and use the first sticker as the thumbnail.
    */
-  custom_emoji_id?: string;
+  custom_emoji_id?: string | undefined;
 };
 /**
  * Parameters of {@link TgApi.deleteStickerSet} method.
@@ -3897,11 +3914,11 @@ export type TgSendGiftParams = {
   /**
    * Required if chat_id is not specified. Unique identifier of the target user who will receive the gift.
    */
-  user_id?: number;
+  user_id?: number | undefined;
   /**
    * Required if user_id is not specified. Unique identifier for the chat or username of the channel (in the format @channelusername) that will receive the gift.
    */
-  chat_id?: number | string;
+  chat_id?: number | string | undefined;
   /**
    * Identifier of the gift
    */
@@ -3909,19 +3926,19 @@ export type TgSendGiftParams = {
   /**
    * Pass True to pay for the gift upgrade from the bot's balance, thereby making the upgrade free for the receiver
    */
-  pay_for_upgrade?: boolean;
+  pay_for_upgrade?: boolean | undefined;
   /**
    * Text that will be shown along with the gift; 0-128 characters
    */
-  text?: string;
+  text?: string | undefined;
   /**
    * Mode for parsing entities in the text. See formatting options for more details. Entities other than "bold", "italic", "underline", "strikethrough", "spoiler", and "custom_emoji" are ignored.
    */
-  text_parse_mode?: undefined | "HTML" | "Markdown" | "MarkdownV2";
+  text_parse_mode?: "HTML" | "Markdown" | "MarkdownV2" | undefined;
   /**
    * A JSON-serialized list of special entities that appear in the gift text. It can be specified instead of text_parse_mode. Entities other than "bold", "italic", "underline", "strikethrough", "spoiler", and "custom_emoji" are ignored.
    */
-  text_entities?: TgMessageEntity[];
+  text_entities?: TgMessageEntity[] | undefined;
 };
 /**
  * Parameters of {@link TgApi.verifyUser} method.
@@ -3936,7 +3953,7 @@ export type TgVerifyUserParams = {
   /**
    * Custom description for the verification; 0-70 characters. Must be empty if the organization isn't allowed to provide a custom verification description.
    */
-  custom_description?: string;
+  custom_description?: string | undefined;
 };
 /**
  * Parameters of {@link TgApi.verifyChat} method.
@@ -3951,7 +3968,7 @@ export type TgVerifyChatParams = {
   /**
    * Custom description for the verification; 0-70 characters. Must be empty if the organization isn't allowed to provide a custom verification description.
    */
-  custom_description?: string;
+  custom_description?: string | undefined;
 };
 /**
  * Parameters of {@link TgApi.removeUserVerification} method.
@@ -3992,19 +4009,19 @@ export type TgAnswerInlineQueryParams = {
   /**
    * The maximum amount of time in seconds that the result of the inline query may be cached on the server. Defaults to 300.
    */
-  cache_time?: number;
+  cache_time?: number | undefined;
   /**
    * Pass True if results may be cached on the server side only for the user that sent the query. By default, results may be returned to any user who sends the same query.
    */
-  is_personal?: boolean;
+  is_personal?: boolean | undefined;
   /**
    * Pass the offset that a client should send in the next query with the same text to receive more results. Pass an empty string if there are no more results or if you don't support pagination. Offset length can't exceed 64 bytes.
    */
-  next_offset?: string;
+  next_offset?: string | undefined;
   /**
    * A JSON-serialized object describing a button to be shown above inline query results
    */
-  button?: TgInlineQueryResultsButton;
+  button?: TgInlineQueryResultsButton | undefined;
 };
 /**
  * Parameters of {@link TgApi.answerWebAppQuery} method.
@@ -4038,19 +4055,19 @@ export type TgSavePreparedInlineMessageParams = {
   /**
    * Pass True if the message can be sent to private chats with users
    */
-  allow_user_chats?: boolean;
+  allow_user_chats?: boolean | undefined;
   /**
    * Pass True if the message can be sent to private chats with bots
    */
-  allow_bot_chats?: boolean;
+  allow_bot_chats?: boolean | undefined;
   /**
    * Pass True if the message can be sent to group and supergroup chats
    */
-  allow_group_chats?: boolean;
+  allow_group_chats?: boolean | undefined;
   /**
    * Pass True if the message can be sent to channel chats
    */
-  allow_channel_chats?: boolean;
+  allow_channel_chats?: boolean | undefined;
 };
 /**
  * Parameters of {@link TgApi.sendInvoice} method.
@@ -4065,7 +4082,7 @@ export type TgSendInvoiceParams = {
   /**
    * Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
    */
-  message_thread_id?: number;
+  message_thread_id?: number | undefined;
   /**
    * Product name, 1-32 characters
    */
@@ -4081,7 +4098,7 @@ export type TgSendInvoiceParams = {
   /**
    * Payment provider token, obtained via @BotFather. Pass an empty string for payments in Telegram Stars.
    */
-  provider_token?: string;
+  provider_token?: string | undefined;
   /**
    * Three-letter ISO 4217 currency code, see more on currencies. Pass "XTR" for payments in Telegram Stars.
    */
@@ -4093,87 +4110,87 @@ export type TgSendInvoiceParams = {
   /**
    * The maximum accepted amount for tips in the smallest units of the currency (integer, not float/double). For example, for a maximum tip of US$ 1.45 pass max_tip_amount = 145. See the exp parameter in currencies.json, it shows the number of digits past the decimal point for each currency (2 for the majority of currencies). Defaults to 0. Not supported for payments in Telegram Stars.
    */
-  max_tip_amount?: number;
+  max_tip_amount?: number | undefined;
   /**
    * A JSON-serialized array of suggested amounts of tips in the smallest units of the currency (integer, not float/double). At most 4 suggested tip amounts can be specified. The suggested tip amounts must be positive, passed in a strictly increased order and must not exceed max_tip_amount.
    */
-  suggested_tip_amounts?: number[];
+  suggested_tip_amounts?: number[] | undefined;
   /**
    * Unique deep-linking parameter. If left empty, forwarded copies of the sent message will have a Pay button, allowing multiple users to pay directly from the forwarded message, using the same invoice. If non-empty, forwarded copies of the sent message will have a URL button with a deep link to the bot (instead of a Pay button), with the value used as the start parameter
    */
-  start_parameter?: string;
+  start_parameter?: string | undefined;
   /**
    * JSON-serialized data about the invoice, which will be shared with the payment provider. A detailed description of required fields should be provided by the payment provider.
    */
-  provider_data?: string;
+  provider_data?: string | undefined;
   /**
    * URL of the product photo for the invoice. Can be a photo of the goods or a marketing image for a service. People like it better when they see what they are paying for.
    */
-  photo_url?: string;
+  photo_url?: string | undefined;
   /**
    * Photo size in bytes
    */
-  photo_size?: number;
+  photo_size?: number | undefined;
   /**
    * Photo width
    */
-  photo_width?: number;
+  photo_width?: number | undefined;
   /**
    * Photo height
    */
-  photo_height?: number;
+  photo_height?: number | undefined;
   /**
    * Pass True if you require the user's full name to complete the order. Ignored for payments in Telegram Stars.
    */
-  need_name?: boolean;
+  need_name?: boolean | undefined;
   /**
    * Pass True if you require the user's phone number to complete the order. Ignored for payments in Telegram Stars.
    */
-  need_phone_number?: boolean;
+  need_phone_number?: boolean | undefined;
   /**
    * Pass True if you require the user's email address to complete the order. Ignored for payments in Telegram Stars.
    */
-  need_email?: boolean;
+  need_email?: boolean | undefined;
   /**
    * Pass True if you require the user's shipping address to complete the order. Ignored for payments in Telegram Stars.
    */
-  need_shipping_address?: boolean;
+  need_shipping_address?: boolean | undefined;
   /**
    * Pass True if the user's phone number should be sent to the provider. Ignored for payments in Telegram Stars.
    */
-  send_phone_number_to_provider?: boolean;
+  send_phone_number_to_provider?: boolean | undefined;
   /**
    * Pass True if the user's email address should be sent to the provider. Ignored for payments in Telegram Stars.
    */
-  send_email_to_provider?: boolean;
+  send_email_to_provider?: boolean | undefined;
   /**
    * Pass True if the final price depends on the shipping method. Ignored for payments in Telegram Stars.
    */
-  is_flexible?: boolean;
+  is_flexible?: boolean | undefined;
   /**
    * Sends the message silently. Users will receive a notification with no sound.
    */
-  disable_notification?: boolean;
+  disable_notification?: boolean | undefined;
   /**
    * Protects the contents of the sent message from forwarding and saving
    */
-  protect_content?: boolean;
+  protect_content?: boolean | undefined;
   /**
    * Pass True to allow up to 1000 messages per second, ignoring broadcasting limits for a fee of 0.1 Telegram Stars per message. The relevant Stars will be withdrawn from the bot's balance
    */
-  allow_paid_broadcast?: boolean;
+  allow_paid_broadcast?: boolean | undefined;
   /**
    * Unique identifier of the message effect to be added to the message; for private chats only
    */
-  message_effect_id?: string;
+  message_effect_id?: string | undefined;
   /**
    * Description of the message to reply to
    */
-  reply_parameters?: TgReplyParameters;
+  reply_parameters?: TgReplyParameters | undefined;
   /**
    * A JSON-serialized object for an inline keyboard. If empty, one 'Pay total price' button will be shown. If not empty, the first button must be a Pay button.
    */
-  reply_markup?: TgInlineKeyboardMarkup;
+  reply_markup?: TgInlineKeyboardMarkup | undefined;
 };
 /**
  * Parameters of {@link TgApi.createInvoiceLink} method.
@@ -4184,7 +4201,7 @@ export type TgCreateInvoiceLinkParams = {
   /**
    * Unique identifier of the business connection on behalf of which the link will be created. For payments in Telegram Stars only.
    */
-  business_connection_id?: string;
+  business_connection_id?: string | undefined;
   /**
    * Product name, 1-32 characters
    */
@@ -4200,7 +4217,7 @@ export type TgCreateInvoiceLinkParams = {
   /**
    * Payment provider token, obtained via @BotFather. Pass an empty string for payments in Telegram Stars.
    */
-  provider_token?: string;
+  provider_token?: string | undefined;
   /**
    * Three-letter ISO 4217 currency code, see more on currencies. Pass "XTR" for payments in Telegram Stars.
    */
@@ -4212,63 +4229,63 @@ export type TgCreateInvoiceLinkParams = {
   /**
    * The number of seconds the subscription will be active for before the next payment. The currency must be set to "XTR" (Telegram Stars) if the parameter is used. Currently, it must always be 2592000 (30 days) if specified. Any number of subscriptions can be active for a given bot at the same time, including multiple concurrent subscriptions from the same user. Subscription price must no exceed 2500 Telegram Stars.
    */
-  subscription_period?: number;
+  subscription_period?: number | undefined;
   /**
    * The maximum accepted amount for tips in the smallest units of the currency (integer, not float/double). For example, for a maximum tip of US$ 1.45 pass max_tip_amount = 145. See the exp parameter in currencies.json, it shows the number of digits past the decimal point for each currency (2 for the majority of currencies). Defaults to 0. Not supported for payments in Telegram Stars.
    */
-  max_tip_amount?: number;
+  max_tip_amount?: number | undefined;
   /**
    * A JSON-serialized array of suggested amounts of tips in the smallest units of the currency (integer, not float/double). At most 4 suggested tip amounts can be specified. The suggested tip amounts must be positive, passed in a strictly increased order and must not exceed max_tip_amount.
    */
-  suggested_tip_amounts?: number[];
+  suggested_tip_amounts?: number[] | undefined;
   /**
    * JSON-serialized data about the invoice, which will be shared with the payment provider. A detailed description of required fields should be provided by the payment provider.
    */
-  provider_data?: string;
+  provider_data?: string | undefined;
   /**
    * URL of the product photo for the invoice. Can be a photo of the goods or a marketing image for a service.
    */
-  photo_url?: string;
+  photo_url?: string | undefined;
   /**
    * Photo size in bytes
    */
-  photo_size?: number;
+  photo_size?: number | undefined;
   /**
    * Photo width
    */
-  photo_width?: number;
+  photo_width?: number | undefined;
   /**
    * Photo height
    */
-  photo_height?: number;
+  photo_height?: number | undefined;
   /**
    * Pass True if you require the user's full name to complete the order. Ignored for payments in Telegram Stars.
    */
-  need_name?: boolean;
+  need_name?: boolean | undefined;
   /**
    * Pass True if you require the user's phone number to complete the order. Ignored for payments in Telegram Stars.
    */
-  need_phone_number?: boolean;
+  need_phone_number?: boolean | undefined;
   /**
    * Pass True if you require the user's email address to complete the order. Ignored for payments in Telegram Stars.
    */
-  need_email?: boolean;
+  need_email?: boolean | undefined;
   /**
    * Pass True if you require the user's shipping address to complete the order. Ignored for payments in Telegram Stars.
    */
-  need_shipping_address?: boolean;
+  need_shipping_address?: boolean | undefined;
   /**
    * Pass True if the user's phone number should be sent to the provider. Ignored for payments in Telegram Stars.
    */
-  send_phone_number_to_provider?: boolean;
+  send_phone_number_to_provider?: boolean | undefined;
   /**
    * Pass True if the user's email address should be sent to the provider. Ignored for payments in Telegram Stars.
    */
-  send_email_to_provider?: boolean;
+  send_email_to_provider?: boolean | undefined;
   /**
    * Pass True if the final price depends on the shipping method. Ignored for payments in Telegram Stars.
    */
-  is_flexible?: boolean;
+  is_flexible?: boolean | undefined;
 };
 /**
  * Parameters of {@link TgApi.answerShippingQuery} method.
@@ -4287,11 +4304,11 @@ export type TgAnswerShippingQueryParams = {
   /**
    * Required if ok is True. A JSON-serialized array of available shipping options.
    */
-  shipping_options?: TgShippingOption[];
+  shipping_options?: TgShippingOption[] | undefined;
   /**
    * Required if ok is False. Error message in human readable form that explains why it is impossible to complete the order (e.g. "Sorry, delivery to your desired address is unavailable"). Telegram will display this message to the user.
    */
-  error_message?: string;
+  error_message?: string | undefined;
 };
 /**
  * Parameters of {@link TgApi.answerPreCheckoutQuery} method.
@@ -4310,7 +4327,7 @@ export type TgAnswerPreCheckoutQueryParams = {
   /**
    * Required if ok is False. Error message in human readable form that explains the reason for failure to proceed with the checkout (e.g. "Sorry, somebody just bought the last of our amazing black T-shirts while you were busy filling out your payment details. Please choose a different color or garment!"). Telegram will display this message to the user.
    */
-  error_message?: string;
+  error_message?: string | undefined;
 };
 /**
  * Parameters of {@link TgApi.getStarTransactions} method.
@@ -4321,11 +4338,11 @@ export type TgGetStarTransactionsParams = {
   /**
    * Number of transactions to skip in the response
    */
-  offset?: number;
+  offset?: number | undefined;
   /**
    * The maximum number of transactions to be retrieved. Values between 1-100 are accepted. Defaults to 100.
    */
-  limit?: number;
+  limit?: number | undefined;
 };
 /**
  * Parameters of {@link TgApi.refundStarPayment} method.
@@ -4385,7 +4402,7 @@ export type TgSendGameParams = {
   /**
    * Unique identifier of the business connection on behalf of which the message will be sent
    */
-  business_connection_id?: string;
+  business_connection_id?: string | undefined;
   /**
    * Unique identifier for the target chat
    */
@@ -4393,7 +4410,7 @@ export type TgSendGameParams = {
   /**
    * Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
    */
-  message_thread_id?: number;
+  message_thread_id?: number | undefined;
   /**
    * Short name of the game, serves as the unique identifier for the game. Set up your games via @BotFather.
    */
@@ -4401,27 +4418,27 @@ export type TgSendGameParams = {
   /**
    * Sends the message silently. Users will receive a notification with no sound.
    */
-  disable_notification?: boolean;
+  disable_notification?: boolean | undefined;
   /**
    * Protects the contents of the sent message from forwarding and saving
    */
-  protect_content?: boolean;
+  protect_content?: boolean | undefined;
   /**
    * Pass True to allow up to 1000 messages per second, ignoring broadcasting limits for a fee of 0.1 Telegram Stars per message. The relevant Stars will be withdrawn from the bot's balance
    */
-  allow_paid_broadcast?: boolean;
+  allow_paid_broadcast?: boolean | undefined;
   /**
    * Unique identifier of the message effect to be added to the message; for private chats only
    */
-  message_effect_id?: string;
+  message_effect_id?: string | undefined;
   /**
    * Description of the message to reply to
    */
-  reply_parameters?: TgReplyParameters;
+  reply_parameters?: TgReplyParameters | undefined;
   /**
    * A JSON-serialized object for an inline keyboard. If empty, one 'Play game_title' button will be shown. If not empty, the first button must launch the game.
    */
-  reply_markup?: TgInlineKeyboardMarkup;
+  reply_markup?: TgInlineKeyboardMarkup | undefined;
 };
 /**
  * Parameters of {@link TgApi.setGameScore} method.
@@ -4440,23 +4457,23 @@ export type TgSetGameScoreParams = {
   /**
    * Pass True if the high score is allowed to decrease. This can be useful when fixing mistakes or banning cheaters
    */
-  force?: boolean;
+  force?: boolean | undefined;
   /**
    * Pass True if the game message should not be automatically edited to include the current scoreboard
    */
-  disable_edit_message?: boolean;
+  disable_edit_message?: boolean | undefined;
   /**
    * Required if inline_message_id is not specified. Unique identifier for the target chat
    */
-  chat_id?: number;
+  chat_id?: number | undefined;
   /**
    * Required if inline_message_id is not specified. Identifier of the sent message
    */
-  message_id?: number;
+  message_id?: number | undefined;
   /**
    * Required if chat_id and message_id are not specified. Identifier of the inline message
    */
-  inline_message_id?: string;
+  inline_message_id?: string | undefined;
 };
 /**
  * Parameters of {@link TgApi.getGameHighScores} method.
@@ -4471,15 +4488,15 @@ export type TgGetGameHighScoresParams = {
   /**
    * Required if inline_message_id is not specified. Unique identifier for the target chat
    */
-  chat_id?: number;
+  chat_id?: number | undefined;
   /**
    * Required if inline_message_id is not specified. Identifier of the sent message
    */
-  message_id?: number;
+  message_id?: number | undefined;
   /**
    * Required if chat_id and message_id are not specified. Identifier of the inline message
    */
-  inline_message_id?: string;
+  inline_message_id?: string | undefined;
 };
 /**
  * This object represents an incoming update.
@@ -4496,95 +4513,95 @@ export type TgUpdate = {
   /**
    * Optional. New incoming message of any kind - text, photo, sticker, etc.
    */
-  message?: TgMessage;
+  message?: TgMessage | undefined;
   /**
    * Optional. New version of a message that is known to the bot and was edited. This update may at times be triggered by changes to message fields that are either unavailable or not actively used by your bot.
    */
-  edited_message?: TgMessage;
+  edited_message?: TgMessage | undefined;
   /**
    * Optional. New incoming channel post of any kind - text, photo, sticker, etc.
    */
-  channel_post?: TgMessage;
+  channel_post?: TgMessage | undefined;
   /**
    * Optional. New version of a channel post that is known to the bot and was edited. This update may at times be triggered by changes to message fields that are either unavailable or not actively used by your bot.
    */
-  edited_channel_post?: TgMessage;
+  edited_channel_post?: TgMessage | undefined;
   /**
    * Optional. The bot was connected to or disconnected from a business account, or a user edited an existing connection with the bot
    */
-  business_connection?: TgBusinessConnection;
+  business_connection?: TgBusinessConnection | undefined;
   /**
    * Optional. New message from a connected business account
    */
-  business_message?: TgMessage;
+  business_message?: TgMessage | undefined;
   /**
    * Optional. New version of a message from a connected business account
    */
-  edited_business_message?: TgMessage;
+  edited_business_message?: TgMessage | undefined;
   /**
    * Optional. Messages were deleted from a connected business account
    */
-  deleted_business_messages?: TgBusinessMessagesDeleted;
+  deleted_business_messages?: TgBusinessMessagesDeleted | undefined;
   /**
    * Optional. A reaction to a message was changed by a user. The bot must be an administrator in the chat and must explicitly specify "message_reaction" in the list of allowed_updates to receive these updates. The update isn't received for reactions set by bots.
    */
-  message_reaction?: TgMessageReactionUpdated;
+  message_reaction?: TgMessageReactionUpdated | undefined;
   /**
    * Optional. Reactions to a message with anonymous reactions were changed. The bot must be an administrator in the chat and must explicitly specify "message_reaction_count" in the list of allowed_updates to receive these updates. The updates are grouped and can be sent with delay up to a few minutes.
    */
-  message_reaction_count?: TgMessageReactionCountUpdated;
+  message_reaction_count?: TgMessageReactionCountUpdated | undefined;
   /**
    * Optional. New incoming inline query
    */
-  inline_query?: TgInlineQuery;
+  inline_query?: TgInlineQuery | undefined;
   /**
    * Optional. The result of an inline query that was chosen by a user and sent to their chat partner. Please see our documentation on the feedback collecting for details on how to enable these updates for your bot.
    */
-  chosen_inline_result?: TgChosenInlineResult;
+  chosen_inline_result?: TgChosenInlineResult | undefined;
   /**
    * Optional. New incoming callback query
    */
-  callback_query?: TgCallbackQuery;
+  callback_query?: TgCallbackQuery | undefined;
   /**
    * Optional. New incoming shipping query. Only for invoices with flexible price
    */
-  shipping_query?: TgShippingQuery;
+  shipping_query?: TgShippingQuery | undefined;
   /**
    * Optional. New incoming pre-checkout query. Contains full information about checkout
    */
-  pre_checkout_query?: TgPreCheckoutQuery;
+  pre_checkout_query?: TgPreCheckoutQuery | undefined;
   /**
    * Optional. A user purchased paid media with a non-empty payload sent by the bot in a non-channel chat
    */
-  purchased_paid_media?: TgPaidMediaPurchased;
+  purchased_paid_media?: TgPaidMediaPurchased | undefined;
   /**
    * Optional. New poll state. Bots receive only updates about manually stopped polls and polls, which are sent by the bot
    */
-  poll?: TgPoll;
+  poll?: TgPoll | undefined;
   /**
    * Optional. A user changed their answer in a non-anonymous poll. Bots receive new votes only in polls that were sent by the bot itself.
    */
-  poll_answer?: TgPollAnswer;
+  poll_answer?: TgPollAnswer | undefined;
   /**
    * Optional. The bot's chat member status was updated in a chat. For private chats, this update is received only when the bot is blocked or unblocked by the user.
    */
-  my_chat_member?: TgChatMemberUpdated;
+  my_chat_member?: TgChatMemberUpdated | undefined;
   /**
    * Optional. A chat member's status was updated in a chat. The bot must be an administrator in the chat and must explicitly specify "chat_member" in the list of allowed_updates to receive these updates.
    */
-  chat_member?: TgChatMemberUpdated;
+  chat_member?: TgChatMemberUpdated | undefined;
   /**
    * Optional. A request to join the chat has been sent. The bot must have the can_invite_users administrator right in the chat to receive these updates.
    */
-  chat_join_request?: TgChatJoinRequest;
+  chat_join_request?: TgChatJoinRequest | undefined;
   /**
    * Optional. A chat boost was added or changed. The bot must be an administrator in the chat to receive these updates.
    */
-  chat_boost?: TgChatBoostUpdated;
+  chat_boost?: TgChatBoostUpdated | undefined;
   /**
    * Optional. A boost was removed from a chat. The bot must be an administrator in the chat to receive these updates.
    */
-  removed_chat_boost?: TgChatBoostRemoved;
+  removed_chat_boost?: TgChatBoostRemoved | undefined;
 };
 /**
  * Describes the current status of a webhook.
@@ -4607,27 +4624,27 @@ export type TgWebhookInfo = {
   /**
    * Optional. Currently used webhook IP address
    */
-  ip_address?: string;
+  ip_address?: string | undefined;
   /**
    * Optional. Unix time for the most recent error that happened when trying to deliver an update via webhook
    */
-  last_error_date?: number;
+  last_error_date?: number | undefined;
   /**
    * Optional. Error message in human-readable format for the most recent error that happened when trying to deliver an update via webhook
    */
-  last_error_message?: string;
+  last_error_message?: string | undefined;
   /**
    * Optional. Unix time of the most recent error that happened when trying to synchronize available updates with Telegram datacenters
    */
-  last_synchronization_error_date?: number;
+  last_synchronization_error_date?: number | undefined;
   /**
    * Optional. The maximum allowed number of simultaneous HTTPS connections to the webhook for update delivery
    */
-  max_connections?: number;
+  max_connections?: number | undefined;
   /**
    * Optional. A list of update types the bot is subscribed to. Defaults to all update types except chat_member
    */
-  allowed_updates?: Exclude<keyof TgUpdate, "update_id">[];
+  allowed_updates?: Exclude<keyof TgUpdate, "update_id">[] | undefined;
 };
 /**
  * This object represents a Telegram user or bot.
@@ -4650,43 +4667,43 @@ export type TgUser = {
   /**
    * Optional. User's or bot's last name
    */
-  last_name?: string;
+  last_name?: string | undefined;
   /**
    * Optional. User's or bot's username
    */
-  username?: string;
+  username?: string | undefined;
   /**
    * Optional. IETF language tag of the user's language
    */
-  language_code?: string;
+  language_code?: string | undefined;
   /**
    * Optional. True, if this user is a Telegram Premium user
    */
-  is_premium?: boolean;
+  is_premium?: boolean | undefined;
   /**
    * Optional. True, if this user added the bot to the attachment menu
    */
-  added_to_attachment_menu?: boolean;
+  added_to_attachment_menu?: boolean | undefined;
   /**
    * Optional. True, if the bot can be invited to groups. Returned only in getMe.
    */
-  can_join_groups?: boolean;
+  can_join_groups?: boolean | undefined;
   /**
    * Optional. True, if privacy mode is disabled for the bot. Returned only in getMe.
    */
-  can_read_all_group_messages?: boolean;
+  can_read_all_group_messages?: boolean | undefined;
   /**
    * Optional. True, if the bot supports inline queries. Returned only in getMe.
    */
-  supports_inline_queries?: boolean;
+  supports_inline_queries?: boolean | undefined;
   /**
    * Optional. True, if the bot can be connected to a Telegram Business account to receive its messages. Returned only in getMe.
    */
-  can_connect_to_business?: boolean;
+  can_connect_to_business?: boolean | undefined;
   /**
    * Optional. True, if the bot has a main Web App. Returned only in getMe.
    */
-  has_main_web_app?: boolean;
+  has_main_web_app?: boolean | undefined;
 };
 /**
  * This object represents a chat.
@@ -4705,23 +4722,23 @@ export type TgChat = {
   /**
    * Optional. Title, for supergroups, channels and group chats
    */
-  title?: string;
+  title?: string | undefined;
   /**
    * Optional. Username, for private chats, supergroups and channels if available
    */
-  username?: string;
+  username?: string | undefined;
   /**
    * Optional. First name of the other party in a private chat
    */
-  first_name?: string;
+  first_name?: string | undefined;
   /**
    * Optional. Last name of the other party in a private chat
    */
-  last_name?: string;
+  last_name?: string | undefined;
   /**
    * Optional. True, if the supergroup chat is a forum (has topics enabled)
    */
-  is_forum?: boolean;
+  is_forum?: boolean | undefined;
 };
 /**
  * This object contains full information about a chat.
@@ -4740,23 +4757,23 @@ export type TgChatFullInfo = {
   /**
    * Optional. Title, for supergroups, channels and group chats
    */
-  title?: string;
+  title?: string | undefined;
   /**
    * Optional. Username, for private chats, supergroups and channels if available
    */
-  username?: string;
+  username?: string | undefined;
   /**
    * Optional. First name of the other party in a private chat
    */
-  first_name?: string;
+  first_name?: string | undefined;
   /**
    * Optional. Last name of the other party in a private chat
    */
-  last_name?: string;
+  last_name?: string | undefined;
   /**
    * Optional. True, if the supergroup chat is a forum (has topics enabled)
    */
-  is_forum?: boolean;
+  is_forum?: boolean | undefined;
   /**
    * Identifier of the accent color for the chat name and backgrounds of the chat photo, reply header, and link preview. See accent colors for more details.
    */
@@ -4768,147 +4785,147 @@ export type TgChatFullInfo = {
   /**
    * Optional. Chat photo
    */
-  photo?: TgChatPhoto;
+  photo?: TgChatPhoto | undefined;
   /**
    * Optional. If non-empty, the list of all active chat usernames; for private chats, supergroups and channels
    */
-  active_usernames?: string[];
+  active_usernames?: string[] | undefined;
   /**
    * Optional. For private chats, the date of birth of the user
    */
-  birthdate?: TgBirthdate;
+  birthdate?: TgBirthdate | undefined;
   /**
    * Optional. For private chats with business accounts, the intro of the business
    */
-  business_intro?: TgBusinessIntro;
+  business_intro?: TgBusinessIntro | undefined;
   /**
    * Optional. For private chats with business accounts, the location of the business
    */
-  business_location?: TgBusinessLocation;
+  business_location?: TgBusinessLocation | undefined;
   /**
    * Optional. For private chats with business accounts, the opening hours of the business
    */
-  business_opening_hours?: TgBusinessOpeningHours;
+  business_opening_hours?: TgBusinessOpeningHours | undefined;
   /**
    * Optional. For private chats, the personal channel of the user
    */
-  personal_chat?: TgChat;
+  personal_chat?: TgChat | undefined;
   /**
    * Optional. List of available reactions allowed in the chat. If omitted, then all emoji reactions are allowed.
    */
-  available_reactions?: TgReactionType[];
+  available_reactions?: TgReactionType[] | undefined;
   /**
    * Optional. Custom emoji identifier of the emoji chosen by the chat for the reply header and link preview background
    */
-  background_custom_emoji_id?: string;
+  background_custom_emoji_id?: string | undefined;
   /**
    * Optional. Identifier of the accent color for the chat's profile background. See profile accent colors for more details.
    */
-  profile_accent_color_id?: number;
+  profile_accent_color_id?: number | undefined;
   /**
    * Optional. Custom emoji identifier of the emoji chosen by the chat for its profile background
    */
-  profile_background_custom_emoji_id?: string;
+  profile_background_custom_emoji_id?: string | undefined;
   /**
    * Optional. Custom emoji identifier of the emoji status of the chat or the other party in a private chat
    */
-  emoji_status_custom_emoji_id?: string;
+  emoji_status_custom_emoji_id?: string | undefined;
   /**
    * Optional. Expiration date of the emoji status of the chat or the other party in a private chat, in Unix time, if any
    */
-  emoji_status_expiration_date?: number;
+  emoji_status_expiration_date?: number | undefined;
   /**
    * Optional. Bio of the other party in a private chat
    */
-  bio?: string;
+  bio?: string | undefined;
   /**
    * Optional. True, if privacy settings of the other party in the private chat allows to use tg://user?id=<user_id> links only in chats with the user
    */
-  has_private_forwards?: boolean;
+  has_private_forwards?: boolean | undefined;
   /**
    * Optional. True, if the privacy settings of the other party restrict sending voice and video note messages in the private chat
    */
-  has_restricted_voice_and_video_messages?: boolean;
+  has_restricted_voice_and_video_messages?: boolean | undefined;
   /**
    * Optional. True, if users need to join the supergroup before they can send messages
    */
-  join_to_send_messages?: boolean;
+  join_to_send_messages?: boolean | undefined;
   /**
    * Optional. True, if all users directly joining the supergroup without using an invite link need to be approved by supergroup administrators
    */
-  join_by_request?: boolean;
+  join_by_request?: boolean | undefined;
   /**
    * Optional. Description, for groups, supergroups and channel chats
    */
-  description?: string;
+  description?: string | undefined;
   /**
    * Optional. Primary invite link, for groups, supergroups and channel chats
    */
-  invite_link?: string;
+  invite_link?: string | undefined;
   /**
    * Optional. The most recent pinned message (by sending date)
    */
-  pinned_message?: TgMessage;
+  pinned_message?: TgMessage | undefined;
   /**
    * Optional. Default chat member permissions, for groups and supergroups
    */
-  permissions?: TgChatPermissions;
+  permissions?: TgChatPermissions | undefined;
   /**
    * Optional. True, if gifts can be sent to the chat
    */
-  can_send_gift?: boolean;
+  can_send_gift?: boolean | undefined;
   /**
    * Optional. True, if paid media messages can be sent or forwarded to the channel chat. The field is available only for channel chats.
    */
-  can_send_paid_media?: boolean;
+  can_send_paid_media?: boolean | undefined;
   /**
    * Optional. For supergroups, the minimum allowed delay between consecutive messages sent by each unprivileged user; in seconds
    */
-  slow_mode_delay?: number;
+  slow_mode_delay?: number | undefined;
   /**
    * Optional. For supergroups, the minimum number of boosts that a non-administrator user needs to add in order to ignore slow mode and chat permissions
    */
-  unrestrict_boost_count?: number;
+  unrestrict_boost_count?: number | undefined;
   /**
    * Optional. The time after which all messages sent to the chat will be automatically deleted; in seconds
    */
-  message_auto_delete_time?: number;
+  message_auto_delete_time?: number | undefined;
   /**
    * Optional. True, if aggressive anti-spam checks are enabled in the supergroup. The field is only available to chat administrators.
    */
-  has_aggressive_anti_spam_enabled?: boolean;
+  has_aggressive_anti_spam_enabled?: boolean | undefined;
   /**
    * Optional. True, if non-administrators can only get the list of bots and administrators in the chat
    */
-  has_hidden_members?: boolean;
+  has_hidden_members?: boolean | undefined;
   /**
    * Optional. True, if messages from the chat can't be forwarded to other chats
    */
-  has_protected_content?: boolean;
+  has_protected_content?: boolean | undefined;
   /**
    * Optional. True, if new chat members will have access to old messages; available only to chat administrators
    */
-  has_visible_history?: boolean;
+  has_visible_history?: boolean | undefined;
   /**
    * Optional. For supergroups, name of the group sticker set
    */
-  sticker_set_name?: string;
+  sticker_set_name?: string | undefined;
   /**
    * Optional. True, if the bot can change the group sticker set
    */
-  can_set_sticker_set?: boolean;
+  can_set_sticker_set?: boolean | undefined;
   /**
    * Optional. For supergroups, the name of the group's custom emoji sticker set. Custom emoji from this set can be used by all users and bots in the group.
    */
-  custom_emoji_sticker_set_name?: string;
+  custom_emoji_sticker_set_name?: string | undefined;
   /**
    * Optional. Unique identifier for the linked chat, i.e. the discussion group identifier for a channel and vice versa; for supergroups and channel chats. This identifier may be greater than 32 bits and some programming languages may have difficulty/silent defects in interpreting it. But it is smaller than 52 bits, so a signed 64 bit integer or double-precision float type are safe for storing this identifier.
    */
-  linked_chat_id?: number;
+  linked_chat_id?: number | undefined;
   /**
    * Optional. For supergroups, the location to which the supergroup is connected
    */
-  location?: TgChatLocation;
+  location?: TgChatLocation | undefined;
 };
 /**
  * This object represents a message.
@@ -4923,23 +4940,23 @@ export type TgMessage = {
   /**
    * Optional. Unique identifier of a message thread to which the message belongs; for supergroups only
    */
-  message_thread_id?: number;
+  message_thread_id?: number | undefined;
   /**
    * Optional. Sender of the message; may be empty for messages sent to channels. For backward compatibility, if the message was sent on behalf of a chat, the field contains a fake sender user in non-channel chats
    */
-  from?: TgUser;
+  from?: TgUser | undefined;
   /**
    * Optional. Sender of the message when sent on behalf of a chat. For example, the supergroup itself for messages sent by its anonymous administrators or a linked channel for messages automatically forwarded to the channel's discussion group. For backward compatibility, if the message was sent on behalf of a chat, the field from contains a fake sender user in non-channel chats.
    */
-  sender_chat?: TgChat;
+  sender_chat?: TgChat | undefined;
   /**
    * Optional. If the sender of the message boosted the chat, the number of boosts added by the user
    */
-  sender_boost_count?: number;
+  sender_boost_count?: number | undefined;
   /**
    * Optional. The bot that actually sent the message on behalf of the business account. Available only for outgoing messages sent on behalf of the connected business account.
    */
-  sender_business_bot?: TgUser;
+  sender_business_bot?: TgUser | undefined;
   /**
    * Date the message was sent in Unix time. It is always a positive number, representing a valid date.
    */
@@ -4947,7 +4964,7 @@ export type TgMessage = {
   /**
    * Optional. Unique identifier of the business connection from which the message was received. If non-empty, the message belongs to a chat of the corresponding business account that is independent from any potential bot chat which might share the same identifier.
    */
-  business_connection_id?: string;
+  business_connection_id?: string | undefined;
   /**
    * Chat the message belongs to
    */
@@ -4955,307 +4972,307 @@ export type TgMessage = {
   /**
    * Optional. Information about the original message for forwarded messages
    */
-  forward_origin?: TgMessageOrigin;
+  forward_origin?: TgMessageOrigin | undefined;
   /**
    * Optional. True, if the message is sent to a forum topic
    */
-  is_topic_message?: boolean;
+  is_topic_message?: boolean | undefined;
   /**
    * Optional. True, if the message is a channel post that was automatically forwarded to the connected discussion group
    */
-  is_automatic_forward?: boolean;
+  is_automatic_forward?: boolean | undefined;
   /**
    * Optional. For replies in the same chat and message thread, the original message. Note that the Message object in this field will not contain further reply_to_message fields even if it itself is a reply.
    */
-  reply_to_message?: TgMessage;
+  reply_to_message?: TgMessage | undefined;
   /**
    * Optional. Information about the message that is being replied to, which may come from another chat or forum topic
    */
-  external_reply?: TgExternalReplyInfo;
+  external_reply?: TgExternalReplyInfo | undefined;
   /**
    * Optional. For replies that quote part of the original message, the quoted part of the message
    */
-  quote?: TgTextQuote;
+  quote?: TgTextQuote | undefined;
   /**
    * Optional. For replies to a story, the original story
    */
-  reply_to_story?: TgStory;
+  reply_to_story?: TgStory | undefined;
   /**
    * Optional. Bot through which the message was sent
    */
-  via_bot?: TgUser;
+  via_bot?: TgUser | undefined;
   /**
    * Optional. Date the message was last edited in Unix time
    */
-  edit_date?: number;
+  edit_date?: number | undefined;
   /**
    * Optional. True, if the message can't be forwarded
    */
-  has_protected_content?: boolean;
+  has_protected_content?: boolean | undefined;
   /**
    * Optional. True, if the message was sent by an implicit action, for example, as an away or a greeting business message, or as a scheduled message
    */
-  is_from_offline?: boolean;
+  is_from_offline?: boolean | undefined;
   /**
    * Optional. The unique identifier of a media message group this message belongs to
    */
-  media_group_id?: string;
+  media_group_id?: string | undefined;
   /**
    * Optional. Signature of the post author for messages in channels, or the custom title of an anonymous group administrator
    */
-  author_signature?: string;
+  author_signature?: string | undefined;
   /**
    * Optional. For text messages, the actual UTF-8 text of the message
    */
-  text?: string;
+  text?: string | undefined;
   /**
    * Optional. For text messages, special entities like usernames, URLs, bot commands, etc. that appear in the text
    */
-  entities?: TgMessageEntity[];
+  entities?: TgMessageEntity[] | undefined;
   /**
    * Optional. Options used for link preview generation for the message, if it is a text message and link preview options were changed
    */
-  link_preview_options?: TgLinkPreviewOptions;
+  link_preview_options?: TgLinkPreviewOptions | undefined;
   /**
    * Optional. Unique identifier of the message effect added to the message
    */
-  effect_id?: string;
+  effect_id?: string | undefined;
   /**
    * Optional. Message is an animation, information about the animation. For backward compatibility, when this field is set, the document field will also be set
    */
-  animation?: TgAnimation;
+  animation?: TgAnimation | undefined;
   /**
    * Optional. Message is an audio file, information about the file
    */
-  audio?: TgAudio;
+  audio?: TgAudio | undefined;
   /**
    * Optional. Message is a general file, information about the file
    */
-  document?: TgDocument;
+  document?: TgDocument | undefined;
   /**
    * Optional. Message contains paid media; information about the paid media
    */
-  paid_media?: TgPaidMediaInfo;
+  paid_media?: TgPaidMediaInfo | undefined;
   /**
    * Optional. Message is a photo, available sizes of the photo
    */
-  photo?: TgPhotoSize[];
+  photo?: TgPhotoSize[] | undefined;
   /**
    * Optional. Message is a sticker, information about the sticker
    */
-  sticker?: TgSticker;
+  sticker?: TgSticker | undefined;
   /**
    * Optional. Message is a forwarded story
    */
-  story?: TgStory;
+  story?: TgStory | undefined;
   /**
    * Optional. Message is a video, information about the video
    */
-  video?: TgVideo;
+  video?: TgVideo | undefined;
   /**
    * Optional. Message is a video note, information about the video message
    */
-  video_note?: TgVideoNote;
+  video_note?: TgVideoNote | undefined;
   /**
    * Optional. Message is a voice message, information about the file
    */
-  voice?: TgVoice;
+  voice?: TgVoice | undefined;
   /**
    * Optional. Caption for the animation, audio, document, paid media, photo, video or voice
    */
-  caption?: string;
+  caption?: string | undefined;
   /**
    * Optional. For messages with a caption, special entities like usernames, URLs, bot commands, etc. that appear in the caption
    */
-  caption_entities?: TgMessageEntity[];
+  caption_entities?: TgMessageEntity[] | undefined;
   /**
    * Optional. True, if the caption must be shown above the message media
    */
-  show_caption_above_media?: boolean;
+  show_caption_above_media?: boolean | undefined;
   /**
    * Optional. True, if the message media is covered by a spoiler animation
    */
-  has_media_spoiler?: boolean;
+  has_media_spoiler?: boolean | undefined;
   /**
    * Optional. Message is a shared contact, information about the contact
    */
-  contact?: TgContact;
+  contact?: TgContact | undefined;
   /**
    * Optional. Message is a dice with random value
    */
-  dice?: TgDice;
+  dice?: TgDice | undefined;
   /**
    * Optional. Message is a game, information about the game. More about games: https://core.telegram.org/bots/api#games
    */
-  game?: TgGame;
+  game?: TgGame | undefined;
   /**
    * Optional. Message is a native poll, information about the poll
    */
-  poll?: TgPoll;
+  poll?: TgPoll | undefined;
   /**
    * Optional. Message is a venue, information about the venue. For backward compatibility, when this field is set, the location field will also be set
    */
-  venue?: TgVenue;
+  venue?: TgVenue | undefined;
   /**
    * Optional. Message is a shared location, information about the location
    */
-  location?: TgLocation;
+  location?: TgLocation | undefined;
   /**
    * Optional. New members that were added to the group or supergroup and information about them (the bot itself may be one of these members)
    */
-  new_chat_members?: TgUser[];
+  new_chat_members?: TgUser[] | undefined;
   /**
    * Optional. A member was removed from the group, information about them (this member may be the bot itself)
    */
-  left_chat_member?: TgUser;
+  left_chat_member?: TgUser | undefined;
   /**
    * Optional. A chat title was changed to this value
    */
-  new_chat_title?: string;
+  new_chat_title?: string | undefined;
   /**
    * Optional. A chat photo was change to this value
    */
-  new_chat_photo?: TgPhotoSize[];
+  new_chat_photo?: TgPhotoSize[] | undefined;
   /**
    * Optional. Service message: the chat photo was deleted
    */
-  delete_chat_photo?: boolean;
+  delete_chat_photo?: boolean | undefined;
   /**
    * Optional. Service message: the group has been created
    */
-  group_chat_created?: boolean;
+  group_chat_created?: boolean | undefined;
   /**
    * Optional. Service message: the supergroup has been created. This field can't be received in a message coming through updates, because bot can't be a member of a supergroup when it is created. It can only be found in reply_to_message if someone replies to a very first message in a directly created supergroup.
    */
-  supergroup_chat_created?: boolean;
+  supergroup_chat_created?: boolean | undefined;
   /**
    * Optional. Service message: the channel has been created. This field can't be received in a message coming through updates, because bot can't be a member of a channel when it is created. It can only be found in reply_to_message if someone replies to a very first message in a channel.
    */
-  channel_chat_created?: boolean;
+  channel_chat_created?: boolean | undefined;
   /**
    * Optional. Service message: auto-delete timer settings changed in the chat
    */
-  message_auto_delete_timer_changed?: TgMessageAutoDeleteTimerChanged;
+  message_auto_delete_timer_changed?: TgMessageAutoDeleteTimerChanged | undefined;
   /**
    * Optional. The group has been migrated to a supergroup with the specified identifier. This number may have more than 32 significant bits and some programming languages may have difficulty/silent defects in interpreting it. But it has at most 52 significant bits, so a signed 64-bit integer or double-precision float type are safe for storing this identifier.
    */
-  migrate_to_chat_id?: number;
+  migrate_to_chat_id?: number | undefined;
   /**
    * Optional. The supergroup has been migrated from a group with the specified identifier. This number may have more than 32 significant bits and some programming languages may have difficulty/silent defects in interpreting it. But it has at most 52 significant bits, so a signed 64-bit integer or double-precision float type are safe for storing this identifier.
    */
-  migrate_from_chat_id?: number;
+  migrate_from_chat_id?: number | undefined;
   /**
    * Optional. Specified message was pinned. Note that the Message object in this field will not contain further reply_to_message fields even if it itself is a reply.
    */
-  pinned_message?: TgMaybeInaccessibleMessage;
+  pinned_message?: TgMaybeInaccessibleMessage | undefined;
   /**
    * Optional. Message is an invoice for a payment, information about the invoice. More about payments: https://core.telegram.org/bots/api#payments
    */
-  invoice?: TgInvoice;
+  invoice?: TgInvoice | undefined;
   /**
    * Optional. Message is a service message about a successful payment, information about the payment. More about payments: https://core.telegram.org/bots/api#payments
    */
-  successful_payment?: TgSuccessfulPayment;
+  successful_payment?: TgSuccessfulPayment | undefined;
   /**
    * Optional. Message is a service message about a refunded payment, information about the payment. More about payments: https://core.telegram.org/bots/api#payments
    */
-  refunded_payment?: TgRefundedPayment;
+  refunded_payment?: TgRefundedPayment | undefined;
   /**
    * Optional. Service message: users were shared with the bot
    */
-  users_shared?: TgUsersShared;
+  users_shared?: TgUsersShared | undefined;
   /**
    * Optional. Service message: a chat was shared with the bot
    */
-  chat_shared?: TgChatShared;
+  chat_shared?: TgChatShared | undefined;
   /**
    * Optional. The domain name of the website on which the user has logged in. More about Telegram Login: https://core.telegram.org/widgets/login
    */
-  connected_website?: string;
+  connected_website?: string | undefined;
   /**
    * Optional. Service message: the user allowed the bot to write messages after adding it to the attachment or side menu, launching a Web App from a link, or accepting an explicit request from a Web App sent by the method requestWriteAccess
    */
-  write_access_allowed?: TgWriteAccessAllowed;
+  write_access_allowed?: TgWriteAccessAllowed | undefined;
   /**
    * Optional. Telegram Passport data
    */
-  passport_data?: TgPassportData;
+  passport_data?: TgPassportData | undefined;
   /**
    * Optional. Service message. A user in the chat triggered another user's proximity alert while sharing Live Location.
    */
-  proximity_alert_triggered?: TgProximityAlertTriggered;
+  proximity_alert_triggered?: TgProximityAlertTriggered | undefined;
   /**
    * Optional. Service message: user boosted the chat
    */
-  boost_added?: TgChatBoostAdded;
+  boost_added?: TgChatBoostAdded | undefined;
   /**
    * Optional. Service message: chat background set
    */
-  chat_background_set?: TgChatBackground;
+  chat_background_set?: TgChatBackground | undefined;
   /**
    * Optional. Service message: forum topic created
    */
-  forum_topic_created?: TgForumTopicCreated;
+  forum_topic_created?: TgForumTopicCreated | undefined;
   /**
    * Optional. Service message: forum topic edited
    */
-  forum_topic_edited?: TgForumTopicEdited;
+  forum_topic_edited?: TgForumTopicEdited | undefined;
   /**
    * Optional. Service message: forum topic closed
    */
-  forum_topic_closed?: TgForumTopicClosed;
+  forum_topic_closed?: TgForumTopicClosed | undefined;
   /**
    * Optional. Service message: forum topic reopened
    */
-  forum_topic_reopened?: TgForumTopicReopened;
+  forum_topic_reopened?: TgForumTopicReopened | undefined;
   /**
    * Optional. Service message: the 'General' forum topic hidden
    */
-  general_forum_topic_hidden?: TgGeneralForumTopicHidden;
+  general_forum_topic_hidden?: TgGeneralForumTopicHidden | undefined;
   /**
    * Optional. Service message: the 'General' forum topic unhidden
    */
-  general_forum_topic_unhidden?: TgGeneralForumTopicUnhidden;
+  general_forum_topic_unhidden?: TgGeneralForumTopicUnhidden | undefined;
   /**
    * Optional. Service message: a scheduled giveaway was created
    */
-  giveaway_created?: TgGiveawayCreated;
+  giveaway_created?: TgGiveawayCreated | undefined;
   /**
    * Optional. The message is a scheduled giveaway message
    */
-  giveaway?: TgGiveaway;
+  giveaway?: TgGiveaway | undefined;
   /**
    * Optional. A giveaway with public winners was completed
    */
-  giveaway_winners?: TgGiveawayWinners;
+  giveaway_winners?: TgGiveawayWinners | undefined;
   /**
    * Optional. Service message: a giveaway without public winners was completed
    */
-  giveaway_completed?: TgGiveawayCompleted;
+  giveaway_completed?: TgGiveawayCompleted | undefined;
   /**
    * Optional. Service message: video chat scheduled
    */
-  video_chat_scheduled?: TgVideoChatScheduled;
+  video_chat_scheduled?: TgVideoChatScheduled | undefined;
   /**
    * Optional. Service message: video chat started
    */
-  video_chat_started?: TgVideoChatStarted;
+  video_chat_started?: TgVideoChatStarted | undefined;
   /**
    * Optional. Service message: video chat ended
    */
-  video_chat_ended?: TgVideoChatEnded;
+  video_chat_ended?: TgVideoChatEnded | undefined;
   /**
    * Optional. Service message: new participants invited to a video chat
    */
-  video_chat_participants_invited?: TgVideoChatParticipantsInvited;
+  video_chat_participants_invited?: TgVideoChatParticipantsInvited | undefined;
   /**
    * Optional. Service message: data sent by a Web App
    */
-  web_app_data?: TgWebAppData;
+  web_app_data?: TgWebAppData | undefined;
   /**
    * Optional. Inline keyboard attached to the message. login_url buttons are represented as ordinary url buttons.
    */
-  reply_markup?: TgInlineKeyboardMarkup;
+  reply_markup?: TgInlineKeyboardMarkup | undefined;
 };
 /**
  * This object represents a unique message identifier.
@@ -5337,19 +5354,19 @@ export type TgMessageEntity = {
   /**
    * Optional. For "text_link" only, URL that will be opened after user taps on the text
    */
-  url?: string;
+  url?: string | undefined;
   /**
    * Optional. For "text_mention" only, the mentioned user
    */
-  user?: TgUser;
+  user?: TgUser | undefined;
   /**
    * Optional. For "pre" only, the programming language of the entity text
    */
-  language?: string;
+  language?: string | undefined;
   /**
    * Optional. For "custom_emoji" only, unique identifier of the custom emoji. Use getCustomEmojiStickers to get full information about the sticker
    */
-  custom_emoji_id?: string;
+  custom_emoji_id?: string | undefined;
 };
 /**
  * This object contains information about the quoted part of a message that is replied to by the given message.
@@ -5364,7 +5381,7 @@ export type TgTextQuote = {
   /**
    * Optional. Special entities that appear in the quote. Currently, only bold, italic, underline, strikethrough, spoiler, and custom_emoji entities are kept in quotes.
    */
-  entities?: TgMessageEntity[];
+  entities?: TgMessageEntity[] | undefined;
   /**
    * Approximate quote position in the original message in UTF-16 code units as specified by the sender
    */
@@ -5372,7 +5389,7 @@ export type TgTextQuote = {
   /**
    * Optional. True, if the quote was chosen manually by the message sender. Otherwise, the quote was added automatically by the server.
    */
-  is_manual?: boolean;
+  is_manual?: boolean | undefined;
 };
 /**
  * This object contains information about a message that is being replied to, which may come from another chat or forum topic.
@@ -5387,95 +5404,95 @@ export type TgExternalReplyInfo = {
   /**
    * Optional. Chat the original message belongs to. Available only if the chat is a supergroup or a channel.
    */
-  chat?: TgChat;
+  chat?: TgChat | undefined;
   /**
    * Optional. Unique message identifier inside the original chat. Available only if the original chat is a supergroup or a channel.
    */
-  message_id?: number;
+  message_id?: number | undefined;
   /**
    * Optional. Options used for link preview generation for the original message, if it is a text message
    */
-  link_preview_options?: TgLinkPreviewOptions;
+  link_preview_options?: TgLinkPreviewOptions | undefined;
   /**
    * Optional. Message is an animation, information about the animation
    */
-  animation?: TgAnimation;
+  animation?: TgAnimation | undefined;
   /**
    * Optional. Message is an audio file, information about the file
    */
-  audio?: TgAudio;
+  audio?: TgAudio | undefined;
   /**
    * Optional. Message is a general file, information about the file
    */
-  document?: TgDocument;
+  document?: TgDocument | undefined;
   /**
    * Optional. Message contains paid media; information about the paid media
    */
-  paid_media?: TgPaidMediaInfo;
+  paid_media?: TgPaidMediaInfo | undefined;
   /**
    * Optional. Message is a photo, available sizes of the photo
    */
-  photo?: TgPhotoSize[];
+  photo?: TgPhotoSize[] | undefined;
   /**
    * Optional. Message is a sticker, information about the sticker
    */
-  sticker?: TgSticker;
+  sticker?: TgSticker | undefined;
   /**
    * Optional. Message is a forwarded story
    */
-  story?: TgStory;
+  story?: TgStory | undefined;
   /**
    * Optional. Message is a video, information about the video
    */
-  video?: TgVideo;
+  video?: TgVideo | undefined;
   /**
    * Optional. Message is a video note, information about the video message
    */
-  video_note?: TgVideoNote;
+  video_note?: TgVideoNote | undefined;
   /**
    * Optional. Message is a voice message, information about the file
    */
-  voice?: TgVoice;
+  voice?: TgVoice | undefined;
   /**
    * Optional. True, if the message media is covered by a spoiler animation
    */
-  has_media_spoiler?: boolean;
+  has_media_spoiler?: boolean | undefined;
   /**
    * Optional. Message is a shared contact, information about the contact
    */
-  contact?: TgContact;
+  contact?: TgContact | undefined;
   /**
    * Optional. Message is a dice with random value
    */
-  dice?: TgDice;
+  dice?: TgDice | undefined;
   /**
    * Optional. Message is a game, information about the game. More about games: https://core.telegram.org/bots/api#games
    */
-  game?: TgGame;
+  game?: TgGame | undefined;
   /**
    * Optional. Message is a scheduled giveaway, information about the giveaway
    */
-  giveaway?: TgGiveaway;
+  giveaway?: TgGiveaway | undefined;
   /**
    * Optional. A giveaway with public winners was completed
    */
-  giveaway_winners?: TgGiveawayWinners;
+  giveaway_winners?: TgGiveawayWinners | undefined;
   /**
    * Optional. Message is an invoice for a payment, information about the invoice. More about payments: https://core.telegram.org/bots/api#payments
    */
-  invoice?: TgInvoice;
+  invoice?: TgInvoice | undefined;
   /**
    * Optional. Message is a shared location, information about the location
    */
-  location?: TgLocation;
+  location?: TgLocation | undefined;
   /**
    * Optional. Message is a native poll, information about the poll
    */
-  poll?: TgPoll;
+  poll?: TgPoll | undefined;
   /**
    * Optional. Message is a venue, information about the venue
    */
-  venue?: TgVenue;
+  venue?: TgVenue | undefined;
 };
 /**
  * Describes reply parameters for the message that is being sent.
@@ -5490,27 +5507,27 @@ export type TgReplyParameters = {
   /**
    * Optional. If the message to be replied to is from a different chat, unique identifier for the chat or username of the channel (in the format @channelusername). Not supported for messages sent on behalf of a business account.
    */
-  chat_id?: number | string;
+  chat_id?: number | string | undefined;
   /**
    * Optional. Pass True if the message should be sent even if the specified message to be replied to is not found. Always False for replies in another chat or forum topic. Always True for messages sent on behalf of a business account.
    */
-  allow_sending_without_reply?: boolean;
+  allow_sending_without_reply?: boolean | undefined;
   /**
    * Optional. Quoted part of the message to be replied to; 0-1024 characters after entities parsing. The quote must be an exact substring of the message to be replied to, including bold, italic, underline, strikethrough, spoiler, and custom_emoji entities. The message will fail to send if the quote isn't found in the original message.
    */
-  quote?: string;
+  quote?: string | undefined;
   /**
    * Optional. Mode for parsing entities in the quote. See formatting options for more details.
    */
-  quote_parse_mode?: undefined | "HTML" | "Markdown" | "MarkdownV2";
+  quote_parse_mode?: "HTML" | "Markdown" | "MarkdownV2" | undefined;
   /**
    * Optional. A JSON-serialized list of special entities that appear in the quote. It can be specified instead of quote_parse_mode.
    */
-  quote_entities?: TgMessageEntity[];
+  quote_entities?: TgMessageEntity[] | undefined;
   /**
    * Optional. Position of the quote in the original message in UTF-16 code units
    */
-  quote_position?: number;
+  quote_position?: number | undefined;
 };
 /**
  * This object describes the origin of a message. It can be one of
@@ -5589,7 +5606,7 @@ export type TgMessageOriginChat = {
   /**
    * Optional. For messages originally sent by an anonymous chat administrator, original message author signature
    */
-  author_signature?: string;
+  author_signature?: string | undefined;
 };
 /**
  * The message was originally sent to a channel chat.
@@ -5616,7 +5633,7 @@ export type TgMessageOriginChannel = {
   /**
    * Optional. Signature of the original post author
    */
-  author_signature?: string;
+  author_signature?: string | undefined;
 };
 /**
  * This object represents one size of a photo or a file / sticker thumbnail.
@@ -5643,7 +5660,7 @@ export type TgPhotoSize = {
   /**
    * Optional. File size in bytes
    */
-  file_size?: number;
+  file_size?: number | undefined;
 };
 /**
  * This object represents an animation file (GIF or H.264/MPEG-4 AVC video without sound).
@@ -5674,19 +5691,19 @@ export type TgAnimation = {
   /**
    * Optional. Animation thumbnail as defined by the sender
    */
-  thumbnail?: TgPhotoSize;
+  thumbnail?: TgPhotoSize | undefined;
   /**
    * Optional. Original animation filename as defined by the sender
    */
-  file_name?: string;
+  file_name?: string | undefined;
   /**
    * Optional. MIME type of the file as defined by the sender
    */
-  mime_type?: string;
+  mime_type?: string | undefined;
   /**
    * Optional. File size in bytes. It can be bigger than 2^31 and some programming languages may have difficulty/silent defects in interpreting it. But it has at most 52 significant bits, so a signed 64-bit integer or double-precision float type are safe for storing this value.
    */
-  file_size?: number;
+  file_size?: number | undefined;
 };
 /**
  * This object represents an audio file to be treated as music by the Telegram clients.
@@ -5709,27 +5726,27 @@ export type TgAudio = {
   /**
    * Optional. Performer of the audio as defined by the sender or by audio tags
    */
-  performer?: string;
+  performer?: string | undefined;
   /**
    * Optional. Title of the audio as defined by the sender or by audio tags
    */
-  title?: string;
+  title?: string | undefined;
   /**
    * Optional. Original filename as defined by the sender
    */
-  file_name?: string;
+  file_name?: string | undefined;
   /**
    * Optional. MIME type of the file as defined by the sender
    */
-  mime_type?: string;
+  mime_type?: string | undefined;
   /**
    * Optional. File size in bytes. It can be bigger than 2^31 and some programming languages may have difficulty/silent defects in interpreting it. But it has at most 52 significant bits, so a signed 64-bit integer or double-precision float type are safe for storing this value.
    */
-  file_size?: number;
+  file_size?: number | undefined;
   /**
    * Optional. Thumbnail of the album cover to which the music file belongs
    */
-  thumbnail?: TgPhotoSize;
+  thumbnail?: TgPhotoSize | undefined;
 };
 /**
  * This object represents a general file (as opposed to photos, voice messages and audio files).
@@ -5748,19 +5765,19 @@ export type TgDocument = {
   /**
    * Optional. Document thumbnail as defined by the sender
    */
-  thumbnail?: TgPhotoSize;
+  thumbnail?: TgPhotoSize | undefined;
   /**
    * Optional. Original filename as defined by the sender
    */
-  file_name?: string;
+  file_name?: string | undefined;
   /**
    * Optional. MIME type of the file as defined by the sender
    */
-  mime_type?: string;
+  mime_type?: string | undefined;
   /**
    * Optional. File size in bytes. It can be bigger than 2^31 and some programming languages may have difficulty/silent defects in interpreting it. But it has at most 52 significant bits, so a signed 64-bit integer or double-precision float type are safe for storing this value.
    */
-  file_size?: number;
+  file_size?: number | undefined;
 };
 /**
  * This object represents a story.
@@ -5806,27 +5823,27 @@ export type TgVideo = {
   /**
    * Optional. Video thumbnail
    */
-  thumbnail?: TgPhotoSize;
+  thumbnail?: TgPhotoSize | undefined;
   /**
    * Optional. Available sizes of the cover of the video in the message
    */
-  cover?: TgPhotoSize[];
+  cover?: TgPhotoSize[] | undefined;
   /**
    * Optional. Timestamp in seconds from which the video will play in the message
    */
-  start_timestamp?: number;
+  start_timestamp?: number | undefined;
   /**
    * Optional. Original filename as defined by the sender
    */
-  file_name?: string;
+  file_name?: string | undefined;
   /**
    * Optional. MIME type of the file as defined by the sender
    */
-  mime_type?: string;
+  mime_type?: string | undefined;
   /**
    * Optional. File size in bytes. It can be bigger than 2^31 and some programming languages may have difficulty/silent defects in interpreting it. But it has at most 52 significant bits, so a signed 64-bit integer or double-precision float type are safe for storing this value.
    */
-  file_size?: number;
+  file_size?: number | undefined;
 };
 /**
  * This object represents a video message (available in Telegram apps as of v.4.0).
@@ -5853,11 +5870,11 @@ export type TgVideoNote = {
   /**
    * Optional. Video thumbnail
    */
-  thumbnail?: TgPhotoSize;
+  thumbnail?: TgPhotoSize | undefined;
   /**
    * Optional. File size in bytes
    */
-  file_size?: number;
+  file_size?: number | undefined;
 };
 /**
  * This object represents a voice note.
@@ -5880,11 +5897,11 @@ export type TgVoice = {
   /**
    * Optional. MIME type of the file as defined by the sender
    */
-  mime_type?: string;
+  mime_type?: string | undefined;
   /**
    * Optional. File size in bytes. It can be bigger than 2^31 and some programming languages may have difficulty/silent defects in interpreting it. But it has at most 52 significant bits, so a signed 64-bit integer or double-precision float type are safe for storing this value.
    */
-  file_size?: number;
+  file_size?: number | undefined;
 };
 /**
  * Describes the paid media added to a message.
@@ -5926,15 +5943,15 @@ export type TgPaidMediaPreview = {
   /**
    * Optional. Media width as defined by the sender
    */
-  width?: number;
+  width?: number | undefined;
   /**
    * Optional. Media height as defined by the sender
    */
-  height?: number;
+  height?: number | undefined;
   /**
    * Optional. Duration of the media in seconds as defined by the sender
    */
-  duration?: number;
+  duration?: number | undefined;
 };
 /**
  * The paid media is a photo.
@@ -5983,15 +6000,15 @@ export type TgContact = {
   /**
    * Optional. Contact's last name
    */
-  last_name?: string;
+  last_name?: string | undefined;
   /**
    * Optional. Contact's user identifier in Telegram. This number may have more than 32 significant bits and some programming languages may have difficulty/silent defects in interpreting it. But it has at most 52 significant bits, so a 64-bit integer or double-precision float type are safe for storing this identifier.
    */
-  user_id?: number;
+  user_id?: number | undefined;
   /**
    * Optional. Additional data about the contact in the form of a vCard
    */
-  vcard?: string;
+  vcard?: string | undefined;
 };
 /**
  * This object represents an animated emoji that displays a random value.
@@ -6021,7 +6038,7 @@ export type TgPollOption = {
   /**
    * Optional. Special entities that appear in the option text. Currently, only custom emoji entities are allowed in poll option texts
    */
-  text_entities?: TgMessageEntity[];
+  text_entities?: TgMessageEntity[] | undefined;
   /**
    * Number of users that voted for this option
    */
@@ -6040,11 +6057,11 @@ export type TgInputPollOption = {
   /**
    * Optional. Mode for parsing entities in the text. See formatting options for more details. Currently, only custom emoji entities are allowed
    */
-  text_parse_mode?: undefined | "HTML" | "Markdown" | "MarkdownV2";
+  text_parse_mode?: "HTML" | "Markdown" | "MarkdownV2" | undefined;
   /**
    * Optional. A JSON-serialized list of special entities that appear in the poll option text. It can be specified instead of text_parse_mode
    */
-  text_entities?: TgMessageEntity[];
+  text_entities?: TgMessageEntity[] | undefined;
 };
 /**
  * This object represents an answer of a user in a non-anonymous poll.
@@ -6059,11 +6076,11 @@ export type TgPollAnswer = {
   /**
    * Optional. The chat that changed the answer to the poll, if the voter is anonymous
    */
-  voter_chat?: TgChat;
+  voter_chat?: TgChat | undefined;
   /**
    * Optional. The user that changed the answer to the poll, if the voter isn't anonymous
    */
-  user?: TgUser;
+  user?: TgUser | undefined;
   /**
    * 0-based identifiers of chosen answer options. May be empty if the vote was retracted.
    */
@@ -6086,7 +6103,7 @@ export type TgPoll = {
   /**
    * Optional. Special entities that appear in the question. Currently, only custom emoji entities are allowed in poll questions
    */
-  question_entities?: TgMessageEntity[];
+  question_entities?: TgMessageEntity[] | undefined;
   /**
    * List of poll options
    */
@@ -6114,23 +6131,23 @@ export type TgPoll = {
   /**
    * Optional. 0-based identifier of the correct answer option. Available only for polls in the quiz mode, which are closed, or was sent (not forwarded) by the bot or to the private chat with the bot.
    */
-  correct_option_id?: number;
+  correct_option_id?: number | undefined;
   /**
    * Optional. Text that is shown when a user chooses an incorrect answer or taps on the lamp icon in a quiz-style poll, 0-200 characters
    */
-  explanation?: string;
+  explanation?: string | undefined;
   /**
    * Optional. Special entities like usernames, URLs, bot commands, etc. that appear in the explanation
    */
-  explanation_entities?: TgMessageEntity[];
+  explanation_entities?: TgMessageEntity[] | undefined;
   /**
    * Optional. Amount of time in seconds the poll will be active after creation
    */
-  open_period?: number;
+  open_period?: number | undefined;
   /**
    * Optional. Point in time (Unix timestamp) when the poll will be automatically closed
    */
-  close_date?: number;
+  close_date?: number | undefined;
 };
 /**
  * This object represents a point on the map.
@@ -6149,19 +6166,19 @@ export type TgLocation = {
   /**
    * Optional. The radius of uncertainty for the location, measured in meters; 0-1500
    */
-  horizontal_accuracy?: number;
+  horizontal_accuracy?: number | undefined;
   /**
    * Optional. Time relative to the message sending date, during which the location can be updated; in seconds. For active live locations only.
    */
-  live_period?: number;
+  live_period?: number | undefined;
   /**
    * Optional. The direction in which user is moving, in degrees; 1-360. For active live locations only.
    */
-  heading?: number;
+  heading?: number | undefined;
   /**
    * Optional. The maximum distance for proximity alerts about approaching another chat member, in meters. For sent live locations only.
    */
-  proximity_alert_radius?: number;
+  proximity_alert_radius?: number | undefined;
 };
 /**
  * This object represents a venue.
@@ -6184,19 +6201,19 @@ export type TgVenue = {
   /**
    * Optional. Foursquare identifier of the venue
    */
-  foursquare_id?: string;
+  foursquare_id?: string | undefined;
   /**
    * Optional. Foursquare type of the venue. (For example, "arts_entertainment/default", "arts_entertainment/aquarium" or "food/icecream".)
    */
-  foursquare_type?: string;
+  foursquare_type?: string | undefined;
   /**
    * Optional. Google Places identifier of the venue
    */
-  google_place_id?: string;
+  google_place_id?: string | undefined;
   /**
    * Optional. Google Places type of the venue. (See supported types.)
    */
-  google_place_type?: string;
+  google_place_type?: string | undefined;
 };
 /**
  * Describes data sent from a Web App to the bot.
@@ -6380,11 +6397,11 @@ export type TgBackgroundTypeWallpaper = {
   /**
    * Optional. True, if the wallpaper is downscaled to fit in a 450x450 square and then box-blurred with radius 12
    */
-  is_blurred?: boolean;
+  is_blurred?: boolean | undefined;
   /**
    * Optional. True, if the background moves slightly when the device is tilted
    */
-  is_moving?: boolean;
+  is_moving?: boolean | undefined;
 };
 /**
  * The background is a .PNG or .TGV (gzipped subset of SVG with MIME type "application/x-tgwallpattern") pattern to be combined with the background fill chosen by the user.
@@ -6411,11 +6428,11 @@ export type TgBackgroundTypePattern = {
   /**
    * Optional. True, if the background fill must be applied only to the pattern itself. All other pixels are black in this case. For dark themes only
    */
-  is_inverted?: boolean;
+  is_inverted?: boolean | undefined;
   /**
    * Optional. True, if the background moves slightly when the device is tilted
    */
-  is_moving?: boolean;
+  is_moving?: boolean | undefined;
 };
 /**
  * The background is taken directly from a built-in chat theme.
@@ -6460,7 +6477,7 @@ export type TgForumTopicCreated = {
   /**
    * Optional. Unique identifier of the custom emoji shown as the topic icon
    */
-  icon_custom_emoji_id?: string;
+  icon_custom_emoji_id?: string | undefined;
 };
 /**
  * This object represents a service message about a forum topic closed in the chat. Currently holds no information.
@@ -6477,11 +6494,11 @@ export type TgForumTopicEdited = {
   /**
    * Optional. New name of the topic, if it was edited
    */
-  name?: string;
+  name?: string | undefined;
   /**
    * Optional. New identifier of the custom emoji shown as the topic icon, if it was edited; an empty string if the icon was removed
    */
-  icon_custom_emoji_id?: string;
+  icon_custom_emoji_id?: string | undefined;
 };
 /**
  * This object represents a service message about a forum topic reopened in the chat. Currently holds no information.
@@ -6514,19 +6531,19 @@ export type TgSharedUser = {
   /**
    * Optional. First name of the user, if the name was requested by the bot
    */
-  first_name?: string;
+  first_name?: string | undefined;
   /**
    * Optional. Last name of the user, if the name was requested by the bot
    */
-  last_name?: string;
+  last_name?: string | undefined;
   /**
    * Optional. Username of the user, if the username was requested by the bot
    */
-  username?: string;
+  username?: string | undefined;
   /**
    * Optional. Available sizes of the chat photo, if the photo was requested by the bot
    */
-  photo?: TgPhotoSize[];
+  photo?: TgPhotoSize[] | undefined;
 };
 /**
  * This object contains information about the users whose identifiers were shared with the bot using a KeyboardButtonRequestUsers button.
@@ -6560,15 +6577,15 @@ export type TgChatShared = {
   /**
    * Optional. Title of the chat, if the title was requested by the bot.
    */
-  title?: string;
+  title?: string | undefined;
   /**
    * Optional. Username of the chat, if the username was requested by the bot and available.
    */
-  username?: string;
+  username?: string | undefined;
   /**
    * Optional. Available sizes of the chat photo, if the photo was requested by the bot
    */
-  photo?: TgPhotoSize[];
+  photo?: TgPhotoSize[] | undefined;
 };
 /**
  * This object represents a service message about a user allowing a bot to write messages after adding it to the attachment menu, launching a Web App from a link, or accepting an explicit request from a Web App sent by the method requestWriteAccess.
@@ -6579,15 +6596,15 @@ export type TgWriteAccessAllowed = {
   /**
    * Optional. True, if the access was granted after the user accepted an explicit request from a Web App sent by the method requestWriteAccess
    */
-  from_request?: boolean;
+  from_request?: boolean | undefined;
   /**
    * Optional. Name of the Web App, if the access was granted when the Web App was launched from a link
    */
-  web_app_name?: string;
+  web_app_name?: string | undefined;
   /**
    * Optional. True, if the access was granted when the bot was added to the attachment or side menu
    */
-  from_attachment_menu?: boolean;
+  from_attachment_menu?: boolean | undefined;
 };
 /**
  * This object represents a service message about a video chat scheduled in the chat.
@@ -6637,7 +6654,7 @@ export type TgGiveawayCreated = {
   /**
    * Optional. The number of Telegram Stars to be split between giveaway winners; for Telegram Star giveaways only
    */
-  prize_star_count?: number;
+  prize_star_count?: number | undefined;
 };
 /**
  * This object represents a message about a scheduled giveaway.
@@ -6660,27 +6677,27 @@ export type TgGiveaway = {
   /**
    * Optional. True, if only users who join the chats after the giveaway started should be eligible to win
    */
-  only_new_members?: boolean;
+  only_new_members?: boolean | undefined;
   /**
    * Optional. True, if the list of giveaway winners will be visible to everyone
    */
-  has_public_winners?: boolean;
+  has_public_winners?: boolean | undefined;
   /**
    * Optional. Description of additional giveaway prize
    */
-  prize_description?: string;
+  prize_description?: string | undefined;
   /**
    * Optional. A list of two-letter ISO 3166-1 alpha-2 country codes indicating the countries from which eligible users for the giveaway must come. If empty, then all users can participate in the giveaway. Users with a phone number that was bought on Fragment can always participate in giveaways.
    */
-  country_codes?: string[];
+  country_codes?: string[] | undefined;
   /**
    * Optional. The number of Telegram Stars to be split between giveaway winners; for Telegram Star giveaways only
    */
-  prize_star_count?: number;
+  prize_star_count?: number | undefined;
   /**
    * Optional. The number of months the Telegram Premium subscription won from the giveaway will be active for; for Telegram Premium giveaways only
    */
-  premium_subscription_month_count?: number;
+  premium_subscription_month_count?: number | undefined;
 };
 /**
  * This object represents a message about the completion of a giveaway with public winners.
@@ -6711,31 +6728,31 @@ export type TgGiveawayWinners = {
   /**
    * Optional. The number of other chats the user had to join in order to be eligible for the giveaway
    */
-  additional_chat_count?: number;
+  additional_chat_count?: number | undefined;
   /**
    * Optional. The number of Telegram Stars that were split between giveaway winners; for Telegram Star giveaways only
    */
-  prize_star_count?: number;
+  prize_star_count?: number | undefined;
   /**
    * Optional. The number of months the Telegram Premium subscription won from the giveaway will be active for; for Telegram Premium giveaways only
    */
-  premium_subscription_month_count?: number;
+  premium_subscription_month_count?: number | undefined;
   /**
    * Optional. Number of undistributed prizes
    */
-  unclaimed_prize_count?: number;
+  unclaimed_prize_count?: number | undefined;
   /**
    * Optional. True, if only users who had joined the chats after the giveaway started were eligible to win
    */
-  only_new_members?: boolean;
+  only_new_members?: boolean | undefined;
   /**
    * Optional. True, if the giveaway was canceled because the payment for it was refunded
    */
-  was_refunded?: boolean;
+  was_refunded?: boolean | undefined;
   /**
    * Optional. Description of additional giveaway prize
    */
-  prize_description?: string;
+  prize_description?: string | undefined;
 };
 /**
  * This object represents a service message about the completion of a giveaway without public winners.
@@ -6750,15 +6767,15 @@ export type TgGiveawayCompleted = {
   /**
    * Optional. Number of undistributed prizes
    */
-  unclaimed_prize_count?: number;
+  unclaimed_prize_count?: number | undefined;
   /**
    * Optional. Message with the giveaway that was completed, if it wasn't deleted
    */
-  giveaway_message?: TgMessage;
+  giveaway_message?: TgMessage | undefined;
   /**
    * Optional. True, if the giveaway is a Telegram Star giveaway. Otherwise, currently, the giveaway is a Telegram Premium giveaway.
    */
-  is_star_giveaway?: boolean;
+  is_star_giveaway?: boolean | undefined;
 };
 /**
  * Describes the options used for link preview generation.
@@ -6769,23 +6786,23 @@ export type TgLinkPreviewOptions = {
   /**
    * Optional. True, if the link preview is disabled
    */
-  is_disabled?: boolean;
+  is_disabled?: boolean | undefined;
   /**
    * Optional. URL to use for the link preview. If empty, then the first URL found in the message text will be used
    */
-  url?: string;
+  url?: string | undefined;
   /**
    * Optional. True, if the media in the link preview is supposed to be shrunk; ignored if the URL isn't explicitly specified or media size change isn't supported for the preview
    */
-  prefer_small_media?: boolean;
+  prefer_small_media?: boolean | undefined;
   /**
    * Optional. True, if the media in the link preview is supposed to be enlarged; ignored if the URL isn't explicitly specified or media size change isn't supported for the preview
    */
-  prefer_large_media?: boolean;
+  prefer_large_media?: boolean | undefined;
   /**
    * Optional. True, if the link preview must be shown above the message text; otherwise, the link preview will be shown below the message text
    */
-  show_above_text?: boolean;
+  show_above_text?: boolean | undefined;
 };
 /**
  * This object represent a user's profile pictures.
@@ -6819,11 +6836,11 @@ export type TgFile = {
   /**
    * Optional. File size in bytes. It can be bigger than 2^31 and some programming languages may have difficulty/silent defects in interpreting it. But it has at most 52 significant bits, so a signed 64-bit integer or double-precision float type are safe for storing this value.
    */
-  file_size?: number;
+  file_size?: number | undefined;
   /**
    * Optional. File path. Use https://api.telegram.org/file/bot<token>/<file_path> to get the file.
    */
-  file_path?: string;
+  file_path?: string | undefined;
 };
 /**
  * Describes a Web App.
@@ -6849,23 +6866,23 @@ export type TgReplyKeyboardMarkup = {
   /**
    * Optional. Requests clients to always show the keyboard when the regular keyboard is hidden. Defaults to false, in which case the custom keyboard can be hidden and opened with a keyboard icon.
    */
-  is_persistent?: boolean;
+  is_persistent?: boolean | undefined;
   /**
    * Optional. Requests clients to resize the keyboard vertically for optimal fit (e.g., make the keyboard smaller if there are just two rows of buttons). Defaults to false, in which case the custom keyboard is always of the same height as the app's standard keyboard.
    */
-  resize_keyboard?: boolean;
+  resize_keyboard?: boolean | undefined;
   /**
    * Optional. Requests clients to hide the keyboard as soon as it's been used. The keyboard will still be available, but clients will automatically display the usual letter-keyboard in the chat - the user can press a special button in the input field to see the custom keyboard again. Defaults to false.
    */
-  one_time_keyboard?: boolean;
+  one_time_keyboard?: boolean | undefined;
   /**
    * Optional. The placeholder to be shown in the input field when the keyboard is active; 1-64 characters
    */
-  input_field_placeholder?: string;
+  input_field_placeholder?: string | undefined;
   /**
    * Optional. Use this parameter if you want to show the keyboard to specific users only. Targets: 1) users that are @mentioned in the text of the Message object; 2) if the bot's message is a reply to a message in the same chat and forum topic, sender of the original message. Example: A user requests to change the bot's language, bot replies to the request with a keyboard to select the new language. Other users in the group don't see the keyboard.
    */
-  selective?: boolean;
+  selective?: boolean | undefined;
 };
 /**
  * This object represents one button of the reply keyboard. At most one of the optional fields must be used to specify type of the button. For simple text buttons, String can be used instead of this object to specify the button text.
@@ -6882,27 +6899,27 @@ export type TgKeyboardButton = {
   /**
    * Optional. If specified, pressing the button will open a list of suitable users. Identifiers of selected users will be sent to the bot in a "users_shared" service message. Available in private chats only.
    */
-  request_users?: TgKeyboardButtonRequestUsers;
+  request_users?: TgKeyboardButtonRequestUsers | undefined;
   /**
    * Optional. If specified, pressing the button will open a list of suitable chats. Tapping on a chat will send its identifier to the bot in a "chat_shared" service message. Available in private chats only.
    */
-  request_chat?: TgKeyboardButtonRequestChat;
+  request_chat?: TgKeyboardButtonRequestChat | undefined;
   /**
    * Optional. If True, the user's phone number will be sent as a contact when the button is pressed. Available in private chats only.
    */
-  request_contact?: boolean;
+  request_contact?: boolean | undefined;
   /**
    * Optional. If True, the user's current location will be sent when the button is pressed. Available in private chats only.
    */
-  request_location?: boolean;
+  request_location?: boolean | undefined;
   /**
    * Optional. If specified, the user will be asked to create a poll and send it to the bot when the button is pressed. Available in private chats only.
    */
-  request_poll?: TgKeyboardButtonPollType;
+  request_poll?: TgKeyboardButtonPollType | undefined;
   /**
    * Optional. If specified, the described Web App will be launched when the button is pressed. The Web App will be able to send a "web_app_data" service message. Available in private chats only.
    */
-  web_app?: TgWebAppInfo;
+  web_app?: TgWebAppInfo | undefined;
 };
 /**
  * This object defines the criteria used to request suitable users. Information about the selected users will be shared with the bot when the corresponding button is pressed. More about requesting users: https://core.telegram.org/bots/features#chat-and-user-selection
@@ -6917,27 +6934,27 @@ export type TgKeyboardButtonRequestUsers = {
   /**
    * Optional. Pass True to request bots, pass False to request regular users. If not specified, no additional restrictions are applied.
    */
-  user_is_bot?: boolean;
+  user_is_bot?: boolean | undefined;
   /**
    * Optional. Pass True to request premium users, pass False to request non-premium users. If not specified, no additional restrictions are applied.
    */
-  user_is_premium?: boolean;
+  user_is_premium?: boolean | undefined;
   /**
    * Optional. The maximum number of users to be selected; 1-10. Defaults to 1.
    */
-  max_quantity?: number;
+  max_quantity?: number | undefined;
   /**
    * Optional. Pass True to request the users' first and last names
    */
-  request_name?: boolean;
+  request_name?: boolean | undefined;
   /**
    * Optional. Pass True to request the users' usernames
    */
-  request_username?: boolean;
+  request_username?: boolean | undefined;
   /**
    * Optional. Pass True to request the users' photos
    */
-  request_photo?: boolean;
+  request_photo?: boolean | undefined;
 };
 /**
  * This object defines the criteria used to request a suitable chat. Information about the selected chat will be shared with the bot when the corresponding button is pressed. The bot will be granted requested rights in the chat if appropriate. More about requesting chats: https://core.telegram.org/bots/features#chat-and-user-selection.
@@ -6956,39 +6973,39 @@ export type TgKeyboardButtonRequestChat = {
   /**
    * Optional. Pass True to request a forum supergroup, pass False to request a non-forum chat. If not specified, no additional restrictions are applied.
    */
-  chat_is_forum?: boolean;
+  chat_is_forum?: boolean | undefined;
   /**
    * Optional. Pass True to request a supergroup or a channel with a username, pass False to request a chat without a username. If not specified, no additional restrictions are applied.
    */
-  chat_has_username?: boolean;
+  chat_has_username?: boolean | undefined;
   /**
    * Optional. Pass True to request a chat owned by the user. Otherwise, no additional restrictions are applied.
    */
-  chat_is_created?: boolean;
+  chat_is_created?: boolean | undefined;
   /**
    * Optional. A JSON-serialized object listing the required administrator rights of the user in the chat. The rights must be a superset of bot_administrator_rights. If not specified, no additional restrictions are applied.
    */
-  user_administrator_rights?: Partial<TgChatAdministratorRights>;
+  user_administrator_rights?: Partial<TgChatAdministratorRights> | undefined;
   /**
    * Optional. A JSON-serialized object listing the required administrator rights of the bot in the chat. The rights must be a subset of user_administrator_rights. If not specified, no additional restrictions are applied.
    */
-  bot_administrator_rights?: Partial<TgChatAdministratorRights>;
+  bot_administrator_rights?: Partial<TgChatAdministratorRights> | undefined;
   /**
    * Optional. Pass True to request a chat with the bot as a member. Otherwise, no additional restrictions are applied.
    */
-  bot_is_member?: boolean;
+  bot_is_member?: boolean | undefined;
   /**
    * Optional. Pass True to request the chat's title
    */
-  request_title?: boolean;
+  request_title?: boolean | undefined;
   /**
    * Optional. Pass True to request the chat's username
    */
-  request_username?: boolean;
+  request_username?: boolean | undefined;
   /**
    * Optional. Pass True to request the chat's photo
    */
-  request_photo?: boolean;
+  request_photo?: boolean | undefined;
 };
 /**
  * This object represents type of a poll, which is allowed to be created and sent when the corresponding button is pressed.
@@ -6999,7 +7016,7 @@ export type TgKeyboardButtonPollType = {
   /**
    * Optional. If quiz is passed, the user will be allowed to create only polls in the quiz mode. If regular is passed, only regular polls will be allowed. Otherwise, the user will be allowed to create a poll of any type.
    */
-  type?: string;
+  type?: string | undefined;
 };
 /**
  * Upon receiving a message with this object, Telegram clients will remove the current custom keyboard and display the default letter-keyboard. By default, custom keyboards are displayed until a new keyboard is sent by a bot. An exception is made for one-time keyboards that are hidden immediately after the user presses a button (see ReplyKeyboardMarkup). Not supported in channels and for messages sent on behalf of a Telegram Business account.
@@ -7014,7 +7031,7 @@ export type TgReplyKeyboardRemove = {
   /**
    * Optional. Use this parameter if you want to remove the keyboard for specific users only. Targets: 1) users that are @mentioned in the text of the Message object; 2) if the bot's message is a reply to a message in the same chat and forum topic, sender of the original message. Example: A user votes in a poll, bot returns confirmation message in reply to the vote and removes the keyboard for that user, while still showing the keyboard with poll options to users who haven't voted yet.
    */
-  selective?: boolean;
+  selective?: boolean | undefined;
 };
 /**
  * This object represents an inline keyboard that appears right next to the message it belongs to.
@@ -7040,43 +7057,43 @@ export type TgInlineKeyboardButton = {
   /**
    * Optional. HTTP or tg:// URL to be opened when the button is pressed. Links tg://user?id=<user_id> can be used to mention a user by their identifier without using a username, if this is allowed by their privacy settings.
    */
-  url?: string;
+  url?: string | undefined;
   /**
    * Optional. Data to be sent in a callback query to the bot when the button is pressed, 1-64 bytes
    */
-  callback_data?: string;
+  callback_data?: string | undefined;
   /**
    * Optional. Description of the Web App that will be launched when the user presses the button. The Web App will be able to send an arbitrary message on behalf of the user using the method answerWebAppQuery. Available only in private chats between a user and the bot. Not supported for messages sent on behalf of a Telegram Business account.
    */
-  web_app?: TgWebAppInfo;
+  web_app?: TgWebAppInfo | undefined;
   /**
    * Optional. An HTTPS URL used to automatically authorize the user. Can be used as a replacement for the Telegram Login Widget.
    */
-  login_url?: TgLoginUrl;
+  login_url?: TgLoginUrl | undefined;
   /**
    * Optional. If set, pressing the button will prompt the user to select one of their chats, open that chat and insert the bot's username and the specified inline query in the input field. May be empty, in which case just the bot's username will be inserted. Not supported for messages sent on behalf of a Telegram Business account.
    */
-  switch_inline_query?: string;
+  switch_inline_query?: string | undefined;
   /**
    * Optional. If set, pressing the button will insert the bot's username and the specified inline query in the current chat's input field. May be empty, in which case only the bot's username will be inserted. This offers a quick way for the user to open your bot in inline mode in the same chat - good for selecting something from multiple options. Not supported in channels and for messages sent on behalf of a Telegram Business account.
    */
-  switch_inline_query_current_chat?: string;
+  switch_inline_query_current_chat?: string | undefined;
   /**
    * Optional. If set, pressing the button will prompt the user to select one of their chats of the specified type, open that chat and insert the bot's username and the specified inline query in the input field. Not supported for messages sent on behalf of a Telegram Business account.
    */
-  switch_inline_query_chosen_chat?: TgSwitchInlineQueryChosenChat;
+  switch_inline_query_chosen_chat?: TgSwitchInlineQueryChosenChat | undefined;
   /**
    * Optional. Description of the button that copies the specified text to the clipboard.
    */
-  copy_text?: TgCopyTextButton;
+  copy_text?: TgCopyTextButton | undefined;
   /**
    * Optional. Description of the game that will be launched when the user presses the button. NOTE: This type of button must always be the first button in the first row.
    */
-  callback_game?: TgCallbackGame;
+  callback_game?: TgCallbackGame | undefined;
   /**
    * Optional. Specify True, to send a Pay button. Substrings "⭐" and "XTR" in the buttons's text will be replaced with a Telegram Star icon. NOTE: This type of button must always be the first button in the first row and can only be used in invoice messages.
    */
-  pay?: boolean;
+  pay?: boolean | undefined;
 };
 /**
  * This object represents a parameter of the inline keyboard button used to automatically authorize a user. Serves as a great replacement for the Telegram Login Widget when the user is coming from Telegram. All the user needs to do is tap/click a button and confirm that they want to log in:
@@ -7093,15 +7110,15 @@ export type TgLoginUrl = {
   /**
    * Optional. New text of the button in forwarded messages.
    */
-  forward_text?: string;
+  forward_text?: string | undefined;
   /**
    * Optional. Username of a bot, which will be used for user authorization. See Setting up a bot for more details. If not specified, the current bot's username will be assumed. The url's domain must be the same as the domain linked with the bot. See Linking your domain to the bot for more details.
    */
-  bot_username?: string;
+  bot_username?: string | undefined;
   /**
    * Optional. Pass True to request the permission for your bot to send messages to the user.
    */
-  request_write_access?: boolean;
+  request_write_access?: boolean | undefined;
 };
 /**
  * This object represents an inline button that switches the current user to inline mode in a chosen chat, with an optional default inline query.
@@ -7112,23 +7129,23 @@ export type TgSwitchInlineQueryChosenChat = {
   /**
    * Optional. The default inline query to be inserted in the input field. If left empty, only the bot's username will be inserted
    */
-  query?: string;
+  query?: string | undefined;
   /**
    * Optional. True, if private chats with users can be chosen
    */
-  allow_user_chats?: boolean;
+  allow_user_chats?: boolean | undefined;
   /**
    * Optional. True, if private chats with bots can be chosen
    */
-  allow_bot_chats?: boolean;
+  allow_bot_chats?: boolean | undefined;
   /**
    * Optional. True, if group and supergroup chats can be chosen
    */
-  allow_group_chats?: boolean;
+  allow_group_chats?: boolean | undefined;
   /**
    * Optional. True, if channel chats can be chosen
    */
-  allow_channel_chats?: boolean;
+  allow_channel_chats?: boolean | undefined;
 };
 /**
  * This object represents an inline keyboard button that copies specified text to the clipboard.
@@ -7158,11 +7175,11 @@ export type TgCallbackQuery = {
   /**
    * Optional. Message sent by the bot with the callback button that originated the query
    */
-  message?: TgMaybeInaccessibleMessage;
+  message?: TgMaybeInaccessibleMessage | undefined;
   /**
    * Optional. Identifier of the message sent via the bot in inline mode, that originated the query.
    */
-  inline_message_id?: string;
+  inline_message_id?: string | undefined;
   /**
    * Global identifier, uniquely corresponding to the chat to which the message with the callback button was sent. Useful for high scores in games.
    */
@@ -7170,11 +7187,11 @@ export type TgCallbackQuery = {
   /**
    * Optional. Data associated with the callback button. Be aware that the message originated the query can contain no callback buttons with this data.
    */
-  data?: string;
+  data?: string | undefined;
   /**
    * Optional. Short name of a Game to be returned, serves as the unique identifier for the game
    */
-  game_short_name?: string;
+  game_short_name?: string | undefined;
 };
 /**
  * Upon receiving a message with this object, Telegram clients will display a reply interface to the user (act as if the user has selected the bot's message and tapped 'Reply'). This can be extremely useful if you want to create user-friendly step-by-step interfaces without having to sacrifice privacy mode. Not supported in channels and for messages sent on behalf of a Telegram Business account.
@@ -7189,11 +7206,11 @@ export type TgForceReply = {
   /**
    * Optional. The placeholder to be shown in the input field when the reply is active; 1-64 characters
    */
-  input_field_placeholder?: string;
+  input_field_placeholder?: string | undefined;
   /**
    * Optional. Use this parameter if you want to force reply from specific users only. Targets: 1) users that are @mentioned in the text of the Message object; 2) if the bot's message is a reply to a message in the same chat and forum topic, sender of the original message.
    */
-  selective?: boolean;
+  selective?: boolean | undefined;
 };
 /**
  * This object represents a chat photo.
@@ -7247,27 +7264,27 @@ export type TgChatInviteLink = {
   /**
    * Optional. Invite link name
    */
-  name?: string;
+  name?: string | undefined;
   /**
    * Optional. Point in time (Unix timestamp) when the link will expire or has been expired
    */
-  expire_date?: number;
+  expire_date?: number | undefined;
   /**
    * Optional. The maximum number of users that can be members of the chat simultaneously after joining the chat via this invite link; 1-99999
    */
-  member_limit?: number;
+  member_limit?: number | undefined;
   /**
    * Optional. Number of pending join requests created using this link
    */
-  pending_join_request_count?: number;
+  pending_join_request_count?: number | undefined;
   /**
    * Optional. The number of seconds the subscription will be active for before the next payment
    */
-  subscription_period?: number;
+  subscription_period?: number | undefined;
   /**
    * Optional. The amount of Telegram Stars a user must pay initially and after each subsequent subscription period to be a member of the chat using the link
    */
-  subscription_price?: number;
+  subscription_price?: number | undefined;
 };
 /**
  * Represents the rights of an administrator in a chat.
@@ -7322,19 +7339,19 @@ export type TgChatAdministratorRights = {
   /**
    * Optional. True, if the administrator can post messages in the channel, or access channel statistics; for channels only
    */
-  can_post_messages?: boolean;
+  can_post_messages?: boolean | undefined;
   /**
    * Optional. True, if the administrator can edit messages of other users and can pin messages; for channels only
    */
-  can_edit_messages?: boolean;
+  can_edit_messages?: boolean | undefined;
   /**
    * Optional. True, if the user is allowed to pin messages; for groups and supergroups only
    */
-  can_pin_messages?: boolean;
+  can_pin_messages?: boolean | undefined;
   /**
    * Optional. True, if the user is allowed to create, rename, close, and reopen forum topics; for supergroups only
    */
-  can_manage_topics?: boolean;
+  can_manage_topics?: boolean | undefined;
 };
 /**
  * This object represents changes in the status of a chat member.
@@ -7365,15 +7382,15 @@ export type TgChatMemberUpdated = {
   /**
    * Optional. Chat invite link, which was used by the user to join the chat; for joining by invite link events only.
    */
-  invite_link?: TgChatInviteLink;
+  invite_link?: TgChatInviteLink | undefined;
   /**
    * Optional. True, if the user joined the chat after sending a direct join request without using an invite link and being approved by an administrator
    */
-  via_join_request?: boolean;
+  via_join_request?: boolean | undefined;
   /**
    * Optional. True, if the user joined the chat via a chat folder invite link
    */
-  via_chat_folder_invite_link?: boolean;
+  via_chat_folder_invite_link?: boolean | undefined;
 };
 /**
  * This object contains information about one member of a chat. Currently, the following 6 types of chat members are supported:
@@ -7420,7 +7437,7 @@ export type TgChatMemberOwner = {
   /**
    * Optional. Custom title for this user
    */
-  custom_title?: string;
+  custom_title?: string | undefined;
 };
 /**
  * Represents a chat member that has some additional privileges.
@@ -7487,23 +7504,23 @@ export type TgChatMemberAdministrator = {
   /**
    * Optional. True, if the administrator can post messages in the channel, or access channel statistics; for channels only
    */
-  can_post_messages?: boolean;
+  can_post_messages?: boolean | undefined;
   /**
    * Optional. True, if the administrator can edit messages of other users and can pin messages; for channels only
    */
-  can_edit_messages?: boolean;
+  can_edit_messages?: boolean | undefined;
   /**
    * Optional. True, if the user is allowed to pin messages; for groups and supergroups only
    */
-  can_pin_messages?: boolean;
+  can_pin_messages?: boolean | undefined;
   /**
    * Optional. True, if the user is allowed to create, rename, close, and reopen forum topics; for supergroups only
    */
-  can_manage_topics?: boolean;
+  can_manage_topics?: boolean | undefined;
   /**
    * Optional. Custom title for this user
    */
-  custom_title?: string;
+  custom_title?: string | undefined;
 };
 /**
  * Represents a chat member that has no additional privileges or restrictions.
@@ -7522,7 +7539,7 @@ export type TgChatMemberMember = {
   /**
    * Optional. Date when the user's subscription will expire; Unix time
    */
-  until_date?: number;
+  until_date?: number | undefined;
 };
 /**
  * Represents a chat member that is under certain restrictions in the chat. Supergroups only.
@@ -7662,11 +7679,11 @@ export type TgChatJoinRequest = {
   /**
    * Optional. Bio of the user.
    */
-  bio?: string;
+  bio?: string | undefined;
   /**
    * Optional. Chat invite link that was used by the user to send the join request
    */
-  invite_link?: TgChatInviteLink;
+  invite_link?: TgChatInviteLink | undefined;
 };
 /**
  * Describes actions that a non-administrator user is allowed to take in a chat.
@@ -7677,59 +7694,59 @@ export type TgChatPermissions = {
   /**
    * Optional. True, if the user is allowed to send text messages, contacts, giveaways, giveaway winners, invoices, locations and venues
    */
-  can_send_messages?: boolean;
+  can_send_messages?: boolean | undefined;
   /**
    * Optional. True, if the user is allowed to send audios
    */
-  can_send_audios?: boolean;
+  can_send_audios?: boolean | undefined;
   /**
    * Optional. True, if the user is allowed to send documents
    */
-  can_send_documents?: boolean;
+  can_send_documents?: boolean | undefined;
   /**
    * Optional. True, if the user is allowed to send photos
    */
-  can_send_photos?: boolean;
+  can_send_photos?: boolean | undefined;
   /**
    * Optional. True, if the user is allowed to send videos
    */
-  can_send_videos?: boolean;
+  can_send_videos?: boolean | undefined;
   /**
    * Optional. True, if the user is allowed to send video notes
    */
-  can_send_video_notes?: boolean;
+  can_send_video_notes?: boolean | undefined;
   /**
    * Optional. True, if the user is allowed to send voice notes
    */
-  can_send_voice_notes?: boolean;
+  can_send_voice_notes?: boolean | undefined;
   /**
    * Optional. True, if the user is allowed to send polls
    */
-  can_send_polls?: boolean;
+  can_send_polls?: boolean | undefined;
   /**
    * Optional. True, if the user is allowed to send animations, games, stickers and use inline bots
    */
-  can_send_other_messages?: boolean;
+  can_send_other_messages?: boolean | undefined;
   /**
    * Optional. True, if the user is allowed to add web page previews to their messages
    */
-  can_add_web_page_previews?: boolean;
+  can_add_web_page_previews?: boolean | undefined;
   /**
    * Optional. True, if the user is allowed to change the chat title, photo and other settings. Ignored in public supergroups
    */
-  can_change_info?: boolean;
+  can_change_info?: boolean | undefined;
   /**
    * Optional. True, if the user is allowed to invite new users to the chat
    */
-  can_invite_users?: boolean;
+  can_invite_users?: boolean | undefined;
   /**
    * Optional. True, if the user is allowed to pin messages. Ignored in public supergroups
    */
-  can_pin_messages?: boolean;
+  can_pin_messages?: boolean | undefined;
   /**
    * Optional. True, if the user is allowed to create forum topics. If omitted defaults to the value of can_pin_messages
    */
-  can_manage_topics?: boolean;
+  can_manage_topics?: boolean | undefined;
 };
 /**
  * Describes the birthdate of a user.
@@ -7748,7 +7765,7 @@ export type TgBirthdate = {
   /**
    * Optional. Year of the user's birth
    */
-  year?: number;
+  year?: number | undefined;
 };
 /**
  * Contains information about the start page settings of a Telegram Business account.
@@ -7759,15 +7776,15 @@ export type TgBusinessIntro = {
   /**
    * Optional. Title text of the business intro
    */
-  title?: string;
+  title?: string | undefined;
   /**
    * Optional. Message text of the business intro
    */
-  message?: string;
+  message?: string | undefined;
   /**
    * Optional. Sticker of the business intro
    */
-  sticker?: TgSticker;
+  sticker?: TgSticker | undefined;
 };
 /**
  * Contains information about the location of a Telegram Business account.
@@ -7782,7 +7799,7 @@ export type TgBusinessLocation = {
   /**
    * Optional. Location of the business
    */
-  location?: TgLocation;
+  location?: TgLocation | undefined;
 };
 /**
  * Describes an interval of time during which a business is open.
@@ -7987,11 +8004,11 @@ export type TgMessageReactionUpdated = {
   /**
    * Optional. The user that changed the reaction, if the user isn't anonymous
    */
-  user?: TgUser;
+  user?: TgUser | undefined;
   /**
    * Optional. The chat on behalf of which the reaction was changed, if the user is anonymous
    */
-  actor_chat?: TgChat;
+  actor_chat?: TgChat | undefined;
   /**
    * Date of the change in Unix time
    */
@@ -8049,7 +8066,7 @@ export type TgForumTopic = {
   /**
    * Optional. Unique identifier of the custom emoji shown as the topic icon
    */
-  icon_custom_emoji_id?: string;
+  icon_custom_emoji_id?: string | undefined;
 };
 /**
  * This object represents a bot command.
@@ -8336,15 +8353,15 @@ export type TgChatBoostSourceGiveaway = {
   /**
    * Optional. User that won the prize in the giveaway if any; for Telegram Premium giveaways only
    */
-  user?: TgUser;
+  user?: TgUser | undefined;
   /**
    * Optional. The number of Telegram Stars to be split between giveaway winners; for Telegram Star giveaways only
    */
-  prize_star_count?: number;
+  prize_star_count?: number | undefined;
   /**
    * Optional. True, if the giveaway was completed, but there was no user to win the prize
    */
-  is_unclaimed?: boolean;
+  is_unclaimed?: boolean | undefined;
 };
 /**
  * This object contains information about a chat boost.
@@ -8477,11 +8494,11 @@ export type TgResponseParameters = {
   /**
    * Optional. The group has been migrated to a supergroup with the specified identifier. This number may have more than 32 significant bits and some programming languages may have difficulty/silent defects in interpreting it. But it has at most 52 significant bits, so a signed 64-bit integer or double-precision float type are safe for storing this identifier.
    */
-  migrate_to_chat_id?: number;
+  migrate_to_chat_id?: number | undefined;
   /**
    * Optional. In case of exceeding flood control, the number of seconds left to wait before the request can be repeated
    */
-  retry_after?: number;
+  retry_after?: number | undefined;
 };
 /**
  * This object represents the content of a media message to be sent. It should be one of
@@ -8521,23 +8538,23 @@ export type TgInputMediaPhoto = {
   /**
    * Optional. Caption of the photo to be sent, 0-1024 characters after entities parsing
    */
-  caption?: string;
+  caption?: string | undefined;
   /**
    * Optional. Mode for parsing entities in the photo caption. See formatting options for more details.
    */
-  parse_mode?: undefined | "HTML" | "Markdown" | "MarkdownV2";
+  parse_mode?: "HTML" | "Markdown" | "MarkdownV2" | undefined;
   /**
    * Optional. List of special entities that appear in the caption, which can be specified instead of parse_mode
    */
-  caption_entities?: TgMessageEntity[];
+  caption_entities?: TgMessageEntity[] | undefined;
   /**
    * Optional. Pass True, if the caption must be shown above the message media
    */
-  show_caption_above_media?: boolean;
+  show_caption_above_media?: boolean | undefined;
   /**
    * Optional. Pass True if the photo needs to be covered with a spoiler animation
    */
-  has_spoiler?: boolean;
+  has_spoiler?: boolean | undefined;
 };
 /**
  * Represents a video to be sent.
@@ -8556,51 +8573,51 @@ export type TgInputMediaVideo = {
   /**
    * Optional. Thumbnail of the file sent; can be ignored if thumbnail generation for the file is supported server-side. The thumbnail should be in JPEG format and less than 200 kB in size. A thumbnail's width and height should not exceed 320. Ignored if the file is not uploaded using multipart/form-data. Thumbnails can't be reused and can be only uploaded as a new file, so you can pass "attach://<file_attach_name>" if the thumbnail was uploaded using multipart/form-data under <file_attach_name>. More information on Sending Files: https://core.telegram.org/bots/api#sending-files
    */
-  thumbnail?: string;
+  thumbnail?: string | undefined;
   /**
    * Optional. Cover for the video in the message. Pass a file_id to send a file that exists on the Telegram servers (recommended), pass an HTTP URL for Telegram to get a file from the Internet, or pass "attach://<file_attach_name>" to upload a new one using multipart/form-data under <file_attach_name> name. More information on Sending Files: https://core.telegram.org/bots/api#sending-files
    */
-  cover?: string;
+  cover?: string | undefined;
   /**
    * Optional. Start timestamp for the video in the message
    */
-  start_timestamp?: number;
+  start_timestamp?: number | undefined;
   /**
    * Optional. Caption of the video to be sent, 0-1024 characters after entities parsing
    */
-  caption?: string;
+  caption?: string | undefined;
   /**
    * Optional. Mode for parsing entities in the video caption. See formatting options for more details.
    */
-  parse_mode?: undefined | "HTML" | "Markdown" | "MarkdownV2";
+  parse_mode?: "HTML" | "Markdown" | "MarkdownV2" | undefined;
   /**
    * Optional. List of special entities that appear in the caption, which can be specified instead of parse_mode
    */
-  caption_entities?: TgMessageEntity[];
+  caption_entities?: TgMessageEntity[] | undefined;
   /**
    * Optional. Pass True, if the caption must be shown above the message media
    */
-  show_caption_above_media?: boolean;
+  show_caption_above_media?: boolean | undefined;
   /**
    * Optional. Video width
    */
-  width?: number;
+  width?: number | undefined;
   /**
    * Optional. Video height
    */
-  height?: number;
+  height?: number | undefined;
   /**
    * Optional. Video duration in seconds
    */
-  duration?: number;
+  duration?: number | undefined;
   /**
    * Optional. Pass True if the uploaded video is suitable for streaming
    */
-  supports_streaming?: boolean;
+  supports_streaming?: boolean | undefined;
   /**
    * Optional. Pass True if the video needs to be covered with a spoiler animation
    */
-  has_spoiler?: boolean;
+  has_spoiler?: boolean | undefined;
 };
 /**
  * Represents an animation file (GIF or H.264/MPEG-4 AVC video without sound) to be sent.
@@ -8619,39 +8636,39 @@ export type TgInputMediaAnimation = {
   /**
    * Optional. Thumbnail of the file sent; can be ignored if thumbnail generation for the file is supported server-side. The thumbnail should be in JPEG format and less than 200 kB in size. A thumbnail's width and height should not exceed 320. Ignored if the file is not uploaded using multipart/form-data. Thumbnails can't be reused and can be only uploaded as a new file, so you can pass "attach://<file_attach_name>" if the thumbnail was uploaded using multipart/form-data under <file_attach_name>. More information on Sending Files: https://core.telegram.org/bots/api#sending-files
    */
-  thumbnail?: string;
+  thumbnail?: string | undefined;
   /**
    * Optional. Caption of the animation to be sent, 0-1024 characters after entities parsing
    */
-  caption?: string;
+  caption?: string | undefined;
   /**
    * Optional. Mode for parsing entities in the animation caption. See formatting options for more details.
    */
-  parse_mode?: undefined | "HTML" | "Markdown" | "MarkdownV2";
+  parse_mode?: "HTML" | "Markdown" | "MarkdownV2" | undefined;
   /**
    * Optional. List of special entities that appear in the caption, which can be specified instead of parse_mode
    */
-  caption_entities?: TgMessageEntity[];
+  caption_entities?: TgMessageEntity[] | undefined;
   /**
    * Optional. Pass True, if the caption must be shown above the message media
    */
-  show_caption_above_media?: boolean;
+  show_caption_above_media?: boolean | undefined;
   /**
    * Optional. Animation width
    */
-  width?: number;
+  width?: number | undefined;
   /**
    * Optional. Animation height
    */
-  height?: number;
+  height?: number | undefined;
   /**
    * Optional. Animation duration in seconds
    */
-  duration?: number;
+  duration?: number | undefined;
   /**
    * Optional. Pass True if the animation needs to be covered with a spoiler animation
    */
-  has_spoiler?: boolean;
+  has_spoiler?: boolean | undefined;
 };
 /**
  * Represents an audio file to be treated as music to be sent.
@@ -8670,31 +8687,31 @@ export type TgInputMediaAudio = {
   /**
    * Optional. Thumbnail of the file sent; can be ignored if thumbnail generation for the file is supported server-side. The thumbnail should be in JPEG format and less than 200 kB in size. A thumbnail's width and height should not exceed 320. Ignored if the file is not uploaded using multipart/form-data. Thumbnails can't be reused and can be only uploaded as a new file, so you can pass "attach://<file_attach_name>" if the thumbnail was uploaded using multipart/form-data under <file_attach_name>. More information on Sending Files: https://core.telegram.org/bots/api#sending-files
    */
-  thumbnail?: string;
+  thumbnail?: string | undefined;
   /**
    * Optional. Caption of the audio to be sent, 0-1024 characters after entities parsing
    */
-  caption?: string;
+  caption?: string | undefined;
   /**
    * Optional. Mode for parsing entities in the audio caption. See formatting options for more details.
    */
-  parse_mode?: undefined | "HTML" | "Markdown" | "MarkdownV2";
+  parse_mode?: "HTML" | "Markdown" | "MarkdownV2" | undefined;
   /**
    * Optional. List of special entities that appear in the caption, which can be specified instead of parse_mode
    */
-  caption_entities?: TgMessageEntity[];
+  caption_entities?: TgMessageEntity[] | undefined;
   /**
    * Optional. Duration of the audio in seconds
    */
-  duration?: number;
+  duration?: number | undefined;
   /**
    * Optional. Performer of the audio
    */
-  performer?: string;
+  performer?: string | undefined;
   /**
    * Optional. Title of the audio
    */
-  title?: string;
+  title?: string | undefined;
 };
 /**
  * Represents a general file to be sent.
@@ -8713,23 +8730,23 @@ export type TgInputMediaDocument = {
   /**
    * Optional. Thumbnail of the file sent; can be ignored if thumbnail generation for the file is supported server-side. The thumbnail should be in JPEG format and less than 200 kB in size. A thumbnail's width and height should not exceed 320. Ignored if the file is not uploaded using multipart/form-data. Thumbnails can't be reused and can be only uploaded as a new file, so you can pass "attach://<file_attach_name>" if the thumbnail was uploaded using multipart/form-data under <file_attach_name>. More information on Sending Files: https://core.telegram.org/bots/api#sending-files
    */
-  thumbnail?: string;
+  thumbnail?: string | undefined;
   /**
    * Optional. Caption of the document to be sent, 0-1024 characters after entities parsing
    */
-  caption?: string;
+  caption?: string | undefined;
   /**
    * Optional. Mode for parsing entities in the document caption. See formatting options for more details.
    */
-  parse_mode?: undefined | "HTML" | "Markdown" | "MarkdownV2";
+  parse_mode?: "HTML" | "Markdown" | "MarkdownV2" | undefined;
   /**
    * Optional. List of special entities that appear in the caption, which can be specified instead of parse_mode
    */
-  caption_entities?: TgMessageEntity[];
+  caption_entities?: TgMessageEntity[] | undefined;
   /**
    * Optional. Disables automatic server-side content type detection for files uploaded using multipart/form-data. Always True, if the document is sent as part of an album.
    */
-  disable_content_type_detection?: boolean;
+  disable_content_type_detection?: boolean | undefined;
 };
 /**
  * This object represents the contents of a file to be uploaded. Must be posted using multipart/form-data in the usual way that files are uploaded via the browser.
@@ -8779,31 +8796,31 @@ export type TgInputPaidMediaVideo = {
   /**
    * Optional. Thumbnail of the file sent; can be ignored if thumbnail generation for the file is supported server-side. The thumbnail should be in JPEG format and less than 200 kB in size. A thumbnail's width and height should not exceed 320. Ignored if the file is not uploaded using multipart/form-data. Thumbnails can't be reused and can be only uploaded as a new file, so you can pass "attach://<file_attach_name>" if the thumbnail was uploaded using multipart/form-data under <file_attach_name>. More information on Sending Files: https://core.telegram.org/bots/api#sending-files
    */
-  thumbnail?: string;
+  thumbnail?: string | undefined;
   /**
    * Optional. Cover for the video in the message. Pass a file_id to send a file that exists on the Telegram servers (recommended), pass an HTTP URL for Telegram to get a file from the Internet, or pass "attach://<file_attach_name>" to upload a new one using multipart/form-data under <file_attach_name> name. More information on Sending Files: https://core.telegram.org/bots/api#sending-files
    */
-  cover?: string;
+  cover?: string | undefined;
   /**
    * Optional. Start timestamp for the video in the message
    */
-  start_timestamp?: number;
+  start_timestamp?: number | undefined;
   /**
    * Optional. Video width
    */
-  width?: number;
+  width?: number | undefined;
   /**
    * Optional. Video height
    */
-  height?: number;
+  height?: number | undefined;
   /**
    * Optional. Video duration in seconds
    */
-  duration?: number;
+  duration?: number | undefined;
   /**
    * Optional. Pass True if the uploaded video is suitable for streaming
    */
-  supports_streaming?: boolean;
+  supports_streaming?: boolean | undefined;
 };
 /**
  * This object represents a sticker.
@@ -8842,35 +8859,35 @@ export type TgSticker = {
   /**
    * Optional. Sticker thumbnail in the .WEBP or .JPG format
    */
-  thumbnail?: TgPhotoSize;
+  thumbnail?: TgPhotoSize | undefined;
   /**
    * Optional. Emoji associated with the sticker
    */
-  emoji?: string;
+  emoji?: string | undefined;
   /**
    * Optional. Name of the sticker set to which the sticker belongs
    */
-  set_name?: string;
+  set_name?: string | undefined;
   /**
    * Optional. For premium regular stickers, premium animation for the sticker
    */
-  premium_animation?: TgFile;
+  premium_animation?: TgFile | undefined;
   /**
    * Optional. For mask stickers, the position where the mask should be placed
    */
-  mask_position?: TgMaskPosition;
+  mask_position?: TgMaskPosition | undefined;
   /**
    * Optional. For custom emoji stickers, unique identifier of the custom emoji
    */
-  custom_emoji_id?: string;
+  custom_emoji_id?: string | undefined;
   /**
    * Optional. True, if the sticker must be repainted to a text color in messages, the color of the Telegram Premium badge in emoji status, white color on chat photos, or another appropriate color in other places
    */
-  needs_repainting?: boolean;
+  needs_repainting?: boolean | undefined;
   /**
    * Optional. File size in bytes
    */
-  file_size?: number;
+  file_size?: number | undefined;
 };
 /**
  * This object represents a sticker set.
@@ -8897,7 +8914,7 @@ export type TgStickerSet = {
   /**
    * Optional. Sticker set thumbnail in the .WEBP, .TGS, or .WEBM format
    */
-  thumbnail?: TgPhotoSize;
+  thumbnail?: TgPhotoSize | undefined;
 };
 /**
  * This object describes the position on faces where a mask should be placed by default.
@@ -8943,11 +8960,11 @@ export type TgInputSticker = {
   /**
    * Optional. Position where the mask should be placed on faces. For "mask" stickers only.
    */
-  mask_position?: TgMaskPosition;
+  mask_position?: TgMaskPosition | undefined;
   /**
    * Optional. List of 0-20 search keywords for the sticker with total length of up to 64 characters. For "regular" and "custom_emoji" stickers only.
    */
-  keywords?: string[];
+  keywords?: string[] | undefined;
 };
 /**
  * This object represents a gift that can be sent by the bot.
@@ -8970,15 +8987,15 @@ export type TgGift = {
   /**
    * Optional. The number of Telegram Stars that must be paid to upgrade the gift to a unique one
    */
-  upgrade_star_count?: number;
+  upgrade_star_count?: number | undefined;
   /**
    * Optional. The total number of the gifts of this type that can be sent; for limited gifts only
    */
-  total_count?: number;
+  total_count?: number | undefined;
   /**
    * Optional. The number of remaining gifts of this type that can be sent; for limited gifts only
    */
-  remaining_count?: number;
+  remaining_count?: number | undefined;
 };
 /**
  * This object represent a list of gifts.
@@ -9016,11 +9033,11 @@ export type TgInlineQuery = {
   /**
    * Optional. Type of the chat from which the inline query was sent. Can be either "sender" for a private chat with the inline query sender, "private", "group", "supergroup", or "channel". The chat type should be always known for requests sent from official clients and most third-party clients, unless the request was sent from a secret chat
    */
-  chat_type?: "sender" | "private" | "group" | "supergroup" | "channel";
+  chat_type?: "sender" | "private" | "group" | "supergroup" | "channel" | undefined;
   /**
    * Optional. Sender location, only for bots that request user location
    */
-  location?: TgLocation;
+  location?: TgLocation | undefined;
 };
 /**
  * This object represents a button to be shown above inline query results. You must use exactly one of the optional fields.
@@ -9035,11 +9052,11 @@ export type TgInlineQueryResultsButton = {
   /**
    * Optional. Description of the Web App that will be launched when the user presses the button. The Web App will be able to switch back to the inline mode using the method switchInlineQuery inside the Web App.
    */
-  web_app?: TgWebAppInfo;
+  web_app?: TgWebAppInfo | undefined;
   /**
    * Optional. Deep-linking parameter for the /start message sent to the bot when a user presses the button. 1-64 characters, only A-Z, a-z, 0-9, _ and - are allowed. Example: An inline bot that sends YouTube videos can ask the user to connect the bot to their YouTube account to adapt search results accordingly. To do this, it displays a 'Connect your YouTube account' button above the results, or even before showing any. The user presses the button, switches to a private chat with the bot and, in doing so, passes a start parameter that instructs the bot to return an OAuth link. Once done, the bot can offer a switch_inline button so that the user can easily return to the chat where they wanted to use the bot's inline capabilities.
    */
-  start_parameter?: string;
+  start_parameter?: string | undefined;
 };
 /**
  * This object represents one result of an inline query. Telegram clients currently support results of the following 20 types:
@@ -9134,27 +9151,27 @@ export type TgInlineQueryResultArticle = {
   /**
    * Optional. Inline keyboard attached to the message
    */
-  reply_markup?: TgInlineKeyboardMarkup;
+  reply_markup?: TgInlineKeyboardMarkup | undefined;
   /**
    * Optional. URL of the result
    */
-  url?: string;
+  url?: string | undefined;
   /**
    * Optional. Short description of the result
    */
-  description?: string;
+  description?: string | undefined;
   /**
    * Optional. Url of the thumbnail for the result
    */
-  thumbnail_url?: string;
+  thumbnail_url?: string | undefined;
   /**
    * Optional. Thumbnail width
    */
-  thumbnail_width?: number;
+  thumbnail_width?: number | undefined;
   /**
    * Optional. Thumbnail height
    */
-  thumbnail_height?: number;
+  thumbnail_height?: number | undefined;
 };
 /**
  * Represents a link to a photo. By default, this photo will be sent by the user with optional caption. Alternatively, you can use input_message_content to send a message with the specified content instead of the photo.
@@ -9181,43 +9198,43 @@ export type TgInlineQueryResultPhoto = {
   /**
    * Optional. Width of the photo
    */
-  photo_width?: number;
+  photo_width?: number | undefined;
   /**
    * Optional. Height of the photo
    */
-  photo_height?: number;
+  photo_height?: number | undefined;
   /**
    * Optional. Title for the result
    */
-  title?: string;
+  title?: string | undefined;
   /**
    * Optional. Short description of the result
    */
-  description?: string;
+  description?: string | undefined;
   /**
    * Optional. Caption of the photo to be sent, 0-1024 characters after entities parsing
    */
-  caption?: string;
+  caption?: string | undefined;
   /**
    * Optional. Mode for parsing entities in the photo caption. See formatting options for more details.
    */
-  parse_mode?: undefined | "HTML" | "Markdown" | "MarkdownV2";
+  parse_mode?: "HTML" | "Markdown" | "MarkdownV2" | undefined;
   /**
    * Optional. List of special entities that appear in the caption, which can be specified instead of parse_mode
    */
-  caption_entities?: TgMessageEntity[];
+  caption_entities?: TgMessageEntity[] | undefined;
   /**
    * Optional. Pass True, if the caption must be shown above the message media
    */
-  show_caption_above_media?: boolean;
+  show_caption_above_media?: boolean | undefined;
   /**
    * Optional. Inline keyboard attached to the message
    */
-  reply_markup?: TgInlineKeyboardMarkup;
+  reply_markup?: TgInlineKeyboardMarkup | undefined;
   /**
    * Optional. Content of the message to be sent instead of the photo
    */
-  input_message_content?: TgInputMessageContent;
+  input_message_content?: TgInputMessageContent | undefined;
 };
 /**
  * Represents a link to an animated GIF file. By default, this animated GIF file will be sent by the user with optional caption. Alternatively, you can use input_message_content to send a message with the specified content instead of the animation.
@@ -9240,15 +9257,15 @@ export type TgInlineQueryResultGif = {
   /**
    * Optional. Width of the GIF
    */
-  gif_width?: number;
+  gif_width?: number | undefined;
   /**
    * Optional. Height of the GIF
    */
-  gif_height?: number;
+  gif_height?: number | undefined;
   /**
    * Optional. Duration of the GIF in seconds
    */
-  gif_duration?: number;
+  gif_duration?: number | undefined;
   /**
    * URL of the static (JPEG or GIF) or animated (MPEG4) thumbnail for the result
    */
@@ -9256,35 +9273,35 @@ export type TgInlineQueryResultGif = {
   /**
    * Optional. MIME type of the thumbnail, must be one of "image/jpeg", "image/gif", or "video/mp4". Defaults to "image/jpeg"
    */
-  thumbnail_mime_type?: "image/jpeg" | "image/gif" | "video/mp4";
+  thumbnail_mime_type?: "image/jpeg" | "image/gif" | "video/mp4" | undefined;
   /**
    * Optional. Title for the result
    */
-  title?: string;
+  title?: string | undefined;
   /**
    * Optional. Caption of the GIF file to be sent, 0-1024 characters after entities parsing
    */
-  caption?: string;
+  caption?: string | undefined;
   /**
    * Optional. Mode for parsing entities in the caption. See formatting options for more details.
    */
-  parse_mode?: undefined | "HTML" | "Markdown" | "MarkdownV2";
+  parse_mode?: "HTML" | "Markdown" | "MarkdownV2" | undefined;
   /**
    * Optional. List of special entities that appear in the caption, which can be specified instead of parse_mode
    */
-  caption_entities?: TgMessageEntity[];
+  caption_entities?: TgMessageEntity[] | undefined;
   /**
    * Optional. Pass True, if the caption must be shown above the message media
    */
-  show_caption_above_media?: boolean;
+  show_caption_above_media?: boolean | undefined;
   /**
    * Optional. Inline keyboard attached to the message
    */
-  reply_markup?: TgInlineKeyboardMarkup;
+  reply_markup?: TgInlineKeyboardMarkup | undefined;
   /**
    * Optional. Content of the message to be sent instead of the GIF animation
    */
-  input_message_content?: TgInputMessageContent;
+  input_message_content?: TgInputMessageContent | undefined;
 };
 /**
  * Represents a link to a video animation (H.264/MPEG-4 AVC video without sound). By default, this animated MPEG-4 file will be sent by the user with optional caption. Alternatively, you can use input_message_content to send a message with the specified content instead of the animation.
@@ -9307,15 +9324,15 @@ export type TgInlineQueryResultMpeg4Gif = {
   /**
    * Optional. Video width
    */
-  mpeg4_width?: number;
+  mpeg4_width?: number | undefined;
   /**
    * Optional. Video height
    */
-  mpeg4_height?: number;
+  mpeg4_height?: number | undefined;
   /**
    * Optional. Video duration in seconds
    */
-  mpeg4_duration?: number;
+  mpeg4_duration?: number | undefined;
   /**
    * URL of the static (JPEG or GIF) or animated (MPEG4) thumbnail for the result
    */
@@ -9323,35 +9340,35 @@ export type TgInlineQueryResultMpeg4Gif = {
   /**
    * Optional. MIME type of the thumbnail, must be one of "image/jpeg", "image/gif", or "video/mp4". Defaults to "image/jpeg"
    */
-  thumbnail_mime_type?: "image/jpeg" | "image/gif" | "video/mp4";
+  thumbnail_mime_type?: "image/jpeg" | "image/gif" | "video/mp4" | undefined;
   /**
    * Optional. Title for the result
    */
-  title?: string;
+  title?: string | undefined;
   /**
    * Optional. Caption of the MPEG-4 file to be sent, 0-1024 characters after entities parsing
    */
-  caption?: string;
+  caption?: string | undefined;
   /**
    * Optional. Mode for parsing entities in the caption. See formatting options for more details.
    */
-  parse_mode?: undefined | "HTML" | "Markdown" | "MarkdownV2";
+  parse_mode?: "HTML" | "Markdown" | "MarkdownV2" | undefined;
   /**
    * Optional. List of special entities that appear in the caption, which can be specified instead of parse_mode
    */
-  caption_entities?: TgMessageEntity[];
+  caption_entities?: TgMessageEntity[] | undefined;
   /**
    * Optional. Pass True, if the caption must be shown above the message media
    */
-  show_caption_above_media?: boolean;
+  show_caption_above_media?: boolean | undefined;
   /**
    * Optional. Inline keyboard attached to the message
    */
-  reply_markup?: TgInlineKeyboardMarkup;
+  reply_markup?: TgInlineKeyboardMarkup | undefined;
   /**
    * Optional. Content of the message to be sent instead of the video animation
    */
-  input_message_content?: TgInputMessageContent;
+  input_message_content?: TgInputMessageContent | undefined;
 };
 /**
  * Represents a link to a page containing an embedded video player or a video file. By default, this video file will be sent by the user with an optional caption. Alternatively, you can use input_message_content to send a message with the specified content instead of the video.
@@ -9386,43 +9403,43 @@ export type TgInlineQueryResultVideo = {
   /**
    * Optional. Caption of the video to be sent, 0-1024 characters after entities parsing
    */
-  caption?: string;
+  caption?: string | undefined;
   /**
    * Optional. Mode for parsing entities in the video caption. See formatting options for more details.
    */
-  parse_mode?: undefined | "HTML" | "Markdown" | "MarkdownV2";
+  parse_mode?: "HTML" | "Markdown" | "MarkdownV2" | undefined;
   /**
    * Optional. List of special entities that appear in the caption, which can be specified instead of parse_mode
    */
-  caption_entities?: TgMessageEntity[];
+  caption_entities?: TgMessageEntity[] | undefined;
   /**
    * Optional. Pass True, if the caption must be shown above the message media
    */
-  show_caption_above_media?: boolean;
+  show_caption_above_media?: boolean | undefined;
   /**
    * Optional. Video width
    */
-  video_width?: number;
+  video_width?: number | undefined;
   /**
    * Optional. Video height
    */
-  video_height?: number;
+  video_height?: number | undefined;
   /**
    * Optional. Video duration in seconds
    */
-  video_duration?: number;
+  video_duration?: number | undefined;
   /**
    * Optional. Short description of the result
    */
-  description?: string;
+  description?: string | undefined;
   /**
    * Optional. Inline keyboard attached to the message
    */
-  reply_markup?: TgInlineKeyboardMarkup;
+  reply_markup?: TgInlineKeyboardMarkup | undefined;
   /**
    * Optional. Content of the message to be sent instead of the video. This field is required if InlineQueryResultVideo is used to send an HTML-page as a result (e.g., a YouTube video).
    */
-  input_message_content?: TgInputMessageContent;
+  input_message_content?: TgInputMessageContent | undefined;
 };
 /**
  * Represents a link to an MP3 audio file. By default, this audio file will be sent by the user. Alternatively, you can use input_message_content to send a message with the specified content instead of the audio.
@@ -9449,31 +9466,31 @@ export type TgInlineQueryResultAudio = {
   /**
    * Optional. Caption, 0-1024 characters after entities parsing
    */
-  caption?: string;
+  caption?: string | undefined;
   /**
    * Optional. Mode for parsing entities in the audio caption. See formatting options for more details.
    */
-  parse_mode?: undefined | "HTML" | "Markdown" | "MarkdownV2";
+  parse_mode?: "HTML" | "Markdown" | "MarkdownV2" | undefined;
   /**
    * Optional. List of special entities that appear in the caption, which can be specified instead of parse_mode
    */
-  caption_entities?: TgMessageEntity[];
+  caption_entities?: TgMessageEntity[] | undefined;
   /**
    * Optional. Performer
    */
-  performer?: string;
+  performer?: string | undefined;
   /**
    * Optional. Audio duration in seconds
    */
-  audio_duration?: number;
+  audio_duration?: number | undefined;
   /**
    * Optional. Inline keyboard attached to the message
    */
-  reply_markup?: TgInlineKeyboardMarkup;
+  reply_markup?: TgInlineKeyboardMarkup | undefined;
   /**
    * Optional. Content of the message to be sent instead of the audio
    */
-  input_message_content?: TgInputMessageContent;
+  input_message_content?: TgInputMessageContent | undefined;
 };
 /**
  * Represents a link to a voice recording in an .OGG container encoded with OPUS. By default, this voice recording will be sent by the user. Alternatively, you can use input_message_content to send a message with the specified content instead of the the voice message.
@@ -9500,27 +9517,27 @@ export type TgInlineQueryResultVoice = {
   /**
    * Optional. Caption, 0-1024 characters after entities parsing
    */
-  caption?: string;
+  caption?: string | undefined;
   /**
    * Optional. Mode for parsing entities in the voice message caption. See formatting options for more details.
    */
-  parse_mode?: undefined | "HTML" | "Markdown" | "MarkdownV2";
+  parse_mode?: "HTML" | "Markdown" | "MarkdownV2" | undefined;
   /**
    * Optional. List of special entities that appear in the caption, which can be specified instead of parse_mode
    */
-  caption_entities?: TgMessageEntity[];
+  caption_entities?: TgMessageEntity[] | undefined;
   /**
    * Optional. Recording duration in seconds
    */
-  voice_duration?: number;
+  voice_duration?: number | undefined;
   /**
    * Optional. Inline keyboard attached to the message
    */
-  reply_markup?: TgInlineKeyboardMarkup;
+  reply_markup?: TgInlineKeyboardMarkup | undefined;
   /**
    * Optional. Content of the message to be sent instead of the voice recording
    */
-  input_message_content?: TgInputMessageContent;
+  input_message_content?: TgInputMessageContent | undefined;
 };
 /**
  * Represents a link to a file. By default, this file will be sent by the user with an optional caption. Alternatively, you can use input_message_content to send a message with the specified content instead of the file. Currently, only .PDF and .ZIP files can be sent using this method.
@@ -9543,15 +9560,15 @@ export type TgInlineQueryResultDocument = {
   /**
    * Optional. Caption of the document to be sent, 0-1024 characters after entities parsing
    */
-  caption?: string;
+  caption?: string | undefined;
   /**
    * Optional. Mode for parsing entities in the document caption. See formatting options for more details.
    */
-  parse_mode?: undefined | "HTML" | "Markdown" | "MarkdownV2";
+  parse_mode?: "HTML" | "Markdown" | "MarkdownV2" | undefined;
   /**
    * Optional. List of special entities that appear in the caption, which can be specified instead of parse_mode
    */
-  caption_entities?: TgMessageEntity[];
+  caption_entities?: TgMessageEntity[] | undefined;
   /**
    * A valid URL for the file
    */
@@ -9563,27 +9580,27 @@ export type TgInlineQueryResultDocument = {
   /**
    * Optional. Short description of the result
    */
-  description?: string;
+  description?: string | undefined;
   /**
    * Optional. Inline keyboard attached to the message
    */
-  reply_markup?: TgInlineKeyboardMarkup;
+  reply_markup?: TgInlineKeyboardMarkup | undefined;
   /**
    * Optional. Content of the message to be sent instead of the file
    */
-  input_message_content?: TgInputMessageContent;
+  input_message_content?: TgInputMessageContent | undefined;
   /**
    * Optional. URL of the thumbnail (JPEG only) for the file
    */
-  thumbnail_url?: string;
+  thumbnail_url?: string | undefined;
   /**
    * Optional. Thumbnail width
    */
-  thumbnail_width?: number;
+  thumbnail_width?: number | undefined;
   /**
    * Optional. Thumbnail height
    */
-  thumbnail_height?: number;
+  thumbnail_height?: number | undefined;
 };
 /**
  * Represents a location on a map. By default, the location will be sent by the user. Alternatively, you can use input_message_content to send a message with the specified content instead of the location.
@@ -9614,39 +9631,39 @@ export type TgInlineQueryResultLocation = {
   /**
    * Optional. The radius of uncertainty for the location, measured in meters; 0-1500
    */
-  horizontal_accuracy?: number;
+  horizontal_accuracy?: number | undefined;
   /**
    * Optional. Period in seconds during which the location can be updated, should be between 60 and 86400, or 0x7FFFFFFF for live locations that can be edited indefinitely.
    */
-  live_period?: number;
+  live_period?: number | undefined;
   /**
    * Optional. For live locations, a direction in which the user is moving, in degrees. Must be between 1 and 360 if specified.
    */
-  heading?: number;
+  heading?: number | undefined;
   /**
    * Optional. For live locations, a maximum distance for proximity alerts about approaching another chat member, in meters. Must be between 1 and 100000 if specified.
    */
-  proximity_alert_radius?: number;
+  proximity_alert_radius?: number | undefined;
   /**
    * Optional. Inline keyboard attached to the message
    */
-  reply_markup?: TgInlineKeyboardMarkup;
+  reply_markup?: TgInlineKeyboardMarkup | undefined;
   /**
    * Optional. Content of the message to be sent instead of the location
    */
-  input_message_content?: TgInputMessageContent;
+  input_message_content?: TgInputMessageContent | undefined;
   /**
    * Optional. Url of the thumbnail for the result
    */
-  thumbnail_url?: string;
+  thumbnail_url?: string | undefined;
   /**
    * Optional. Thumbnail width
    */
-  thumbnail_width?: number;
+  thumbnail_width?: number | undefined;
   /**
    * Optional. Thumbnail height
    */
-  thumbnail_height?: number;
+  thumbnail_height?: number | undefined;
 };
 /**
  * Represents a venue. By default, the venue will be sent by the user. Alternatively, you can use input_message_content to send a message with the specified content instead of the venue.
@@ -9681,39 +9698,39 @@ export type TgInlineQueryResultVenue = {
   /**
    * Optional. Foursquare identifier of the venue if known
    */
-  foursquare_id?: string;
+  foursquare_id?: string | undefined;
   /**
    * Optional. Foursquare type of the venue, if known. (For example, "arts_entertainment/default", "arts_entertainment/aquarium" or "food/icecream".)
    */
-  foursquare_type?: string;
+  foursquare_type?: string | undefined;
   /**
    * Optional. Google Places identifier of the venue
    */
-  google_place_id?: string;
+  google_place_id?: string | undefined;
   /**
    * Optional. Google Places type of the venue. (See supported types.)
    */
-  google_place_type?: string;
+  google_place_type?: string | undefined;
   /**
    * Optional. Inline keyboard attached to the message
    */
-  reply_markup?: TgInlineKeyboardMarkup;
+  reply_markup?: TgInlineKeyboardMarkup | undefined;
   /**
    * Optional. Content of the message to be sent instead of the venue
    */
-  input_message_content?: TgInputMessageContent;
+  input_message_content?: TgInputMessageContent | undefined;
   /**
    * Optional. Url of the thumbnail for the result
    */
-  thumbnail_url?: string;
+  thumbnail_url?: string | undefined;
   /**
    * Optional. Thumbnail width
    */
-  thumbnail_width?: number;
+  thumbnail_width?: number | undefined;
   /**
    * Optional. Thumbnail height
    */
-  thumbnail_height?: number;
+  thumbnail_height?: number | undefined;
 };
 /**
  * Represents a contact with a phone number. By default, this contact will be sent by the user. Alternatively, you can use input_message_content to send a message with the specified content instead of the contact.
@@ -9740,31 +9757,31 @@ export type TgInlineQueryResultContact = {
   /**
    * Optional. Contact's last name
    */
-  last_name?: string;
+  last_name?: string | undefined;
   /**
    * Optional. Additional data about the contact in the form of a vCard, 0-2048 bytes
    */
-  vcard?: string;
+  vcard?: string | undefined;
   /**
    * Optional. Inline keyboard attached to the message
    */
-  reply_markup?: TgInlineKeyboardMarkup;
+  reply_markup?: TgInlineKeyboardMarkup | undefined;
   /**
    * Optional. Content of the message to be sent instead of the contact
    */
-  input_message_content?: TgInputMessageContent;
+  input_message_content?: TgInputMessageContent | undefined;
   /**
    * Optional. Url of the thumbnail for the result
    */
-  thumbnail_url?: string;
+  thumbnail_url?: string | undefined;
   /**
    * Optional. Thumbnail width
    */
-  thumbnail_width?: number;
+  thumbnail_width?: number | undefined;
   /**
    * Optional. Thumbnail height
    */
-  thumbnail_height?: number;
+  thumbnail_height?: number | undefined;
 };
 /**
  * Represents a Game.
@@ -9787,7 +9804,7 @@ export type TgInlineQueryResultGame = {
   /**
    * Optional. Inline keyboard attached to the message
    */
-  reply_markup?: TgInlineKeyboardMarkup;
+  reply_markup?: TgInlineKeyboardMarkup | undefined;
 };
 /**
  * Represents a link to a photo stored on the Telegram servers. By default, this photo will be sent by the user with an optional caption. Alternatively, you can use input_message_content to send a message with the specified content instead of the photo.
@@ -9810,35 +9827,35 @@ export type TgInlineQueryResultCachedPhoto = {
   /**
    * Optional. Title for the result
    */
-  title?: string;
+  title?: string | undefined;
   /**
    * Optional. Short description of the result
    */
-  description?: string;
+  description?: string | undefined;
   /**
    * Optional. Caption of the photo to be sent, 0-1024 characters after entities parsing
    */
-  caption?: string;
+  caption?: string | undefined;
   /**
    * Optional. Mode for parsing entities in the photo caption. See formatting options for more details.
    */
-  parse_mode?: undefined | "HTML" | "Markdown" | "MarkdownV2";
+  parse_mode?: "HTML" | "Markdown" | "MarkdownV2" | undefined;
   /**
    * Optional. List of special entities that appear in the caption, which can be specified instead of parse_mode
    */
-  caption_entities?: TgMessageEntity[];
+  caption_entities?: TgMessageEntity[] | undefined;
   /**
    * Optional. Pass True, if the caption must be shown above the message media
    */
-  show_caption_above_media?: boolean;
+  show_caption_above_media?: boolean | undefined;
   /**
    * Optional. Inline keyboard attached to the message
    */
-  reply_markup?: TgInlineKeyboardMarkup;
+  reply_markup?: TgInlineKeyboardMarkup | undefined;
   /**
    * Optional. Content of the message to be sent instead of the photo
    */
-  input_message_content?: TgInputMessageContent;
+  input_message_content?: TgInputMessageContent | undefined;
 };
 /**
  * Represents a link to an animated GIF file stored on the Telegram servers. By default, this animated GIF file will be sent by the user with an optional caption. Alternatively, you can use input_message_content to send a message with specified content instead of the animation.
@@ -9861,31 +9878,31 @@ export type TgInlineQueryResultCachedGif = {
   /**
    * Optional. Title for the result
    */
-  title?: string;
+  title?: string | undefined;
   /**
    * Optional. Caption of the GIF file to be sent, 0-1024 characters after entities parsing
    */
-  caption?: string;
+  caption?: string | undefined;
   /**
    * Optional. Mode for parsing entities in the caption. See formatting options for more details.
    */
-  parse_mode?: undefined | "HTML" | "Markdown" | "MarkdownV2";
+  parse_mode?: "HTML" | "Markdown" | "MarkdownV2" | undefined;
   /**
    * Optional. List of special entities that appear in the caption, which can be specified instead of parse_mode
    */
-  caption_entities?: TgMessageEntity[];
+  caption_entities?: TgMessageEntity[] | undefined;
   /**
    * Optional. Pass True, if the caption must be shown above the message media
    */
-  show_caption_above_media?: boolean;
+  show_caption_above_media?: boolean | undefined;
   /**
    * Optional. Inline keyboard attached to the message
    */
-  reply_markup?: TgInlineKeyboardMarkup;
+  reply_markup?: TgInlineKeyboardMarkup | undefined;
   /**
    * Optional. Content of the message to be sent instead of the GIF animation
    */
-  input_message_content?: TgInputMessageContent;
+  input_message_content?: TgInputMessageContent | undefined;
 };
 /**
  * Represents a link to a video animation (H.264/MPEG-4 AVC video without sound) stored on the Telegram servers. By default, this animated MPEG-4 file will be sent by the user with an optional caption. Alternatively, you can use input_message_content to send a message with the specified content instead of the animation.
@@ -9908,31 +9925,31 @@ export type TgInlineQueryResultCachedMpeg4Gif = {
   /**
    * Optional. Title for the result
    */
-  title?: string;
+  title?: string | undefined;
   /**
    * Optional. Caption of the MPEG-4 file to be sent, 0-1024 characters after entities parsing
    */
-  caption?: string;
+  caption?: string | undefined;
   /**
    * Optional. Mode for parsing entities in the caption. See formatting options for more details.
    */
-  parse_mode?: undefined | "HTML" | "Markdown" | "MarkdownV2";
+  parse_mode?: "HTML" | "Markdown" | "MarkdownV2" | undefined;
   /**
    * Optional. List of special entities that appear in the caption, which can be specified instead of parse_mode
    */
-  caption_entities?: TgMessageEntity[];
+  caption_entities?: TgMessageEntity[] | undefined;
   /**
    * Optional. Pass True, if the caption must be shown above the message media
    */
-  show_caption_above_media?: boolean;
+  show_caption_above_media?: boolean | undefined;
   /**
    * Optional. Inline keyboard attached to the message
    */
-  reply_markup?: TgInlineKeyboardMarkup;
+  reply_markup?: TgInlineKeyboardMarkup | undefined;
   /**
    * Optional. Content of the message to be sent instead of the video animation
    */
-  input_message_content?: TgInputMessageContent;
+  input_message_content?: TgInputMessageContent | undefined;
 };
 /**
  * Represents a link to a sticker stored on the Telegram servers. By default, this sticker will be sent by the user. Alternatively, you can use input_message_content to send a message with the specified content instead of the sticker.
@@ -9955,11 +9972,11 @@ export type TgInlineQueryResultCachedSticker = {
   /**
    * Optional. Inline keyboard attached to the message
    */
-  reply_markup?: TgInlineKeyboardMarkup;
+  reply_markup?: TgInlineKeyboardMarkup | undefined;
   /**
    * Optional. Content of the message to be sent instead of the sticker
    */
-  input_message_content?: TgInputMessageContent;
+  input_message_content?: TgInputMessageContent | undefined;
 };
 /**
  * Represents a link to a file stored on the Telegram servers. By default, this file will be sent by the user with an optional caption. Alternatively, you can use input_message_content to send a message with the specified content instead of the file.
@@ -9986,27 +10003,27 @@ export type TgInlineQueryResultCachedDocument = {
   /**
    * Optional. Short description of the result
    */
-  description?: string;
+  description?: string | undefined;
   /**
    * Optional. Caption of the document to be sent, 0-1024 characters after entities parsing
    */
-  caption?: string;
+  caption?: string | undefined;
   /**
    * Optional. Mode for parsing entities in the document caption. See formatting options for more details.
    */
-  parse_mode?: undefined | "HTML" | "Markdown" | "MarkdownV2";
+  parse_mode?: "HTML" | "Markdown" | "MarkdownV2" | undefined;
   /**
    * Optional. List of special entities that appear in the caption, which can be specified instead of parse_mode
    */
-  caption_entities?: TgMessageEntity[];
+  caption_entities?: TgMessageEntity[] | undefined;
   /**
    * Optional. Inline keyboard attached to the message
    */
-  reply_markup?: TgInlineKeyboardMarkup;
+  reply_markup?: TgInlineKeyboardMarkup | undefined;
   /**
    * Optional. Content of the message to be sent instead of the file
    */
-  input_message_content?: TgInputMessageContent;
+  input_message_content?: TgInputMessageContent | undefined;
 };
 /**
  * Represents a link to a video file stored on the Telegram servers. By default, this video file will be sent by the user with an optional caption. Alternatively, you can use input_message_content to send a message with the specified content instead of the video.
@@ -10033,31 +10050,31 @@ export type TgInlineQueryResultCachedVideo = {
   /**
    * Optional. Short description of the result
    */
-  description?: string;
+  description?: string | undefined;
   /**
    * Optional. Caption of the video to be sent, 0-1024 characters after entities parsing
    */
-  caption?: string;
+  caption?: string | undefined;
   /**
    * Optional. Mode for parsing entities in the video caption. See formatting options for more details.
    */
-  parse_mode?: undefined | "HTML" | "Markdown" | "MarkdownV2";
+  parse_mode?: "HTML" | "Markdown" | "MarkdownV2" | undefined;
   /**
    * Optional. List of special entities that appear in the caption, which can be specified instead of parse_mode
    */
-  caption_entities?: TgMessageEntity[];
+  caption_entities?: TgMessageEntity[] | undefined;
   /**
    * Optional. Pass True, if the caption must be shown above the message media
    */
-  show_caption_above_media?: boolean;
+  show_caption_above_media?: boolean | undefined;
   /**
    * Optional. Inline keyboard attached to the message
    */
-  reply_markup?: TgInlineKeyboardMarkup;
+  reply_markup?: TgInlineKeyboardMarkup | undefined;
   /**
    * Optional. Content of the message to be sent instead of the video
    */
-  input_message_content?: TgInputMessageContent;
+  input_message_content?: TgInputMessageContent | undefined;
 };
 /**
  * Represents a link to a voice message stored on the Telegram servers. By default, this voice message will be sent by the user. Alternatively, you can use input_message_content to send a message with the specified content instead of the voice message.
@@ -10084,23 +10101,23 @@ export type TgInlineQueryResultCachedVoice = {
   /**
    * Optional. Caption, 0-1024 characters after entities parsing
    */
-  caption?: string;
+  caption?: string | undefined;
   /**
    * Optional. Mode for parsing entities in the voice message caption. See formatting options for more details.
    */
-  parse_mode?: undefined | "HTML" | "Markdown" | "MarkdownV2";
+  parse_mode?: "HTML" | "Markdown" | "MarkdownV2" | undefined;
   /**
    * Optional. List of special entities that appear in the caption, which can be specified instead of parse_mode
    */
-  caption_entities?: TgMessageEntity[];
+  caption_entities?: TgMessageEntity[] | undefined;
   /**
    * Optional. Inline keyboard attached to the message
    */
-  reply_markup?: TgInlineKeyboardMarkup;
+  reply_markup?: TgInlineKeyboardMarkup | undefined;
   /**
    * Optional. Content of the message to be sent instead of the voice message
    */
-  input_message_content?: TgInputMessageContent;
+  input_message_content?: TgInputMessageContent | undefined;
 };
 /**
  * Represents a link to an MP3 audio file stored on the Telegram servers. By default, this audio file will be sent by the user. Alternatively, you can use input_message_content to send a message with the specified content instead of the audio.
@@ -10123,23 +10140,23 @@ export type TgInlineQueryResultCachedAudio = {
   /**
    * Optional. Caption, 0-1024 characters after entities parsing
    */
-  caption?: string;
+  caption?: string | undefined;
   /**
    * Optional. Mode for parsing entities in the audio caption. See formatting options for more details.
    */
-  parse_mode?: undefined | "HTML" | "Markdown" | "MarkdownV2";
+  parse_mode?: "HTML" | "Markdown" | "MarkdownV2" | undefined;
   /**
    * Optional. List of special entities that appear in the caption, which can be specified instead of parse_mode
    */
-  caption_entities?: TgMessageEntity[];
+  caption_entities?: TgMessageEntity[] | undefined;
   /**
    * Optional. Inline keyboard attached to the message
    */
-  reply_markup?: TgInlineKeyboardMarkup;
+  reply_markup?: TgInlineKeyboardMarkup | undefined;
   /**
    * Optional. Content of the message to be sent instead of the audio
    */
-  input_message_content?: TgInputMessageContent;
+  input_message_content?: TgInputMessageContent | undefined;
 };
 /**
  * This object represents the content of a message to be sent as a result of an inline query. Telegram clients currently support the following 5 types:
@@ -10175,15 +10192,15 @@ export type TgInputTextMessageContent = {
   /**
    * Optional. Mode for parsing entities in the message text. See formatting options for more details.
    */
-  parse_mode?: undefined | "HTML" | "Markdown" | "MarkdownV2";
+  parse_mode?: "HTML" | "Markdown" | "MarkdownV2" | undefined;
   /**
    * Optional. List of special entities that appear in message text, which can be specified instead of parse_mode
    */
-  entities?: TgMessageEntity[];
+  entities?: TgMessageEntity[] | undefined;
   /**
    * Optional. Link preview generation options for the message
    */
-  link_preview_options?: TgLinkPreviewOptions;
+  link_preview_options?: TgLinkPreviewOptions | undefined;
 };
 /**
  * Represents the content of a location message to be sent as the result of an inline query.
@@ -10202,19 +10219,19 @@ export type TgInputLocationMessageContent = {
   /**
    * Optional. The radius of uncertainty for the location, measured in meters; 0-1500
    */
-  horizontal_accuracy?: number;
+  horizontal_accuracy?: number | undefined;
   /**
    * Optional. Period in seconds during which the location can be updated, should be between 60 and 86400, or 0x7FFFFFFF for live locations that can be edited indefinitely.
    */
-  live_period?: number;
+  live_period?: number | undefined;
   /**
    * Optional. For live locations, a direction in which the user is moving, in degrees. Must be between 1 and 360 if specified.
    */
-  heading?: number;
+  heading?: number | undefined;
   /**
    * Optional. For live locations, a maximum distance for proximity alerts about approaching another chat member, in meters. Must be between 1 and 100000 if specified.
    */
-  proximity_alert_radius?: number;
+  proximity_alert_radius?: number | undefined;
 };
 /**
  * Represents the content of a venue message to be sent as the result of an inline query.
@@ -10241,19 +10258,19 @@ export type TgInputVenueMessageContent = {
   /**
    * Optional. Foursquare identifier of the venue, if known
    */
-  foursquare_id?: string;
+  foursquare_id?: string | undefined;
   /**
    * Optional. Foursquare type of the venue, if known. (For example, "arts_entertainment/default", "arts_entertainment/aquarium" or "food/icecream".)
    */
-  foursquare_type?: string;
+  foursquare_type?: string | undefined;
   /**
    * Optional. Google Places identifier of the venue
    */
-  google_place_id?: string;
+  google_place_id?: string | undefined;
   /**
    * Optional. Google Places type of the venue. (See supported types.)
    */
-  google_place_type?: string;
+  google_place_type?: string | undefined;
 };
 /**
  * Represents the content of a contact message to be sent as the result of an inline query.
@@ -10272,11 +10289,11 @@ export type TgInputContactMessageContent = {
   /**
    * Optional. Contact's last name
    */
-  last_name?: string;
+  last_name?: string | undefined;
   /**
    * Optional. Additional data about the contact in the form of a vCard, 0-2048 bytes
    */
-  vcard?: string;
+  vcard?: string | undefined;
 };
 /**
  * Represents the content of an invoice message to be sent as the result of an inline query.
@@ -10299,7 +10316,7 @@ export type TgInputInvoiceMessageContent = {
   /**
    * Optional. Payment provider token, obtained via @BotFather. Pass an empty string for payments in Telegram Stars.
    */
-  provider_token?: string;
+  provider_token?: string | undefined;
   /**
    * Three-letter ISO 4217 currency code, see more on currencies. Pass "XTR" for payments in Telegram Stars.
    */
@@ -10311,59 +10328,59 @@ export type TgInputInvoiceMessageContent = {
   /**
    * Optional. The maximum accepted amount for tips in the smallest units of the currency (integer, not float/double). For example, for a maximum tip of US$ 1.45 pass max_tip_amount = 145. See the exp parameter in currencies.json, it shows the number of digits past the decimal point for each currency (2 for the majority of currencies). Defaults to 0. Not supported for payments in Telegram Stars.
    */
-  max_tip_amount?: number;
+  max_tip_amount?: number | undefined;
   /**
    * Optional. A JSON-serialized array of suggested amounts of tip in the smallest units of the currency (integer, not float/double). At most 4 suggested tip amounts can be specified. The suggested tip amounts must be positive, passed in a strictly increased order and must not exceed max_tip_amount.
    */
-  suggested_tip_amounts?: number[];
+  suggested_tip_amounts?: number[] | undefined;
   /**
    * Optional. A JSON-serialized object for data about the invoice, which will be shared with the payment provider. A detailed description of the required fields should be provided by the payment provider.
    */
-  provider_data?: string;
+  provider_data?: string | undefined;
   /**
    * Optional. URL of the product photo for the invoice. Can be a photo of the goods or a marketing image for a service.
    */
-  photo_url?: string;
+  photo_url?: string | undefined;
   /**
    * Optional. Photo size in bytes
    */
-  photo_size?: number;
+  photo_size?: number | undefined;
   /**
    * Optional. Photo width
    */
-  photo_width?: number;
+  photo_width?: number | undefined;
   /**
    * Optional. Photo height
    */
-  photo_height?: number;
+  photo_height?: number | undefined;
   /**
    * Optional. Pass True if you require the user's full name to complete the order. Ignored for payments in Telegram Stars.
    */
-  need_name?: boolean;
+  need_name?: boolean | undefined;
   /**
    * Optional. Pass True if you require the user's phone number to complete the order. Ignored for payments in Telegram Stars.
    */
-  need_phone_number?: boolean;
+  need_phone_number?: boolean | undefined;
   /**
    * Optional. Pass True if you require the user's email address to complete the order. Ignored for payments in Telegram Stars.
    */
-  need_email?: boolean;
+  need_email?: boolean | undefined;
   /**
    * Optional. Pass True if you require the user's shipping address to complete the order. Ignored for payments in Telegram Stars.
    */
-  need_shipping_address?: boolean;
+  need_shipping_address?: boolean | undefined;
   /**
    * Optional. Pass True if the user's phone number should be sent to the provider. Ignored for payments in Telegram Stars.
    */
-  send_phone_number_to_provider?: boolean;
+  send_phone_number_to_provider?: boolean | undefined;
   /**
    * Optional. Pass True if the user's email address should be sent to the provider. Ignored for payments in Telegram Stars.
    */
-  send_email_to_provider?: boolean;
+  send_email_to_provider?: boolean | undefined;
   /**
    * Optional. Pass True if the final price depends on the shipping method. Ignored for payments in Telegram Stars.
    */
-  is_flexible?: boolean;
+  is_flexible?: boolean | undefined;
 };
 /**
  * Represents a result of an inline query that was chosen by the user and sent to their chat partner.
@@ -10384,11 +10401,11 @@ export type TgChosenInlineResult = {
   /**
    * Optional. Sender location, only for bots that require user location
    */
-  location?: TgLocation;
+  location?: TgLocation | undefined;
   /**
    * Optional. Identifier of the sent inline message. Available only if there is an inline keyboard attached to the message. Will be also received in callback queries and can be used to edit the message.
    */
-  inline_message_id?: string;
+  inline_message_id?: string | undefined;
   /**
    * The query that was used to obtain the result
    */
@@ -10403,7 +10420,7 @@ export type TgSentWebAppMessage = {
   /**
    * Optional. Identifier of the sent inline message. Available only if there is an inline keyboard attached to the message.
    */
-  inline_message_id?: string;
+  inline_message_id?: string | undefined;
 };
 /**
  * Describes an inline message to be sent by a user of a Mini App.
@@ -10502,19 +10519,19 @@ export type TgOrderInfo = {
   /**
    * Optional. User name
    */
-  name?: string;
+  name?: string | undefined;
   /**
    * Optional. User's phone number
    */
-  phone_number?: string;
+  phone_number?: string | undefined;
   /**
    * Optional. User email
    */
-  email?: string;
+  email?: string | undefined;
   /**
    * Optional. User shipping address
    */
-  shipping_address?: TgShippingAddress;
+  shipping_address?: TgShippingAddress | undefined;
 };
 /**
  * This object represents one shipping option.
@@ -10556,23 +10573,23 @@ export type TgSuccessfulPayment = {
   /**
    * Optional. Expiration date of the subscription, in Unix time; for recurring payments only
    */
-  subscription_expiration_date?: number;
+  subscription_expiration_date?: number | undefined;
   /**
    * Optional. True, if the payment is a recurring payment for a subscription
    */
-  is_recurring?: boolean;
+  is_recurring?: boolean | undefined;
   /**
    * Optional. True, if the payment is the first payment for a subscription
    */
-  is_first_recurring?: boolean;
+  is_first_recurring?: boolean | undefined;
   /**
    * Optional. Identifier of the shipping option chosen by the user
    */
-  shipping_option_id?: string;
+  shipping_option_id?: string | undefined;
   /**
    * Optional. Order information provided by the user
    */
-  order_info?: TgOrderInfo;
+  order_info?: TgOrderInfo | undefined;
   /**
    * Telegram payment identifier
    */
@@ -10607,7 +10624,7 @@ export type TgRefundedPayment = {
   /**
    * Optional. Provider payment identifier
    */
-  provider_payment_charge_id?: string;
+  provider_payment_charge_id?: string | undefined;
 };
 /**
  * This object contains information about an incoming shipping query.
@@ -10661,11 +10678,11 @@ export type TgPreCheckoutQuery = {
   /**
    * Optional. Identifier of the shipping option chosen by the user
    */
-  shipping_option_id?: string;
+  shipping_option_id?: string | undefined;
   /**
    * Optional. Order information provided by the user
    */
-  order_info?: TgOrderInfo;
+  order_info?: TgOrderInfo | undefined;
 };
 /**
  * This object contains information about a paid media purchase.
@@ -10747,11 +10764,11 @@ export type TgAffiliateInfo = {
   /**
    * Optional. The bot or the user that received an affiliate commission if it was received by a bot or a user
    */
-  affiliate_user?: TgUser;
+  affiliate_user?: TgUser | undefined;
   /**
    * Optional. The chat that received an affiliate commission if it was received by a chat
    */
-  affiliate_chat?: TgChat;
+  affiliate_chat?: TgChat | undefined;
   /**
    * The number of Telegram Stars received by the affiliate for each 1000 Telegram Stars received by the bot from referred users
    */
@@ -10763,7 +10780,7 @@ export type TgAffiliateInfo = {
   /**
    * Optional. The number of 1/1000000000 shares of Telegram Stars received by the affiliate; from -999999999 to 999999999; can be negative for refunds
    */
-  nanostar_amount?: number;
+  nanostar_amount?: number | undefined;
 };
 /**
  * This object describes the source of a transaction, or its recipient for outgoing transactions. Currently, it can be one of
@@ -10809,27 +10826,27 @@ export type TgTransactionPartnerUser = {
   /**
    * Optional. Information about the affiliate that received a commission via this transaction
    */
-  affiliate?: TgAffiliateInfo;
+  affiliate?: TgAffiliateInfo | undefined;
   /**
    * Optional. Bot-specified invoice payload
    */
-  invoice_payload?: string;
+  invoice_payload?: string | undefined;
   /**
    * Optional. The duration of the paid subscription
    */
-  subscription_period?: number;
+  subscription_period?: number | undefined;
   /**
    * Optional. Information about the paid media bought by the user
    */
-  paid_media?: TgPaidMedia[];
+  paid_media?: TgPaidMedia[] | undefined;
   /**
    * Optional. Bot-specified paid media payload
    */
-  paid_media_payload?: string;
+  paid_media_payload?: string | undefined;
   /**
    * Optional. The gift sent to the user by the bot
    */
-  gift?: TgGift;
+  gift?: TgGift | undefined;
 };
 /**
  * Describes a transaction with a chat.
@@ -10848,7 +10865,7 @@ export type TgTransactionPartnerChat = {
   /**
    * Optional. The gift sent to the chat by the bot
    */
-  gift?: TgGift;
+  gift?: TgGift | undefined;
 };
 /**
  * Describes the affiliate program that issued the affiliate commission received via this transaction.
@@ -10863,7 +10880,7 @@ export type TgTransactionPartnerAffiliateProgram = {
   /**
    * Optional. Information about the bot that sponsored the affiliate program
    */
-  sponsor_user?: TgUser;
+  sponsor_user?: TgUser | undefined;
   /**
    * The number of Telegram Stars received by the bot for each 1000 Telegram Stars received by the affiliate program sponsor from referred users
    */
@@ -10882,7 +10899,7 @@ export type TgTransactionPartnerFragment = {
   /**
    * Optional. State of the transaction if the transaction is outgoing
    */
-  withdrawal_state?: TgRevenueWithdrawalState;
+  withdrawal_state?: TgRevenueWithdrawalState | undefined;
 };
 /**
  * Describes a withdrawal transaction to the Telegram Ads platform.
@@ -10938,7 +10955,7 @@ export type TgStarTransaction = {
   /**
    * Optional. The number of 1/1000000000 shares of Telegram Stars transferred by the transaction; from 0 to 999999999
    */
-  nanostar_amount?: number;
+  nanostar_amount?: number | undefined;
   /**
    * Date the transaction was created in Unix time
    */
@@ -10946,11 +10963,11 @@ export type TgStarTransaction = {
   /**
    * Optional. Source of an incoming transaction (e.g., a user purchasing goods or services, Fragment refunding a failed withdrawal). Only for incoming transactions
    */
-  source?: TgTransactionPartner;
+  source?: TgTransactionPartner | undefined;
   /**
    * Optional. Receiver of an outgoing transaction (e.g., a user for a purchase refund, Fragment for a withdrawal). Only for outgoing transactions
    */
-  receiver?: TgTransactionPartner;
+  receiver?: TgTransactionPartner | undefined;
 };
 /**
  * Contains a list of Telegram Star transactions.
@@ -11027,35 +11044,35 @@ export type TgEncryptedPassportElement = {
   /**
    * Optional. Base64-encoded encrypted Telegram Passport element data provided by the user; available only for "personal_details", "passport", "driver_license", "identity_card", "internal_passport" and "address" types. Can be decrypted and verified using the accompanying EncryptedCredentials.
    */
-  data?: string;
+  data?: string | undefined;
   /**
    * Optional. User's verified phone number; available only for "phone_number" type
    */
-  phone_number?: string;
+  phone_number?: string | undefined;
   /**
    * Optional. User's verified email address; available only for "email" type
    */
-  email?: string;
+  email?: string | undefined;
   /**
    * Optional. Array of encrypted files with documents provided by the user; available only for "utility_bill", "bank_statement", "rental_agreement", "passport_registration" and "temporary_registration" types. Files can be decrypted and verified using the accompanying EncryptedCredentials.
    */
-  files?: TgPassportFile[];
+  files?: TgPassportFile[] | undefined;
   /**
    * Optional. Encrypted file with the front side of the document, provided by the user; available only for "passport", "driver_license", "identity_card" and "internal_passport". The file can be decrypted and verified using the accompanying EncryptedCredentials.
    */
-  front_side?: TgPassportFile;
+  front_side?: TgPassportFile | undefined;
   /**
    * Optional. Encrypted file with the reverse side of the document, provided by the user; available only for "driver_license" and "identity_card". The file can be decrypted and verified using the accompanying EncryptedCredentials.
    */
-  reverse_side?: TgPassportFile;
+  reverse_side?: TgPassportFile | undefined;
   /**
    * Optional. Encrypted file with the selfie of the user holding a document, provided by the user; available if requested for "passport", "driver_license", "identity_card" and "internal_passport". The file can be decrypted and verified using the accompanying EncryptedCredentials.
    */
-  selfie?: TgPassportFile;
+  selfie?: TgPassportFile | undefined;
   /**
    * Optional. Array of encrypted files with translated versions of documents provided by the user; available if requested for "passport", "driver_license", "identity_card", "internal_passport", "utility_bill", "bank_statement", "rental_agreement", "passport_registration" and "temporary_registration" types. Files can be decrypted and verified using the accompanying EncryptedCredentials.
    */
-  translation?: TgPassportFile[];
+  translation?: TgPassportFile[] | undefined;
   /**
    * Base64-encoded element hash for using in PassportElementErrorUnspecified
    */
@@ -11379,15 +11396,15 @@ export type TgGame = {
   /**
    * Optional. Brief description of the game or high scores included in the game message. Can be automatically edited to include current high scores for the game when the bot calls setGameScore, or manually edited using editMessageText. 0-4096 characters.
    */
-  text?: string;
+  text?: string | undefined;
   /**
    * Optional. Special entities that appear in text, such as usernames, URLs, bot commands, etc.
    */
-  text_entities?: TgMessageEntity[];
+  text_entities?: TgMessageEntity[] | undefined;
   /**
    * Optional. Animation that will be displayed in the game message in chats. Upload via BotFather
    */
-  animation?: TgAnimation;
+  animation?: TgAnimation | undefined;
 };
 /**
  * A placeholder, currently holds no information. Use BotFather to set up your game.

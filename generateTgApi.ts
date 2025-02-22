@@ -236,7 +236,7 @@ function generateApiTypeNode(tgTypeDef: TgApiTypeDef) {
  * `tgTypeDefName` is only used to replace some property types which are hardcoded.
  */
 function generateTypeFieldNode(tgFieldDef: TgApiFieldDef, tgTypeDefName: string) {
-  let typeNode;
+  let typeNode: ts.TypeNode;
 
   if (tgFieldDef.name === "allowed_updates") {
     // override: allowed_updates: Exclude<keyof TgUpdate, "update_id">[]
@@ -254,12 +254,11 @@ function generateTypeFieldNode(tgFieldDef: TgApiFieldDef, tgTypeDefName: string)
     );
   } else if (tgFieldDef.name.endsWith("parse_mode")) {
     // override: parse_mode: undefined | "HTML" | "Markdown" | "MarkdownV2"
-    typeNode = ts.factory.createUnionTypeNode([
-      ts.factory.createKeywordTypeNode(ts.SyntaxKind.UndefinedKeyword),
-      ...["HTML", "Markdown", "MarkdownV2"].map((mode) =>
+    typeNode = ts.factory.createUnionTypeNode(
+      ["HTML", "Markdown", "MarkdownV2"].map((mode) =>
         ts.factory.createLiteralTypeNode(ts.factory.createStringLiteral(mode))
       ),
-    ]);
+    );
   } else if (tgFieldDef.types.join(",") === "String") {
     // for strings, try to parse the description to get a more specific type
     let match;
@@ -299,7 +298,7 @@ function generateTypeFieldNode(tgFieldDef: TgApiFieldDef, tgTypeDefName: string)
   }
 
   if (
-    typeNode.kind === ts.SyntaxKind.UnionType &&
+    ts.isUnionTypeNode(typeNode) &&
     typeNode.types.length > 1 &&
     typeNode.types.every((type) => type.kind === ts.SyntaxKind.ArrayType)
   ) {
@@ -328,6 +327,20 @@ function generateTypeFieldNode(tgFieldDef: TgApiFieldDef, tgTypeDefName: string)
       typeNode,
       ts.factory.createTypeReferenceNode("Blob"),
     ]);
+  }
+
+  if (!tgFieldDef.required) {
+    if (ts.isUnionTypeNode(typeNode)) {
+      typeNode = ts.factory.createUnionTypeNode([
+        ...typeNode.types,
+        ts.factory.createKeywordTypeNode(ts.SyntaxKind.UndefinedKeyword),
+      ]);
+    } else {
+      typeNode = ts.factory.createUnionTypeNode([
+        typeNode,
+        ts.factory.createKeywordTypeNode(ts.SyntaxKind.UndefinedKeyword),
+      ]);
+    }
   }
 
   const propertyNode = ts.factory.createPropertySignature(
