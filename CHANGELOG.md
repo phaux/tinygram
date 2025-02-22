@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.10.0](https://github.com/phaux/tinygram/compare/v2.9.0...v2.10.0) (2025-02-22)
+
+
+### Features
+
+* add module for formatting messages ([#53](https://github.com/phaux/tinygram/issues/53)) ([6352cb7](https://github.com/phaux/tinygram/commit/6352cb78838205a461bb2beed6dfdeb7206af9b6))
+* include undefined when property is optional ([#51](https://github.com/phaux/tinygram/issues/51)) ([65a470a](https://github.com/phaux/tinygram/commit/65a470abd4fd79873bf207d961294fde42cbbcb2))
+
 ## [2.9.0](https://github.com/phaux/tinygram/compare/v2.8.0...v2.9.0) (2025-02-15)
 
 
