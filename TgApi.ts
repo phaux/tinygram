@@ -1,6 +1,6 @@
 // This file is auto-generated, do not edit it directly.
 
-export const TG_API_VERSION = "Bot API 8.3" as const;
+export const TG_API_VERSION = "Bot API 9.0" as const;
 export interface TgApi<O = {}> {
   /**
    * Use this method to receive incoming updates using long polling (wiki). Returns an Array of Update objects.
@@ -695,6 +695,171 @@ export interface TgApi<O = {}> {
    */
   deleteMessages(params: TgDeleteMessagesParams, options?: O): Promise<boolean>;
   /**
+   * Returns the list of gifts that can be sent by the bot to users and channel chats. Requires no parameters. Returns a Gifts object.
+   *
+   * @see https://core.telegram.org/bots/api#getavailablegifts
+   */
+  getAvailableGifts(params?: null | undefined, options?: O): Promise<TgGifts>;
+  /**
+   * Sends a gift to the given user or channel chat. The gift can't be converted to Telegram Stars by the receiver. Returns True on success.
+   *
+   * @see https://core.telegram.org/bots/api#sendgift
+   */
+  sendGift(params: TgSendGiftParams, options?: O): Promise<boolean>;
+  /**
+   * Gifts a Telegram Premium subscription to the given user. Returns True on success.
+   *
+   * @see https://core.telegram.org/bots/api#giftpremiumsubscription
+   */
+  giftPremiumSubscription(params: TgGiftPremiumSubscriptionParams, options?: O): Promise<boolean>;
+  /**
+   * Verifies a user on behalf of the organization which is represented by the bot. Returns True on success.
+   *
+   * @see https://core.telegram.org/bots/api#verifyuser
+   */
+  verifyUser(params: TgVerifyUserParams, options?: O): Promise<boolean>;
+  /**
+   * Verifies a chat on behalf of the organization which is represented by the bot. Returns True on success.
+   *
+   * @see https://core.telegram.org/bots/api#verifychat
+   */
+  verifyChat(params: TgVerifyChatParams, options?: O): Promise<boolean>;
+  /**
+   * Removes verification from a user who is currently verified on behalf of the organization represented by the bot. Returns True on success.
+   *
+   * @see https://core.telegram.org/bots/api#removeuserverification
+   */
+  removeUserVerification(params: TgRemoveUserVerificationParams, options?: O): Promise<boolean>;
+  /**
+   * Removes verification from a chat that is currently verified on behalf of the organization represented by the bot. Returns True on success.
+   *
+   * @see https://core.telegram.org/bots/api#removechatverification
+   */
+  removeChatVerification(params: TgRemoveChatVerificationParams, options?: O): Promise<boolean>;
+  /**
+   * Marks incoming message as read on behalf of a business account. Requires the can_read_messages business bot right. Returns True on success.
+   *
+   * @see https://core.telegram.org/bots/api#readbusinessmessage
+   */
+  readBusinessMessage(params: TgReadBusinessMessageParams, options?: O): Promise<boolean>;
+  /**
+   * Delete messages on behalf of a business account. Requires the can_delete_outgoing_messages business bot right to delete messages sent by the bot itself, or the can_delete_all_messages business bot right to delete any message. Returns True on success.
+   *
+   * @see https://core.telegram.org/bots/api#deletebusinessmessages
+   */
+  deleteBusinessMessages(params: TgDeleteBusinessMessagesParams, options?: O): Promise<boolean>;
+  /**
+   * Changes the first and last name of a managed business account. Requires the can_change_name business bot right. Returns True on success.
+   *
+   * @see https://core.telegram.org/bots/api#setbusinessaccountname
+   */
+  setBusinessAccountName(params: TgSetBusinessAccountNameParams, options?: O): Promise<boolean>;
+  /**
+   * Changes the username of a managed business account. Requires the can_change_username business bot right. Returns True on success.
+   *
+   * @see https://core.telegram.org/bots/api#setbusinessaccountusername
+   */
+  setBusinessAccountUsername(
+    params: TgSetBusinessAccountUsernameParams,
+    options?: O,
+  ): Promise<boolean>;
+  /**
+   * Changes the bio of a managed business account. Requires the can_change_bio business bot right. Returns True on success.
+   *
+   * @see https://core.telegram.org/bots/api#setbusinessaccountbio
+   */
+  setBusinessAccountBio(params: TgSetBusinessAccountBioParams, options?: O): Promise<boolean>;
+  /**
+   * Changes the profile photo of a managed business account. Requires the can_edit_profile_photo business bot right. Returns True on success.
+   *
+   * @see https://core.telegram.org/bots/api#setbusinessaccountprofilephoto
+   */
+  setBusinessAccountProfilePhoto(
+    params: TgSetBusinessAccountProfilePhotoParams,
+    options?: O,
+  ): Promise<boolean>;
+  /**
+   * Removes the current profile photo of a managed business account. Requires the can_edit_profile_photo business bot right. Returns True on success.
+   *
+   * @see https://core.telegram.org/bots/api#removebusinessaccountprofilephoto
+   */
+  removeBusinessAccountProfilePhoto(
+    params: TgRemoveBusinessAccountProfilePhotoParams,
+    options?: O,
+  ): Promise<boolean>;
+  /**
+   * Changes the privacy settings pertaining to incoming gifts in a managed business account. Requires the can_change_gift_settings business bot right. Returns True on success.
+   *
+   * @see https://core.telegram.org/bots/api#setbusinessaccountgiftsettings
+   */
+  setBusinessAccountGiftSettings(
+    params: TgSetBusinessAccountGiftSettingsParams,
+    options?: O,
+  ): Promise<boolean>;
+  /**
+   * Returns the amount of Telegram Stars owned by a managed business account. Requires the can_view_gifts_and_stars business bot right. Returns StarAmount on success.
+   *
+   * @see https://core.telegram.org/bots/api#getbusinessaccountstarbalance
+   */
+  getBusinessAccountStarBalance(
+    params: TgGetBusinessAccountStarBalanceParams,
+    options?: O,
+  ): Promise<TgStarAmount>;
+  /**
+   * Transfers Telegram Stars from the business account balance to the bot's balance. Requires the can_transfer_stars business bot right. Returns True on success.
+   *
+   * @see https://core.telegram.org/bots/api#transferbusinessaccountstars
+   */
+  transferBusinessAccountStars(
+    params: TgTransferBusinessAccountStarsParams,
+    options?: O,
+  ): Promise<boolean>;
+  /**
+   * Returns the gifts received and owned by a managed business account. Requires the can_view_gifts_and_stars business bot right. Returns OwnedGifts on success.
+   *
+   * @see https://core.telegram.org/bots/api#getbusinessaccountgifts
+   */
+  getBusinessAccountGifts(
+    params: TgGetBusinessAccountGiftsParams,
+    options?: O,
+  ): Promise<TgOwnedGifts>;
+  /**
+   * Converts a given regular gift to Telegram Stars. Requires the can_convert_gifts_to_stars business bot right. Returns True on success.
+   *
+   * @see https://core.telegram.org/bots/api#convertgifttostars
+   */
+  convertGiftToStars(params: TgConvertGiftToStarsParams, options?: O): Promise<boolean>;
+  /**
+   * Upgrades a given regular gift to a unique gift. Requires the can_transfer_and_upgrade_gifts business bot right. Additionally requires the can_transfer_stars business bot right if the upgrade is paid. Returns True on success.
+   *
+   * @see https://core.telegram.org/bots/api#upgradegift
+   */
+  upgradeGift(params: TgUpgradeGiftParams, options?: O): Promise<boolean>;
+  /**
+   * Transfers an owned unique gift to another user. Requires the can_transfer_and_upgrade_gifts business bot right. Requires can_transfer_stars business bot right if the transfer is paid. Returns True on success.
+   *
+   * @see https://core.telegram.org/bots/api#transfergift
+   */
+  transferGift(params: TgTransferGiftParams, options?: O): Promise<boolean>;
+  /**
+   * Posts a story on behalf of a managed business account. Requires the can_manage_stories business bot right. Returns Story on success.
+   *
+   * @see https://core.telegram.org/bots/api#poststory
+   */
+  postStory(params: TgPostStoryParams, options?: O): Promise<TgStory>;
+  /**
+   * Edits a story previously posted by the bot on behalf of a managed business account. Requires the can_manage_stories business bot right. Returns Story on success.
+   *
+   * @see https://core.telegram.org/bots/api#editstory
+   */
+  editStory(params: TgEditStoryParams, options?: O): Promise<TgStory>;
+  /**
+   * Deletes a story previously posted by the bot on behalf of a managed business account. Requires the can_manage_stories business bot right. Returns True on success.
+   *
+   * @see https://core.telegram.org/bots/api#deletestory
+   */
+  deleteStory(params: TgDeleteStoryParams, options?: O): Promise<boolean>;
+  /**
    * Use this method to send static .WEBP, animated .TGS, or video .WEBM stickers. On success, the sent Message is returned.
    *
    * @see https://core.telegram.org/bots/api#sendsticker
@@ -793,42 +958,6 @@ export interface TgApi<O = {}> {
    * @see https://core.telegram.org/bots/api#deletestickerset
    */
   deleteStickerSet(params: TgDeleteStickerSetParams, options?: O): Promise<boolean>;
-  /**
-   * Returns the list of gifts that can be sent by the bot to users and channel chats. Requires no parameters. Returns a Gifts object.
-   *
-   * @see https://core.telegram.org/bots/api#getavailablegifts
-   */
-  getAvailableGifts(params?: null | undefined, options?: O): Promise<TgGifts>;
-  /**
-   * Sends a gift to the given user or channel chat. The gift can't be converted to Telegram Stars by the receiver. Returns True on success.
-   *
-   * @see https://core.telegram.org/bots/api#sendgift
-   */
-  sendGift(params: TgSendGiftParams, options?: O): Promise<boolean>;
-  /**
-   * Verifies a user on behalf of the organization which is represented by the bot. Returns True on success.
-   *
-   * @see https://core.telegram.org/bots/api#verifyuser
-   */
-  verifyUser(params: TgVerifyUserParams, options?: O): Promise<boolean>;
-  /**
-   * Verifies a chat on behalf of the organization which is represented by the bot. Returns True on success.
-   *
-   * @see https://core.telegram.org/bots/api#verifychat
-   */
-  verifyChat(params: TgVerifyChatParams, options?: O): Promise<boolean>;
-  /**
-   * Removes verification from a user who is currently verified on behalf of the organization represented by the bot. Returns True on success.
-   *
-   * @see https://core.telegram.org/bots/api#removeuserverification
-   */
-  removeUserVerification(params: TgRemoveUserVerificationParams, options?: O): Promise<boolean>;
-  /**
-   * Removes verification from a chat that is currently verified on behalf of the organization represented by the bot. Returns True on success.
-   *
-   * @see https://core.telegram.org/bots/api#removechatverification
-   */
-  removeChatVerification(params: TgRemoveChatVerificationParams, options?: O): Promise<boolean>;
   /**
    * Use this method to send answers to an inline query. On success, True is returned.
    *
@@ -1785,7 +1914,7 @@ export type TgSendPaidMediaParams = {
    */
   chat_id: number | string;
   /**
-   * The number of Telegram Stars that must be paid to buy access to the media; 1-2500
+   * The number of Telegram Stars that must be paid to buy access to the media; 1-10000
    */
   star_count: number;
   /**
@@ -2655,7 +2784,7 @@ export type TgCreateChatSubscriptionInviteLinkParams = {
    */
   subscription_period: number;
   /**
-   * The amount of Telegram Stars a user must pay initially and after each subsequent subscription period to be a member of the chat; 1-2500
+   * The amount of Telegram Stars a user must pay initially and after each subsequent subscription period to be a member of the chat; 1-10000
    */
   subscription_price: number;
 };
@@ -3601,6 +3730,483 @@ export type TgDeleteMessagesParams = {
   message_ids: number[];
 };
 /**
+ * Parameters of {@link TgApi.sendGift} method.
+ *
+ * @see https://core.telegram.org/bots/api#sendgift
+ */
+export type TgSendGiftParams = {
+  /**
+   * Required if chat_id is not specified. Unique identifier of the target user who will receive the gift.
+   */
+  user_id?: number | undefined;
+  /**
+   * Required if user_id is not specified. Unique identifier for the chat or username of the channel (in the format @channelusername) that will receive the gift.
+   */
+  chat_id?: number | string | undefined;
+  /**
+   * Identifier of the gift
+   */
+  gift_id: string;
+  /**
+   * Pass True to pay for the gift upgrade from the bot's balance, thereby making the upgrade free for the receiver
+   */
+  pay_for_upgrade?: boolean | undefined;
+  /**
+   * Text that will be shown along with the gift; 0-128 characters
+   */
+  text?: string | undefined;
+  /**
+   * Mode for parsing entities in the text. See formatting options for more details. Entities other than "bold", "italic", "underline", "strikethrough", "spoiler", and "custom_emoji" are ignored.
+   */
+  text_parse_mode?: "HTML" | "Markdown" | "MarkdownV2" | undefined;
+  /**
+   * A JSON-serialized list of special entities that appear in the gift text. It can be specified instead of text_parse_mode. Entities other than "bold", "italic", "underline", "strikethrough", "spoiler", and "custom_emoji" are ignored.
+   */
+  text_entities?: TgMessageEntity[] | undefined;
+};
+/**
+ * Parameters of {@link TgApi.giftPremiumSubscription} method.
+ *
+ * @see https://core.telegram.org/bots/api#giftpremiumsubscription
+ */
+export type TgGiftPremiumSubscriptionParams = {
+  /**
+   * Unique identifier of the target user who will receive a Telegram Premium subscription
+   */
+  user_id: number;
+  /**
+   * Number of months the Telegram Premium subscription will be active for the user; must be one of 3, 6, or 12
+   */
+  month_count: number;
+  /**
+   * Number of Telegram Stars to pay for the Telegram Premium subscription; must be 1000 for 3 months, 1500 for 6 months, and 2500 for 12 months
+   */
+  star_count: number;
+  /**
+   * Text that will be shown along with the service message about the subscription; 0-128 characters
+   */
+  text?: string | undefined;
+  /**
+   * Mode for parsing entities in the text. See formatting options for more details. Entities other than "bold", "italic", "underline", "strikethrough", "spoiler", and "custom_emoji" are ignored.
+   */
+  text_parse_mode?: "HTML" | "Markdown" | "MarkdownV2" | undefined;
+  /**
+   * A JSON-serialized list of special entities that appear in the gift text. It can be specified instead of text_parse_mode. Entities other than "bold", "italic", "underline", "strikethrough", "spoiler", and "custom_emoji" are ignored.
+   */
+  text_entities?: TgMessageEntity[] | undefined;
+};
+/**
+ * Parameters of {@link TgApi.verifyUser} method.
+ *
+ * @see https://core.telegram.org/bots/api#verifyuser
+ */
+export type TgVerifyUserParams = {
+  /**
+   * Unique identifier of the target user
+   */
+  user_id: number;
+  /**
+   * Custom description for the verification; 0-70 characters. Must be empty if the organization isn't allowed to provide a custom verification description.
+   */
+  custom_description?: string | undefined;
+};
+/**
+ * Parameters of {@link TgApi.verifyChat} method.
+ *
+ * @see https://core.telegram.org/bots/api#verifychat
+ */
+export type TgVerifyChatParams = {
+  /**
+   * Unique identifier for the target chat or username of the target channel (in the format @channelusername)
+   */
+  chat_id: number | string;
+  /**
+   * Custom description for the verification; 0-70 characters. Must be empty if the organization isn't allowed to provide a custom verification description.
+   */
+  custom_description?: string | undefined;
+};
+/**
+ * Parameters of {@link TgApi.removeUserVerification} method.
+ *
+ * @see https://core.telegram.org/bots/api#removeuserverification
+ */
+export type TgRemoveUserVerificationParams = {
+  /**
+   * Unique identifier of the target user
+   */
+  user_id: number;
+};
+/**
+ * Parameters of {@link TgApi.removeChatVerification} method.
+ *
+ * @see https://core.telegram.org/bots/api#removechatverification
+ */
+export type TgRemoveChatVerificationParams = {
+  /**
+   * Unique identifier for the target chat or username of the target channel (in the format @channelusername)
+   */
+  chat_id: number | string;
+};
+/**
+ * Parameters of {@link TgApi.readBusinessMessage} method.
+ *
+ * @see https://core.telegram.org/bots/api#readbusinessmessage
+ */
+export type TgReadBusinessMessageParams = {
+  /**
+   * Unique identifier of the business connection on behalf of which to read the message
+   */
+  business_connection_id: string;
+  /**
+   * Unique identifier of the chat in which the message was received. The chat must have been active in the last 24 hours.
+   */
+  chat_id: number;
+  /**
+   * Unique identifier of the message to mark as read
+   */
+  message_id: number;
+};
+/**
+ * Parameters of {@link TgApi.deleteBusinessMessages} method.
+ *
+ * @see https://core.telegram.org/bots/api#deletebusinessmessages
+ */
+export type TgDeleteBusinessMessagesParams = {
+  /**
+   * Unique identifier of the business connection on behalf of which to delete the messages
+   */
+  business_connection_id: string;
+  /**
+   * A JSON-serialized list of 1-100 identifiers of messages to delete. All messages must be from the same chat. See deleteMessage for limitations on which messages can be deleted
+   */
+  message_ids: number[];
+};
+/**
+ * Parameters of {@link TgApi.setBusinessAccountName} method.
+ *
+ * @see https://core.telegram.org/bots/api#setbusinessaccountname
+ */
+export type TgSetBusinessAccountNameParams = {
+  /**
+   * Unique identifier of the business connection
+   */
+  business_connection_id: string;
+  /**
+   * The new value of the first name for the business account; 1-64 characters
+   */
+  first_name: string;
+  /**
+   * The new value of the last name for the business account; 0-64 characters
+   */
+  last_name?: string | undefined;
+};
+/**
+ * Parameters of {@link TgApi.setBusinessAccountUsername} method.
+ *
+ * @see https://core.telegram.org/bots/api#setbusinessaccountusername
+ */
+export type TgSetBusinessAccountUsernameParams = {
+  /**
+   * Unique identifier of the business connection
+   */
+  business_connection_id: string;
+  /**
+   * The new value of the username for the business account; 0-32 characters
+   */
+  username?: string | undefined;
+};
+/**
+ * Parameters of {@link TgApi.setBusinessAccountBio} method.
+ *
+ * @see https://core.telegram.org/bots/api#setbusinessaccountbio
+ */
+export type TgSetBusinessAccountBioParams = {
+  /**
+   * Unique identifier of the business connection
+   */
+  business_connection_id: string;
+  /**
+   * The new value of the bio for the business account; 0-140 characters
+   */
+  bio?: string | undefined;
+};
+/**
+ * Parameters of {@link TgApi.setBusinessAccountProfilePhoto} method.
+ *
+ * @see https://core.telegram.org/bots/api#setbusinessaccountprofilephoto
+ */
+export type TgSetBusinessAccountProfilePhotoParams = {
+  /**
+   * Unique identifier of the business connection
+   */
+  business_connection_id: string;
+  /**
+   * The new profile photo to set
+   */
+  photo: TgInputProfilePhoto;
+  /**
+   * Pass True to set the public photo, which will be visible even if the main photo is hidden by the business account's privacy settings. An account can have only one public photo.
+   */
+  is_public?: boolean | undefined;
+};
+/**
+ * Parameters of {@link TgApi.removeBusinessAccountProfilePhoto} method.
+ *
+ * @see https://core.telegram.org/bots/api#removebusinessaccountprofilephoto
+ */
+export type TgRemoveBusinessAccountProfilePhotoParams = {
+  /**
+   * Unique identifier of the business connection
+   */
+  business_connection_id: string;
+  /**
+   * Pass True to remove the public photo, which is visible even if the main photo is hidden by the business account's privacy settings. After the main photo is removed, the previous profile photo (if present) becomes the main photo.
+   */
+  is_public?: boolean | undefined;
+};
+/**
+ * Parameters of {@link TgApi.setBusinessAccountGiftSettings} method.
+ *
+ * @see https://core.telegram.org/bots/api#setbusinessaccountgiftsettings
+ */
+export type TgSetBusinessAccountGiftSettingsParams = {
+  /**
+   * Unique identifier of the business connection
+   */
+  business_connection_id: string;
+  /**
+   * Pass True, if a button for sending a gift to the user or by the business account must always be shown in the input field
+   */
+  show_gift_button: boolean;
+  /**
+   * Types of gifts accepted by the business account
+   */
+  accepted_gift_types: TgAcceptedGiftTypes;
+};
+/**
+ * Parameters of {@link TgApi.getBusinessAccountStarBalance} method.
+ *
+ * @see https://core.telegram.org/bots/api#getbusinessaccountstarbalance
+ */
+export type TgGetBusinessAccountStarBalanceParams = {
+  /**
+   * Unique identifier of the business connection
+   */
+  business_connection_id: string;
+};
+/**
+ * Parameters of {@link TgApi.transferBusinessAccountStars} method.
+ *
+ * @see https://core.telegram.org/bots/api#transferbusinessaccountstars
+ */
+export type TgTransferBusinessAccountStarsParams = {
+  /**
+   * Unique identifier of the business connection
+   */
+  business_connection_id: string;
+  /**
+   * Number of Telegram Stars to transfer; 1-10000
+   */
+  star_count: number;
+};
+/**
+ * Parameters of {@link TgApi.getBusinessAccountGifts} method.
+ *
+ * @see https://core.telegram.org/bots/api#getbusinessaccountgifts
+ */
+export type TgGetBusinessAccountGiftsParams = {
+  /**
+   * Unique identifier of the business connection
+   */
+  business_connection_id: string;
+  /**
+   * Pass True to exclude gifts that aren't saved to the account's profile page
+   */
+  exclude_unsaved?: boolean | undefined;
+  /**
+   * Pass True to exclude gifts that are saved to the account's profile page
+   */
+  exclude_saved?: boolean | undefined;
+  /**
+   * Pass True to exclude gifts that can be purchased an unlimited number of times
+   */
+  exclude_unlimited?: boolean | undefined;
+  /**
+   * Pass True to exclude gifts that can be purchased a limited number of times
+   */
+  exclude_limited?: boolean | undefined;
+  /**
+   * Pass True to exclude unique gifts
+   */
+  exclude_unique?: boolean | undefined;
+  /**
+   * Pass True to sort results by gift price instead of send date. Sorting is applied before pagination.
+   */
+  sort_by_price?: boolean | undefined;
+  /**
+   * Offset of the first entry to return as received from the previous request; use empty string to get the first chunk of results
+   */
+  offset?: string | undefined;
+  /**
+   * The maximum number of gifts to be returned; 1-100. Defaults to 100
+   */
+  limit?: number | undefined;
+};
+/**
+ * Parameters of {@link TgApi.convertGiftToStars} method.
+ *
+ * @see https://core.telegram.org/bots/api#convertgifttostars
+ */
+export type TgConvertGiftToStarsParams = {
+  /**
+   * Unique identifier of the business connection
+   */
+  business_connection_id: string;
+  /**
+   * Unique identifier of the regular gift that should be converted to Telegram Stars
+   */
+  owned_gift_id: string;
+};
+/**
+ * Parameters of {@link TgApi.upgradeGift} method.
+ *
+ * @see https://core.telegram.org/bots/api#upgradegift
+ */
+export type TgUpgradeGiftParams = {
+  /**
+   * Unique identifier of the business connection
+   */
+  business_connection_id: string;
+  /**
+   * Unique identifier of the regular gift that should be upgraded to a unique one
+   */
+  owned_gift_id: string;
+  /**
+   * Pass True to keep the original gift text, sender and receiver in the upgraded gift
+   */
+  keep_original_details?: boolean | undefined;
+  /**
+   * The amount of Telegram Stars that will be paid for the upgrade from the business account balance. If gift.prepaid_upgrade_star_count > 0, then pass 0, otherwise, the can_transfer_stars business bot right is required and gift.upgrade_star_count must be passed.
+   */
+  star_count?: number | undefined;
+};
+/**
+ * Parameters of {@link TgApi.transferGift} method.
+ *
+ * @see https://core.telegram.org/bots/api#transfergift
+ */
+export type TgTransferGiftParams = {
+  /**
+   * Unique identifier of the business connection
+   */
+  business_connection_id: string;
+  /**
+   * Unique identifier of the regular gift that should be transferred
+   */
+  owned_gift_id: string;
+  /**
+   * Unique identifier of the chat which will own the gift. The chat must be active in the last 24 hours.
+   */
+  new_owner_chat_id: number;
+  /**
+   * The amount of Telegram Stars that will be paid for the transfer from the business account balance. If positive, then the can_transfer_stars business bot right is required.
+   */
+  star_count?: number | undefined;
+};
+/**
+ * Parameters of {@link TgApi.postStory} method.
+ *
+ * @see https://core.telegram.org/bots/api#poststory
+ */
+export type TgPostStoryParams = {
+  /**
+   * Unique identifier of the business connection
+   */
+  business_connection_id: string;
+  /**
+   * Content of the story
+   */
+  content: TgInputStoryContent;
+  /**
+   * Period after which the story is moved to the archive, in seconds; must be one of 6 * 3600, 12 * 3600, 86400, or 2 * 86400
+   */
+  active_period: number;
+  /**
+   * Caption of the story, 0-2048 characters after entities parsing
+   */
+  caption?: string | undefined;
+  /**
+   * Mode for parsing entities in the story caption. See formatting options for more details.
+   */
+  parse_mode?: "HTML" | "Markdown" | "MarkdownV2" | undefined;
+  /**
+   * A JSON-serialized list of special entities that appear in the caption, which can be specified instead of parse_mode
+   */
+  caption_entities?: TgMessageEntity[] | undefined;
+  /**
+   * A JSON-serialized list of clickable areas to be shown on the story
+   */
+  areas?: TgStoryArea[] | undefined;
+  /**
+   * Pass True to keep the story accessible after it expires
+   */
+  post_to_chat_page?: boolean | undefined;
+  /**
+   * Pass True if the content of the story must be protected from forwarding and screenshotting
+   */
+  protect_content?: boolean | undefined;
+};
+/**
+ * Parameters of {@link TgApi.editStory} method.
+ *
+ * @see https://core.telegram.org/bots/api#editstory
+ */
+export type TgEditStoryParams = {
+  /**
+   * Unique identifier of the business connection
+   */
+  business_connection_id: string;
+  /**
+   * Unique identifier of the story to edit
+   */
+  story_id: number;
+  /**
+   * Content of the story
+   */
+  content: TgInputStoryContent;
+  /**
+   * Caption of the story, 0-2048 characters after entities parsing
+   */
+  caption?: string | undefined;
+  /**
+   * Mode for parsing entities in the story caption. See formatting options for more details.
+   */
+  parse_mode?: "HTML" | "Markdown" | "MarkdownV2" | undefined;
+  /**
+   * A JSON-serialized list of special entities that appear in the caption, which can be specified instead of parse_mode
+   */
+  caption_entities?: TgMessageEntity[] | undefined;
+  /**
+   * A JSON-serialized list of clickable areas to be shown on the story
+   */
+  areas?: TgStoryArea[] | undefined;
+};
+/**
+ * Parameters of {@link TgApi.deleteStory} method.
+ *
+ * @see https://core.telegram.org/bots/api#deletestory
+ */
+export type TgDeleteStoryParams = {
+  /**
+   * Unique identifier of the business connection
+   */
+  business_connection_id: string;
+  /**
+   * Unique identifier of the story to delete
+   */
+  story_id: number;
+};
+/**
  * Parameters of {@link TgApi.sendSticker} method.
  *
  * @see https://core.telegram.org/bots/api#sendsticker
@@ -3906,93 +4512,6 @@ export type TgDeleteStickerSetParams = {
   name: string;
 };
 /**
- * Parameters of {@link TgApi.sendGift} method.
- *
- * @see https://core.telegram.org/bots/api#sendgift
- */
-export type TgSendGiftParams = {
-  /**
-   * Required if chat_id is not specified. Unique identifier of the target user who will receive the gift.
-   */
-  user_id?: number | undefined;
-  /**
-   * Required if user_id is not specified. Unique identifier for the chat or username of the channel (in the format @channelusername) that will receive the gift.
-   */
-  chat_id?: number | string | undefined;
-  /**
-   * Identifier of the gift
-   */
-  gift_id: string;
-  /**
-   * Pass True to pay for the gift upgrade from the bot's balance, thereby making the upgrade free for the receiver
-   */
-  pay_for_upgrade?: boolean | undefined;
-  /**
-   * Text that will be shown along with the gift; 0-128 characters
-   */
-  text?: string | undefined;
-  /**
-   * Mode for parsing entities in the text. See formatting options for more details. Entities other than "bold", "italic", "underline", "strikethrough", "spoiler", and "custom_emoji" are ignored.
-   */
-  text_parse_mode?: "HTML" | "Markdown" | "MarkdownV2" | undefined;
-  /**
-   * A JSON-serialized list of special entities that appear in the gift text. It can be specified instead of text_parse_mode. Entities other than "bold", "italic", "underline", "strikethrough", "spoiler", and "custom_emoji" are ignored.
-   */
-  text_entities?: TgMessageEntity[] | undefined;
-};
-/**
- * Parameters of {@link TgApi.verifyUser} method.
- *
- * @see https://core.telegram.org/bots/api#verifyuser
- */
-export type TgVerifyUserParams = {
-  /**
-   * Unique identifier of the target user
-   */
-  user_id: number;
-  /**
-   * Custom description for the verification; 0-70 characters. Must be empty if the organization isn't allowed to provide a custom verification description.
-   */
-  custom_description?: string | undefined;
-};
-/**
- * Parameters of {@link TgApi.verifyChat} method.
- *
- * @see https://core.telegram.org/bots/api#verifychat
- */
-export type TgVerifyChatParams = {
-  /**
-   * Unique identifier for the target chat or username of the target channel (in the format @channelusername)
-   */
-  chat_id: number | string;
-  /**
-   * Custom description for the verification; 0-70 characters. Must be empty if the organization isn't allowed to provide a custom verification description.
-   */
-  custom_description?: string | undefined;
-};
-/**
- * Parameters of {@link TgApi.removeUserVerification} method.
- *
- * @see https://core.telegram.org/bots/api#removeuserverification
- */
-export type TgRemoveUserVerificationParams = {
-  /**
-   * Unique identifier of the target user
-   */
-  user_id: number;
-};
-/**
- * Parameters of {@link TgApi.removeChatVerification} method.
- *
- * @see https://core.telegram.org/bots/api#removechatverification
- */
-export type TgRemoveChatVerificationParams = {
-  /**
-   * Unique identifier for the target chat or username of the target channel (in the format @channelusername)
-   */
-  chat_id: number | string;
-};
-/**
  * Parameters of {@link TgApi.answerInlineQuery} method.
  *
  * @see https://core.telegram.org/bots/api#answerinlinequery
@@ -4227,7 +4746,7 @@ export type TgCreateInvoiceLinkParams = {
    */
   prices: TgLabeledPrice[];
   /**
-   * The number of seconds the subscription will be active for before the next payment. The currency must be set to "XTR" (Telegram Stars) if the parameter is used. Currently, it must always be 2592000 (30 days) if specified. Any number of subscriptions can be active for a given bot at the same time, including multiple concurrent subscriptions from the same user. Subscription price must no exceed 2500 Telegram Stars.
+   * The number of seconds the subscription will be active for before the next payment. The currency must be set to "XTR" (Telegram Stars) if the parameter is used. Currently, it must always be 2592000 (30 days) if specified. Any number of subscriptions can be active for a given bot at the same time, including multiple concurrent subscriptions from the same user. Subscription price must no exceed 10000 Telegram Stars.
    */
   subscription_period?: number | undefined;
   /**
@@ -4871,9 +5390,9 @@ export type TgChatFullInfo = {
    */
   permissions?: TgChatPermissions | undefined;
   /**
-   * Optional. True, if gifts can be sent to the chat
+   * Information about types of gifts that are accepted by the chat or by the corresponding user for private chats
    */
-  can_send_gift?: boolean | undefined;
+  accepted_gift_types: TgAcceptedGiftTypes;
   /**
    * Optional. True, if paid media messages can be sent or forwarded to the channel chat. The field is available only for channel chats.
    */
@@ -5021,6 +5540,10 @@ export type TgMessage = {
    * Optional. Signature of the post author for messages in channels, or the custom title of an anonymous group administrator
    */
   author_signature?: string | undefined;
+  /**
+   * Optional. The number of Telegram Stars that were paid by the sender of the message to send it
+   */
+  paid_star_count?: number | undefined;
   /**
    * Optional. For text messages, the actual UTF-8 text of the message
    */
@@ -5186,6 +5709,14 @@ export type TgMessage = {
    */
   chat_shared?: TgChatShared | undefined;
   /**
+   * Optional. Service message: a regular gift was sent or received
+   */
+  gift?: TgGiftInfo | undefined;
+  /**
+   * Optional. Service message: a unique gift was sent or received
+   */
+  unique_gift?: TgUniqueGiftInfo | undefined;
+  /**
    * Optional. The domain name of the website on which the user has logged in. More about Telegram Login: https://core.telegram.org/widgets/login
    */
   connected_website?: string | undefined;
@@ -5249,6 +5780,10 @@ export type TgMessage = {
    * Optional. Service message: a giveaway without public winners was completed
    */
   giveaway_completed?: TgGiveawayCompleted | undefined;
+  /**
+   * Optional. Service message: the price for paid messages has changed in the chat
+   */
+  paid_message_price_changed?: TgPaidMessagePriceChanged | undefined;
   /**
    * Optional. Service message: video chat scheduled
    */
@@ -6646,6 +7181,17 @@ export type TgVideoChatParticipantsInvited = {
   users: TgUser[];
 };
 /**
+ * Describes a service message about a change in the price of paid messages within a chat.
+ *
+ * @see https://core.telegram.org/bots/api#paidmessagepricechanged
+ */
+export type TgPaidMessagePriceChanged = {
+  /**
+   * The new number of Telegram Stars that must be paid by non-administrator users of the supergroup chat for each sent message
+   */
+  paid_message_star_count: number;
+};
+/**
  * This object represents a service message about the creation of a scheduled giveaway.
  *
  * @see https://core.telegram.org/bots/api#giveawaycreated
@@ -7832,6 +8378,195 @@ export type TgBusinessOpeningHours = {
   opening_hours: TgBusinessOpeningHoursInterval[];
 };
 /**
+ * Describes the position of a clickable area within a story.
+ *
+ * @see https://core.telegram.org/bots/api#storyareaposition
+ */
+export type TgStoryAreaPosition = {
+  /**
+   * The abscissa of the area's center, as a percentage of the media width
+   */
+  x_percentage: number;
+  /**
+   * The ordinate of the area's center, as a percentage of the media height
+   */
+  y_percentage: number;
+  /**
+   * The width of the area's rectangle, as a percentage of the media width
+   */
+  width_percentage: number;
+  /**
+   * The height of the area's rectangle, as a percentage of the media height
+   */
+  height_percentage: number;
+  /**
+   * The clockwise rotation angle of the rectangle, in degrees; 0-360
+   */
+  rotation_angle: number;
+  /**
+   * The radius of the rectangle corner rounding, as a percentage of the media width
+   */
+  corner_radius_percentage: number;
+};
+/**
+ * Describes the physical address of a location.
+ *
+ * @see https://core.telegram.org/bots/api#locationaddress
+ */
+export type TgLocationAddress = {
+  /**
+   * The two-letter ISO 3166-1 alpha-2 country code of the country where the location is located
+   */
+  country_code: string;
+  /**
+   * Optional. State of the location
+   */
+  state?: string | undefined;
+  /**
+   * Optional. City of the location
+   */
+  city?: string | undefined;
+  /**
+   * Optional. Street address of the location
+   */
+  street?: string | undefined;
+};
+/**
+ * Describes the type of a clickable area on a story. Currently, it can be one of
+ *
+ * - StoryAreaTypeLocation
+ *
+ * - StoryAreaTypeSuggestedReaction
+ *
+ * - StoryAreaTypeLink
+ *
+ * - StoryAreaTypeWeather
+ *
+ * - StoryAreaTypeUniqueGift
+ *
+ * @see https://core.telegram.org/bots/api#storyareatype
+ */
+export type TgStoryAreaType =
+  | TgStoryAreaTypeLocation
+  | TgStoryAreaTypeSuggestedReaction
+  | TgStoryAreaTypeLink
+  | TgStoryAreaTypeWeather
+  | TgStoryAreaTypeUniqueGift;
+/**
+ * Describes a story area pointing to a location. Currently, a story can have up to 10 location areas.
+ *
+ * @see https://core.telegram.org/bots/api#storyareatypelocation
+ */
+export type TgStoryAreaTypeLocation = {
+  /**
+   * Type of the area, always "location"
+   */
+  type: "location";
+  /**
+   * Location latitude in degrees
+   */
+  latitude: number;
+  /**
+   * Location longitude in degrees
+   */
+  longitude: number;
+  /**
+   * Optional. Address of the location
+   */
+  address?: TgLocationAddress | undefined;
+};
+/**
+ * Describes a story area pointing to a suggested reaction. Currently, a story can have up to 5 suggested reaction areas.
+ *
+ * @see https://core.telegram.org/bots/api#storyareatypesuggestedreaction
+ */
+export type TgStoryAreaTypeSuggestedReaction = {
+  /**
+   * Type of the area, always "suggested_reaction"
+   */
+  type: "suggested_reaction";
+  /**
+   * Type of the reaction
+   */
+  reaction_type: TgReactionType;
+  /**
+   * Optional. Pass True if the reaction area has a dark background
+   */
+  is_dark?: boolean | undefined;
+  /**
+   * Optional. Pass True if reaction area corner is flipped
+   */
+  is_flipped?: boolean | undefined;
+};
+/**
+ * Describes a story area pointing to an HTTP or tg:// link. Currently, a story can have up to 3 link areas.
+ *
+ * @see https://core.telegram.org/bots/api#storyareatypelink
+ */
+export type TgStoryAreaTypeLink = {
+  /**
+   * Type of the area, always "link"
+   */
+  type: "link";
+  /**
+   * HTTP or tg:// URL to be opened when the area is clicked
+   */
+  url: string;
+};
+/**
+ * Describes a story area containing weather information. Currently, a story can have up to 3 weather areas.
+ *
+ * @see https://core.telegram.org/bots/api#storyareatypeweather
+ */
+export type TgStoryAreaTypeWeather = {
+  /**
+   * Type of the area, always "weather"
+   */
+  type: "weather";
+  /**
+   * Temperature, in degree Celsius
+   */
+  temperature: number;
+  /**
+   * Emoji representing the weather
+   */
+  emoji: string;
+  /**
+   * A color of the area background in the ARGB format
+   */
+  background_color: number;
+};
+/**
+ * Describes a story area pointing to a unique gift. Currently, a story can have at most 1 unique gift area.
+ *
+ * @see https://core.telegram.org/bots/api#storyareatypeuniquegift
+ */
+export type TgStoryAreaTypeUniqueGift = {
+  /**
+   * Type of the area, always "unique_gift"
+   */
+  type: "unique_gift";
+  /**
+   * Unique name of the gift
+   */
+  name: string;
+};
+/**
+ * Describes a clickable area on a story media.
+ *
+ * @see https://core.telegram.org/bots/api#storyarea
+ */
+export type TgStoryArea = {
+  /**
+   * Position of the area
+   */
+  position: TgStoryAreaPosition;
+  /**
+   * Type of the area
+   */
+  type: TgStoryAreaType;
+};
+/**
  * Represents a location to which a chat is connected.
  *
  * @see https://core.telegram.org/bots/api#chatlocation
@@ -8067,6 +8802,386 @@ export type TgForumTopic = {
    * Optional. Unique identifier of the custom emoji shown as the topic icon
    */
   icon_custom_emoji_id?: string | undefined;
+};
+/**
+ * This object represents a gift that can be sent by the bot.
+ *
+ * @see https://core.telegram.org/bots/api#gift
+ */
+export type TgGift = {
+  /**
+   * Unique identifier of the gift
+   */
+  id: string;
+  /**
+   * The sticker that represents the gift
+   */
+  sticker: TgSticker;
+  /**
+   * The number of Telegram Stars that must be paid to send the sticker
+   */
+  star_count: number;
+  /**
+   * Optional. The number of Telegram Stars that must be paid to upgrade the gift to a unique one
+   */
+  upgrade_star_count?: number | undefined;
+  /**
+   * Optional. The total number of the gifts of this type that can be sent; for limited gifts only
+   */
+  total_count?: number | undefined;
+  /**
+   * Optional. The number of remaining gifts of this type that can be sent; for limited gifts only
+   */
+  remaining_count?: number | undefined;
+};
+/**
+ * This object represent a list of gifts.
+ *
+ * @see https://core.telegram.org/bots/api#gifts
+ */
+export type TgGifts = {
+  /**
+   * The list of gifts
+   */
+  gifts: TgGift[];
+};
+/**
+ * This object describes the model of a unique gift.
+ *
+ * @see https://core.telegram.org/bots/api#uniquegiftmodel
+ */
+export type TgUniqueGiftModel = {
+  /**
+   * Name of the model
+   */
+  name: string;
+  /**
+   * The sticker that represents the unique gift
+   */
+  sticker: TgSticker;
+  /**
+   * The number of unique gifts that receive this model for every 1000 gifts upgraded
+   */
+  rarity_per_mille: number;
+};
+/**
+ * This object describes the symbol shown on the pattern of a unique gift.
+ *
+ * @see https://core.telegram.org/bots/api#uniquegiftsymbol
+ */
+export type TgUniqueGiftSymbol = {
+  /**
+   * Name of the symbol
+   */
+  name: string;
+  /**
+   * The sticker that represents the unique gift
+   */
+  sticker: TgSticker;
+  /**
+   * The number of unique gifts that receive this model for every 1000 gifts upgraded
+   */
+  rarity_per_mille: number;
+};
+/**
+ * This object describes the colors of the backdrop of a unique gift.
+ *
+ * @see https://core.telegram.org/bots/api#uniquegiftbackdropcolors
+ */
+export type TgUniqueGiftBackdropColors = {
+  /**
+   * The color in the center of the backdrop in RGB format
+   */
+  center_color: number;
+  /**
+   * The color on the edges of the backdrop in RGB format
+   */
+  edge_color: number;
+  /**
+   * The color to be applied to the symbol in RGB format
+   */
+  symbol_color: number;
+  /**
+   * The color for the text on the backdrop in RGB format
+   */
+  text_color: number;
+};
+/**
+ * This object describes the backdrop of a unique gift.
+ *
+ * @see https://core.telegram.org/bots/api#uniquegiftbackdrop
+ */
+export type TgUniqueGiftBackdrop = {
+  /**
+   * Name of the backdrop
+   */
+  name: string;
+  /**
+   * Colors of the backdrop
+   */
+  colors: TgUniqueGiftBackdropColors;
+  /**
+   * The number of unique gifts that receive this backdrop for every 1000 gifts upgraded
+   */
+  rarity_per_mille: number;
+};
+/**
+ * This object describes a unique gift that was upgraded from a regular gift.
+ *
+ * @see https://core.telegram.org/bots/api#uniquegift
+ */
+export type TgUniqueGift = {
+  /**
+   * Human-readable name of the regular gift from which this unique gift was upgraded
+   */
+  base_name: string;
+  /**
+   * Unique name of the gift. This name can be used in https://t.me/nft/... links and story areas
+   */
+  name: string;
+  /**
+   * Unique number of the upgraded gift among gifts upgraded from the same regular gift
+   */
+  number: number;
+  /**
+   * Model of the gift
+   */
+  model: TgUniqueGiftModel;
+  /**
+   * Symbol of the gift
+   */
+  symbol: TgUniqueGiftSymbol;
+  /**
+   * Backdrop of the gift
+   */
+  backdrop: TgUniqueGiftBackdrop;
+};
+/**
+ * Describes a service message about a regular gift that was sent or received.
+ *
+ * @see https://core.telegram.org/bots/api#giftinfo
+ */
+export type TgGiftInfo = {
+  /**
+   * Information about the gift
+   */
+  gift: TgGift;
+  /**
+   * Optional. Unique identifier of the received gift for the bot; only present for gifts received on behalf of business accounts
+   */
+  owned_gift_id?: string | undefined;
+  /**
+   * Optional. Number of Telegram Stars that can be claimed by the receiver by converting the gift; omitted if conversion to Telegram Stars is impossible
+   */
+  convert_star_count?: number | undefined;
+  /**
+   * Optional. Number of Telegram Stars that were prepaid by the sender for the ability to upgrade the gift
+   */
+  prepaid_upgrade_star_count?: number | undefined;
+  /**
+   * Optional. True, if the gift can be upgraded to a unique gift
+   */
+  can_be_upgraded?: boolean | undefined;
+  /**
+   * Optional. Text of the message that was added to the gift
+   */
+  text?: string | undefined;
+  /**
+   * Optional. Special entities that appear in the text
+   */
+  entities?: TgMessageEntity[] | undefined;
+  /**
+   * Optional. True, if the sender and gift text are shown only to the gift receiver; otherwise, everyone will be able to see them
+   */
+  is_private?: boolean | undefined;
+};
+/**
+ * Describes a service message about a unique gift that was sent or received.
+ *
+ * @see https://core.telegram.org/bots/api#uniquegiftinfo
+ */
+export type TgUniqueGiftInfo = {
+  /**
+   * Information about the gift
+   */
+  gift: TgUniqueGift;
+  /**
+   * Origin of the gift. Currently, either "upgrade" or "transfer"
+   */
+  origin: "upgrade" | "transfer";
+  /**
+   * Optional. Unique identifier of the received gift for the bot; only present for gifts received on behalf of business accounts
+   */
+  owned_gift_id?: string | undefined;
+  /**
+   * Optional. Number of Telegram Stars that must be paid to transfer the gift; omitted if the bot cannot transfer the gift
+   */
+  transfer_star_count?: number | undefined;
+};
+/**
+ * This object describes a gift received and owned by a user or a chat. Currently, it can be one of
+ *
+ * - OwnedGiftRegular
+ *
+ * - OwnedGiftUnique
+ *
+ * @see https://core.telegram.org/bots/api#ownedgift
+ */
+export type TgOwnedGift = TgOwnedGiftRegular | TgOwnedGiftUnique;
+/**
+ * Describes a regular gift owned by a user or a chat.
+ *
+ * @see https://core.telegram.org/bots/api#ownedgiftregular
+ */
+export type TgOwnedGiftRegular = {
+  /**
+   * Type of the gift, always "regular"
+   */
+  type: "regular";
+  /**
+   * Information about the regular gift
+   */
+  gift: TgGift;
+  /**
+   * Optional. Unique identifier of the gift for the bot; for gifts received on behalf of business accounts only
+   */
+  owned_gift_id?: string | undefined;
+  /**
+   * Optional. Sender of the gift if it is a known user
+   */
+  sender_user?: TgUser | undefined;
+  /**
+   * Date the gift was sent in Unix time
+   */
+  send_date: number;
+  /**
+   * Optional. Text of the message that was added to the gift
+   */
+  text?: string | undefined;
+  /**
+   * Optional. Special entities that appear in the text
+   */
+  entities?: TgMessageEntity[] | undefined;
+  /**
+   * Optional. True, if the sender and gift text are shown only to the gift receiver; otherwise, everyone will be able to see them
+   */
+  is_private?: boolean | undefined;
+  /**
+   * Optional. True, if the gift is displayed on the account's profile page; for gifts received on behalf of business accounts only
+   */
+  is_saved?: boolean | undefined;
+  /**
+   * Optional. True, if the gift can be upgraded to a unique gift; for gifts received on behalf of business accounts only
+   */
+  can_be_upgraded?: boolean | undefined;
+  /**
+   * Optional. True, if the gift was refunded and isn't available anymore
+   */
+  was_refunded?: boolean | undefined;
+  /**
+   * Optional. Number of Telegram Stars that can be claimed by the receiver instead of the gift; omitted if the gift cannot be converted to Telegram Stars
+   */
+  convert_star_count?: number | undefined;
+  /**
+   * Optional. Number of Telegram Stars that were paid by the sender for the ability to upgrade the gift
+   */
+  prepaid_upgrade_star_count?: number | undefined;
+};
+/**
+ * Describes a unique gift received and owned by a user or a chat.
+ *
+ * @see https://core.telegram.org/bots/api#ownedgiftunique
+ */
+export type TgOwnedGiftUnique = {
+  /**
+   * Type of the gift, always "unique"
+   */
+  type: "unique";
+  /**
+   * Information about the unique gift
+   */
+  gift: TgUniqueGift;
+  /**
+   * Optional. Unique identifier of the received gift for the bot; for gifts received on behalf of business accounts only
+   */
+  owned_gift_id?: string | undefined;
+  /**
+   * Optional. Sender of the gift if it is a known user
+   */
+  sender_user?: TgUser | undefined;
+  /**
+   * Date the gift was sent in Unix time
+   */
+  send_date: number;
+  /**
+   * Optional. True, if the gift is displayed on the account's profile page; for gifts received on behalf of business accounts only
+   */
+  is_saved?: boolean | undefined;
+  /**
+   * Optional. True, if the gift can be transferred to another owner; for gifts received on behalf of business accounts only
+   */
+  can_be_transferred?: boolean | undefined;
+  /**
+   * Optional. Number of Telegram Stars that must be paid to transfer the gift; omitted if the bot cannot transfer the gift
+   */
+  transfer_star_count?: number | undefined;
+};
+/**
+ * Contains the list of gifts received and owned by a user or a chat.
+ *
+ * @see https://core.telegram.org/bots/api#ownedgifts
+ */
+export type TgOwnedGifts = {
+  /**
+   * The total number of gifts owned by the user or the chat
+   */
+  total_count: number;
+  /**
+   * The list of gifts
+   */
+  gifts: TgOwnedGift[];
+  /**
+   * Optional. Offset for the next request. If empty, then there are no more results
+   */
+  next_offset?: string | undefined;
+};
+/**
+ * This object describes the types of gifts that can be gifted to a user or a chat.
+ *
+ * @see https://core.telegram.org/bots/api#acceptedgifttypes
+ */
+export type TgAcceptedGiftTypes = {
+  /**
+   * True, if unlimited regular gifts are accepted
+   */
+  unlimited_gifts: boolean;
+  /**
+   * True, if limited regular gifts are accepted
+   */
+  limited_gifts: boolean;
+  /**
+   * True, if unique gifts or gifts that can be upgraded to unique for free are accepted
+   */
+  unique_gifts: boolean;
+  /**
+   * True, if a Telegram Premium subscription is accepted
+   */
+  premium_subscription: boolean;
+};
+/**
+ * Describes an amount of Telegram Stars.
+ *
+ * @see https://core.telegram.org/bots/api#staramount
+ */
+export type TgStarAmount = {
+  /**
+   * Integer amount of Telegram Stars, rounded to 0; can be negative
+   */
+  amount: number;
+  /**
+   * Optional. The number of 1/1000000000 shares of Telegram Stars; from -999999999 to 999999999; can be negative if and only if amount is non-positive
+   */
+  nanostar_amount?: number | undefined;
 };
 /**
  * This object represents a bot command.
@@ -8436,6 +9551,69 @@ export type TgUserChatBoosts = {
   boosts: TgChatBoost[];
 };
 /**
+ * Represents the rights of a business bot.
+ *
+ * @see https://core.telegram.org/bots/api#businessbotrights
+ */
+export type TgBusinessBotRights = {
+  /**
+   * Optional. True, if the bot can send and edit messages in the private chats that had incoming messages in the last 24 hours
+   */
+  can_reply?: boolean | undefined;
+  /**
+   * Optional. True, if the bot can mark incoming private messages as read
+   */
+  can_read_messages?: boolean | undefined;
+  /**
+   * Optional. True, if the bot can delete messages sent by the bot
+   */
+  can_delete_outgoing_messages?: boolean | undefined;
+  /**
+   * Optional. True, if the bot can delete all private messages in managed chats
+   */
+  can_delete_all_messages?: boolean | undefined;
+  /**
+   * Optional. True, if the bot can edit the first and last name of the business account
+   */
+  can_edit_name?: boolean | undefined;
+  /**
+   * Optional. True, if the bot can edit the bio of the business account
+   */
+  can_edit_bio?: boolean | undefined;
+  /**
+   * Optional. True, if the bot can edit the profile photo of the business account
+   */
+  can_edit_profile_photo?: boolean | undefined;
+  /**
+   * Optional. True, if the bot can edit the username of the business account
+   */
+  can_edit_username?: boolean | undefined;
+  /**
+   * Optional. True, if the bot can change the privacy settings pertaining to gifts for the business account
+   */
+  can_change_gift_settings?: boolean | undefined;
+  /**
+   * Optional. True, if the bot can view gifts and the amount of Telegram Stars owned by the business account
+   */
+  can_view_gifts_and_stars?: boolean | undefined;
+  /**
+   * Optional. True, if the bot can convert regular gifts owned by the business account to Telegram Stars
+   */
+  can_convert_gifts_to_stars?: boolean | undefined;
+  /**
+   * Optional. True, if the bot can transfer and upgrade gifts owned by the business account
+   */
+  can_transfer_and_upgrade_gifts?: boolean | undefined;
+  /**
+   * Optional. True, if the bot can transfer Telegram Stars received by the business account to its own account, or use them to upgrade and transfer gifts
+   */
+  can_transfer_stars?: boolean | undefined;
+  /**
+   * Optional. True, if the bot can post, edit and delete stories on behalf of the business account
+   */
+  can_manage_stories?: boolean | undefined;
+};
+/**
  * Describes the connection of the bot with a business account.
  *
  * @see https://core.telegram.org/bots/api#businessconnection
@@ -8458,9 +9636,9 @@ export type TgBusinessConnection = {
    */
   date: number;
   /**
-   * True, if the bot can act on behalf of the business account in chats that were active in the last 24 hours
+   * Optional. Rights of the business bot
    */
-  can_reply: boolean;
+  rights?: TgBusinessBotRights | undefined;
   /**
    * True, if the connection is active
    */
@@ -8823,6 +10001,102 @@ export type TgInputPaidMediaVideo = {
   supports_streaming?: boolean | undefined;
 };
 /**
+ * This object describes a profile photo to set. Currently, it can be one of
+ *
+ * - InputProfilePhotoStatic
+ *
+ * - InputProfilePhotoAnimated
+ *
+ * @see https://core.telegram.org/bots/api#inputprofilephoto
+ */
+export type TgInputProfilePhoto = TgInputProfilePhotoStatic | TgInputProfilePhotoAnimated;
+/**
+ * A static profile photo in the .JPG format.
+ *
+ * @see https://core.telegram.org/bots/api#inputprofilephotostatic
+ */
+export type TgInputProfilePhotoStatic = {
+  /**
+   * Type of the profile photo, must be "static"
+   */
+  type: string;
+  /**
+   * The static profile photo. Profile photos can't be reused and can only be uploaded as a new file, so you can pass "attach://<file_attach_name>" if the photo was uploaded using multipart/form-data under <file_attach_name>. More information on Sending Files: https://core.telegram.org/bots/api#sending-files
+   */
+  photo: string;
+};
+/**
+ * An animated profile photo in the MPEG4 format.
+ *
+ * @see https://core.telegram.org/bots/api#inputprofilephotoanimated
+ */
+export type TgInputProfilePhotoAnimated = {
+  /**
+   * Type of the profile photo, must be "animated"
+   */
+  type: string;
+  /**
+   * The animated profile photo. Profile photos can't be reused and can only be uploaded as a new file, so you can pass "attach://<file_attach_name>" if the photo was uploaded using multipart/form-data under <file_attach_name>. More information on Sending Files: https://core.telegram.org/bots/api#sending-files
+   */
+  animation: string;
+  /**
+   * Optional. Timestamp in seconds of the frame that will be used as the static profile photo. Defaults to 0.0.
+   */
+  main_frame_timestamp?: number | undefined;
+};
+/**
+ * This object describes the content of a story to post. Currently, it can be one of
+ *
+ * - InputStoryContentPhoto
+ *
+ * - InputStoryContentVideo
+ *
+ * @see https://core.telegram.org/bots/api#inputstorycontent
+ */
+export type TgInputStoryContent = TgInputStoryContentPhoto | TgInputStoryContentVideo;
+/**
+ * Describes a photo to post as a story.
+ *
+ * @see https://core.telegram.org/bots/api#inputstorycontentphoto
+ */
+export type TgInputStoryContentPhoto = {
+  /**
+   * Type of the content, must be "photo"
+   */
+  type: string;
+  /**
+   * The photo to post as a story. The photo must be of the size 1080x1920 and must not exceed 10 MB. The photo can't be reused and can only be uploaded as a new file, so you can pass "attach://<file_attach_name>" if the photo was uploaded using multipart/form-data under <file_attach_name>. More information on Sending Files: https://core.telegram.org/bots/api#sending-files
+   */
+  photo: string;
+};
+/**
+ * Describes a video to post as a story.
+ *
+ * @see https://core.telegram.org/bots/api#inputstorycontentvideo
+ */
+export type TgInputStoryContentVideo = {
+  /**
+   * Type of the content, must be "video"
+   */
+  type: string;
+  /**
+   * The video to post as a story. The video must be of the size 720x1280, streamable, encoded with H.265 codec, with key frames added each second in the MPEG4 format, and must not exceed 30 MB. The video can't be reused and can only be uploaded as a new file, so you can pass "attach://<file_attach_name>" if the video was uploaded using multipart/form-data under <file_attach_name>. More information on Sending Files: https://core.telegram.org/bots/api#sending-files
+   */
+  video: string;
+  /**
+   * Optional. Precise duration of the video in seconds; 0-60
+   */
+  duration?: number | undefined;
+  /**
+   * Optional. Timestamp in seconds of the frame that will be used as the static cover for the story. Defaults to 0.0.
+   */
+  cover_frame_timestamp?: number | undefined;
+  /**
+   * Optional. Pass True if the video has no sound
+   */
+  is_animation?: boolean | undefined;
+};
+/**
  * This object represents a sticker.
  *
  * @see https://core.telegram.org/bots/api#sticker
@@ -8946,9 +10220,9 @@ export type TgMaskPosition = {
  */
 export type TgInputSticker = {
   /**
-   * The added sticker. Pass a file_id as a String to send a file that already exists on the Telegram servers, pass an HTTP URL as a String for Telegram to get a file from the Internet, upload a new one using multipart/form-data, or pass "attach://<file_attach_name>" to upload a new one using multipart/form-data under <file_attach_name> name. Animated and video stickers can't be uploaded via HTTP URL. More information on Sending Files: https://core.telegram.org/bots/api#sending-files
+   * The added sticker. Pass a file_id as a String to send a file that already exists on the Telegram servers, pass an HTTP URL as a String for Telegram to get a file from the Internet, or pass "attach://<file_attach_name>" to upload a new file using multipart/form-data under <file_attach_name> name. Animated and video stickers can't be uploaded via HTTP URL. More information on Sending Files: https://core.telegram.org/bots/api#sending-files
    */
-  sticker: TgInputFile | string;
+  sticker: string;
   /**
    * Format of the added sticker, must be one of "static" for a .WEBP or .PNG image, "animated" for a .TGS animation, "video" for a .WEBM video
    */
@@ -8965,48 +10239,6 @@ export type TgInputSticker = {
    * Optional. List of 0-20 search keywords for the sticker with total length of up to 64 characters. For "regular" and "custom_emoji" stickers only.
    */
   keywords?: string[] | undefined;
-};
-/**
- * This object represents a gift that can be sent by the bot.
- *
- * @see https://core.telegram.org/bots/api#gift
- */
-export type TgGift = {
-  /**
-   * Unique identifier of the gift
-   */
-  id: string;
-  /**
-   * The sticker that represents the gift
-   */
-  sticker: TgSticker;
-  /**
-   * The number of Telegram Stars that must be paid to send the sticker
-   */
-  star_count: number;
-  /**
-   * Optional. The number of Telegram Stars that must be paid to upgrade the gift to a unique one
-   */
-  upgrade_star_count?: number | undefined;
-  /**
-   * Optional. The total number of the gifts of this type that can be sent; for limited gifts only
-   */
-  total_count?: number | undefined;
-  /**
-   * Optional. The number of remaining gifts of this type that can be sent; for limited gifts only
-   */
-  remaining_count?: number | undefined;
-};
-/**
- * This object represent a list of gifts.
- *
- * @see https://core.telegram.org/bots/api#gifts
- */
-export type TgGifts = {
-  /**
-   * The list of gifts
-   */
-  gifts: TgGift[];
 };
 /**
  * This object represents an incoming inline query. When the user sends an empty query, your bot could return some default or trending results.
@@ -10820,33 +12052,46 @@ export type TgTransactionPartnerUser = {
    */
   type: "user";
   /**
+   * Type of the transaction, currently one of "invoice_payment" for payments via invoices, "paid_media_payment" for payments for paid media, "gift_purchase" for gifts sent by the bot, "premium_purchase" for Telegram Premium subscriptions gifted by the bot, "business_account_transfer" for direct transfers from managed business accounts
+   */
+  transaction_type:
+    | "invoice_payment"
+    | "paid_media_payment"
+    | "gift_purchase"
+    | "premium_purchase"
+    | "business_account_transfer";
+  /**
    * Information about the user
    */
   user: TgUser;
   /**
-   * Optional. Information about the affiliate that received a commission via this transaction
+   * Optional. Information about the affiliate that received a commission via this transaction. Can be available only for "invoice_payment" and "paid_media_payment" transactions.
    */
   affiliate?: TgAffiliateInfo | undefined;
   /**
-   * Optional. Bot-specified invoice payload
+   * Optional. Bot-specified invoice payload. Can be available only for "invoice_payment" transactions.
    */
   invoice_payload?: string | undefined;
   /**
-   * Optional. The duration of the paid subscription
+   * Optional. The duration of the paid subscription. Can be available only for "invoice_payment" transactions.
    */
   subscription_period?: number | undefined;
   /**
-   * Optional. Information about the paid media bought by the user
+   * Optional. Information about the paid media bought by the user; for "paid_media_payment" transactions only
    */
   paid_media?: TgPaidMedia[] | undefined;
   /**
-   * Optional. Bot-specified paid media payload
+   * Optional. Bot-specified paid media payload. Can be available only for "paid_media_payment" transactions.
    */
   paid_media_payload?: string | undefined;
   /**
-   * Optional. The gift sent to the user by the bot
+   * Optional. The gift sent to the user by the bot; for "gift_purchase" transactions only
    */
   gift?: TgGift | undefined;
+  /**
+   * Optional. Number of months the gifted Telegram Premium subscription will be active for; for "premium_purchase" transactions only
+   */
+  premium_subscription_duration?: number | undefined;
 };
 /**
  * Describes a transaction with a chat.
