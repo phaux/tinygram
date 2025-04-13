@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.0.0](https://github.com/phaux/tinygram/compare/v2.10.0...v3.0.0) (2025-04-13)
+
+
+### Features
+
+* update Bot API types to Bot API 9.0 ([#54](https://github.com/phaux/tinygram/issues/54)) ([a2083b4](https://github.com/phaux/tinygram/commit/a2083b49e40cbf81f069b6851040a058dd3e5da7))
+
+
+### Miscellaneous Chores
+
+* set version to 3.0.0 ([69cd912](https://github.com/phaux/tinygram/commit/69cd912c3a009b11b2ce419e604454781ff7a838))
+
 ## [2.10.0](https://github.com/phaux/tinygram/compare/v2.9.0...v2.10.0) (2025-02-22)
 
 
