@@ -1,6 +1,6 @@
 // This file is auto-generated, do not edit it directly.
 
-export const TG_API_VERSION = "Bot API 9.0" as const;
+export const TG_API_VERSION = "Bot API 9.1" as const;
 export interface TgApi<O = {}> {
   /**
    * Use this method to receive incoming updates using long polling (wiki). Returns an Array of Update objects.
@@ -156,6 +156,12 @@ export interface TgApi<O = {}> {
    * @see https://core.telegram.org/bots/api#sendpoll
    */
   sendPoll(params: TgSendPollParams, options?: O): Promise<TgMessage>;
+  /**
+   * Use this method to send a checklist on behalf of a connected business account. On success, the sent Message is returned.
+   *
+   * @see https://core.telegram.org/bots/api#sendchecklist
+   */
+  sendChecklist(params: TgSendChecklistParams, options?: O): Promise<TgMessage>;
   /**
    * Use this method to send an animated emoji that will display a random value. On success, the sent Message is returned.
    *
@@ -650,6 +656,12 @@ export interface TgApi<O = {}> {
     options?: O,
   ): Promise<TgMessage | boolean>;
   /**
+   * Use this method to edit a checklist on behalf of a connected business account. On success, the edited Message is returned.
+   *
+   * @see https://core.telegram.org/bots/api#editmessagechecklist
+   */
+  editMessageChecklist(params: TgEditMessageChecklistParams, options?: O): Promise<TgMessage>;
+  /**
    * Use this method to edit only the reply markup of messages. On success, if the edited message is not an inline message, the edited Message is returned, otherwise True is returned. Note that business messages that were not sent by the bot and do not contain an inline keyboard can only be edited within 48 hours from the time they were sent.
    *
    * @see https://core.telegram.org/bots/api#editmessagereplymarkup
@@ -743,7 +755,7 @@ export interface TgApi<O = {}> {
    */
   readBusinessMessage(params: TgReadBusinessMessageParams, options?: O): Promise<boolean>;
   /**
-   * Delete messages on behalf of a business account. Requires the can_delete_outgoing_messages business bot right to delete messages sent by the bot itself, or the can_delete_all_messages business bot right to delete any message. Returns True on success.
+   * Delete messages on behalf of a business account. Requires the can_delete_sent_messages business bot right to delete messages sent by the bot itself, or the can_delete_all_messages business bot right to delete any message. Returns True on success.
    *
    * @see https://core.telegram.org/bots/api#deletebusinessmessages
    */
@@ -1005,6 +1017,12 @@ export interface TgApi<O = {}> {
    * @see https://core.telegram.org/bots/api#answerprecheckoutquery
    */
   answerPreCheckoutQuery(params: TgAnswerPreCheckoutQueryParams, options?: O): Promise<boolean>;
+  /**
+   * A method to get the current Telegram Stars balance of the bot. Requires no parameters. On success, returns a StarAmount object.
+   *
+   * @see https://core.telegram.org/bots/api#getmystarbalance
+   */
+  getMyStarBalance(params?: null | undefined, options?: O): Promise<TgStarAmount>;
   /**
    * Returns the bot's Telegram Star transactions in chronological order. On success, returns a StarTransactions object.
    *
@@ -2257,7 +2275,7 @@ export type TgSendPollParams = {
    */
   question_entities?: TgMessageEntity[] | undefined;
   /**
-   * A JSON-serialized list of 2-10 answer options
+   * A JSON-serialized list of 2-12 answer options
    */
   options: TgInputPollOption[];
   /**
@@ -2329,6 +2347,45 @@ export type TgSendPollParams = {
     | TgReplyKeyboardRemove
     | TgForceReply
     | undefined;
+};
+/**
+ * Parameters of {@link TgApi.sendChecklist} method.
+ *
+ * @see https://core.telegram.org/bots/api#sendchecklist
+ */
+export type TgSendChecklistParams = {
+  /**
+   * Unique identifier of the business connection on behalf of which the message will be sent
+   */
+  business_connection_id: string;
+  /**
+   * Unique identifier for the target chat
+   */
+  chat_id: number;
+  /**
+   * A JSON-serialized object for the checklist to send
+   */
+  checklist: TgInputChecklist;
+  /**
+   * Sends the message silently. Users will receive a notification with no sound.
+   */
+  disable_notification?: boolean | undefined;
+  /**
+   * Protects the contents of the sent message from forwarding and saving
+   */
+  protect_content?: boolean | undefined;
+  /**
+   * Unique identifier of the message effect to be added to the message
+   */
+  message_effect_id?: string | undefined;
+  /**
+   * A JSON-serialized object for description of the message to reply to
+   */
+  reply_parameters?: TgReplyParameters | undefined;
+  /**
+   * A JSON-serialized object for an inline keyboard
+   */
+  reply_markup?: TgInlineKeyboardMarkup | undefined;
 };
 /**
  * Parameters of {@link TgApi.sendDice} method.
@@ -2572,7 +2629,7 @@ export type TgPromoteChatMemberParams = {
    */
   is_anonymous?: boolean | undefined;
   /**
-   * Pass True if the administrator can access the chat event log, get boost list, see hidden supergroup and channel members, report spam messages and ignore slow mode. Implied by any other administrator privilege.
+   * Pass True if the administrator can access the chat event log, get boost list, see hidden supergroup and channel members, report spam messages, ignore slow mode, and send messages to the chat without paying Telegram Stars. Implied by any other administrator privilege.
    */
   can_manage_chat?: boolean | undefined;
   /**
@@ -2612,7 +2669,7 @@ export type TgPromoteChatMemberParams = {
    */
   can_delete_stories?: boolean | undefined;
   /**
-   * Pass True if the administrator can post messages in the channel, or access channel statistics; for channels only
+   * Pass True if the administrator can post messages in the channel, approve suggested posts, or access channel statistics; for channels only
    */
   can_post_messages?: boolean | undefined;
   /**
@@ -3646,6 +3703,33 @@ export type TgStopMessageLiveLocationParams = {
   inline_message_id?: string | undefined;
   /**
    * A JSON-serialized object for a new inline keyboard.
+   */
+  reply_markup?: TgInlineKeyboardMarkup | undefined;
+};
+/**
+ * Parameters of {@link TgApi.editMessageChecklist} method.
+ *
+ * @see https://core.telegram.org/bots/api#editmessagechecklist
+ */
+export type TgEditMessageChecklistParams = {
+  /**
+   * Unique identifier of the business connection on behalf of which the message will be sent
+   */
+  business_connection_id: string;
+  /**
+   * Unique identifier for the target chat
+   */
+  chat_id: number;
+  /**
+   * Unique identifier for the target message
+   */
+  message_id: number;
+  /**
+   * A JSON-serialized object for the new checklist
+   */
+  checklist: TgInputChecklist;
+  /**
+   * A JSON-serialized object for the new inline keyboard for the message
    */
   reply_markup?: TgInlineKeyboardMarkup | undefined;
 };
@@ -5617,6 +5701,10 @@ export type TgMessage = {
    */
   has_media_spoiler?: boolean | undefined;
   /**
+   * Optional. Message is a checklist
+   */
+  checklist?: TgChecklist | undefined;
+  /**
    * Optional. Message is a shared contact, information about the contact
    */
   contact?: TgContact | undefined;
@@ -5740,6 +5828,18 @@ export type TgMessage = {
    * Optional. Service message: chat background set
    */
   chat_background_set?: TgChatBackground | undefined;
+  /**
+   * Optional. Service message: some tasks in a checklist were marked as done or not done
+   */
+  checklist_tasks_done?: TgChecklistTasksDone | undefined;
+  /**
+   * Optional. Service message: tasks were added to a checklist
+   */
+  checklist_tasks_added?: TgChecklistTasksAdded | undefined;
+  /**
+   * Optional. Service message: the price for paid messages in the corresponding direct messages chat of a channel has changed
+   */
+  direct_message_price_changed?: TgDirectMessagePriceChanged | undefined;
   /**
    * Optional. Service message: forum topic created
    */
@@ -5992,6 +6092,10 @@ export type TgExternalReplyInfo = {
    * Optional. True, if the message media is covered by a spoiler animation
    */
   has_media_spoiler?: boolean | undefined;
+  /**
+   * Optional. Message is a checklist
+   */
+  checklist?: TgChecklist | undefined;
   /**
    * Optional. Message is a shared contact, information about the contact
    */
@@ -6685,6 +6789,148 @@ export type TgPoll = {
   close_date?: number | undefined;
 };
 /**
+ * Describes a task in a checklist.
+ *
+ * @see https://core.telegram.org/bots/api#checklisttask
+ */
+export type TgChecklistTask = {
+  /**
+   * Unique identifier of the task
+   */
+  id: number;
+  /**
+   * Text of the task
+   */
+  text: string;
+  /**
+   * Optional. Special entities that appear in the task text
+   */
+  text_entities?: TgMessageEntity[] | undefined;
+  /**
+   * Optional. User that completed the task; omitted if the task wasn't completed
+   */
+  completed_by_user?: TgUser | undefined;
+  /**
+   * Optional. Point in time (Unix timestamp) when the task was completed; 0 if the task wasn't completed
+   */
+  completion_date?: number | undefined;
+};
+/**
+ * Describes a checklist.
+ *
+ * @see https://core.telegram.org/bots/api#checklist
+ */
+export type TgChecklist = {
+  /**
+   * Title of the checklist
+   */
+  title: string;
+  /**
+   * Optional. Special entities that appear in the checklist title
+   */
+  title_entities?: TgMessageEntity[] | undefined;
+  /**
+   * List of tasks in the checklist
+   */
+  tasks: TgChecklistTask[];
+  /**
+   * Optional. True, if users other than the creator of the list can add tasks to the list
+   */
+  others_can_add_tasks?: boolean | undefined;
+  /**
+   * Optional. True, if users other than the creator of the list can mark tasks as done or not done
+   */
+  others_can_mark_tasks_as_done?: boolean | undefined;
+};
+/**
+ * Describes a task to add to a checklist.
+ *
+ * @see https://core.telegram.org/bots/api#inputchecklisttask
+ */
+export type TgInputChecklistTask = {
+  /**
+   * Unique identifier of the task; must be positive and unique among all task identifiers currently present in the checklist
+   */
+  id: number;
+  /**
+   * Text of the task; 1-100 characters after entities parsing
+   */
+  text: string;
+  /**
+   * Optional. Mode for parsing entities in the text. See formatting options for more details.
+   */
+  parse_mode?: "HTML" | "Markdown" | "MarkdownV2" | undefined;
+  /**
+   * Optional. List of special entities that appear in the text, which can be specified instead of parse_mode. Currently, only bold, italic, underline, strikethrough, spoiler, and custom_emoji entities are allowed.
+   */
+  text_entities?: TgMessageEntity[] | undefined;
+};
+/**
+ * Describes a checklist to create.
+ *
+ * @see https://core.telegram.org/bots/api#inputchecklist
+ */
+export type TgInputChecklist = {
+  /**
+   * Title of the checklist; 1-255 characters after entities parsing
+   */
+  title: string;
+  /**
+   * Optional. Mode for parsing entities in the title. See formatting options for more details.
+   */
+  parse_mode?: "HTML" | "Markdown" | "MarkdownV2" | undefined;
+  /**
+   * Optional. List of special entities that appear in the title, which can be specified instead of parse_mode. Currently, only bold, italic, underline, strikethrough, spoiler, and custom_emoji entities are allowed.
+   */
+  title_entities?: TgMessageEntity[] | undefined;
+  /**
+   * List of 1-30 tasks in the checklist
+   */
+  tasks: TgInputChecklistTask[];
+  /**
+   * Optional. Pass True if other users can add tasks to the checklist
+   */
+  others_can_add_tasks?: boolean | undefined;
+  /**
+   * Optional. Pass True if other users can mark tasks as done or not done in the checklist
+   */
+  others_can_mark_tasks_as_done?: boolean | undefined;
+};
+/**
+ * Describes a service message about checklist tasks marked as done or not done.
+ *
+ * @see https://core.telegram.org/bots/api#checklisttasksdone
+ */
+export type TgChecklistTasksDone = {
+  /**
+   * Optional. Message containing the checklist whose tasks were marked as done or not done. Note that the Message object in this field will not contain the reply_to_message field even if it itself is a reply.
+   */
+  checklist_message?: TgMessage | undefined;
+  /**
+   * Optional. Identifiers of the tasks that were marked as done
+   */
+  marked_as_done_task_ids?: number[] | undefined;
+  /**
+   * Optional. Identifiers of the tasks that were marked as not done
+   */
+  marked_as_not_done_task_ids?: number[] | undefined;
+};
+/**
+ * Describes a service message about tasks added to a checklist.
+ *
+ * @see https://core.telegram.org/bots/api#checklisttasksadded
+ */
+export type TgChecklistTasksAdded = {
+  /**
+   * Optional. Message containing the checklist to which the tasks were added. Note that the Message object in this field will not contain the reply_to_message field even if it itself is a reply.
+   */
+  checklist_message?: TgMessage | undefined;
+  /**
+   * List of tasks added to the checklist
+   */
+  tasks: TgChecklistTask[];
+};
+/**
  * This object represents a point on the map.
  *
  * @see https://core.telegram.org/bots/api#location
@@ -7190,6 +7436,21 @@ export type TgPaidMessagePriceChanged = {
    * The new number of Telegram Stars that must be paid by non-administrator users of the supergroup chat for each sent message
    */
   paid_message_star_count: number;
+};
+/**
+ * Describes a service message about a change in the price of direct messages sent to a channel chat.
+ *
+ * @see https://core.telegram.org/bots/api#directmessagepricechanged
+ */
+export type TgDirectMessagePriceChanged = {
+  /**
+   * True, if direct messages are enabled for the channel chat; false otherwise
+   */
+  are_direct_messages_enabled: boolean;
+  /**
+   * Optional. The new number of Telegram Stars that must be paid by users for each direct message sent to the channel. Does not apply to users who have been exempted by administrators. Defaults to 0.
+   */
+  direct_message_star_count?: number | undefined;
 };
 /**
  * This object represents a service message about the creation of a scheduled giveaway.
@@ -7843,7 +8104,7 @@ export type TgChatAdministratorRights = {
    */
   is_anonymous: boolean;
   /**
-   * True, if the administrator can access the chat event log, get boost list, see hidden supergroup and channel members, report spam messages and ignore slow mode. Implied by any other administrator privilege.
+   * True, if the administrator can access the chat event log, get boost list, see hidden supergroup and channel members, report spam messages, ignore slow mode, and send messages to the chat without paying Telegram Stars. Implied by any other administrator privilege.
    */
   can_manage_chat: boolean;
   /**
@@ -7883,7 +8144,7 @@ export type TgChatAdministratorRights = {
    */
   can_delete_stories: boolean;
   /**
-   * Optional. True, if the administrator can post messages in the channel, or access channel statistics; for channels only
+   * Optional. True, if the administrator can post messages in the channel, approve suggested posts, or access channel statistics; for channels only
    */
   can_post_messages?: boolean | undefined;
   /**
@@ -8008,7 +8269,7 @@ export type TgChatMemberAdministrator = {
    */
   is_anonymous: boolean;
   /**
-   * True, if the administrator can access the chat event log, get boost list, see hidden supergroup and channel members, report spam messages and ignore slow mode. Implied by any other administrator privilege.
+   * True, if the administrator can access the chat event log, get boost list, see hidden supergroup and channel members, report spam messages, ignore slow mode, and send messages to the chat without paying Telegram Stars. Implied by any other administrator privilege.
    */
   can_manage_chat: boolean;
   /**
@@ -8048,7 +8309,7 @@ export type TgChatMemberAdministrator = {
    */
   can_delete_stories: boolean;
   /**
-   * Optional. True, if the administrator can post messages in the channel, or access channel statistics; for channels only
+   * Optional. True, if the administrator can post messages in the channel, approve suggested posts, or access channel statistics; for channels only
    */
   can_post_messages?: boolean | undefined;
   /**
@@ -8134,7 +8395,7 @@ export type TgChatMemberRestricted = {
    */
   can_send_voice_notes: boolean;
   /**
-   * True, if the user is allowed to send polls
+   * True, if the user is allowed to send polls and checklists
    */
   can_send_polls: boolean;
   /**
@@ -8266,7 +8527,7 @@ export type TgChatPermissions = {
    */
   can_send_voice_notes?: boolean | undefined;
   /**
-   * Optional. True, if the user is allowed to send polls
+   * Optional. True, if the user is allowed to send polls and checklists
    */
   can_send_polls?: boolean | undefined;
   /**
@@ -8604,12 +8865,12 @@ export type TgReactionTypeEmoji = {
    */
   type: "emoji";
   /**
-   * Reaction emoji. Currently, it can be one of "👍", "👎", "❤", "🔥", "🥰", "👏", "😁", "🤔", "🤯", "😱", "🤬", "😢", "🎉", "🤩", "🤮", "💩", "🙏", "👌", "🕊", "🤡", "🥱", "🥴", "😍", "🐳", "❤‍🔥", "🌚", "🌭", "💯", "🤣", "⚡", "🍌", "🏆", "💔", "🤨", "😐", "🍓", "🍾", "💋", "🖕", "😈", "😴", "😭", "🤓", "👻", "👨‍💻", "👀", "🎃", "🙈", "😇", "😨", "🤝", "✍", "🤗", "🫡", "🎅", "🎄", "☃", "💅", "🤪", "🗿", "🆒", "💘", "🙉", "🦄", "😘", "💊", "🙊", "😎", "👾", "🤷‍♂", "🤷", "🤷‍♀", "😡"
+   * Reaction emoji. Currently, it can be one of "❤", "👍", "👎", "🔥", "🥰", "👏", "😁", "🤔", "🤯", "😱", "🤬", "😢", "🎉", "🤩", "🤮", "💩", "🙏", "👌", "🕊", "🤡", "🥱", "🥴", "😍", "🐳", "❤‍🔥", "🌚", "🌭", "💯", "🤣", "⚡", "🍌", "🏆", "💔", "🤨", "😐", "🍓", "🍾", "💋", "🖕", "😈", "😴", "😭", "🤓", "👻", "👨‍💻", "👀", "🎃", "🙈", "😇", "😨", "🤝", "✍", "🤗", "🫡", "🎅", "🎄", "☃", "💅", "🤪", "🗿", "🆒", "💘", "🙉", "🦄", "😘", "💊", "🙊", "😎", "👾", "🤷‍♂", "🤷", "🤷‍♀", "😡"
    */
   emoji:
+    | "\u2764"
     | "\uD83D\uDC4D"
     | "\uD83D\uDC4E"
-    | "\u2764"
     | "\uD83D\uDD25"
     | "\uD83E\uDD70"
     | "\uD83D\uDC4F"
@@ -9006,9 +9267,13 @@ export type TgUniqueGiftInfo = {
    */
   gift: TgUniqueGift;
   /**
-   * Origin of the gift. Currently, either "upgrade" or "transfer"
+   * Origin of the gift. Currently, either "upgrade" for gifts upgraded from regular gifts, "transfer" for gifts transferred from other users or channels, or "resale" for gifts bought from other users
    */
-  origin: "upgrade" | "transfer";
+  origin: "upgrade" | "transfer" | "resale";
+  /**
+   * Optional. For gifts bought from other users, the price paid for the gift
+   */
+  last_resale_star_count?: number | undefined;
   /**
    * Optional. Unique identifier of the received gift for the bot; only present for gifts received on behalf of business accounts
    */
@@ -9017,6 +9282,10 @@ export type TgUniqueGiftInfo = {
    * Optional. Number of Telegram Stars that must be paid to transfer the gift; omitted if the bot cannot transfer the gift
    */
   transfer_star_count?: number | undefined;
+  /**
+   * Optional. Point in time (Unix timestamp) when the gift can be transferred. If it is in the past, then the gift can be transferred now
+   */
+  next_transfer_date?: string | undefined;
 };
 /**
  * This object describes a gift received and owned by a user or a chat. Currently, it can be one of
@@ -9125,6 +9394,10 @@ export type TgOwnedGiftUnique = {
    * Optional. Number of Telegram Stars that must be paid to transfer the gift; omitted if the bot cannot transfer the gift
    */
   transfer_star_count?: number | undefined;
+  /**
+   * Optional. Point in time (Unix timestamp) when the gift can be transferred. If it is in the past, then the gift can be transferred now
+   */
+  next_transfer_date?: string | undefined;
 };
 /**
  * Contains the list of gifts received and owned by a user or a chat.
@@ -9567,7 +9840,7 @@ export type TgBusinessBotRights = {
   /**
    * Optional. True, if the bot can delete messages sent by the bot
    */
-  can_delete_outgoing_messages?: boolean | undefined;
+  can_delete_sent_messages?: boolean | undefined;
   /**
    * Optional. True, if the bot can delete all private messages in managed chats
    */
@@ -10017,9 +10290,9 @@ export type TgInputProfilePhoto = TgInputProfilePhotoStatic | TgInputProfilePhot
  */
 export type TgInputProfilePhotoStatic = {
   /**
-   * Type of the profile photo, must be "static"
+   * Type of the profile photo, must be static
    */
-  type: string;
+  type: "static";
   /**
    * The static profile photo. Profile photos can't be reused and can only be uploaded as a new file, so you can pass "attach://<file_attach_name>" if the photo was uploaded using multipart/form-data under <file_attach_name>. More information on Sending Files: https://core.telegram.org/bots/api#sending-files
    */
@@ -10032,9 +10305,9 @@ export type TgInputProfilePhotoStatic = {
  */
 export type TgInputProfilePhotoAnimated = {
   /**
-   * Type of the profile photo, must be "animated"
+   * Type of the profile photo, must be animated
    */
-  type: string;
+  type: "animated";
   /**
    * The animated profile photo. Profile photos can't be reused and can only be uploaded as a new file, so you can pass "attach://<file_attach_name>" if the photo was uploaded using multipart/form-data under <file_attach_name>. More information on Sending Files: https://core.telegram.org/bots/api#sending-files
    */
@@ -10061,9 +10334,9 @@ export type TgInputStoryContent = TgInputStoryContentPhoto | TgInputStoryContent
  */
 export type TgInputStoryContentPhoto = {
   /**
-   * Type of the content, must be "photo"
+   * Type of the content, must be photo
    */
-  type: string;
+  type: "photo";
   /**
    * The photo to post as a story. The photo must be of the size 1080x1920 and must not exceed 10 MB. The photo can't be reused and can only be uploaded as a new file, so you can pass "attach://<file_attach_name>" if the photo was uploaded using multipart/form-data under <file_attach_name>. More information on Sending Files: https://core.telegram.org/bots/api#sending-files
    */
@@ -10076,9 +10349,9 @@ export type TgInputStoryContentPhoto = {
  */
 export type TgInputStoryContentVideo = {
   /**
-   * Type of the content, must be "video"
+   * Type of the content, must be video
    */
-  type: string;
+  type: "video";
   /**
    * The video to post as a story. The video must be of the size 720x1280, streamable, encoded with H.265 codec, with key frames added each second in the MPEG4 format, and must not exceed 30 MB. The video can't be reused and can only be uploaded as a new file, so you can pass "attach://<file_attach_name>" if the video was uploaded using multipart/form-data under <file_attach_name>. More information on Sending Files: https://core.telegram.org/bots/api#sending-files
    */
