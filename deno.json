@@ -55,7 +55,7 @@
   "tasks": {
     "codegen": "deno run -ENR generateTgApi.ts > TgApi.ts && deno fmt TgApi.ts",
     "dnt": "deno run -A buildForNode.ts",
-    "test": "deno test --coverage -R && deno coverage --lcov --output=coverage/lcov.info && deno check --doc **/*.ts && deno lint",
+    "test": "deno test -E --coverage -R && deno coverage --lcov --output=coverage/lcov.info && deno check --doc **/*.ts && deno lint",
     "snapshot": "deno test -RW=. generateTgApi.test.ts -- --update"
   },
   "version": "3.0.0"
