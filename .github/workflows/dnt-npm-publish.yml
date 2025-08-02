@@ -5,6 +5,10 @@ on:
     types:
       - published
 
+permissions:
+  id-token: write
+  contents: read
+
 jobs:
   publish:
     runs-on: ubuntu-latest
@@ -15,7 +19,7 @@ jobs:
           node-version: latest
           registry-url: https://registry.npmjs.org/
       - uses: denoland/setup-deno@v2
+      - name: Update npm
+        run: npm install -g npm@latest
       - run: deno task dnt
       - run: npm publish ./npm
-        env:
-          NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
