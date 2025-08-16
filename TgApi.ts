@@ -1,6 +1,6 @@
 // This file is auto-generated, do not edit it directly.
 
-export const TG_API_VERSION = "Bot API 9.1" as const;
+export const TG_API_VERSION = "Bot API 9.2" as const;
 export interface TgApi<O = {}> {
   /**
    * Use this method to receive incoming updates using long polling (wiki). Returns an Array of Update objects.
@@ -127,7 +127,7 @@ export interface TgApi<O = {}> {
    */
   sendPaidMedia(params: TgSendPaidMediaParams, options?: O): Promise<TgMessage>;
   /**
-   * Use this method to send a group of photos, videos, documents or audios as an album. Documents and audio files can be only grouped in an album with messages of the same type. On success, an array of Messages that were sent is returned.
+   * Use this method to send a group of photos, videos, documents or audios as an album. Documents and audio files can be only grouped in an album with messages of the same type. On success, an array of Message objects that were sent is returned.
    *
    * @see https://core.telegram.org/bots/api#sendmediagroup
    */
@@ -341,19 +341,19 @@ export interface TgApi<O = {}> {
    */
   setChatDescription(params: TgSetChatDescriptionParams, options?: O): Promise<boolean>;
   /**
-   * Use this method to add a message to the list of pinned messages in a chat. If the chat is not a private chat, the bot must be an administrator in the chat for this to work and must have the 'can_pin_messages' administrator right in a supergroup or 'can_edit_messages' administrator right in a channel. Returns True on success.
+   * Use this method to add a message to the list of pinned messages in a chat. In private chats and channel direct messages chats, all non-service messages can be pinned. Conversely, the bot must be an administrator with the 'can_pin_messages' right or the 'can_edit_messages' right to pin messages in groups and channels respectively. Returns True on success.
    *
    * @see https://core.telegram.org/bots/api#pinchatmessage
    */
   pinChatMessage(params: TgPinChatMessageParams, options?: O): Promise<boolean>;
   /**
-   * Use this method to remove a message from the list of pinned messages in a chat. If the chat is not a private chat, the bot must be an administrator in the chat for this to work and must have the 'can_pin_messages' administrator right in a supergroup or 'can_edit_messages' administrator right in a channel. Returns True on success.
+   * Use this method to remove a message from the list of pinned messages in a chat. In private chats and channel direct messages chats, all messages can be unpinned. Conversely, the bot must be an administrator with the 'can_pin_messages' right or the 'can_edit_messages' right to unpin messages in groups and channels respectively. Returns True on success.
    *
    * @see https://core.telegram.org/bots/api#unpinchatmessage
    */
   unpinChatMessage(params: TgUnpinChatMessageParams, options?: O): Promise<boolean>;
   /**
-   * Use this method to clear the list of pinned messages in a chat. If the chat is not a private chat, the bot must be an administrator in the chat for this to work and must have the 'can_pin_messages' administrator right in a supergroup or 'can_edit_messages' administrator right in a channel. Returns True on success.
+   * Use this method to clear the list of pinned messages in a chat. In private chats and channel direct messages chats, no additional rights are required to unpin all pinned messages. Conversely, the bot must be an administrator with the 'can_pin_messages' right or the 'can_edit_messages' right to unpin all pinned messages in groups and channels respectively. Returns True on success.
    *
    * @see https://core.telegram.org/bots/api#unpinallchatmessages
    */
@@ -617,96 +617,6 @@ export interface TgApi<O = {}> {
     options?: O,
   ): Promise<TgChatAdministratorRights>;
   /**
-   * Use this method to edit text and game messages. On success, if the edited message is not an inline message, the edited Message is returned, otherwise True is returned. Note that business messages that were not sent by the bot and do not contain an inline keyboard can only be edited within 48 hours from the time they were sent.
-   *
-   * @see https://core.telegram.org/bots/api#editmessagetext
-   */
-  editMessageText(params: TgEditMessageTextParams, options?: O): Promise<TgMessage | boolean>;
-  /**
-   * Use this method to edit captions of messages. On success, if the edited message is not an inline message, the edited Message is returned, otherwise True is returned. Note that business messages that were not sent by the bot and do not contain an inline keyboard can only be edited within 48 hours from the time they were sent.
-   *
-   * @see https://core.telegram.org/bots/api#editmessagecaption
-   */
-  editMessageCaption(
-    params?: TgEditMessageCaptionParams | null | undefined,
-    options?: O,
-  ): Promise<TgMessage | boolean>;
-  /**
-   * Use this method to edit animation, audio, document, photo, or video messages, or to add media to text messages. If a message is part of a message album, then it can be edited only to an audio for audio albums, only to a document for document albums and to a photo or a video otherwise. When an inline message is edited, a new file can't be uploaded; use a previously uploaded file via its file_id or specify a URL. On success, if the edited message is not an inline message, the edited Message is returned, otherwise True is returned. Note that business messages that were not sent by the bot and do not contain an inline keyboard can only be edited within 48 hours from the time they were sent.
-   *
-   * @see https://core.telegram.org/bots/api#editmessagemedia
-   */
-  editMessageMedia(params: TgEditMessageMediaParams, options?: O): Promise<TgMessage | boolean>;
-  /**
-   * Use this method to edit live location messages. A location can be edited until its live_period expires or editing is explicitly disabled by a call to stopMessageLiveLocation. On success, if the edited message is not an inline message, the edited Message is returned, otherwise True is returned.
-   *
-   * @see https://core.telegram.org/bots/api#editmessagelivelocation
-   */
-  editMessageLiveLocation(
-    params: TgEditMessageLiveLocationParams,
-    options?: O,
-  ): Promise<TgMessage | boolean>;
-  /**
-   * Use this method to stop updating a live location message before live_period expires. On success, if the message is not an inline message, the edited Message is returned, otherwise True is returned.
-   *
-   * @see https://core.telegram.org/bots/api#stopmessagelivelocation
-   */
-  stopMessageLiveLocation(
-    params?: TgStopMessageLiveLocationParams | null | undefined,
-    options?: O,
-  ): Promise<TgMessage | boolean>;
-  /**
-   * Use this method to edit a checklist on behalf of a connected business account. On success, the edited Message is returned.
-   *
-   * @see https://core.telegram.org/bots/api#editmessagechecklist
-   */
-  editMessageChecklist(params: TgEditMessageChecklistParams, options?: O): Promise<TgMessage>;
-  /**
-   * Use this method to edit only the reply markup of messages. On success, if the edited message is not an inline message, the edited Message is returned, otherwise True is returned. Note that business messages that were not sent by the bot and do not contain an inline keyboard can only be edited within 48 hours from the time they were sent.
-   *
-   * @see https://core.telegram.org/bots/api#editmessagereplymarkup
-   */
-  editMessageReplyMarkup(
-    params?: TgEditMessageReplyMarkupParams | null | undefined,
-    options?: O,
-  ): Promise<TgMessage | boolean>;
-  /**
-   * Use this method to stop a poll which was sent by the bot. On success, the stopped Poll is returned.
-   *
-   * @see https://core.telegram.org/bots/api#stoppoll
-   */
-  stopPoll(params: TgStopPollParams, options?: O): Promise<TgPoll>;
-  /**
-   * Use this method to delete a message, including service messages, with the following limitations:
-   *
-   * - A message can only be deleted if it was sent less than 48 hours ago.
-   *
-   * - Service messages about a supergroup, channel, or forum topic creation can't be deleted.
-   *
-   * - A dice message in a private chat can only be deleted if it was sent more than 24 hours ago.
-   *
-   * - Bots can delete outgoing messages in private chats, groups, and supergroups.
-   *
-   * - Bots can delete incoming messages in private chats.
-   *
-   * - Bots granted can_post_messages permissions can delete outgoing messages in channels.
-   *
-   * - If the bot is an administrator of a group, it can delete any message there.
-   *
-   * - If the bot has can_delete_messages permission in a supergroup or a channel, it can delete any message there.
-   *
-   * Returns True on success.
-   *
-   * @see https://core.telegram.org/bots/api#deletemessage
-   */
-  deleteMessage(params: TgDeleteMessageParams, options?: O): Promise<boolean>;
-  /**
-   * Use this method to delete multiple messages simultaneously. If some of the specified messages can't be found, they are skipped. Returns True on success.
-   *
-   * @see https://core.telegram.org/bots/api#deletemessages
-   */
-  deleteMessages(params: TgDeleteMessagesParams, options?: O): Promise<boolean>;
-  /**
    * Returns the list of gifts that can be sent by the bot to users and channel chats. Requires no parameters. Returns a Gifts object.
    *
    * @see https://core.telegram.org/bots/api#getavailablegifts
@@ -871,6 +781,110 @@ export interface TgApi<O = {}> {
    * @see https://core.telegram.org/bots/api#deletestory
    */
   deleteStory(params: TgDeleteStoryParams, options?: O): Promise<boolean>;
+  /**
+   * Use this method to edit text and game messages. On success, if the edited message is not an inline message, the edited Message is returned, otherwise True is returned. Note that business messages that were not sent by the bot and do not contain an inline keyboard can only be edited within 48 hours from the time they were sent.
+   *
+   * @see https://core.telegram.org/bots/api#editmessagetext
+   */
+  editMessageText(params: TgEditMessageTextParams, options?: O): Promise<TgMessage | boolean>;
+  /**
+   * Use this method to edit captions of messages. On success, if the edited message is not an inline message, the edited Message is returned, otherwise True is returned. Note that business messages that were not sent by the bot and do not contain an inline keyboard can only be edited within 48 hours from the time they were sent.
+   *
+   * @see https://core.telegram.org/bots/api#editmessagecaption
+   */
+  editMessageCaption(
+    params?: TgEditMessageCaptionParams | null | undefined,
+    options?: O,
+  ): Promise<TgMessage | boolean>;
+  /**
+   * Use this method to edit animation, audio, document, photo, or video messages, or to add media to text messages. If a message is part of a message album, then it can be edited only to an audio for audio albums, only to a document for document albums and to a photo or a video otherwise. When an inline message is edited, a new file can't be uploaded; use a previously uploaded file via its file_id or specify a URL. On success, if the edited message is not an inline message, the edited Message is returned, otherwise True is returned. Note that business messages that were not sent by the bot and do not contain an inline keyboard can only be edited within 48 hours from the time they were sent.
+   *
+   * @see https://core.telegram.org/bots/api#editmessagemedia
+   */
+  editMessageMedia(params: TgEditMessageMediaParams, options?: O): Promise<TgMessage | boolean>;
+  /**
+   * Use this method to edit live location messages. A location can be edited until its live_period expires or editing is explicitly disabled by a call to stopMessageLiveLocation. On success, if the edited message is not an inline message, the edited Message is returned, otherwise True is returned.
+   *
+   * @see https://core.telegram.org/bots/api#editmessagelivelocation
+   */
+  editMessageLiveLocation(
+    params: TgEditMessageLiveLocationParams,
+    options?: O,
+  ): Promise<TgMessage | boolean>;
+  /**
+   * Use this method to stop updating a live location message before live_period expires. On success, if the message is not an inline message, the edited Message is returned, otherwise True is returned.
+   *
+   * @see https://core.telegram.org/bots/api#stopmessagelivelocation
+   */
+  stopMessageLiveLocation(
+    params?: TgStopMessageLiveLocationParams | null | undefined,
+    options?: O,
+  ): Promise<TgMessage | boolean>;
+  /**
+   * Use this method to edit a checklist on behalf of a connected business account. On success, the edited Message is returned.
+   *
+   * @see https://core.telegram.org/bots/api#editmessagechecklist
+   */
+  editMessageChecklist(params: TgEditMessageChecklistParams, options?: O): Promise<TgMessage>;
+  /**
+   * Use this method to edit only the reply markup of messages. On success, if the edited message is not an inline message, the edited Message is returned, otherwise True is returned. Note that business messages that were not sent by the bot and do not contain an inline keyboard can only be edited within 48 hours from the time they were sent.
+   *
+   * @see https://core.telegram.org/bots/api#editmessagereplymarkup
+   */
+  editMessageReplyMarkup(
+    params?: TgEditMessageReplyMarkupParams | null | undefined,
+    options?: O,
+  ): Promise<TgMessage | boolean>;
+  /**
+   * Use this method to stop a poll which was sent by the bot. On success, the stopped Poll is returned.
+   *
+   * @see https://core.telegram.org/bots/api#stoppoll
+   */
+  stopPoll(params: TgStopPollParams, options?: O): Promise<TgPoll>;
+  /**
+   * Use this method to approve a suggested post in a direct messages chat. The bot must have the 'can_post_messages' administrator right in the corresponding channel chat. Returns True on success.
+   *
+   * @see https://core.telegram.org/bots/api#approvesuggestedpost
+   */
+  approveSuggestedPost(params: TgApproveSuggestedPostParams, options?: O): Promise<boolean>;
+  /**
+   * Use this method to decline a suggested post in a direct messages chat. The bot must have the 'can_manage_direct_messages' administrator right in the corresponding channel chat. Returns True on success.
+   *
+   * @see https://core.telegram.org/bots/api#declinesuggestedpost
+   */
+  declineSuggestedPost(params: TgDeclineSuggestedPostParams, options?: O): Promise<boolean>;
+  /**
+   * Use this method to delete a message, including service messages, with the following limitations:
+   *
+   * - A message can only be deleted if it was sent less than 48 hours ago.
+   *
+   * - Service messages about a supergroup, channel, or forum topic creation can't be deleted.
+   *
+   * - A dice message in a private chat can only be deleted if it was sent more than 24 hours ago.
+   *
+   * - Bots can delete outgoing messages in private chats, groups, and supergroups.
+   *
+   * - Bots can delete incoming messages in private chats.
+   *
+   * - Bots granted can_post_messages permissions can delete outgoing messages in channels.
+   *
+   * - If the bot is an administrator of a group, it can delete any message there.
+   *
+   * - If the bot has can_delete_messages administrator right in a supergroup or a channel, it can delete any message there.
+   *
+   * - If the bot has can_manage_direct_messages administrator right in a channel, it can delete any message in the corresponding direct messages chat.
+   *
+   * Returns True on success.
+   *
+   * @see https://core.telegram.org/bots/api#deletemessage
+   */
+  deleteMessage(params: TgDeleteMessageParams, options?: O): Promise<boolean>;
+  /**
+   * Use this method to delete multiple messages simultaneously. If some of the specified messages can't be found, they are skipped. Returns True on success.
+   *
+   * @see https://core.telegram.org/bots/api#deletemessages
+   */
+  deleteMessages(params: TgDeleteMessagesParams, options?: O): Promise<boolean>;
   /**
    * Use this method to send static .WEBP, animated .TGS, or video .WEBM stickers. On success, the sent Message is returned.
    *
@@ -1159,6 +1173,10 @@ export type TgSendMessageParams = {
    */
   message_thread_id?: number | undefined;
   /**
+   * Identifier of the direct messages topic to which the message will be sent; required if the message is sent to a direct messages chat
+   */
+  direct_messages_topic_id?: number | undefined;
+  /**
    * Text of the message to be sent, 1-4096 characters after entities parsing
    */
   text: string;
@@ -1191,6 +1209,10 @@ export type TgSendMessageParams = {
    */
   message_effect_id?: string | undefined;
   /**
+   * A JSON-serialized object containing the parameters of the suggested post to send; for direct messages chats only. If the message is sent as a reply to another suggested post, then that suggested post is automatically declined.
+   */
+  suggested_post_parameters?: TgSuggestedPostParameters | undefined;
+  /**
    * Description of the message to reply to
    */
   reply_parameters?: TgReplyParameters | undefined;
@@ -1219,6 +1241,10 @@ export type TgForwardMessageParams = {
    */
   message_thread_id?: number | undefined;
   /**
+   * Identifier of the direct messages topic to which the message will be forwarded; required if the message is forwarded to a direct messages chat
+   */
+  direct_messages_topic_id?: number | undefined;
+  /**
    * Unique identifier for the chat where the original message was sent (or channel username in the format @channelusername)
    */
   from_chat_id: number | string;
@@ -1234,6 +1260,10 @@ export type TgForwardMessageParams = {
    * Protects the contents of the forwarded message from forwarding and saving
    */
   protect_content?: boolean | undefined;
+  /**
+   * A JSON-serialized object containing the parameters of the suggested post to send; for direct messages chats only
+   */
+  suggested_post_parameters?: TgSuggestedPostParameters | undefined;
   /**
    * Message identifier in the chat specified in from_chat_id
    */
@@ -1253,6 +1283,10 @@ export type TgForwardMessagesParams = {
    * Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
    */
   message_thread_id?: number | undefined;
+  /**
+   * Identifier of the direct messages topic to which the messages will be forwarded; required if the messages are forwarded to a direct messages chat
+   */
+  direct_messages_topic_id?: number | undefined;
   /**
    * Unique identifier for the chat where the original messages were sent (or channel username in the format @channelusername)
    */
@@ -1284,6 +1318,10 @@ export type TgCopyMessageParams = {
    * Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
    */
   message_thread_id?: number | undefined;
+  /**
+   * Identifier of the direct messages topic to which the message will be sent; required if the message is sent to a direct messages chat
+   */
+  direct_messages_topic_id?: number | undefined;
   /**
    * Unique identifier for the chat where the original message was sent (or channel username in the format @channelusername)
    */
@@ -1325,6 +1363,10 @@ export type TgCopyMessageParams = {
    */
   allow_paid_broadcast?: boolean | undefined;
   /**
+   * A JSON-serialized object containing the parameters of the suggested post to send; for direct messages chats only. If the message is sent as a reply to another suggested post, then that suggested post is automatically declined.
+   */
+  suggested_post_parameters?: TgSuggestedPostParameters | undefined;
+  /**
    * Description of the message to reply to
    */
   reply_parameters?: TgReplyParameters | undefined;
@@ -1352,6 +1394,10 @@ export type TgCopyMessagesParams = {
    * Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
    */
   message_thread_id?: number | undefined;
+  /**
+   * Identifier of the direct messages topic to which the messages will be sent; required if the messages are sent to a direct messages chat
+   */
+  direct_messages_topic_id?: number | undefined;
   /**
    * Unique identifier for the chat where the original messages were sent (or channel username in the format @channelusername)
    */
@@ -1391,6 +1437,10 @@ export type TgSendPhotoParams = {
    * Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
    */
   message_thread_id?: number | undefined;
+  /**
+   * Identifier of the direct messages topic to which the message will be sent; required if the message is sent to a direct messages chat
+   */
+  direct_messages_topic_id?: number | undefined;
   /**
    * Photo to send. Pass a file_id as String to send a photo that exists on the Telegram servers (recommended), pass an HTTP URL as a String for Telegram to get a photo from the Internet, or upload a new photo using multipart/form-data. The photo must be at most 10 MB in size. The photo's width and height must not exceed 10000 in total. Width and height ratio must be at most 20. More information on Sending Files: https://core.telegram.org/bots/api#sending-files
    */
@@ -1432,6 +1482,10 @@ export type TgSendPhotoParams = {
    */
   message_effect_id?: string | undefined;
   /**
+   * A JSON-serialized object containing the parameters of the suggested post to send; for direct messages chats only. If the message is sent as a reply to another suggested post, then that suggested post is automatically declined.
+   */
+  suggested_post_parameters?: TgSuggestedPostParameters | undefined;
+  /**
    * Description of the message to reply to
    */
   reply_parameters?: TgReplyParameters | undefined;
@@ -1463,6 +1517,10 @@ export type TgSendAudioParams = {
    * Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
    */
   message_thread_id?: number | undefined;
+  /**
+   * Identifier of the direct messages topic to which the message will be sent; required if the message is sent to a direct messages chat
+   */
+  direct_messages_topic_id?: number | undefined;
   /**
    * Audio file to send. Pass a file_id as String to send an audio file that exists on the Telegram servers (recommended), pass an HTTP URL as a String for Telegram to get an audio file from the Internet, or upload a new one using multipart/form-data. More information on Sending Files: https://core.telegram.org/bots/api#sending-files
    */
@@ -1512,6 +1570,10 @@ export type TgSendAudioParams = {
    */
   message_effect_id?: string | undefined;
   /**
+   * A JSON-serialized object containing the parameters of the suggested post to send; for direct messages chats only. If the message is sent as a reply to another suggested post, then that suggested post is automatically declined.
+   */
+  suggested_post_parameters?: TgSuggestedPostParameters | undefined;
+  /**
    * Description of the message to reply to
    */
   reply_parameters?: TgReplyParameters | undefined;
@@ -1543,6 +1605,10 @@ export type TgSendDocumentParams = {
    * Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
    */
   message_thread_id?: number | undefined;
+  /**
+   * Identifier of the direct messages topic to which the message will be sent; required if the message is sent to a direct messages chat
+   */
+  direct_messages_topic_id?: number | undefined;
   /**
    * File to send. Pass a file_id as String to send a file that exists on the Telegram servers (recommended), pass an HTTP URL as a String for Telegram to get a file from the Internet, or upload a new one using multipart/form-data. More information on Sending Files: https://core.telegram.org/bots/api#sending-files
    */
@@ -1584,6 +1650,10 @@ export type TgSendDocumentParams = {
    */
   message_effect_id?: string | undefined;
   /**
+   * A JSON-serialized object containing the parameters of the suggested post to send; for direct messages chats only. If the message is sent as a reply to another suggested post, then that suggested post is automatically declined.
+   */
+  suggested_post_parameters?: TgSuggestedPostParameters | undefined;
+  /**
    * Description of the message to reply to
    */
   reply_parameters?: TgReplyParameters | undefined;
@@ -1615,6 +1685,10 @@ export type TgSendVideoParams = {
    * Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
    */
   message_thread_id?: number | undefined;
+  /**
+   * Identifier of the direct messages topic to which the message will be sent; required if the message is sent to a direct messages chat
+   */
+  direct_messages_topic_id?: number | undefined;
   /**
    * Video to send. Pass a file_id as String to send a video that exists on the Telegram servers (recommended), pass an HTTP URL as a String for Telegram to get a video from the Internet, or upload a new video using multipart/form-data. More information on Sending Files: https://core.telegram.org/bots/api#sending-files
    */
@@ -1684,6 +1758,10 @@ export type TgSendVideoParams = {
    */
   message_effect_id?: string | undefined;
   /**
+   * A JSON-serialized object containing the parameters of the suggested post to send; for direct messages chats only. If the message is sent as a reply to another suggested post, then that suggested post is automatically declined.
+   */
+  suggested_post_parameters?: TgSuggestedPostParameters | undefined;
+  /**
    * Description of the message to reply to
    */
   reply_parameters?: TgReplyParameters | undefined;
@@ -1715,6 +1793,10 @@ export type TgSendAnimationParams = {
    * Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
    */
   message_thread_id?: number | undefined;
+  /**
+   * Identifier of the direct messages topic to which the message will be sent; required if the message is sent to a direct messages chat
+   */
+  direct_messages_topic_id?: number | undefined;
   /**
    * Animation to send. Pass a file_id as String to send an animation that exists on the Telegram servers (recommended), pass an HTTP URL as a String for Telegram to get an animation from the Internet, or upload a new animation using multipart/form-data. More information on Sending Files: https://core.telegram.org/bots/api#sending-files
    */
@@ -1772,6 +1854,10 @@ export type TgSendAnimationParams = {
    */
   message_effect_id?: string | undefined;
   /**
+   * A JSON-serialized object containing the parameters of the suggested post to send; for direct messages chats only. If the message is sent as a reply to another suggested post, then that suggested post is automatically declined.
+   */
+  suggested_post_parameters?: TgSuggestedPostParameters | undefined;
+  /**
    * Description of the message to reply to
    */
   reply_parameters?: TgReplyParameters | undefined;
@@ -1803,6 +1889,10 @@ export type TgSendVoiceParams = {
    * Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
    */
   message_thread_id?: number | undefined;
+  /**
+   * Identifier of the direct messages topic to which the message will be sent; required if the message is sent to a direct messages chat
+   */
+  direct_messages_topic_id?: number | undefined;
   /**
    * Audio file to send. Pass a file_id as String to send a file that exists on the Telegram servers (recommended), pass an HTTP URL as a String for Telegram to get a file from the Internet, or upload a new one using multipart/form-data. More information on Sending Files: https://core.telegram.org/bots/api#sending-files
    */
@@ -1840,6 +1930,10 @@ export type TgSendVoiceParams = {
    */
   message_effect_id?: string | undefined;
   /**
+   * A JSON-serialized object containing the parameters of the suggested post to send; for direct messages chats only. If the message is sent as a reply to another suggested post, then that suggested post is automatically declined.
+   */
+  suggested_post_parameters?: TgSuggestedPostParameters | undefined;
+  /**
    * Description of the message to reply to
    */
   reply_parameters?: TgReplyParameters | undefined;
@@ -1871,6 +1965,10 @@ export type TgSendVideoNoteParams = {
    * Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
    */
   message_thread_id?: number | undefined;
+  /**
+   * Identifier of the direct messages topic to which the message will be sent; required if the message is sent to a direct messages chat
+   */
+  direct_messages_topic_id?: number | undefined;
   /**
    * Video note to send. Pass a file_id as String to send a video note that exists on the Telegram servers (recommended) or upload a new video using multipart/form-data. More information on Sending Files: https://core.telegram.org/bots/api#sending-files. Sending video notes by a URL is currently unsupported
    */
@@ -1904,6 +2002,10 @@ export type TgSendVideoNoteParams = {
    */
   message_effect_id?: string | undefined;
   /**
+   * A JSON-serialized object containing the parameters of the suggested post to send; for direct messages chats only. If the message is sent as a reply to another suggested post, then that suggested post is automatically declined.
+   */
+  suggested_post_parameters?: TgSuggestedPostParameters | undefined;
+  /**
    * Description of the message to reply to
    */
   reply_parameters?: TgReplyParameters | undefined;
@@ -1931,6 +2033,14 @@ export type TgSendPaidMediaParams = {
    * Unique identifier for the target chat or username of the target channel (in the format @channelusername). If the chat is a channel, all Telegram Star proceeds from this media will be credited to the chat's balance. Otherwise, they will be credited to the bot's balance.
    */
   chat_id: number | string;
+  /**
+   * Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
+   */
+  message_thread_id?: number | undefined;
+  /**
+   * Identifier of the direct messages topic to which the message will be sent; required if the message is sent to a direct messages chat
+   */
+  direct_messages_topic_id?: number | undefined;
   /**
    * The number of Telegram Stars that must be paid to buy access to the media; 1-10000
    */
@@ -1972,6 +2082,10 @@ export type TgSendPaidMediaParams = {
    */
   allow_paid_broadcast?: boolean | undefined;
   /**
+   * A JSON-serialized object containing the parameters of the suggested post to send; for direct messages chats only. If the message is sent as a reply to another suggested post, then that suggested post is automatically declined.
+   */
+  suggested_post_parameters?: TgSuggestedPostParameters | undefined;
+  /**
    * Description of the message to reply to
    */
   reply_parameters?: TgReplyParameters | undefined;
@@ -2003,6 +2117,10 @@ export type TgSendMediaGroupParams = {
    * Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
    */
   message_thread_id?: number | undefined;
+  /**
+   * Identifier of the direct messages topic to which the messages will be sent; required if the messages are sent to a direct messages chat
+   */
+  direct_messages_topic_id?: number | undefined;
   /**
    * A JSON-serialized array describing messages to be sent, must include 2-10 items
    */
@@ -2047,6 +2165,10 @@ export type TgSendLocationParams = {
    */
   message_thread_id?: number | undefined;
   /**
+   * Identifier of the direct messages topic to which the message will be sent; required if the message is sent to a direct messages chat
+   */
+  direct_messages_topic_id?: number | undefined;
+  /**
    * Latitude of the location
    */
   latitude: number;
@@ -2087,6 +2209,10 @@ export type TgSendLocationParams = {
    */
   message_effect_id?: string | undefined;
   /**
+   * A JSON-serialized object containing the parameters of the suggested post to send; for direct messages chats only. If the message is sent as a reply to another suggested post, then that suggested post is automatically declined.
+   */
+  suggested_post_parameters?: TgSuggestedPostParameters | undefined;
+  /**
    * Description of the message to reply to
    */
   reply_parameters?: TgReplyParameters | undefined;
@@ -2118,6 +2244,10 @@ export type TgSendVenueParams = {
    * Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
    */
   message_thread_id?: number | undefined;
+  /**
+   * Identifier of the direct messages topic to which the message will be sent; required if the message is sent to a direct messages chat
+   */
+  direct_messages_topic_id?: number | undefined;
   /**
    * Latitude of the venue
    */
@@ -2167,6 +2297,10 @@ export type TgSendVenueParams = {
    */
   message_effect_id?: string | undefined;
   /**
+   * A JSON-serialized object containing the parameters of the suggested post to send; for direct messages chats only. If the message is sent as a reply to another suggested post, then that suggested post is automatically declined.
+   */
+  suggested_post_parameters?: TgSuggestedPostParameters | undefined;
+  /**
    * Description of the message to reply to
    */
   reply_parameters?: TgReplyParameters | undefined;
@@ -2198,6 +2332,10 @@ export type TgSendContactParams = {
    * Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
    */
   message_thread_id?: number | undefined;
+  /**
+   * Identifier of the direct messages topic to which the message will be sent; required if the message is sent to a direct messages chat
+   */
+  direct_messages_topic_id?: number | undefined;
   /**
    * Contact's phone number
    */
@@ -2231,6 +2369,10 @@ export type TgSendContactParams = {
    */
   message_effect_id?: string | undefined;
   /**
+   * A JSON-serialized object containing the parameters of the suggested post to send; for direct messages chats only. If the message is sent as a reply to another suggested post, then that suggested post is automatically declined.
+   */
+  suggested_post_parameters?: TgSuggestedPostParameters | undefined;
+  /**
    * Description of the message to reply to
    */
   reply_parameters?: TgReplyParameters | undefined;
@@ -2255,7 +2397,7 @@ export type TgSendPollParams = {
    */
   business_connection_id?: string | undefined;
   /**
-   * Unique identifier for the target chat or username of the target channel (in the format @channelusername)
+   * Unique identifier for the target chat or username of the target channel (in the format @channelusername). Polls can't be sent to channel direct messages chats.
    */
   chat_id: number | string;
   /**
@@ -2406,6 +2548,10 @@ export type TgSendDiceParams = {
    */
   message_thread_id?: number | undefined;
   /**
+   * Identifier of the direct messages topic to which the message will be sent; required if the message is sent to a direct messages chat
+   */
+  direct_messages_topic_id?: number | undefined;
+  /**
    * Emoji on which the dice throw animation is based. Currently, must be one of "🎲", "🎯", "🏀", "⚽", "🎳", or "🎰". Dice can have values 1-6 for "🎲", "🎯" and "🎳", values 1-5 for "🏀" and "⚽", and values 1-64 for "🎰". Defaults to "🎲"
    */
   emoji?:
@@ -2433,6 +2579,10 @@ export type TgSendDiceParams = {
    */
   message_effect_id?: string | undefined;
   /**
+   * A JSON-serialized object containing the parameters of the suggested post to send; for direct messages chats only. If the message is sent as a reply to another suggested post, then that suggested post is automatically declined.
+   */
+  suggested_post_parameters?: TgSuggestedPostParameters | undefined;
+  /**
    * Description of the message to reply to
    */
   reply_parameters?: TgReplyParameters | undefined;
@@ -2457,7 +2607,7 @@ export type TgSendChatActionParams = {
    */
   business_connection_id?: string | undefined;
   /**
-   * Unique identifier for the target chat or username of the target channel (in the format @channelusername)
+   * Unique identifier for the target chat or username of the target supergroup (in the format @supergroupusername). Channel chats and channel direct messages chats aren't supported.
    */
   chat_id: number | string;
   /**
@@ -2684,6 +2834,10 @@ export type TgPromoteChatMemberParams = {
    * Pass True if the user is allowed to create, rename, close, and reopen forum topics; for supergroups only
    */
   can_manage_topics?: boolean | undefined;
+  /**
+   * Pass True if the administrator can manage direct messages within the channel and decline suggested posts; for channels only
+   */
+  can_manage_direct_messages?: boolean | undefined;
 };
 /**
  * Parameters of {@link TgApi.setChatAdministratorCustomTitle} method.
@@ -3025,7 +3179,7 @@ export type TgUnpinAllChatMessagesParams = {
  */
 export type TgLeaveChatParams = {
   /**
-   * Unique identifier for the target chat or username of the target supergroup or channel (in the format @channelusername)
+   * Unique identifier for the target chat or username of the target supergroup or channel (in the format @channelusername). Channel direct messages chats aren't supported; leave the corresponding channel instead.
    */
   chat_id: number | string;
 };
@@ -3512,308 +3666,6 @@ export type TgGetMyDefaultAdministratorRightsParams = {
   for_channels?: boolean | undefined;
 };
 /**
- * Parameters of {@link TgApi.editMessageText} method.
- *
- * @see https://core.telegram.org/bots/api#editmessagetext
- */
-export type TgEditMessageTextParams = {
-  /**
-   * Unique identifier of the business connection on behalf of which the message to be edited was sent
-   */
-  business_connection_id?: string | undefined;
-  /**
-   * Required if inline_message_id is not specified. Unique identifier for the target chat or username of the target channel (in the format @channelusername)
-   */
-  chat_id?: number | string | undefined;
-  /**
-   * Required if inline_message_id is not specified. Identifier of the message to edit
-   */
-  message_id?: number | undefined;
-  /**
-   * Required if chat_id and message_id are not specified. Identifier of the inline message
-   */
-  inline_message_id?: string | undefined;
-  /**
-   * New text of the message, 1-4096 characters after entities parsing
-   */
-  text: string;
-  /**
-   * Mode for parsing entities in the message text. See formatting options for more details.
-   */
-  parse_mode?: "HTML" | "Markdown" | "MarkdownV2" | undefined;
-  /**
-   * A JSON-serialized list of special entities that appear in message text, which can be specified instead of parse_mode
-   */
-  entities?: TgMessageEntity[] | undefined;
-  /**
-   * Link preview generation options for the message
-   */
-  link_preview_options?: TgLinkPreviewOptions | undefined;
-  /**
-   * A JSON-serialized object for an inline keyboard.
-   */
-  reply_markup?: TgInlineKeyboardMarkup | undefined;
-};
-/**
- * Parameters of {@link TgApi.editMessageCaption} method.
- *
- * @see https://core.telegram.org/bots/api#editmessagecaption
- */
-export type TgEditMessageCaptionParams = {
-  /**
-   * Unique identifier of the business connection on behalf of which the message to be edited was sent
-   */
-  business_connection_id?: string | undefined;
-  /**
-   * Required if inline_message_id is not specified. Unique identifier for the target chat or username of the target channel (in the format @channelusername)
-   */
-  chat_id?: number | string | undefined;
-  /**
-   * Required if inline_message_id is not specified. Identifier of the message to edit
-   */
-  message_id?: number | undefined;
-  /**
-   * Required if chat_id and message_id are not specified. Identifier of the inline message
-   */
-  inline_message_id?: string | undefined;
-  /**
-   * New caption of the message, 0-1024 characters after entities parsing
-   */
-  caption?: string | undefined;
-  /**
-   * Mode for parsing entities in the message caption. See formatting options for more details.
-   */
-  parse_mode?: "HTML" | "Markdown" | "MarkdownV2" | undefined;
-  /**
-   * A JSON-serialized list of special entities that appear in the caption, which can be specified instead of parse_mode
-   */
-  caption_entities?: TgMessageEntity[] | undefined;
-  /**
-   * Pass True, if the caption must be shown above the message media. Supported only for animation, photo and video messages.
-   */
-  show_caption_above_media?: boolean | undefined;
-  /**
-   * A JSON-serialized object for an inline keyboard.
-   */
-  reply_markup?: TgInlineKeyboardMarkup | undefined;
-};
-/**
- * Parameters of {@link TgApi.editMessageMedia} method.
- *
- * @see https://core.telegram.org/bots/api#editmessagemedia
- */
-export type TgEditMessageMediaParams = {
-  /**
-   * Unique identifier of the business connection on behalf of which the message to be edited was sent
-   */
-  business_connection_id?: string | undefined;
-  /**
-   * Required if inline_message_id is not specified. Unique identifier for the target chat or username of the target channel (in the format @channelusername)
-   */
-  chat_id?: number | string | undefined;
-  /**
-   * Required if inline_message_id is not specified. Identifier of the message to edit
-   */
-  message_id?: number | undefined;
-  /**
-   * Required if chat_id and message_id are not specified. Identifier of the inline message
-   */
-  inline_message_id?: string | undefined;
-  /**
-   * A JSON-serialized object for a new media content of the message
-   */
-  media: TgInputMedia;
-  /**
-   * A JSON-serialized object for a new inline keyboard.
-   */
-  reply_markup?: TgInlineKeyboardMarkup | undefined;
-};
-/**
- * Parameters of {@link TgApi.editMessageLiveLocation} method.
- *
- * @see https://core.telegram.org/bots/api#editmessagelivelocation
- */
-export type TgEditMessageLiveLocationParams = {
-  /**
-   * Unique identifier of the business connection on behalf of which the message to be edited was sent
-   */
-  business_connection_id?: string | undefined;
-  /**
-   * Required if inline_message_id is not specified. Unique identifier for the target chat or username of the target channel (in the format @channelusername)
-   */
-  chat_id?: number | string | undefined;
-  /**
-   * Required if inline_message_id is not specified. Identifier of the message to edit
-   */
-  message_id?: number | undefined;
-  /**
-   * Required if chat_id and message_id are not specified. Identifier of the inline message
-   */
-  inline_message_id?: string | undefined;
-  /**
-   * Latitude of new location
-   */
-  latitude: number;
-  /**
-   * Longitude of new location
-   */
-  longitude: number;
-  /**
-   * New period in seconds during which the location can be updated, starting from the message send date. If 0x7FFFFFFF is specified, then the location can be updated forever. Otherwise, the new value must not exceed the current live_period by more than a day, and the live location expiration date must remain within the next 90 days. If not specified, then live_period remains unchanged
-   */
-  live_period?: number | undefined;
-  /**
-   * The radius of uncertainty for the location, measured in meters; 0-1500
-   */
-  horizontal_accuracy?: number | undefined;
-  /**
-   * Direction in which the user is moving, in degrees. Must be between 1 and 360 if specified.
-   */
-  heading?: number | undefined;
-  /**
-   * The maximum distance for proximity alerts about approaching another chat member, in meters. Must be between 1 and 100000 if specified.
-   */
-  proximity_alert_radius?: number | undefined;
-  /**
-   * A JSON-serialized object for a new inline keyboard.
-   */
-  reply_markup?: TgInlineKeyboardMarkup | undefined;
-};
-/**
- * Parameters of {@link TgApi.stopMessageLiveLocation} method.
- *
- * @see https://core.telegram.org/bots/api#stopmessagelivelocation
- */
-export type TgStopMessageLiveLocationParams = {
-  /**
-   * Unique identifier of the business connection on behalf of which the message to be edited was sent
-   */
-  business_connection_id?: string | undefined;
-  /**
-   * Required if inline_message_id is not specified. Unique identifier for the target chat or username of the target channel (in the format @channelusername)
-   */
-  chat_id?: number | string | undefined;
-  /**
-   * Required if inline_message_id is not specified. Identifier of the message with live location to stop
-   */
-  message_id?: number | undefined;
-  /**
-   * Required if chat_id and message_id are not specified. Identifier of the inline message
-   */
-  inline_message_id?: string | undefined;
-  /**
-   * A JSON-serialized object for a new inline keyboard.
-   */
-  reply_markup?: TgInlineKeyboardMarkup | undefined;
-};
-/**
- * Parameters of {@link TgApi.editMessageChecklist} method.
- *
- * @see https://core.telegram.org/bots/api#editmessagechecklist
- */
-export type TgEditMessageChecklistParams = {
-  /**
-   * Unique identifier of the business connection on behalf of which the message will be sent
-   */
-  business_connection_id: string;
-  /**
-   * Unique identifier for the target chat
-   */
-  chat_id: number;
-  /**
-   * Unique identifier for the target message
-   */
-  message_id: number;
-  /**
-   * A JSON-serialized object for the new checklist
-   */
-  checklist: TgInputChecklist;
-  /**
-   * A JSON-serialized object for the new inline keyboard for the message
-   */
-  reply_markup?: TgInlineKeyboardMarkup | undefined;
-};
-/**
- * Parameters of {@link TgApi.editMessageReplyMarkup} method.
- *
- * @see https://core.telegram.org/bots/api#editmessagereplymarkup
- */
-export type TgEditMessageReplyMarkupParams = {
-  /**
-   * Unique identifier of the business connection on behalf of which the message to be edited was sent
-   */
-  business_connection_id?: string | undefined;
-  /**
-   * Required if inline_message_id is not specified. Unique identifier for the target chat or username of the target channel (in the format @channelusername)
-   */
-  chat_id?: number | string | undefined;
-  /**
-   * Required if inline_message_id is not specified. Identifier of the message to edit
-   */
-  message_id?: number | undefined;
-  /**
-   * Required if chat_id and message_id are not specified. Identifier of the inline message
-   */
-  inline_message_id?: string | undefined;
-  /**
-   * A JSON-serialized object for an inline keyboard.
-   */
-  reply_markup?: TgInlineKeyboardMarkup | undefined;
-};
-/**
- * Parameters of {@link TgApi.stopPoll} method.
- *
- * @see https://core.telegram.org/bots/api#stoppoll
- */
-export type TgStopPollParams = {
-  /**
-   * Unique identifier of the business connection on behalf of which the message to be edited was sent
-   */
-  business_connection_id?: string | undefined;
-  /**
-   * Unique identifier for the target chat or username of the target channel (in the format @channelusername)
-   */
-  chat_id: number | string;
-  /**
-   * Identifier of the original message with the poll
-   */
-  message_id: number;
-  /**
-   * A JSON-serialized object for a new message inline keyboard.
-   */
-  reply_markup?: TgInlineKeyboardMarkup | undefined;
-};
-/**
- * Parameters of {@link TgApi.deleteMessage} method.
- *
- * @see https://core.telegram.org/bots/api#deletemessage
- */
-export type TgDeleteMessageParams = {
-  /**
-   * Unique identifier for the target chat or username of the target channel (in the format @channelusername)
-   */
-  chat_id: number | string;
-  /**
-   * Identifier of the message to delete
-   */
-  message_id: number;
-};
-/**
- * Parameters of {@link TgApi.deleteMessages} method.
- *
- * @see https://core.telegram.org/bots/api#deletemessages
- */
-export type TgDeleteMessagesParams = {
-  /**
-   * Unique identifier for the target chat or username of the target channel (in the format @channelusername)
-   */
-  chat_id: number | string;
-  /**
-   * A JSON-serialized list of 1-100 identifiers of messages to delete. See deleteMessage for limitations on which messages can be deleted
-   */
-  message_ids: number[];
-};
-/**
  * Parameters of {@link TgApi.sendGift} method.
  *
  * @see https://core.telegram.org/bots/api#sendgift
@@ -3901,7 +3753,7 @@ export type TgVerifyUserParams = {
  */
 export type TgVerifyChatParams = {
   /**
-   * Unique identifier for the target chat or username of the target channel (in the format @channelusername)
+   * Unique identifier for the target chat or username of the target channel (in the format @channelusername). Channel direct messages chats can't be verified.
    */
   chat_id: number | string;
   /**
@@ -4291,6 +4143,346 @@ export type TgDeleteStoryParams = {
   story_id: number;
 };
 /**
+ * Parameters of {@link TgApi.editMessageText} method.
+ *
+ * @see https://core.telegram.org/bots/api#editmessagetext
+ */
+export type TgEditMessageTextParams = {
+  /**
+   * Unique identifier of the business connection on behalf of which the message to be edited was sent
+   */
+  business_connection_id?: string | undefined;
+  /**
+   * Required if inline_message_id is not specified. Unique identifier for the target chat or username of the target channel (in the format @channelusername)
+   */
+  chat_id?: number | string | undefined;
+  /**
+   * Required if inline_message_id is not specified. Identifier of the message to edit
+   */
+  message_id?: number | undefined;
+  /**
+   * Required if chat_id and message_id are not specified. Identifier of the inline message
+   */
+  inline_message_id?: string | undefined;
+  /**
+   * New text of the message, 1-4096 characters after entities parsing
+   */
+  text: string;
+  /**
+   * Mode for parsing entities in the message text. See formatting options for more details.
+   */
+  parse_mode?: "HTML" | "Markdown" | "MarkdownV2" | undefined;
+  /**
+   * A JSON-serialized list of special entities that appear in message text, which can be specified instead of parse_mode
+   */
+  entities?: TgMessageEntity[] | undefined;
+  /**
+   * Link preview generation options for the message
+   */
+  link_preview_options?: TgLinkPreviewOptions | undefined;
+  /**
+   * A JSON-serialized object for an inline keyboard.
+   */
+  reply_markup?: TgInlineKeyboardMarkup | undefined;
+};
+/**
+ * Parameters of {@link TgApi.editMessageCaption} method.
+ *
+ * @see https://core.telegram.org/bots/api#editmessagecaption
+ */
+export type TgEditMessageCaptionParams = {
+  /**
+   * Unique identifier of the business connection on behalf of which the message to be edited was sent
+   */
+  business_connection_id?: string | undefined;
+  /**
+   * Required if inline_message_id is not specified. Unique identifier for the target chat or username of the target channel (in the format @channelusername)
+   */
+  chat_id?: number | string | undefined;
+  /**
+   * Required if inline_message_id is not specified. Identifier of the message to edit
+   */
+  message_id?: number | undefined;
+  /**
+   * Required if chat_id and message_id are not specified. Identifier of the inline message
+   */
+  inline_message_id?: string | undefined;
+  /**
+   * New caption of the message, 0-1024 characters after entities parsing
+   */
+  caption?: string | undefined;
+  /**
+   * Mode for parsing entities in the message caption. See formatting options for more details.
+   */
+  parse_mode?: "HTML" | "Markdown" | "MarkdownV2" | undefined;
+  /**
+   * A JSON-serialized list of special entities that appear in the caption, which can be specified instead of parse_mode
+   */
+  caption_entities?: TgMessageEntity[] | undefined;
+  /**
+   * Pass True, if the caption must be shown above the message media. Supported only for animation, photo and video messages.
+   */
+  show_caption_above_media?: boolean | undefined;
+  /**
+   * A JSON-serialized object for an inline keyboard.
+   */
+  reply_markup?: TgInlineKeyboardMarkup | undefined;
+};
+/**
+ * Parameters of {@link TgApi.editMessageMedia} method.
+ *
+ * @see https://core.telegram.org/bots/api#editmessagemedia
+ */
+export type TgEditMessageMediaParams = {
+  /**
+   * Unique identifier of the business connection on behalf of which the message to be edited was sent
+   */
+  business_connection_id?: string | undefined;
+  /**
+   * Required if inline_message_id is not specified. Unique identifier for the target chat or username of the target channel (in the format @channelusername)
+   */
+  chat_id?: number | string | undefined;
+  /**
+   * Required if inline_message_id is not specified. Identifier of the message to edit
+   */
+  message_id?: number | undefined;
+  /**
+   * Required if chat_id and message_id are not specified. Identifier of the inline message
+   */
+  inline_message_id?: string | undefined;
+  /**
+   * A JSON-serialized object for a new media content of the message
+   */
+  media: TgInputMedia;
+  /**
+   * A JSON-serialized object for a new inline keyboard.
+   */
+  reply_markup?: TgInlineKeyboardMarkup | undefined;
+};
+/**
+ * Parameters of {@link TgApi.editMessageLiveLocation} method.
+ *
+ * @see https://core.telegram.org/bots/api#editmessagelivelocation
+ */
+export type TgEditMessageLiveLocationParams = {
+  /**
+   * Unique identifier of the business connection on behalf of which the message to be edited was sent
+   */
+  business_connection_id?: string | undefined;
+  /**
+   * Required if inline_message_id is not specified. Unique identifier for the target chat or username of the target channel (in the format @channelusername)
+   */
+  chat_id?: number | string | undefined;
+  /**
+   * Required if inline_message_id is not specified. Identifier of the message to edit
+   */
+  message_id?: number | undefined;
+  /**
+   * Required if chat_id and message_id are not specified. Identifier of the inline message
+   */
+  inline_message_id?: string | undefined;
+  /**
+   * Latitude of new location
+   */
+  latitude: number;
+  /**
+   * Longitude of new location
+   */
+  longitude: number;
+  /**
+   * New period in seconds during which the location can be updated, starting from the message send date. If 0x7FFFFFFF is specified, then the location can be updated forever. Otherwise, the new value must not exceed the current live_period by more than a day, and the live location expiration date must remain within the next 90 days. If not specified, then live_period remains unchanged
+   */
+  live_period?: number | undefined;
+  /**
+   * The radius of uncertainty for the location, measured in meters; 0-1500
+   */
+  horizontal_accuracy?: number | undefined;
+  /**
+   * Direction in which the user is moving, in degrees. Must be between 1 and 360 if specified.
+   */
+  heading?: number | undefined;
+  /**
+   * The maximum distance for proximity alerts about approaching another chat member, in meters. Must be between 1 and 100000 if specified.
+   */
+  proximity_alert_radius?: number | undefined;
+  /**
+   * A JSON-serialized object for a new inline keyboard.
+   */
+  reply_markup?: TgInlineKeyboardMarkup | undefined;
+};
+/**
+ * Parameters of {@link TgApi.stopMessageLiveLocation} method.
+ *
+ * @see https://core.telegram.org/bots/api#stopmessagelivelocation
+ */
+export type TgStopMessageLiveLocationParams = {
+  /**
+   * Unique identifier of the business connection on behalf of which the message to be edited was sent
+   */
+  business_connection_id?: string | undefined;
+  /**
+   * Required if inline_message_id is not specified. Unique identifier for the target chat or username of the target channel (in the format @channelusername)
+   */
+  chat_id?: number | string | undefined;
+  /**
+   * Required if inline_message_id is not specified. Identifier of the message with live location to stop
+   */
+  message_id?: number | undefined;
+  /**
+   * Required if chat_id and message_id are not specified. Identifier of the inline message
+   */
+  inline_message_id?: string | undefined;
+  /**
+   * A JSON-serialized object for a new inline keyboard.
+   */
+  reply_markup?: TgInlineKeyboardMarkup | undefined;
+};
+/**
+ * Parameters of {@link TgApi.editMessageChecklist} method.
+ *
+ * @see https://core.telegram.org/bots/api#editmessagechecklist
+ */
+export type TgEditMessageChecklistParams = {
+  /**
+   * Unique identifier of the business connection on behalf of which the message will be sent
+   */
+  business_connection_id: string;
+  /**
+   * Unique identifier for the target chat
+   */
+  chat_id: number;
+  /**
+   * Unique identifier for the target message
+   */
+  message_id: number;
+  /**
+   * A JSON-serialized object for the new checklist
+   */
+  checklist: TgInputChecklist;
+  /**
+   * A JSON-serialized object for the new inline keyboard for the message
+   */
+  reply_markup?: TgInlineKeyboardMarkup | undefined;
+};
+/**
+ * Parameters of {@link TgApi.editMessageReplyMarkup} method.
+ *
+ * @see https://core.telegram.org/bots/api#editmessagereplymarkup
+ */
+export type TgEditMessageReplyMarkupParams = {
+  /**
+   * Unique identifier of the business connection on behalf of which the message to be edited was sent
+   */
+  business_connection_id?: string | undefined;
+  /**
+   * Required if inline_message_id is not specified. Unique identifier for the target chat or username of the target channel (in the format @channelusername)
+   */
+  chat_id?: number | string | undefined;
+  /**
+   * Required if inline_message_id is not specified. Identifier of the message to edit
+   */
+  message_id?: number | undefined;
+  /**
+   * Required if chat_id and message_id are not specified. Identifier of the inline message
+   */
+  inline_message_id?: string | undefined;
+  /**
+   * A JSON-serialized object for an inline keyboard.
+   */
+  reply_markup?: TgInlineKeyboardMarkup | undefined;
+};
+/**
+ * Parameters of {@link TgApi.stopPoll} method.
+ *
+ * @see https://core.telegram.org/bots/api#stoppoll
+ */
+export type TgStopPollParams = {
+  /**
+   * Unique identifier of the business connection on behalf of which the message to be edited was sent
+   */
+  business_connection_id?: string | undefined;
+  /**
+   * Unique identifier for the target chat or username of the target channel (in the format @channelusername)
+   */
+  chat_id: number | string;
+  /**
+   * Identifier of the original message with the poll
+   */
+  message_id: number;
+  /**
+   * A JSON-serialized object for a new message inline keyboard.
+   */
+  reply_markup?: TgInlineKeyboardMarkup | undefined;
+};
+/**
+ * Parameters of {@link TgApi.approveSuggestedPost} method.
+ *
+ * @see https://core.telegram.org/bots/api#approvesuggestedpost
+ */
+export type TgApproveSuggestedPostParams = {
+  /**
+   * Unique identifier for the target direct messages chat
+   */
+  chat_id: number;
+  /**
+   * Identifier of a suggested post message to approve
+   */
+  message_id: number;
+  /**
+   * Point in time (Unix timestamp) when the post is expected to be published; omit if the date has already been specified when the suggested post was created. If specified, then the date must be not more than 2678400 seconds (30 days) in the future
+   */
+  send_date?: number | undefined;
+};
+/**
+ * Parameters of {@link TgApi.declineSuggestedPost} method.
+ *
+ * @see https://core.telegram.org/bots/api#declinesuggestedpost
+ */
+export type TgDeclineSuggestedPostParams = {
+  /**
+   * Unique identifier for the target direct messages chat
+   */
+  chat_id: number;
+  /**
+   * Identifier of a suggested post message to decline
+   */
+  message_id: number;
+  /**
+   * Comment for the creator of the suggested post; 0-128 characters
+   */
+  comment?: string | undefined;
+};
+/**
+ * Parameters of {@link TgApi.deleteMessage} method.
+ *
+ * @see https://core.telegram.org/bots/api#deletemessage
+ */
+export type TgDeleteMessageParams = {
+  /**
+   * Unique identifier for the target chat or username of the target channel (in the format @channelusername)
+   */
+  chat_id: number | string;
+  /**
+   * Identifier of the message to delete
+   */
+  message_id: number;
+};
+/**
+ * Parameters of {@link TgApi.deleteMessages} method.
+ *
+ * @see https://core.telegram.org/bots/api#deletemessages
+ */
+export type TgDeleteMessagesParams = {
+  /**
+   * Unique identifier for the target chat or username of the target channel (in the format @channelusername)
+   */
+  chat_id: number | string;
+  /**
+   * A JSON-serialized list of 1-100 identifiers of messages to delete. See deleteMessage for limitations on which messages can be deleted
+   */
+  message_ids: number[];
+};
+/**
  * Parameters of {@link TgApi.sendSticker} method.
  *
  * @see https://core.telegram.org/bots/api#sendsticker
@@ -4308,6 +4500,10 @@ export type TgSendStickerParams = {
    * Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
    */
   message_thread_id?: number | undefined;
+  /**
+   * Identifier of the direct messages topic to which the message will be sent; required if the message is sent to a direct messages chat
+   */
+  direct_messages_topic_id?: number | undefined;
   /**
    * Sticker to send. Pass a file_id as String to send a file that exists on the Telegram servers (recommended), pass an HTTP URL as a String for Telegram to get a .WEBP sticker from the Internet, or upload a new .WEBP, .TGS, or .WEBM sticker using multipart/form-data. More information on Sending Files: https://core.telegram.org/bots/api#sending-files. Video and animated stickers can't be sent via an HTTP URL.
    */
@@ -4332,6 +4528,10 @@ export type TgSendStickerParams = {
    * Unique identifier of the message effect to be added to the message; for private chats only
    */
   message_effect_id?: string | undefined;
+  /**
+   * A JSON-serialized object containing the parameters of the suggested post to send; for direct messages chats only. If the message is sent as a reply to another suggested post, then that suggested post is automatically declined.
+   */
+  suggested_post_parameters?: TgSuggestedPostParameters | undefined;
   /**
    * Description of the message to reply to
    */
@@ -4687,6 +4887,10 @@ export type TgSendInvoiceParams = {
    */
   message_thread_id?: number | undefined;
   /**
+   * Identifier of the direct messages topic to which the message will be sent; required if the message is sent to a direct messages chat
+   */
+  direct_messages_topic_id?: number | undefined;
+  /**
    * Product name, 1-32 characters
    */
   title: string;
@@ -4786,6 +4990,10 @@ export type TgSendInvoiceParams = {
    * Unique identifier of the message effect to be added to the message; for private chats only
    */
   message_effect_id?: string | undefined;
+  /**
+   * A JSON-serialized object containing the parameters of the suggested post to send; for direct messages chats only. If the message is sent as a reply to another suggested post, then that suggested post is automatically declined.
+   */
+  suggested_post_parameters?: TgSuggestedPostParameters | undefined;
   /**
    * Description of the message to reply to
    */
@@ -5007,7 +5215,7 @@ export type TgSendGameParams = {
    */
   business_connection_id?: string | undefined;
   /**
-   * Unique identifier for the target chat
+   * Unique identifier for the target chat. Games can't be sent to channel direct messages chats and channel chats.
    */
   chat_id: number;
   /**
@@ -5342,6 +5550,10 @@ export type TgChat = {
    * Optional. True, if the supergroup chat is a forum (has topics enabled)
    */
   is_forum?: boolean | undefined;
+  /**
+   * Optional. True, if the chat is the direct messages chat of a channel
+   */
+  is_direct_messages?: boolean | undefined;
 };
 /**
  * This object contains full information about a chat.
@@ -5378,6 +5590,10 @@ export type TgChatFullInfo = {
    */
   is_forum?: boolean | undefined;
   /**
+   * Optional. True, if the chat is the direct messages chat of a channel
+   */
+  is_direct_messages?: boolean | undefined;
+  /**
    * Identifier of the accent color for the chat name and backgrounds of the chat photo, reply header, and link preview. See accent colors for more details.
    */
   accent_color_id: number;
@@ -5413,6 +5629,10 @@ export type TgChatFullInfo = {
    * Optional. For private chats, the personal channel of the user
    */
   personal_chat?: TgChat | undefined;
+  /**
+   * Optional. Information about the corresponding channel chat; for direct messages chats only
+   */
+  parent_chat?: TgChat | undefined;
   /**
    * Optional. List of available reactions allowed in the chat. If omitted, then all emoji reactions are allowed.
    */
@@ -5545,6 +5765,10 @@ export type TgMessage = {
    */
   message_thread_id?: number | undefined;
   /**
+   * Optional. Information about the direct messages chat topic that contains the message
+   */
+  direct_messages_topic?: TgDirectMessagesTopic | undefined;
+  /**
    * Optional. Sender of the message; may be empty for messages sent to channels. For backward compatibility, if the message was sent on behalf of a chat, the field contains a fake sender user in non-channel chats
    */
   from?: TgUser | undefined;
@@ -5601,6 +5825,10 @@ export type TgMessage = {
    */
   reply_to_story?: TgStory | undefined;
   /**
+   * Optional. Identifier of the specific checklist task that is being replied to
+   */
+  reply_to_checklist_task_id?: number | undefined;
+  /**
    * Optional. Bot through which the message was sent
    */
   via_bot?: TgUser | undefined;
@@ -5616,6 +5844,10 @@ export type TgMessage = {
    * Optional. True, if the message was sent by an implicit action, for example, as an away or a greeting business message, or as a scheduled message
    */
   is_from_offline?: boolean | undefined;
+  /**
+   * Optional. True, if the message is a paid post. Note that such posts must not be deleted for 24 hours to receive the payment and can't be edited.
+   */
+  is_paid_post?: boolean | undefined;
   /**
    * Optional. The unique identifier of a media message group this message belongs to
    */
@@ -5640,6 +5872,10 @@ export type TgMessage = {
    * Optional. Options used for link preview generation for the message, if it is a text message and link preview options were changed
    */
   link_preview_options?: TgLinkPreviewOptions | undefined;
+  /**
+   * Optional. Information about suggested post parameters if the message is a suggested post in a channel direct messages chat. If the message is an approved or declined suggested post, then it can't be edited.
+   */
+  suggested_post_info?: TgSuggestedPostInfo | undefined;
   /**
    * Optional. Unique identifier of the message effect added to the message
    */
@@ -5884,6 +6120,26 @@ export type TgMessage = {
    * Optional. Service message: the price for paid messages has changed in the chat
    */
   paid_message_price_changed?: TgPaidMessagePriceChanged | undefined;
+  /**
+   * Optional. Service message: a suggested post was approved
+   */
+  suggested_post_approved?: TgSuggestedPostApproved | undefined;
+  /**
+   * Optional. Service message: approval of a suggested post has failed
+   */
+  suggested_post_approval_failed?: TgSuggestedPostApprovalFailed | undefined;
+  /**
+   * Optional. Service message: a suggested post was declined
+   */
+  suggested_post_declined?: TgSuggestedPostDeclined | undefined;
+  /**
+   * Optional. Service message: payment for a suggested post was received
+   */
+  suggested_post_paid?: TgSuggestedPostPaid | undefined;
+  /**
+   * Optional. Service message: payment for a suggested post was refunded
+   */
+  suggested_post_refunded?: TgSuggestedPostRefunded | undefined;
   /**
    * Optional. Service message: video chat scheduled
    */
@@ -6144,7 +6400,7 @@ export type TgReplyParameters = {
    */
   message_id: number;
   /**
-   * Optional. If the message to be replied to is from a different chat, unique identifier for the chat or username of the channel (in the format @channelusername). Not supported for messages sent on behalf of a business account.
+   * Optional. If the message to be replied to is from a different chat, unique identifier for the chat or username of the channel (in the format @channelusername). Not supported for messages sent on behalf of a business account and messages from channel direct messages chats.
    */
   chat_id?: number | string | undefined;
   /**
@@ -6167,6 +6423,10 @@ export type TgReplyParameters = {
    * Optional. Position of the quote in the original message in UTF-16 code units
    */
   quote_position?: number | undefined;
+  /**
+   * Optional. Identifier of the specific checklist task to be replied to
+   */
+  checklist_task_id?: number | undefined;
 };
 /**
  * This object describes the origin of a message. It can be one of
@@ -7453,6 +7713,93 @@ export type TgDirectMessagePriceChanged = {
   direct_message_star_count?: number | undefined;
 };
 /**
+ * Describes a service message about the approval of a suggested post.
+ *
+ * @see https://core.telegram.org/bots/api#suggestedpostapproved
+ */
+export type TgSuggestedPostApproved = {
+  /**
+   * Optional. Message containing the suggested post. Note that the Message object in this field will not contain the reply_to_message field even if it itself is a reply.
+   */
+  suggested_post_message?: TgMessage | undefined;
+  /**
+   * Optional. Amount paid for the post
+   */
+  price?: TgSuggestedPostPrice | undefined;
+  /**
+   * Date when the post will be published
+   */
+  send_date: number;
+};
+/**
+ * Describes a service message about the failed approval of a suggested post. Currently, only caused by insufficient user funds at the time of approval.
+ *
+ * @see https://core.telegram.org/bots/api#suggestedpostapprovalfailed
+ */
+export type TgSuggestedPostApprovalFailed = {
+  /**
+   * Optional. Message containing the suggested post whose approval has failed. Note that the Message object in this field will not contain the reply_to_message field even if it itself is a reply.
+   */
+  suggested_post_message?: TgMessage | undefined;
+  /**
+   * Expected price of the post
+   */
+  price: TgSuggestedPostPrice;
+};
+/**
+ * Describes a service message about the rejection of a suggested post.
+ *
+ * @see https://core.telegram.org/bots/api#suggestedpostdeclined
+ */
+export type TgSuggestedPostDeclined = {
+  /**
+   * Optional. Message containing the suggested post. Note that the Message object in this field will not contain the reply_to_message field even if it itself is a reply.
+   */
+  suggested_post_message?: TgMessage | undefined;
+  /**
+   * Optional. Comment with which the post was declined
+   */
+  comment?: string | undefined;
+};
+/**
+ * Describes a service message about a successful payment for a suggested post.
+ *
+ * @see https://core.telegram.org/bots/api#suggestedpostpaid
+ */
+export type TgSuggestedPostPaid = {
+  /**
+   * Optional. Message containing the suggested post. Note that the Message object in this field will not contain the reply_to_message field even if it itself is a reply.
+   */
+  suggested_post_message?: TgMessage | undefined;
+  /**
+   * Currency in which the payment was made. Currently, one of "XTR" for Telegram Stars or "TON" for toncoins
+   */
+  currency: "XTR" | "TON";
+  /**
+   * Optional. The amount of the currency that was received by the channel in nanotoncoins; for payments in toncoins only
+   */
+  amount?: number | undefined;
+  /**
+   * Optional. The amount of Telegram Stars that was received by the channel; for payments in Telegram Stars only
+   */
+  star_amount?: TgStarAmount | undefined;
+};
+/**
+ * Describes a service message about a payment refund for a suggested post.
+ *
+ * @see https://core.telegram.org/bots/api#suggestedpostrefunded
+ */
+export type TgSuggestedPostRefunded = {
+  /**
+   * Optional. Message containing the suggested post. Note that the Message object in this field will not contain the reply_to_message field even if it itself is a reply.
+   */
+  suggested_post_message?: TgMessage | undefined;
+  /**
+   * Reason for the refund. Currently, one of "post_deleted" if the post was deleted within 24 hours of being posted or removed from scheduled messages without being posted, or "payment_refunded" if the payer refunded their payment.
+   */
+  reason: "post_deleted" | "payment_refunded";
+};
+/**
  * This object represents a service message about the creation of a scheduled giveaway.
  *
  * @see https://core.telegram.org/bots/api#giveawaycreated
@@ -7610,6 +7957,70 @@ export type TgLinkPreviewOptions = {
    * Optional. True, if the link preview must be shown above the message text; otherwise, the link preview will be shown below the message text
    */
   show_above_text?: boolean | undefined;
+};
+/**
+ * Desribes price of a suggested post.
+ *
+ * @see https://core.telegram.org/bots/api#suggestedpostprice
+ */
+export type TgSuggestedPostPrice = {
+  /**
+   * Currency in which the post will be paid. Currently, must be one of "XTR" for Telegram Stars or "TON" for toncoins
+   */
+  currency: "XTR" | "TON";
+  /**
+   * The amount of the currency that will be paid for the post in the smallest units of the currency, i.e. Telegram Stars or nanotoncoins. Currently, price in Telegram Stars must be between 5 and 100000, and price in nanotoncoins must be between 10000000 and 10000000000000.
+   */
+  amount: number;
+};
+/**
+ * Contains information about a suggested post.
+ *
+ * @see https://core.telegram.org/bots/api#suggestedpostinfo
+ */
+export type TgSuggestedPostInfo = {
+  /**
+   * State of the suggested post. Currently, it can be one of "pending", "approved", "declined".
+   */
+  state: "pending" | "approved" | "declined";
+  /**
+   * Optional. Proposed price of the post. If the field is omitted, then the post is unpaid.
+   */
+  price?: TgSuggestedPostPrice | undefined;
+  /**
+   * Optional. Proposed send date of the post. If the field is omitted, then the post can be published at any time within 30 days at the sole discretion of the user or administrator who approves it.
+   */
+  send_date?: number | undefined;
+};
+/**
+ * Contains parameters of a post that is being suggested by the bot.
+ *
+ * @see https://core.telegram.org/bots/api#suggestedpostparameters
+ */
+export type TgSuggestedPostParameters = {
+  /**
+   * Optional. Proposed price for the post. If the field is omitted, then the post is unpaid.
+   */
+  price?: TgSuggestedPostPrice | undefined;
+  /**
+   * Optional. Proposed send date of the post. If specified, then the date must be between 300 second and 2678400 seconds (30 days) in the future. If the field is omitted, then the post can be published at any time within 30 days at the sole discretion of the user who approves it.
+   */
+  send_date?: number | undefined;
+};
+/**
+ * Describes a topic of a direct messages chat.
+ *
+ * @see https://core.telegram.org/bots/api#directmessagestopic
+ */
+export type TgDirectMessagesTopic = {
+  /**
+   * Unique identifier of the topic
+   */
+  topic_id: number;
+  /**
+   * Optional. Information about the user that created the topic. Currently, it is always present
+   */
+  user?: TgUser | undefined;
 };
 /**
  * This object represent a user's profile pictures.
@@ -7878,15 +8289,15 @@ export type TgInlineKeyboardButton = {
    */
   login_url?: TgLoginUrl | undefined;
   /**
-   * Optional. If set, pressing the button will prompt the user to select one of their chats, open that chat and insert the bot's username and the specified inline query in the input field. May be empty, in which case just the bot's username will be inserted. Not supported for messages sent on behalf of a Telegram Business account.
+   * Optional. If set, pressing the button will prompt the user to select one of their chats, open that chat and insert the bot's username and the specified inline query in the input field. May be empty, in which case just the bot's username will be inserted. Not supported for messages sent in channel direct messages chats and on behalf of a Telegram Business account.
    */
   switch_inline_query?: string | undefined;
   /**
-   * Optional. If set, pressing the button will insert the bot's username and the specified inline query in the current chat's input field. May be empty, in which case only the bot's username will be inserted. This offers a quick way for the user to open your bot in inline mode in the same chat - good for selecting something from multiple options. Not supported in channels and for messages sent on behalf of a Telegram Business account.
+   * Optional. If set, pressing the button will insert the bot's username and the specified inline query in the current chat's input field. May be empty, in which case only the bot's username will be inserted. This offers a quick way for the user to open your bot in inline mode in the same chat - good for selecting something from multiple options. Not supported in channels and for messages sent in channel direct messages chats and on behalf of a Telegram Business account.
    */
   switch_inline_query_current_chat?: string | undefined;
   /**
-   * Optional. If set, pressing the button will prompt the user to select one of their chats of the specified type, open that chat and insert the bot's username and the specified inline query in the input field. Not supported for messages sent on behalf of a Telegram Business account.
+   * Optional. If set, pressing the button will prompt the user to select one of their chats of the specified type, open that chat and insert the bot's username and the specified inline query in the input field. Not supported for messages sent in channel direct messages chats and on behalf of a Telegram Business account.
    */
   switch_inline_query_chosen_chat?: TgSwitchInlineQueryChosenChat | undefined;
   /**
@@ -8159,6 +8570,10 @@ export type TgChatAdministratorRights = {
    * Optional. True, if the user is allowed to create, rename, close, and reopen forum topics; for supergroups only
    */
   can_manage_topics?: boolean | undefined;
+  /**
+   * Optional. True, if the administrator can manage direct messages of the channel and decline suggested posts; for channels only
+   */
+  can_manage_direct_messages?: boolean | undefined;
 };
 /**
  * This object represents changes in the status of a chat member.
@@ -8324,6 +8739,10 @@ export type TgChatMemberAdministrator = {
    * Optional. True, if the user is allowed to create, rename, close, and reopen forum topics; for supergroups only
    */
   can_manage_topics?: boolean | undefined;
+  /**
+   * Optional. True, if the administrator can manage direct messages of the channel and decline suggested posts; for channels only
+   */
+  can_manage_direct_messages?: boolean | undefined;
   /**
    * Optional. Custom title for this user
    */
@@ -9094,6 +9513,10 @@ export type TgGift = {
    * Optional. The number of remaining gifts of this type that can be sent; for limited gifts only
    */
   remaining_count?: number | undefined;
+  /**
+   * Optional. Information about the chat that published the gift
+   */
+  publisher_chat?: TgChat | undefined;
 };
 /**
  * This object represent a list of gifts.
@@ -9216,6 +9639,10 @@ export type TgUniqueGift = {
    * Backdrop of the gift
    */
   backdrop: TgUniqueGiftBackdrop;
+  /**
+   * Optional. Information about the chat that published the gift
+   */
+  publisher_chat?: TgChat | undefined;
 };
 /**
  * Describes a service message about a regular gift that was sent or received.
@@ -9285,7 +9712,7 @@ export type TgUniqueGiftInfo = {
   /**
    * Optional. Point in time (Unix timestamp) when the gift can be transferred. If it is in the past, then the gift can be transferred now
    */
-  next_transfer_date?: string | undefined;
+  next_transfer_date?: number | undefined;
 };
 /**
  * This object describes a gift received and owned by a user or a chat. Currently, it can be one of
@@ -9397,7 +9824,7 @@ export type TgOwnedGiftUnique = {
   /**
    * Optional. Point in time (Unix timestamp) when the gift can be transferred. If it is in the past, then the gift can be transferred now
    */
-  next_transfer_date?: string | undefined;
+  next_transfer_date?: number | undefined;
 };
 /**
  * Contains the list of gifts received and owned by a user or a chat.
@@ -9553,7 +9980,7 @@ export type TgBotCommandScopeChat = {
    */
   type: "chat";
   /**
-   * Unique identifier for the target chat or username of the target supergroup (in the format @supergroupusername)
+   * Unique identifier for the target chat or username of the target supergroup (in the format @supergroupusername). Channel direct messages chats and channel chats aren't supported.
    */
   chat_id: number | string;
 };
@@ -9568,7 +9995,7 @@ export type TgBotCommandScopeChatAdministrators = {
    */
   type: "chat_administrators";
   /**
-   * Unique identifier for the target chat or username of the target supergroup (in the format @supergroupusername)
+   * Unique identifier for the target chat or username of the target supergroup (in the format @supergroupusername). Channel direct messages chats and channel chats aren't supported.
    */
   chat_id: number | string;
 };
@@ -9583,7 +10010,7 @@ export type TgBotCommandScopeChatMember = {
    */
   type: "chat_member";
   /**
-   * Unique identifier for the target chat or username of the target supergroup (in the format @supergroupusername)
+   * Unique identifier for the target chat or username of the target supergroup (in the format @supergroupusername). Channel direct messages chats and channel chats aren't supported.
    */
   chat_id: number | string;
   /**
